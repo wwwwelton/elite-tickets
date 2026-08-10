@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Create Event</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400..700&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffb4aa",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed": "#001c38",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-container": "#454747",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "surface-container-highest": "#353535",
+                        "tertiary-fixed-dim": "#a1c9ff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#d2e4ff",
+                        "surface-variant": "#353535",
+                        "on-surface": "#e2e2e2",
+                        "inverse-primary": "#c0000b",
+                        "on-tertiary-container": "#fdfcff",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#ffb4aa",
+                        "surface-container-low": "#1b1b1b",
+                        "on-background": "#e2e2e2",
+                        "on-primary-fixed": "#410001",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#fffbff",
+                        "on-surface-variant": "#e8bcb6",
+                        "tertiary-container": "#0077cd",
+                        "primary-fixed": "#ffdad5",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#690003",
+                        "outline": "#ae8782",
+                        "on-primary-fixed-variant": "#930006",
+                        "surface": "#131313",
+                        "on-tertiary": "#00325a",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#2f3131",
+                        "primary-container": "#e61919",
+                        "background": "#131313",
+                        "on-tertiary-fixed-variant": "#004880",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#a1c9ff",
+                        "secondary": "#c6c6c7",
+                        "outline-variant": "#5e3f3b",
+                        "secondary-fixed": "#e2e2e2",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#303030",
+                        "surface-container": "#1f1f1f",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "code-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "display-lg": ["Bodoni Moda"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e2e2e2;
+        }
+        
+        .ticket-perforation {
+            border-top: 1px dashed white;
+        }
+
+        .input-underline {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid white;
+            border-radius: 0;
+            padding: 8px 0;
+            color: white;
+        }
+        
+        .input-underline:focus {
+            outline: none;
+            border-bottom: 2px solid #ffb4aa;
+            box-shadow: none;
+        }
+
+        .input-underline::placeholder {
+            color: #b4b5b5;
+        }
+        
+        .btn-primary {
+            background-color: #c0000b;
+            color: white;
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #93000a;
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-ghost:hover {
+            background: white;
+            color: black;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="bg-background dark:bg-background text-primary dark:text-primary border-r-2 border-primary dark:border-primary hidden md:flex flex-col h-screen p-6 fixed left-0 top-0 overflow-y-auto docked left-0 h-full w-64 z-50">
+<div class="font-display-lg text-display-lg text-primary dark:text-primary leading-none mb-8">ELITE TICKETS</div>
+<div class="font-label-caps text-label-caps text-on-surface mb-8">ORGANIZER PORTAL</div>
+<ul class="flex flex-col gap-2 flex-grow font-headline-sm text-headline-sm">
+<li>
+<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+                    My Events
+                </a>
+</li>
+<li>
+<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+                    Scan Tickets
+                </a>
+</li>
+<li>
+<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="mt-auto pt-8 border-t border-secondary-container">
+<button class="w-full btn-primary font-label-caps text-label-caps py-4 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Create Event
+            </button>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="ml-0 md:ml-64 flex-1 h-screen overflow-y-auto bg-surface-container-low p-margin-mobile md:p-margin-desktop relative">
+<!-- Header -->
+<header class="mb-stack-xl flex justify-between items-end border-b border-surface-container-highest pb-stack-sm">
+<div>
+<h1 class="font-headline-md text-headline-md text-white">CREATE EVENT</h1>
+<p class="font-code-data text-code-data text-on-surface-variant mt-2">SYS_ID: <span class="text-primary">EVT-NEW-9932</span></p>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="btn-ghost font-label-caps text-label-caps px-6 py-3">SAVE DRAFT</button>
+<button class="btn-primary font-label-caps text-label-caps px-6 py-3">PUBLISH EVENT</button>
+</div>
+</header>
+<!-- Form Layout -->
+<div class="max-w-4xl mx-auto">
+<form class="space-y-stack-lg">
+<!-- Section 1: Film Identification -->
+<div class="border border-white p-6 bg-surface relative">
+<div class="absolute top-0 right-0 p-2 bg-white text-black font-label-caps text-label-caps">01 / IDENTITY</div>
+<div class="space-y-6 mt-4">
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">SEARCH CATALOG</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-0 top-2 text-on-secondary-container">search</span>
+<input class="input-underline font-code-data text-code-data w-full pl-8" placeholder="ENTER FILM TITLE OR IMDB ID..." type="text"/>
+</div>
+</div>
+<!-- Manual Entry Fallback Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-8 pt-8 ticket-perforation">
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">MANUAL TITLE</label>
+<input class="input-underline font-code-data text-code-data w-full" placeholder="FILM NAME" type="text"/>
+</div>
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">DIRECTOR</label>
+<input class="input-underline font-code-data text-code-data w-full" placeholder="DIRECTOR NAME" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Temporal Logistics -->
+<div class="border border-white p-6 bg-surface relative">
+<div class="absolute top-0 right-0 p-2 bg-white text-black font-label-caps text-label-caps">02 / LOGISTICS</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-4">
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">DATE</label>
+<input class="input-underline font-code-data text-code-data w-full" style="color-scheme: dark;" type="date"/>
+</div>
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">TIME</label>
+<input class="input-underline font-code-data text-code-data w-full" style="color-scheme: dark;" type="time"/>
+</div>
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">RUNTIME (MIN)</label>
+<input class="input-underline font-code-data text-code-data w-full" placeholder="120" type="number"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-8 pt-8 ticket-perforation">
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">VENUE / THEATER</label>
+<select class="input-underline font-code-data text-code-data w-full bg-surface" style="color-scheme: dark;">
+<option>MAIN HALL - THE ROXY</option>
+<option>SCREEN 1 - INDIE HOUSE</option>
+<option>SCREEN 2 - INDIE HOUSE</option>
+<option>OUTDOOR AMPHITHEATER</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">SEATING TYPE</label>
+<select class="input-underline font-code-data text-code-data w-full bg-surface" style="color-scheme: dark;">
+<option>GENERAL ADMISSION</option>
+<option>ASSIGNED SEATING</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Section 3: Economics -->
+<div class="border border-white p-6 bg-surface relative">
+<div class="absolute top-0 right-0 p-2 bg-white text-black font-label-caps text-label-caps">03 / ECONOMICS</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-4">
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">CAPACITY</label>
+<input class="input-underline font-code-data text-code-data w-full" placeholder="250" type="number"/>
+</div>
+<div class="flex flex-col">
+<label class="font-label-caps text-label-caps text-on-surface mb-2">PRICE PER TICKET (USD)</label>
+<div class="relative">
+<span class="absolute left-0 top-2 font-code-data text-code-data text-on-secondary-container">$</span>
+<input class="input-underline font-code-data text-code-data w-full pl-6" placeholder="15.00" step="0.01" type="number"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile Action Area -->
+<div class="md:hidden flex flex-col gap-4 mt-8 pt-8 border-t border-surface-container-highest">
+<button class="btn-ghost font-label-caps text-label-caps px-6 py-4 w-full">SAVE DRAFT</button>
+<button class="btn-primary font-label-caps text-label-caps px-6 py-4 w-full">PUBLISH EVENT</button>
+</div>
+</form>
+</div>
+</main>
+</body></html>

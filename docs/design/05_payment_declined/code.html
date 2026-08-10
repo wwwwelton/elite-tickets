@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Payment Declined</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#ffb4aa",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "on-tertiary-fixed": "#001c38",
+                      "inverse-surface": "#e2e2e2",
+                      "secondary-container": "#454747",
+                      "on-secondary-container": "#b4b5b5",
+                      "on-secondary-fixed-variant": "#454747",
+                      "primary-fixed-dim": "#ffb4aa",
+                      "surface-container-highest": "#353535",
+                      "tertiary-fixed-dim": "#a1c9ff",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-fixed": "#d2e4ff",
+                      "surface-variant": "#353535",
+                      "on-surface": "#e2e2e2",
+                      "inverse-primary": "#c0000b",
+                      "on-tertiary-container": "#fdfcff",
+                      "surface-bright": "#393939",
+                      "surface-tint": "#ffb4aa",
+                      "surface-container-low": "#1b1b1b",
+                      "on-background": "#e2e2e2",
+                      "on-primary-fixed": "#410001",
+                      "error-container": "#93000a",
+                      "on-primary-container": "#fffbff",
+                      "on-surface-variant": "#e8bcb6",
+                      "tertiary-container": "#0077cd",
+                      "primary-fixed": "#ffdad5",
+                      "surface-container-high": "#2a2a2a",
+                      "on-primary": "#690003",
+                      "outline": "#ae8782",
+                      "on-primary-fixed-variant": "#930006",
+                      "surface": "#131313",
+                      "on-tertiary": "#00325a",
+                      "surface-dim": "#131313",
+                      "on-secondary": "#2f3131",
+                      "primary-container": "#e61919",
+                      "background": "#131313",
+                      "on-tertiary-fixed-variant": "#004880",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "tertiary": "#a1c9ff",
+                      "secondary": "#c6c6c7",
+                      "outline-variant": "#5e3f3b",
+                      "secondary-fixed": "#e2e2e2",
+                      "error": "#ffb4ab",
+                      "surface-container-lowest": "#0e0e0e",
+                      "inverse-on-surface": "#303030",
+                      "surface-container": "#1f1f1f",
+                      "on-error": "#690005"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "margin-desktop": "64px",
+                      "stack-xl": "64px",
+                      "stack-md": "16px",
+                      "gutter": "24px",
+                      "stack-sm": "8px",
+                      "stack-lg": "32px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "code-data": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg-mobile": [
+                              "Bodoni Moda"
+                      ],
+                      "headline-md": [
+                              "Bodoni Moda"
+                      ],
+                      "display-lg": [
+                              "Bodoni Moda"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Bodoni Moda"
+                      ]
+              },
+              "fontSize": {
+                      "code-data": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "72px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 1;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Main Canvas Content - Transactional State (No Shell Navigation) -->
+<main class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop">
+<!-- Ticket Card Container -->
+<div class="w-full max-w-2xl bg-surface border-2 border-white relative">
+<!-- Perforation Punches (Top Left/Right) -->
+<div class="absolute -top-3 -left-3 w-6 h-6 bg-background rounded-full border-r-2 border-b-2 border-white transform rotate-45"></div>
+<div class="absolute -top-3 -right-3 w-6 h-6 bg-background rounded-full border-l-2 border-b-2 border-white transform -rotate-45"></div>
+<div class="p-stack-lg md:p-stack-xl flex flex-col items-center text-center">
+<!-- Error Icon -->
+<div class="mb-stack-md flex items-center justify-center w-24 h-24 border-2 border-primary-container rounded-none rotate-3">
+<span class="material-symbols-outlined text-display-lg text-primary-container" style="font-variation-settings: 'FILL' 1;">
+                        error
+                    </span>
+</div>
+<!-- Headline -->
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg uppercase tracking-tighter text-primary-container mb-stack-sm leading-none">
+                    Declined
+                </h1>
+<!-- Subheadline -->
+<p class="font-headline-sm text-headline-sm text-on-surface mb-stack-lg">
+                    Transaction Failed
+                </p>
+<!-- Explanation -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto mb-stack-lg border-l-2 border-primary-container pl-gutter text-left">
+                    We were unable to process your payment. This typically occurs due to insufficient funds, an expired card, or a security block from your bank.
+                </p>
+<!-- Technical Details (Ledger Style) -->
+<div class="w-full border-t border-b border-white border-dashed py-stack-md mb-stack-lg text-left">
+<div class="flex justify-between items-center py-unit">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Error Code</span>
+<span class="font-code-data text-code-data text-primary-container">ERR-FND-402</span>
+</div>
+<div class="flex justify-between items-center py-unit">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Time</span>
+<span class="font-code-data text-code-data text-on-surface" id="current-time">14:32:05 UTC</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col md:flex-row gap-gutter w-full mt-stack-md">
+<button class="flex-1 bg-primary-container text-white font-label-caps text-label-caps uppercase py-4 px-6 hover:bg-inverse-primary transition-colors duration-100 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+                        Retry Payment
+                    </button>
+<button class="flex-1 bg-white text-black font-label-caps text-label-caps uppercase py-4 px-6 hover:bg-black hover:text-white border-2 border-transparent hover:border-white transition-colors duration-100 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                        Back to Checkout
+                    </button>
+</div>
+</div>
+<!-- Perforation Punches (Bottom Left/Right) -->
+<div class="absolute -bottom-3 -left-3 w-6 h-6 bg-background rounded-full border-r-2 border-t-2 border-white transform -rotate-45"></div>
+<div class="absolute -bottom-3 -right-3 w-6 h-6 bg-background rounded-full border-l-2 border-t-2 border-white transform rotate-45"></div>
+</div>
+</main>
+<script>
+        // Simple script to set current time for the ledger entry to add realism
+        document.addEventListener('DOMContentLoaded', () => {
+            const timeEl = document.getElementById('current-time');
+            if(timeEl) {
+                const now = new Date();
+                timeEl.textContent = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
+            }
+        });
+    </script>
+</body></html>

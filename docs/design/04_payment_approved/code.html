@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Payment Approved</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffb4aa",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed": "#001c38",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-container": "#454747",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "surface-container-highest": "#353535",
+                        "tertiary-fixed-dim": "#a1c9ff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#d2e4ff",
+                        "surface-variant": "#353535",
+                        "on-surface": "#e2e2e2",
+                        "inverse-primary": "#c0000b",
+                        "on-tertiary-container": "#fdfcff",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#ffb4aa",
+                        "surface-container-low": "#1b1b1b",
+                        "on-background": "#e2e2e2",
+                        "on-primary-fixed": "#410001",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#fffbff",
+                        "on-surface-variant": "#e8bcb6",
+                        "tertiary-container": "#0077cd",
+                        "primary-fixed": "#ffdad5",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#690003",
+                        "outline": "#ae8782",
+                        "on-primary-fixed-variant": "#930006",
+                        "surface": "#131313",
+                        "on-tertiary": "#00325a",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#2f3131",
+                        "primary-container": "#e61919",
+                        "background": "#131313",
+                        "on-tertiary-fixed-variant": "#004880",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#a1c9ff",
+                        "secondary": "#c6c6c7",
+                        "outline-variant": "#5e3f3b",
+                        "secondary-fixed": "#e2e2e2",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#303030",
+                        "surface-container": "#1f1f1f",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "code-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "display-lg": ["Bodoni Moda"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #131313; color: #e2e2e2; }
+        .perforated-border {
+            border-top: 1px dashed #e2e2e2;
+            position: relative;
+        }
+        .perforated-border::before, .perforated-border::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: #131313;
+            border-radius: 50%;
+            border: 1px solid #e2e2e2;
+        }
+        .perforated-border::before { left: -10px; border-right-color: transparent; border-bottom-color: transparent; transform: rotate(-45deg); }
+        .perforated-border::after { right: -10px; border-left-color: transparent; border-bottom-color: transparent; transform: rotate(45deg); }
+        .perforated-border-none-sides::before, .perforated-border-none-sides::after { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col items-center justify-center p-margin-mobile md:p-margin-desktop overflow-hidden relative">
+<!-- Atmospheric Effect -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 50% 50%, rgba(255,180,170,0.1) 0%, transparent 50%);"></div>
+<main class="z-10 w-full max-w-2xl flex flex-col items-center text-center">
+<!-- Success Icon -->
+<div class="mb-stack-lg animate-[bounce_2s_infinite]">
+<span class="material-symbols-outlined text-primary text-6xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Headline -->
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary uppercase tracking-tighter mb-stack-md">
+            APPROVED
+        </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-xl max-w-md">
+            Your transaction was successful. A digital artifact has been securely minted to your collection.
+        </p>
+<!-- Digital Ticket Stub Preview -->
+<div class="w-full max-w-sm border border-on-surface bg-surface-container-low mb-stack-xl relative overflow-hidden transform transition-transform hover:scale-[1.02]">
+<!-- Event Image Area -->
+<div class="h-48 w-full bg-cover bg-center grayscale contrast-125" data-alt="A moody, high-contrast black and white cinematic shot of a concert crowd silhouette against a stark white stage light. The image embodies a premium, minimalist editorial brutalist aesthetic, focusing on raw structure and dramatic lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArX085uO0-FkbXxqkulsCXBI1-hDx9JXTW-VsUKQqNUjuJqQb9qCUfIWZMxKxNsQ4u2RS6zO7NoUcVhpqdTJVF1ZBjhNteQstBJrgwRCN3H7Dg9Q_oWrG9lFevBHdSWMMJfW1bKCU2zRfpeh06S-1S4IN7X7ieh9LPp9p1HliCYV_zW5hKdp5u0_7JCxfPNKmfHXBZJGZWARIh_BraydoE_VZ2MfuH1mS-kEllvbuXfhfiPjedy-Ip_A')"></div>
+<!-- Ticket Info -->
+<div class="p-stack-md text-left">
+<h2 class="font-headline-sm text-headline-sm text-on-surface uppercase mb-stack-sm tracking-tight">SYMPHONY NO. 9</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-stack-md">WALT DISNEY CONCERT HALL</p>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">DATE</p>
+<p class="font-code-data text-code-data text-on-surface">2024.11.15</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">SEC / ROW / SEAT</p>
+<p class="font-code-data text-code-data text-on-surface">ORCH / B / 14</p>
+</div>
+</div>
+</div>
+<!-- Perforation Divider -->
+<div class="perforated-border h-0 w-full mt-stack-sm mb-stack-sm"></div>
+<!-- Stub Footer -->
+<div class="p-stack-md pt-0 flex justify-between items-center text-left">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">ORDER ID</p>
+<p class="font-code-data text-code-data text-on-surface">#ELT-8924A</p>
+</div>
+<span class="material-symbols-outlined text-on-surface opacity-50" style="font-size: 32px;">qr_code_2</span>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="bg-primary-container text-on-primary font-label-caps text-label-caps uppercase px-12 py-4 hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors duration-150 tracking-widest border border-primary-container hover:border-primary-fixed">
+            View My Tickets
+        </button>
+<button class="mt-stack-md bg-transparent text-on-surface font-label-caps text-label-caps uppercase px-12 py-4 border border-on-surface hover:bg-on-surface hover:text-background transition-colors duration-150 tracking-widest">
+            Return to Explore
+        </button>
+</main>
+</body></html>
