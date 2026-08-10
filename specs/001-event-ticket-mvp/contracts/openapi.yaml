@@ -1,0 +1,356 @@
+openapi: 3.1.0
+info:
+  title: EliteTickets API
+  version: 1.0.0
+  description: Contrato REST do MVP. Regras de papel e propriedade são sempre aplicadas no backend.
+servers:
+  - url: /api/v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+  - name: Catalog
+  - name: Events
+  - name: Reservations
+  - name: Tickets
+  - name: Gate
+paths:
+  /auth/token:
+    post:
+      tags: [Auth]
+      security: []
+      summary: Autenticar conta de demonstração
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: JWT emitido
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/TokenResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+  /catalog/movies:
+    get:
+      tags: [Catalog]
+      summary: Pesquisar filmes no TMDb (ORGANIZER)
+      parameters:
+        - {name: query, in: query, required: true, schema: {type: string, minLength: 1}}
+        - {$ref: '#/components/parameters/Page'}
+      responses:
+        '200':
+          description: Resultados normalizados e efêmeros
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/MovieResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /events:
+    get:
+      tags: [Events]
+      security: []
+      summary: Listar eventos publicados
+      parameters:
+        - {name: query, in: query, schema: {type: string}}
+        - {$ref: '#/components/parameters/Page'}
+      responses:
+        '200':
+          description: Página de eventos
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/EventPage'}
+    post:
+      tags: [Events]
+      summary: Criar evento DRAFT a partir do TMDb (ORGANIZER)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/EventCreate'}
+      responses:
+        '201':
+          description: Evento criado com snapshot
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Event'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /events/{eventId}:
+    get:
+      tags: [Events]
+      security: []
+      summary: Obter evento publicado; proprietário também pode obter DRAFT
+      parameters: [{$ref: '#/components/parameters/EventId'}]
+      responses:
+        '200':
+          description: Evento
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Event'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /events/{eventId}/publish:
+    post:
+      tags: [Events]
+      summary: Publicar evento próprio (ORGANIZER)
+      parameters: [{$ref: '#/components/parameters/EventId'}]
+      responses:
+        '200': {description: Publicado, content: {application/json: {schema: {$ref: '#/components/schemas/Event'}}}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /events/{eventId}/cancel:
+    post:
+      tags: [Events]
+      summary: Cancelar evento próprio (ORGANIZER)
+      parameters: [{$ref: '#/components/parameters/EventId'}]
+      responses:
+        '200': {description: Cancelado atomicamente, content: {application/json: {schema: {$ref: '#/components/schemas/Event'}}}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /organizer/events:
+    get:
+      tags: [Events]
+      summary: Listar eventos do ORGANIZER autenticado
+      responses:
+        '200':
+          description: Eventos com contadores consistentes
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/Event'}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /events/{eventId}/reservations:
+    post:
+      tags: [Reservations]
+      summary: Reservar quantidade atomicamente (CUSTOMER)
+      parameters: [{$ref: '#/components/parameters/EventId'}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [quantity]
+              properties: {quantity: {type: integer, minimum: 1}}
+      responses:
+        '201':
+          description: Reserva pendente por 15 minutos
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Reservation'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /reservations/{reservationId}/payment:
+    post:
+      tags: [Reservations]
+      summary: Processar pagamento simulado (CUSTOMER proprietário)
+      parameters:
+        - {$ref: '#/components/parameters/ReservationId'}
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 8, maxLength: 128}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [payment_token]
+              properties:
+                payment_token: {type: string, enum: [tok_approved, tok_declined]}
+      responses:
+        '200':
+          description: Resultado estável; aprovação inclui ingressos emitidos
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PaymentResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /me/tickets:
+    get:
+      tags: [Tickets]
+      summary: Listar ingressos do CUSTOMER
+      responses:
+        '200':
+          description: Ingressos do proprietário
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/Ticket'}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/tickets/{ticketId}/share:
+    post:
+      tags: [Tickets]
+      summary: Criar ou recuperar link público do ingresso próprio
+      parameters: [{$ref: '#/components/parameters/TicketId'}]
+      responses:
+        '200':
+          description: URL com token distinto do QR
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [share_url]
+                properties: {share_url: {type: string, format: uri}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /shared/tickets/{shareToken}:
+    get:
+      tags: [Tickets]
+      security: []
+      summary: Visualizar ingresso compartilhado válido
+      parameters:
+        - {name: shareToken, in: path, required: true, schema: {type: string, minLength: 22}}
+      responses:
+        '200':
+          description: Visualização limitada, sem direitos de gestão
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/SharedTicket'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '410': {description: Link expirado por uso ou término do evento}
+  /gate/events:
+    get:
+      tags: [Gate]
+      summary: Listar eventos selecionáveis (GATE)
+      responses:
+        '200': {description: Eventos publicados, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Event'}}}}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /gate/events/{eventId}/validate:
+    post:
+      tags: [Gate]
+      summary: Validar e consumir ingresso atomicamente (GATE)
+      parameters:
+        - {$ref: '#/components/parameters/EventId'}
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 8, maxLength: 128}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [credential]
+              properties: {credential: {type: string, description: Mesmo JWS obtido por QR ou digitação}}
+      responses:
+        '200':
+          description: Um dos quatro resultados funcionais
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [result, attempted_at]
+                properties:
+                  result: {type: string, enum: [VALID, INVALID, ALREADY_USED, WRONG_EVENT]}
+                  attempted_at: {type: string, format: date-time}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
+  parameters:
+    Page: {name: page, in: query, schema: {type: integer, minimum: 1, default: 1}}
+    EventId: {name: eventId, in: path, required: true, schema: {type: string, format: uuid}}
+    ReservationId: {name: reservationId, in: path, required: true, schema: {type: string, format: uuid}}
+    TicketId: {name: ticketId, in: path, required: true, schema: {type: string, format: uuid}}
+  responses:
+    Unauthorized: {description: Token ausente, inválido ou expirado}
+    Forbidden: {description: Papel ou propriedade insuficiente}
+    NotFound: {description: Recurso não encontrado ou não visível}
+    Conflict: {description: Estado, estoque ou idempotência incompatível}
+    Unavailable: {description: Dependência externa temporariamente indisponível}
+    ValidationError: {description: Dados de entrada inválidos}
+  schemas:
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties: {email: {type: string, format: email}, password: {type: string, minLength: 8}}
+    TokenResponse:
+      type: object
+      required: [access_token, token_type, expires_in, role]
+      properties:
+        access_token: {type: string}
+        token_type: {type: string, const: bearer}
+        expires_in: {type: integer}
+        role: {type: string, enum: [ORGANIZER, CUSTOMER, GATE]}
+    MovieResult:
+      type: object
+      required: [tmdb_id, title]
+      properties:
+        tmdb_id: {type: integer}
+        title: {type: string}
+        poster_path: {type: [string, 'null']}
+        release_date: {type: [string, 'null'], format: date}
+    EventCreate:
+      type: object
+      required: [tmdb_id, venue_name, venue_address, starts_at, ends_at, timezone, capacity, price]
+      properties:
+        tmdb_id: {type: integer, minimum: 1}
+        venue_name: {type: string}
+        venue_address: {type: string}
+        starts_at: {type: string, format: date-time}
+        ends_at: {type: string, format: date-time}
+        timezone: {type: string, example: America/Sao_Paulo}
+        capacity: {type: integer, minimum: 1}
+        price: {type: string, pattern: '^\\d+\\.\\d{2}$'}
+    Event:
+      type: object
+      required: [id, state, title, starts_at, ends_at, venue_name, capacity, sold_quantity, available_quantity, price]
+      properties:
+        id: {type: string, format: uuid}
+        state: {type: string, enum: [DRAFT, PUBLISHED, CANCELLED, FINISHED]}
+        title: {type: string}
+        poster_url: {type: [string, 'null'], format: uri}
+        starts_at: {type: string, format: date-time}
+        ends_at: {type: string, format: date-time}
+        venue_name: {type: string}
+        capacity: {type: integer}
+        sold_quantity: {type: integer}
+        available_quantity: {type: integer, minimum: 0}
+        price: {type: string}
+    EventPage:
+      type: object
+      required: [items, page, total]
+      properties:
+        items: {type: array, items: {$ref: '#/components/schemas/Event'}}
+        page: {type: integer}
+        total: {type: integer}
+    Reservation:
+      type: object
+      required: [id, event_id, status, quantity, total_amount, expires_at]
+      properties:
+        id: {type: string, format: uuid}
+        event_id: {type: string, format: uuid}
+        status: {type: string, enum: [PENDING, APPROVED, DECLINED, EXPIRED, CANCELLED]}
+        quantity: {type: integer}
+        total_amount: {type: string}
+        expires_at: {type: string, format: date-time}
+    PaymentResult:
+      type: object
+      required: [reservation, decision, tickets]
+      properties:
+        reservation: {$ref: '#/components/schemas/Reservation'}
+        decision: {type: string, enum: [APPROVED, DECLINED]}
+        tickets: {type: array, items: {$ref: '#/components/schemas/Ticket'}}
+    Ticket:
+      type: object
+      required: [id, event_id, owner_name, status, issued_at, qr_credential]
+      properties:
+        id: {type: string, format: uuid}
+        event_id: {type: string, format: uuid}
+        owner_name: {type: string}
+        status: {type: string, enum: [ACTIVE, USED, CANCELLED]}
+        issued_at: {type: string, format: date-time}
+        used_at: {type: [string, 'null'], format: date-time}
+        qr_credential: {type: string, description: Mesmo conteúdo para QR e código manual}
+    SharedTicket:
+      allOf:
+        - {$ref: '#/components/schemas/Ticket'}
+        - type: object
+          description: Representação somente leitura sem identificadores/ações de gestão desnecessários
