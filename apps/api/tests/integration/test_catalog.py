@@ -21,6 +21,7 @@ from elite_tickets.catalog.tmdb import TmdbClient, TmdbUnavailableError
 from elite_tickets.db.base import uuid7
 from elite_tickets.db.session import get_session
 from elite_tickets.events.organizer_router import router as organizer_router
+from elite_tickets.shared.config import get_settings
 from elite_tickets.shared.errors import install_exception_handlers
 
 pytestmark = pytest.mark.integration
@@ -28,7 +29,8 @@ pytestmark = pytest.mark.integration
 
 async def test_search_normalizes_results_and_accepts_missing_poster() -> None:
     async def handler(request: httpx.Request) -> httpx.Response:
-        assert request.headers["Authorization"] == "Bearer test-key"
+        configured_key = get_settings().tmdb_api_key.get_secret_value()
+        assert request.headers["Authorization"] == f"Bearer {configured_key}"
         return httpx.Response(
             200,
             json={

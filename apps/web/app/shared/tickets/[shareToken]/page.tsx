@@ -54,7 +54,8 @@ async function loadSharedTicket(
   | { kind: "expired" }
   | { kind: "missing" }
 > {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const baseUrl =
+    process.env.API_INTERNAL_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) return { kind: "missing" };
   try {
     const response = await fetch(

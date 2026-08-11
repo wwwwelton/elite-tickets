@@ -7,12 +7,12 @@ x-api-service: &api-service
       WORKDIR /app
       COPY pyproject.toml ./
       COPY . ./
-      RUN pip install --no-cache-dir .
+      RUN pip install --no-cache-dir ".[test]"
   environment: &api-environment
     DATABASE_URL: postgresql+psycopg://elite_tickets:elite_tickets@postgres:5432/elite_tickets
-    JWT_SECRET: ${JWT_SECRET:-local-jwt-secret-change-me}
-    QR_SECRET: ${QR_SECRET:-local-qr-secret-change-me}
-    TMDB_API_KEY: ${TMDB_API_KEY:-}
+    JWT_SECRET: ${JWT_SECRET:-local-demo-jwt-secret-at-least-32-bytes}
+    QR_SECRET: ${QR_SECRET:-local-demo-qr-secret-different-32-bytes}
+    TMDB_API_KEY: ${TMDB_API_KEY:-local-demo-tmdb-key-not-used-by-seed}
     CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
   restart: unless-stopped
 
@@ -66,15 +66,20 @@ services:
     image: elite-tickets-web:local
     build:
       context: ./apps/web
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000/api/v1}
       dockerfile_inline: |
         FROM node:22-alpine
         WORKDIR /app
+        ARG NEXT_PUBLIC_API_BASE_URL
+        ENV NEXT_PUBLIC_API_BASE_URL=$$NEXT_PUBLIC_API_BASE_URL
         COPY package.json ./
         RUN npm install --ignore-scripts
         COPY . ./
         RUN npm run build
         CMD ["npm", "start"]
     environment:
+      API_INTERNAL_BASE_URL: ${API_INTERNAL_BASE_URL:-http://api:8000/api/v1}
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000/api/v1}
     depends_on:
       api:
