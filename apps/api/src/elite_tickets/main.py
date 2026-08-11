@@ -9,6 +9,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from elite_tickets.auth.router import router as auth_router
 from elite_tickets.db.session import get_session
+from elite_tickets.events.router import router as events_router
+from elite_tickets.reservations.router import router as reservations_router
 from elite_tickets.shared.config import get_settings
 from elite_tickets.shared.errors import install_exception_handlers
 from elite_tickets.shared.logging import RequestLoggingMiddleware, configure_logging
@@ -35,6 +37,8 @@ app.add_middleware(
     expose_headers=["X-Request-ID"],
 )
 app.include_router(auth_router, prefix=API_PREFIX)
+app.include_router(events_router, prefix=API_PREFIX)
+app.include_router(reservations_router, prefix=API_PREFIX)
 
 
 @app.get("/health/live", tags=["Health"])
