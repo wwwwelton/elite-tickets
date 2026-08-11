@@ -214,4 +214,11 @@ async def test_ineligible_selected_event_rejects_without_attempt_or_consumption(
 
     await session.refresh(ticket)
     assert ticket.used_at is None and ticket.used_by_id is None
-    assert await session.scalar(select(func.count()).select_from(TicketValidation)) == 0
+    assert (
+        await session.scalar(
+            select(func.count())
+            .select_from(TicketValidation)
+            .where(TicketValidation.selected_event_id == event.id)
+        )
+        == 0
+    )

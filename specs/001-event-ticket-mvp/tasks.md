@@ -165,7 +165,7 @@
 - [X] T064 [P] [US4] Add share entropy/hash, ownership, idempotent retrieval, QR-token separation, anonymous read, use/end expiry, `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, and URL-token redaction tests in `apps/api/tests/integration/test_ticket_sharing.py`
 - [X] T065 [P] [US4] Add anonymous shared-ticket display and expired-link browser tests in `apps/web/tests/e2e/ticket-sharing.spec.ts`
 
-- [ ] T071 [US4] Verify anonymous access, unchanged ownership, token separation, and both expiry conditions and record results in `specs/001-event-ticket-mvp/validation/us4.md`
+- [X] T071 [US4] Verify anonymous access, unchanged ownership, token separation, and both expiry conditions and record results in `specs/001-event-ticket-mvp/validation/us4.md`
 
 **Checkpoint**: Sharing works without authentication, ownership transfer, management privileges, or QR/share credential confusion.
 
