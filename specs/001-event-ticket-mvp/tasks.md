@@ -40,7 +40,7 @@
 - [X] T011 Configure Alembic metadata and database URL handling in `apps/api/alembic/env.py` and `apps/api/alembic.ini`
 - [X] T012 Implement the User model, role enum, constraints, and indexes in `apps/api/src/elite_tickets/auth/models.py`
 - [X] T013 Implement Argon2 password verification, short-lived JWT issuance/validation, active-user loading, role dependencies, and 401/403 behavior in `apps/api/src/elite_tickets/auth/security.py`
-- [ ] T014 Implement login request/response schemas and `POST /api/v1/auth/token` in `apps/api/src/elite_tickets/auth/router.py`
+- [X] T014 Implement login request/response schemas and `POST /api/v1/auth/token` in `apps/api/src/elite_tickets/auth/router.py`
 - [ ] T015 [P] Implement domain/API exception mapping without sensitive token leakage in `apps/api/src/elite_tickets/shared/errors.py`
 - [ ] T016 [P] Implement structured redacting logging and request correlation middleware, including path/query redaction for share tokens, in `apps/api/src/elite_tickets/shared/logging.py`
 - [ ] T017 Assemble versioned routers, configured CORS, and `/health/live` plus database-backed `/health/ready` in `apps/api/src/elite_tickets/main.py`
