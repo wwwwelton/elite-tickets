@@ -30,3 +30,14 @@ test = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/elite_tickets"]
+
+[tool.pytest.ini_options]
+addopts = ["--strict-config", "--strict-markers"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+markers = [
+  "unit: isolated tests that do not require external services",
+  "integration: tests that exercise application boundaries and PostgreSQL",
+  "concurrency: PostgreSQL tests using independent connections to prove atomic behavior",
+]
