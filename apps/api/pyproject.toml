@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling==1.31.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "elite-tickets-api"
+version = "0.1.0"
+description = "FastAPI backend for the EliteTickets event and ticket platform"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "alembic==1.19.1",
+  "fastapi==0.141.1",
+  "httpx==0.28.1",
+  "psycopg[binary,pool]==3.3.4",
+  "pydantic-settings==2.15.0",
+  "pwdlib[argon2]==0.3.0",
+  "pyjwt==2.13.0",
+  "sqlalchemy[asyncio]==2.0.51",
+  "uvicorn[standard]==0.52.1",
+]
+
+[project.optional-dependencies]
+test = [
+  "mypy==2.3.0",
+  "pytest==9.1.1",
+  "pytest-asyncio==1.4.0",
+  "pytest-cov==7.1.0",
+  "ruff==0.16.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/elite_tickets"]

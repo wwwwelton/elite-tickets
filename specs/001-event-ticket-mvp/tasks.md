@@ -18,7 +18,7 @@
 
 **Purpose**: Initialize the reproducible monorepo, local services, and verification toolchain.
 
-- [ ] T001 Create the Python 3.12 FastAPI package and pinned runtime/test dependencies in `apps/api/pyproject.toml`
+- [X] T001 Create the Python 3.12 FastAPI package and pinned runtime/test dependencies in `apps/api/pyproject.toml`
 - [ ] T002 [P] Create the Next.js 15, React 19, and TypeScript application with pinned scripts and dependencies in `apps/web/package.json`
 - [ ] T003 [P] Configure strict TypeScript, Next.js, ESLint, and test path aliases in `apps/web/tsconfig.json`, `apps/web/next.config.ts`, and `apps/web/eslint.config.mjs`
 - [ ] T004 [P] Configure pytest markers for unit, integration, and PostgreSQL concurrency suites in `apps/api/pyproject.toml`
