@@ -1,0 +1,54 @@
+databases:
+  - name: elite-tickets-db
+    databaseName: elite_tickets
+    user: elite_tickets
+
+services:
+  - type: web
+    name: elite-tickets-api
+    runtime: python
+    rootDir: apps/api
+    buildCommand: pip install .
+    preDeployCommand: alembic upgrade head
+    startCommand: uvicorn elite_tickets.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health/ready
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: elite-tickets-db
+          property: connectionString
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: JWT_SECRET
+        sync: false
+      - key: QR_SECRET
+        sync: false
+      - key: TMDB_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+
+  - type: cron
+    name: elite-tickets-expiry
+    runtime: python
+    rootDir: apps/api
+    buildCommand: pip install .
+    startCommand: python -m elite_tickets.reservations.expire
+    schedule: "* * * * *"
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: elite-tickets-db
+          property: connectionString
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: JWT_SECRET
+        sync: false
+      - key: QR_SECRET
+        sync: false
+      - key: TMDB_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

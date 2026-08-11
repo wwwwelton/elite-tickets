@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Gate Scanner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffb4aa",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed": "#001c38",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-container": "#454747",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "surface-container-highest": "#353535",
+                        "tertiary-fixed-dim": "#a1c9ff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#d2e4ff",
+                        "surface-variant": "#353535",
+                        "on-surface": "#e2e2e2",
+                        "inverse-primary": "#c0000b",
+                        "on-tertiary-container": "#fdfcff",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#ffb4aa",
+                        "surface-container-low": "#1b1b1b",
+                        "on-background": "#e2e2e2",
+                        "on-primary-fixed": "#410001",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#fffbff",
+                        "on-surface-variant": "#e8bcb6",
+                        "tertiary-container": "#0077cd",
+                        "primary-fixed": "#ffdad5",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#690003",
+                        "outline": "#ae8782",
+                        "on-primary-fixed-variant": "#930006",
+                        "surface": "#131313",
+                        "on-tertiary": "#00325a",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#2f3131",
+                        "primary-container": "#e61919",
+                        "background": "#131313",
+                        "on-tertiary-fixed-variant": "#004880",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#a1c9ff",
+                        "secondary": "#c6c6c7",
+                        "outline-variant": "#5e3f3b",
+                        "secondary-fixed": "#e2e2e2",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#303030",
+                        "surface-container": "#1f1f1f",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "code-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "display-lg": ["Bodoni Moda"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Ticket Styles based on Editorial Brutalist Guidance */
+        .ticket-border {
+            border: 2px solid white;
+        }
+        .ticket-dashed-border {
+            border-top: 2px dashed white;
+        }
+        .ticket-input-border {
+            border-bottom: 1px solid white;
+            background: transparent;
+            color: white;
+            outline: none;
+        }
+        .ticket-input-border:focus {
+            border-bottom: 2px solid var(--tw-colors-primary-container);
+        }
+        .ticket-button-primary {
+            background-color: var(--tw-colors-primary-container);
+            color: white;
+        }
+        .ticket-button-primary:hover {
+            background-color: var(--tw-colors-on-primary-fixed-variant);
+        }
+        
+        /* Camera Overlay Grid lines */
+        .camera-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Scanning Animation */
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background-color: var(--tw-colors-primary-container);
+            position: absolute;
+            box-shadow: 0 0 10px var(--tw-colors-primary-container);
+            animation: scan 2s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface h-screen flex flex-col md:flex-row overflow-hidden font-body-md">
+<!-- Desktop SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen p-6 fixed left-0 top-0 overflow-y-auto bg-background border-r-2 border-primary z-50 docked left-0 h-full w-64">
+<div class="mb-stack-xl">
+<h1 class="font-display-lg text-display-lg text-primary leading-none mb-8">ELITE TICKETS</h1>
+<p class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest border-b-2 border-white pb-2 inline-block">ORGANIZER PORTAL</p>
+</div>
+<ul class="flex flex-col gap-stack-sm flex-1">
+<li>
+<a class="text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+<span class="font-label-caps text-label-caps">My Events</span>
+</a>
+</li>
+<li>
+<a class="text-on-primary bg-primary font-bold px-4 py-3 flex items-center gap-3 translate-x-1 border-y-2 border-white" href="#">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+<span class="font-label-caps text-label-caps">Scan Tickets</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto border-t border-dashed border-white pt-stack-md">
+<div class="flex items-center gap-3 mb-stack-md">
+<img alt="Organizer Profile" class="w-10 h-10 rounded-full grayscale border border-white object-cover" data-alt="A stark, high-contrast black and white portrait of a person in a minimalist setting. Dramatic lighting, deep shadows, professional demeanor, aligning with an editorial brutalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7iFDo_y0rAf0Cxxxtsj_FPUTWkxB9nYHHOIUkydQI9H46XGG8C8JKNH8W4MNjNFLWp0l_-2PHXimzrKxjKMhlU9d1wbmorAxCt0FApT184keq2dLdTYOSUjc5deV_BU5ltUMYNR11Mco1dRqff6SNtWBpM85hQAfQrNU77JLznXqGUWykCHS2HBa4BhZWikk6kUHULOht3R6iNR4MtlY96oGx_Vjr2kV-Y90ipryUTAuIVbcHGGfBpA"/>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface">STAFF ID</p>
+<p class="font-code-data text-code-data text-secondary">#8902-X</p>
+</div>
+</div>
+<button class="w-full bg-white text-black font-label-caps text-label-caps py-3 hover:bg-black hover:text-white border border-white transition-colors">
+                Create Event
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col relative md:ml-64 h-full bg-surface-container-lowest">
+<!-- Mobile TopAppBar -->
+<header class="flex md:hidden justify-between items-center w-full px-margin-mobile py-4 sticky top-0 z-50 bg-background border-b-2 border-primary docked full-width top-0">
+<h1 class="font-display-lg-mobile text-display-lg-mobile uppercase tracking-tighter text-primary">ELITE TICKETS</h1>
+<div class="flex gap-4">
+<button class="text-primary hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2 border border-transparent rounded-none">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Scanner Interface -->
+<div class="flex-1 flex flex-col p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<!-- Event Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-white pb-stack-md mb-stack-lg gap-4">
+<div>
+<h2 class="font-label-caps text-label-caps text-primary tracking-widest mb-2">ACTIVE SESSION</h2>
+<h1 class="font-headline-md text-headline-md text-white uppercase">Midnight Symphony</h1>
+<p class="font-code-data text-code-data text-secondary mt-1">OCT 24 / 23:00</p>
+</div>
+<div class="ticket-border px-6 py-4 flex flex-col items-center bg-surface-container">
+<span class="font-label-caps text-label-caps text-secondary mb-1">GATE</span>
+<span class="font-display-lg-mobile text-display-lg-mobile text-white leading-none">04</span>
+</div>
+</div>
+<!-- Scanner Area -->
+<div class="flex-1 flex flex-col md:flex-row gap-gutter">
+<!-- Viewport -->
+<div class="flex-1 ticket-border relative overflow-hidden bg-black flex flex-col min-h-[300px]">
+<div class="absolute inset-0 camera-grid opacity-50 z-10"></div>
+<!-- Simulated Camera Feed (Placeholder Image) -->
+<div class="absolute inset-0 z-0 opacity-40">
+<div class="bg-cover bg-center w-full h-full" data-alt="A blurred, grainy, high-contrast monochromatic perspective of a dimly lit event entrance queue. Industrial feel, stark lighting, editorial brutalist aesthetic, resembling a raw security camera feed." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApO_NHoe3ku-97MMj-J-tH9wsT_HoF-myg9FY9JcKK0zaxOrDp0XxQH_41755ekz0g8kiDgZKn86Wt9gaX4X0SLtNv-2W3kUeA0BfgFlb_oH7-hQ4Kw74iF307VWt7AvaKf4Ifmm3drcoAOXKNeWwlfJWLSeLkZ6-RQFhWyGTbSs3bjhJOkjCQgZ9bhjKq_A_VH_RwY4Tp9Uv9grb9qnKmZxPiRIiygtxNr4m8YZuYSBphi6Eor_o7iw')"></div>
+</div>
+<!-- Target Reticle -->
+<div class="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+<div class="w-64 h-64 border-2 border-primary-container relative">
+<div class="scan-line"></div>
+<!-- Corner markers -->
+<div class="absolute -top-1 -left-1 w-4 h-4 border-t-4 border-l-4 border-white"></div>
+<div class="absolute -top-1 -right-1 w-4 h-4 border-t-4 border-r-4 border-white"></div>
+<div class="absolute -bottom-1 -left-1 w-4 h-4 border-b-4 border-l-4 border-white"></div>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 border-b-4 border-r-4 border-white"></div>
+</div>
+</div>
+<!-- Scanner Status -->
+<div class="absolute top-4 left-4 right-4 z-30 flex justify-between items-center">
+<div class="bg-black border border-white px-3 py-1 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<span class="font-label-caps text-label-caps text-white">READY</span>
+</div>
+<button class="bg-white text-black border border-white px-3 py-1 font-label-caps text-label-caps hover:bg-black hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px] align-middle" data-icon="flash_on">flash_on</span>
+</button>
+</div>
+</div>
+<!-- Manual Entry & Controls -->
+<div class="w-full md:w-80 flex flex-col gap-stack-lg">
+<div class="ticket-border p-6 bg-surface-container flex flex-col gap-stack-md">
+<h3 class="font-label-caps text-label-caps text-white border-b border-dashed border-white pb-2 w-full text-left">MANUAL OVERRIDE</h3>
+<div class="flex flex-col w-full mt-4">
+<label class="font-label-caps text-label-caps text-secondary mb-2" for="ticket-code">ENTER TICKET CODE</label>
+<input class="ticket-input-border w-full py-2 font-code-data text-code-data uppercase" id="ticket-code" placeholder="XXXX-XXXX-XXXX" type="text" value="A9F2-K8M1-"/>
+</div>
+<button class="ticket-button-primary w-full py-4 font-label-caps text-label-caps mt-4 flex items-center justify-center gap-2">
+<span>VERIFY</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Recent Scans Ledger -->
+<div class="flex-1 flex flex-col">
+<h3 class="font-label-caps text-label-caps text-white border-b-2 border-white pb-2 mb-stack-sm flex justify-between">
+<span>RECENT SCANS</span>
+<span class="text-secondary font-code-data text-code-data">VOL: 428</span>
+</h3>
+<div class="flex flex-col gap-2 overflow-y-auto max-h-[200px]">
+<div class="flex justify-between items-center border-b border-dashed border-secondary pb-2">
+<span class="font-code-data text-code-data text-white">T-8921A</span>
+<span class="bg-white text-black font-label-caps text-label-caps px-2 py-1 text-[10px]">ADMIT</span>
+</div>
+<div class="flex justify-between items-center border-b border-dashed border-secondary pb-2">
+<span class="font-code-data text-code-data text-primary-container">T-4490B</span>
+<span class="border border-primary-container text-primary-container font-label-caps text-label-caps px-2 py-1 text-[10px]">INVALID</span>
+</div>
+<div class="flex justify-between items-center border-b border-dashed border-secondary pb-2">
+<span class="font-code-data text-code-data text-white">T-1102C</span>
+<span class="bg-white text-black font-label-caps text-label-caps px-2 py-1 text-[10px]">ADMIT</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-background border-t-2 border-primary docked full-width bottom-0">
+<a class="flex flex-col items-center justify-center text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="search">search</span>
+<span class="font-label-caps text-label-caps">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 w-full h-full transition-all border-x-2 border-white" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="confirmation_number" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+<span class="font-label-caps text-label-caps">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps">Profile</span>
+</a>
+</nav>
+</main>
+</body></html>

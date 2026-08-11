@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Ticket Validated</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400..700&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffb4aa",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed": "#001c38",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-container": "#454747",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "surface-container-highest": "#353535",
+                        "tertiary-fixed-dim": "#a1c9ff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#d2e4ff",
+                        "surface-variant": "#353535",
+                        "on-surface": "#e2e2e2",
+                        "inverse-primary": "#c0000b",
+                        "on-tertiary-container": "#fdfcff",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#ffb4aa",
+                        "surface-container-low": "#1b1b1b",
+                        "on-background": "#e2e2e2",
+                        "on-primary-fixed": "#410001",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#fffbff",
+                        "on-surface-variant": "#e8bcb6",
+                        "tertiary-container": "#0077cd",
+                        "primary-fixed": "#ffdad5",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#690003",
+                        "outline": "#ae8782",
+                        "on-primary-fixed-variant": "#930006",
+                        "surface": "#131313",
+                        "on-tertiary": "#00325a",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#2f3131",
+                        "primary-container": "#e61919",
+                        "background": "#131313",
+                        "on-tertiary-fixed-variant": "#004880",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#a1c9ff",
+                        "secondary": "#c6c6c7",
+                        "outline-variant": "#5e3f3b",
+                        "secondary-fixed": "#e2e2e2",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#303030",
+                        "surface-container": "#1f1f1f",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "code-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "display-lg": ["Bodoni Moda"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .ticket-dashed-border {
+            border-top: 2px dashed theme('colors.background');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary text-on-primary min-h-screen flex flex-col items-center justify-center font-body-md overflow-hidden p-margin-mobile md:p-margin-desktop">
+<!-- Suppressed navigation shell due to linear/transactional state -->
+<!-- Main Validation Content -->
+<main class="flex flex-col items-center justify-center w-full max-w-2xl mx-auto h-full flex-grow">
+<!-- Success Icon & Headline -->
+<div class="flex flex-col items-center text-center space-y-stack-md mb-stack-xl animate-[pulse_2s_ease-in-out_infinite]">
+<span class="material-symbols-outlined text-[120px] md:text-[160px] font-bold leading-none" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg uppercase tracking-tighter">VALID</h1>
+</div>
+<!-- Ticket Details Card -->
+<div class="bg-background text-on-background w-full max-w-md border-2 border-background flex flex-col shadow-[0_0_0_4px_theme('colors.on-primary')] mb-stack-xl relative">
+<!-- Perforation Top -->
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-full flex justify-between px-2">
+<div class="w-6 h-6 bg-primary rounded-full border-2 border-background border-b-transparent border-l-transparent -rotate-45"></div>
+<div class="w-6 h-6 bg-primary rounded-full border-2 border-background border-b-transparent border-r-transparent rotate-45"></div>
+</div>
+<div class="p-stack-lg flex flex-col space-y-stack-md pt-stack-xl">
+<p class="font-label-caps text-label-caps text-secondary uppercase">Guest</p>
+<h2 class="font-headline-md text-headline-md">Jonathan Doe</h2>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-caps text-label-caps uppercase">VIP ACCESS</span>
+</div>
+</div>
+<div class="ticket-dashed-border w-full"></div>
+<div class="p-stack-lg flex justify-between items-end bg-surface">
+<div class="flex flex-col space-y-unit">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Section</span>
+<span class="font-code-data text-code-data text-2xl font-bold">ORCH-C</span>
+</div>
+<div class="flex flex-col space-y-unit text-right">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Row / Seat</span>
+<span class="font-code-data text-code-data text-3xl font-bold">F / 12</span>
+</div>
+</div>
+<!-- Perforation Bottom -->
+<div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-full flex justify-between px-2">
+<div class="w-6 h-6 bg-primary rounded-full border-2 border-background border-t-transparent border-l-transparent rotate-45"></div>
+<div class="w-6 h-6 bg-primary rounded-full border-2 border-background border-t-transparent border-r-transparent -rotate-45"></div>
+</div>
+</div>
+<!-- Action -->
+<button class="bg-background text-on-background font-label-caps text-label-caps uppercase py-4 px-12 border-2 border-background hover:bg-on-primary hover:text-background transition-colors duration-200 flex items-center gap-2" onclick="resetScan()">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+            NEXT SCAN
+        </button>
+</main>
+<script>
+        function resetScan() {
+            // In a real app, this would reset the camera/scanner state
+            const btn = document.querySelector('button');
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> SCANNING...';
+            setTimeout(() => {
+                // Simulate returning to scan mode or loading next view
+                btn.innerHTML = '<span class="material-symbols-outlined">qr_code_scanner</span> NEXT SCAN';
+            }, 500);
+        }
+    </script>
+</body></html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Event Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffb4aa",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed": "#001c38",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-container": "#454747",
+                        "on-secondary-container": "#b4b5b5",
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "surface-container-highest": "#353535",
+                        "tertiary-fixed-dim": "#a1c9ff",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#d2e4ff",
+                        "surface-variant": "#353535",
+                        "on-surface": "#e2e2e2",
+                        "inverse-primary": "#c0000b",
+                        "on-tertiary-container": "#fdfcff",
+                        "surface-bright": "#393939",
+                        "surface-tint": "#ffb4aa",
+                        "surface-container-low": "#1b1b1b",
+                        "on-background": "#e2e2e2",
+                        "on-primary-fixed": "#410001",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#fffbff",
+                        "on-surface-variant": "#e8bcb6",
+                        "tertiary-container": "#0077cd",
+                        "primary-fixed": "#ffdad5",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#690003",
+                        "outline": "#ae8782",
+                        "on-primary-fixed-variant": "#930006",
+                        "surface": "#131313",
+                        "on-tertiary": "#00325a",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#2f3131",
+                        "primary-container": "#e61919",
+                        "background": "#131313",
+                        "on-tertiary-fixed-variant": "#004880",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#a1c9ff",
+                        "secondary": "#c6c6c7",
+                        "outline-variant": "#5e3f3b",
+                        "secondary-fixed": "#e2e2e2",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#303030",
+                        "surface-container": "#1f1f1f",
+                        "on-error": "#690005",
+                        
+                        "cinema-red": "#e61919", 
+                        "ticket-black": "#0e0e0e",
+                        "ticket-white": "#e2e2e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "none": "0px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "stack-xl": "64px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "code-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "display-lg": ["Bodoni Moda"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .perforation-top {
+            position: relative;
+        }
+        .perforation-top::before, .perforation-top::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            width: 24px;
+            height: 24px;
+            background-color: theme('colors.background');
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .perforation-top::before { left: -12px; }
+        .perforation-top::after { right: -12px; }
+        
+        .dashed-border-top {
+            border-top: 2px dashed theme('colors.on-background');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-cinema-red selection:text-white">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-50 bg-background border-b-2 border-primary flat no shadows">
+<button class="text-primary hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2 transform active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg uppercase tracking-tighter text-primary">ELITE TICKETS</h1>
+<div class="flex items-center">
+<button class="text-primary hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2 transform active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center">
+<!-- Hero Poster -->
+<div class="w-full h-[530px] md:h-[618px] relative border-b-2 border-on-background">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full" data-alt="A highly dramatic, cinematic movie poster featuring a solitary figure silhouetted against a stark, high-contrast urban skyline at twilight. The scene is illuminated by striking crimson neon lights piercing through deep shadows, perfectly embodying an editorial brutalist aesthetic. The composition is intense, moody, and highly structured, emphasizing harsh vertical lines and stark typography placements. Shot on 35mm film with profound depth and atmospheric grain." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcBIYnbOwlJxm39KVCoyql9LtRyb0mmdhREwqLaqfkR_b7qNSwwNHo8Dz7TYqBJj28TtSwGZuf01NnM_wfhuf6r4zwrUIFBEqHUgDQHPWcPm0LAK0hIGLj_c19RY5z2STCBzb-bzbuQ98BgqzJOqw5HppBCncE4RIodlUxm1MK0GzEE9fnn-ICXT0wiXy5C8gsHlvPlOlAw6AwIuByl29d8hPMRSoB53jU4eSQ88mrsNsY56qNIxVEJQ')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+<!-- Ticket Detail Container -->
+<div class="w-full max-w-4xl px-margin-mobile md:px-0 -mt-stack-xl relative z-10 mb-stack-xl">
+<div class="bg-surface-container-lowest border-2 border-on-background p-6 md:p-gutter flex flex-col gap-stack-lg">
+<!-- Event Header -->
+<div class="flex flex-col gap-unit">
+<span class="font-label-caps text-label-caps uppercase text-primary tracking-widest">PREMIERE SCREENING</span>
+<h2 class="font-headline-md md:font-display-lg-mobile text-headline-md md:text-display-lg-mobile uppercase text-on-background">THE SILENT ECHO</h2>
+</div>
+<!-- Perforation Divider -->
+<div class="dashed-border-top pt-stack-md perforation-top relative">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter mb-stack-md">
+<!-- Date -->
+<div class="flex flex-col border-b border-on-background pb-stack-sm">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">DATE</span>
+<span class="font-code-data text-code-data text-on-background">OCT 24, 2024</span>
+</div>
+<!-- Time -->
+<div class="flex flex-col border-b border-on-background pb-stack-sm">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">TIME</span>
+<span class="font-code-data text-code-data text-on-background">20:30 HRS</span>
+</div>
+<!-- Venue -->
+<div class="flex flex-col border-b border-on-background pb-stack-sm col-span-2 md:col-span-2">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">VENUE</span>
+<span class="font-body-md text-body-md text-on-background uppercase">METROPOLIS CINEMA, HALL A</span>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-end gap-stack-md pt-stack-sm">
+<!-- Price & Quantity -->
+<div class="flex flex-col gap-stack-sm w-full md:w-auto">
+<div class="flex justify-between md:justify-start items-center gap-gutter border-b border-on-background pb-stack-sm">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">PRICE / TICKET</span>
+<span class="font-code-data text-code-data text-on-background">$45.00</span>
+</div>
+<div class="flex items-center border border-on-background">
+<button aria-label="Decrease quantity" class="w-10 h-10 flex items-center justify-center hover:bg-on-background hover:text-background transition-colors">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<div class="w-12 h-10 flex items-center justify-center font-code-data text-code-data border-l border-r border-on-background">
+                                        2
+                                    </div>
+<button aria-label="Increase quantity" class="w-10 h-10 flex items-center justify-center hover:bg-on-background hover:text-background transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-center w-full">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">TOTAL</span>
+<span class="font-code-data text-code-data text-on-background text-lg">$90.00</span>
+</div>
+</div>
+<!-- Buy Action -->
+<button class="w-full md:w-auto bg-cinema-red text-ticket-white font-label-caps text-label-caps uppercase px-margin-desktop py-4 hover:bg-on-background hover:text-background transition-colors duration-200 tracking-widest border-2 border-cinema-red hover:border-on-background">
+                            BUY TICKETS
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

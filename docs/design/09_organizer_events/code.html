@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Organizer Events Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#ffb4aa",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "on-tertiary-fixed": "#001c38",
+                    "inverse-surface": "#e2e2e2",
+                    "secondary-container": "#454747",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-secondary-fixed-variant": "#454747",
+                    "primary-fixed-dim": "#ffb4aa",
+                    "surface-container-highest": "#353535",
+                    "tertiary-fixed-dim": "#a1c9ff",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed": "#d2e4ff",
+                    "surface-variant": "#353535",
+                    "on-surface": "#e2e2e2",
+                    "inverse-primary": "#c0000b",
+                    "on-tertiary-container": "#fdfcff",
+                    "surface-bright": "#393939",
+                    "surface-tint": "#ffb4aa",
+                    "surface-container-low": "#1b1b1b",
+                    "on-background": "#e2e2e2",
+                    "on-primary-fixed": "#410001",
+                    "error-container": "#93000a",
+                    "on-primary-container": "#fffbff",
+                    "on-surface-variant": "#e8bcb6",
+                    "tertiary-container": "#0077cd",
+                    "primary-fixed": "#ffdad5",
+                    "surface-container-high": "#2a2a2a",
+                    "on-primary": "#690003",
+                    "outline": "#ae8782",
+                    "on-primary-fixed-variant": "#930006",
+                    "surface": "#131313",
+                    "on-tertiary": "#00325a",
+                    "surface-dim": "#131313",
+                    "on-secondary": "#2f3131",
+                    "primary-container": "#e61919",
+                    "background": "#131313",
+                    "on-tertiary-fixed-variant": "#004880",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "tertiary": "#a1c9ff",
+                    "secondary": "#c6c6c7",
+                    "outline-variant": "#5e3f3b",
+                    "secondary-fixed": "#e2e2e2",
+                    "error": "#ffb4ab",
+                    "surface-container-lowest": "#0e0e0e",
+                    "inverse-on-surface": "#303030",
+                    "surface-container": "#1f1f1f",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "margin-desktop": "64px",
+                    "stack-xl": "64px",
+                    "stack-md": "16px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "code-data": [
+                            "JetBrains Mono"
+                    ],
+                    "display-lg-mobile": [
+                            "Bodoni Moda"
+                    ],
+                    "headline-md": [
+                            "Bodoni Moda"
+                    ],
+                    "display-lg": [
+                            "Bodoni Moda"
+                    ],
+                    "label-caps": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-sm": [
+                            "Bodoni Moda"
+                    ]
+            },
+            "fontSize": {
+                    "code-data": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "fontWeight": "800"
+                            }
+                    ],
+                    "headline-md": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-lg": [
+                            "72px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "800"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-sm": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .perforation {
+            border-top: 1px dashed white;
+        }
+        .ticket-shape {
+            position: relative;
+        }
+        .ticket-shape::before, .ticket-shape::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background-color: #131313;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .ticket-shape::before {
+            left: -10px;
+        }
+        .ticket-shape::after {
+            right: -10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen p-6 fixed left-0 top-0 overflow-y-auto bg-background dark:bg-background border-r-2 border-primary dark:border-primary docked left-0 h-full w-64">
+<div class="mb-stack-lg">
+<h1 class="font-display-lg text-display-lg text-primary dark:text-primary leading-none mb-8">ELITE TICKETS</h1>
+<p class="font-label-caps text-label-caps text-on-surface mt-2 tracking-widest uppercase">ORGANIZER PORTAL</p>
+</div>
+<ul class="flex flex-col gap-unit mt-stack-md flex-1">
+<li>
+<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-on-primary bg-primary font-bold px-4 py-3 flex items-center gap-3 active-nav transform scale-95 translate-x-1" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">event</span>
+<span class="font-label-caps text-label-caps">My Events</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+<span class="font-label-caps text-label-caps">Scan Tickets</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-3 uppercase tracking-widest hover:bg-inverse-primary transition-colors">
+                Create Event
+            </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 ml-0 md:ml-64 p-margin-mobile md:p-margin-desktop bg-background">
+<header class="flex justify-between items-end mb-stack-xl border-b-2 border-primary pb-stack-sm">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">My Events</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Manage your current and upcoming listings.</p>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="border border-white text-white font-label-caps text-label-caps px-4 py-2 hover:bg-white hover:text-black transition-colors">FILTER</button>
+<button class="border border-white text-white font-label-caps text-label-caps px-4 py-2 hover:bg-white hover:text-black transition-colors">SORT</button>
+</div>
+</header>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-gutter">
+<!-- Event Card 1 -->
+<article class="border border-white bg-surface ticket-shape flex flex-col md:flex-row h-full group transition-transform hover:-translate-y-1">
+<div class="md:w-1/3 relative h-48 md:h-auto border-b md:border-b-0 md:border-r border-white border-dashed">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A gritty, high-contrast black and white cinematic still of an urban cityscape at night, with sharp neon red accents reflecting in puddles. The mood is tense, noir-inspired, and authoritative, fitting a premium editorial brutalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6ldj6kBYjxeqQMUDyj7W7lYWsaKNCDTTsUuSHzjHoongu802-tH_sdboFSI5ViUpT2iNmn4wVz5pmReq-rN6N0GY-i5CFPYNznw5aH8lLxCyxqf7wUSm-EFpgMTIjuaTrBSeZkUp2rHT1UQB0_zOXo2yemZyfPKBcYyHvTzMvOxjzsscC85BOSaKVDigpJ2OXVe_k6vooUkqXd4bS1rp0RGJCdn8A_fqdW3dwDJorcbpeJw6n-LnvwA"/>
+<div class="absolute top-2 left-2 bg-white text-black px-2 py-1 font-label-caps text-label-caps">
+                        LIVE
+                    </div>
+</div>
+<div class="p-6 md:w-2/3 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-sm text-headline-sm text-white uppercase tracking-tight">Midnight City Screenings</h3>
+<span class="font-code-data text-code-data text-on-surface-variant">OCT 24</span>
+</div>
+<p class="font-body-sm text-on-surface-variant line-clamp-2 mb-6">Exclusive premiere event featuring Q&amp;A with the director.</p>
+</div>
+<div class="perforation pt-4 mt-auto">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">INVENTORY</span>
+<span class="font-code-data text-code-data text-primary">85% SOLD</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 relative">
+<div class="absolute top-0 left-0 h-full bg-primary" style="width: 85%;"></div>
+</div>
+<div class="flex justify-between mt-2 font-code-data text-code-data text-xs text-on-surface-variant">
+<span>425 SOLD</span>
+<span>75 AVAIL</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Event Card 2 -->
+<article class="border border-white bg-surface ticket-shape flex flex-col md:flex-row h-full group transition-transform hover:-translate-y-1">
+<div class="md:w-1/3 relative h-48 md:h-auto border-b md:border-b-0 md:border-r border-white border-dashed">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A stark, minimalist abstract architectural composition featuring sharp angles and deep shadows in stark black and white, punctuated by a single vibrant red geometric element. The aesthetic is premium, structural, and editorial." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ0ogQH7fP5ulMeDE7vWwQJsAupVFOEAGrvEITt6wO863cXbiVVJMKkDG8OMgHw7OLEdsIMB6GLgXxMnYL3877rm2c1yEWXM6ztP8C1er4uDXJvLNPR3btpY6D2koqztmSzQYandF3YPvc5hRk-56T8Oao4N8kxBkZYTzLb7Us2HeTxel5_IV96_Q0ylMr7wbmGRZBgL3GOWUxzIohhgHp0PieKgpBMnIECX4ABCdW0YVzy3C38z902A"/>
+<div class="absolute top-2 left-2 bg-surface-container-highest text-white px-2 py-1 font-label-caps text-label-caps border border-white">
+                        DRAFT
+                    </div>
+</div>
+<div class="p-6 md:w-2/3 flex flex-col justify-between opacity-70">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-sm text-headline-sm text-white uppercase tracking-tight">Vanguard Film Festival</h3>
+<span class="font-code-data text-code-data text-on-surface-variant">NOV 12</span>
+</div>
+<p class="font-body-sm text-on-surface-variant line-clamp-2 mb-6">Three-day showcase of independent structuralist cinema.</p>
+</div>
+<div class="perforation pt-4 mt-auto">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">INVENTORY</span>
+<span class="font-code-data text-code-data text-white">0% SOLD</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 relative border border-white">
+<div class="absolute top-0 left-0 h-full bg-white" style="width: 0%;"></div>
+</div>
+<div class="flex justify-between mt-2 font-code-data text-code-data text-xs text-on-surface-variant">
+<span>0 SOLD</span>
+<span>1200 AVAIL</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Event Card 3 -->
+<article class="border border-white bg-surface ticket-shape flex flex-col md:flex-row h-full group transition-transform hover:-translate-y-1 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary opacity-10 pointer-events-none z-0"></div>
+<div class="md:w-1/3 relative h-48 md:h-auto border-b md:border-b-0 md:border-r border-white border-dashed z-10">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A high-contrast photograph of a vintage cinema projector in stark black and white lighting, emphasizing mechanical textures and sharp metallic edges, with a stark red glow emitting from the lens. Editorial brutalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqzXwK2P-BVf9O5emNpLAjfegSgHo0XMYd4AM1Eya2_dGzt1H_nuORoTRXY9aCjKY58QC7tjdNVRVuBeR5yc4YT2Z2RVwNBp4vCEn-8kH93GOFqYmHVuavbo28E2hJ_U1lH3bngyWTn6gj3OmyopbslkT_XhIo4Zlgv1tRr5fxmrjEjHi81l77K4JfZvjsIuXhoni4OWu7_MqyVfITIi5luNgXqM2PkNDDaDEpApkTWaFmpNkk5jSPyg"/>
+<div class="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
+<div class="border-4 border-primary text-primary font-headline-sm text-headline-sm uppercase px-4 py-2 transform -rotate-12 tracking-widest">
+                            SOLD OUT
+                        </div>
+</div>
+</div>
+<div class="p-6 md:w-2/3 flex flex-col justify-between z-10">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-sm text-headline-sm text-white uppercase tracking-tight">Retrospective: 1984</h3>
+<span class="font-code-data text-code-data text-on-surface-variant">SEP 05</span>
+</div>
+<p class="font-body-sm text-on-surface-variant line-clamp-2 mb-6">A complete 4K restoration marathon.</p>
+</div>
+<div class="perforation pt-4 mt-auto">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-caps text-label-caps text-on-surface">INVENTORY</span>
+<span class="font-code-data text-code-data text-primary">100% SOLD</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 relative">
+<div class="absolute top-0 left-0 h-full bg-primary" style="width: 100%;"></div>
+</div>
+<div class="flex justify-between mt-2 font-code-data text-code-data text-xs text-on-surface-variant">
+<span>300 SOLD</span>
+<span>0 AVAIL</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-background dark:bg-background border-t-2 border-primary dark:border-primary docked full-width bottom-0">
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-label-caps text-label-caps mt-1">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+<span class="font-label-caps text-label-caps mt-1">Tickets</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 w-full h-full active:bg-primary active:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
