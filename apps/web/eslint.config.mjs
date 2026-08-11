@@ -20,7 +20,7 @@ export default defineConfig([
     "next-env.d.ts",
   ]),
   {
-    files: ["**/*.{js,cjs,mjs,ts,tsx}"],
+    files: ["**/*.{js,cjs,mjs,ts,mts,tsx}"],
     languageOptions: {
       ecmaVersion: "latest",
       globals: { ...globals.browser, ...globals.node },

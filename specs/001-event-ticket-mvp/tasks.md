@@ -175,7 +175,7 @@
 
 **Purpose**: Prove deployment readiness, accessibility, security, performance, and documented reproducibility across all stories.
 
-- [ ] T072 [P] Add frontend unit tests for timers, API failure states, role navigation, poster fallback, QR/text equality, and accessibility in `apps/web/tests/unit/`
+- [X] T072 [P] Add frontend unit tests for timers, API failure states, role navigation, poster fallback, QR/text equality, and accessibility in `apps/web/tests/unit/`
 - [ ] T073 [P] Add API response-time smoke tests for event search/detail demonstration targets in `apps/api/tests/integration/test_performance_smoke.py`
 - [ ] T074 Audit keyboard navigation, focus visibility, status announcements, reduced motion, AA contrast, responsive 12/4-column grids, camera fallback, exact `#000000` canvas and `#E61919` CTA, zero-radius/no-shadow styling, typography roles, and non-color-only states against `DESIGN.md` in `apps/web/tests/e2e/accessibility.spec.ts`
 - [ ] T075 Run dependency/security checks and inspect logs/build artifacts for JWT, QR, share, TMDb, database, or password leakage; record findings in `specs/001-event-ticket-mvp/validation/security.md`
