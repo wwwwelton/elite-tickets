@@ -80,7 +80,7 @@
 
 ### Tests for User Story 1
 
-- [ ] T023 [P] [US1] Add anonymous published-event visibility, non-published direct-access denial, search, listing, and detail contract tests for `GET /events` and `GET /events/{eventId}` in `apps/api/tests/integration/test_public_events.py`
+- [X] T023 [P] [US1] Add anonymous published-event visibility, non-published direct-access denial, search, listing, and detail contract tests for `GET /events` and `GET /events/{eventId}` in `apps/api/tests/integration/test_public_events.py`
 - [ ] T024 [P] [US1] Add reservation validation, ownership, expiry, payment idempotency, approval/decline, exact ticket issuance, bounded expiry-CLI cleanup delay, and no-double-release tests in `apps/api/tests/integration/test_purchase_flow.py` and `apps/api/tests/integration/test_reservation_expiry.py`
 - [ ] T025 [P] [US1] Add independent-connection tests for last-unit reservation contention and payment-versus-expiry races in `apps/api/tests/concurrency/test_inventory.py`
 - [ ] T026 [P] [US1] Add unit tests for QR JWS entropy, fixed algorithm allowlist, signature tampering, nonce hashing, and credential redaction in `apps/api/tests/unit/test_qr_credentials.py`
