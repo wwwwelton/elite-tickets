@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { LedgerRow, Status, Ticket as TicketFrame } from "@/components/ui";
+import { ShareAction } from "@/components/tickets/share-action";
 import { ApiError, apiRequest } from "@/lib/api";
 
 export type CustomerTicket = {
@@ -24,7 +25,7 @@ const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
   timeStyle: "short",
 });
 
-export function CustomerTicketView({ compact = false, ticket }: { compact?: boolean; ticket: CustomerTicket }) {
+export function CustomerTicketView({ allowShare = true, compact = false, ticket }: { allowShare?: boolean; compact?: boolean; ticket: CustomerTicket }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [event, setEvent] = useState<EventSummary | null>(null);
   const [eventUnavailable, setEventUnavailable] = useState(false);
@@ -78,7 +79,10 @@ export function CustomerTicketView({ compact = false, ticket }: { compact?: bool
           {compact ? (
             <Link className="button button--ghost" href={`/customer/tickets/${ticket.id}`}>Ver ingresso</Link>
           ) : (
-            <Credential credential={ticket.qr_credential} canvas={canvas} disabled={cancelled} />
+            <>
+              <Credential credential={ticket.qr_credential} canvas={canvas} disabled={cancelled} />
+              {allowShare && !cancelled && ticket.status === "ACTIVE" ? <ShareAction ticketId={ticket.id} /> : null}
+            </>
           )}
         </>
       }
