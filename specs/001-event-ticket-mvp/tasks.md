@@ -34,7 +34,7 @@
 
 **⚠️ CRITICAL**: No user story work starts until this phase is complete.
 
-- [ ] T008 Implement typed environment configuration with secret separation and safe validation in `apps/api/src/elite_tickets/shared/config.py`
+- [X] T008 Implement typed environment configuration with secret separation and safe validation in `apps/api/src/elite_tickets/shared/config.py`
 - [ ] T009 [P] Define the async SQLAlchemy engine, session factory, and transaction dependency in `apps/api/src/elite_tickets/db/session.py`
 - [ ] T010 [P] Define declarative base, UUIDv7/timestamp helpers, and enum conventions in `apps/api/src/elite_tickets/db/base.py`
 - [ ] T011 Configure Alembic metadata and database URL handling in `apps/api/alembic/env.py` and `apps/api/alembic.ini`
