@@ -64,7 +64,7 @@
 
 - [X] T028 [P] [US1] Implement Event and MovieSnapshot models with lifecycle and inventory constraints in `apps/api/src/elite_tickets/events/models.py`
 - [X] T029 [P] [US1] Implement Reservation and SimulatedPayment models with immutable terminal states and idempotency constraints in `apps/api/src/elite_tickets/reservations/models.py`
-- [ ] T030 [P] [US1] Implement Ticket model, ordinal uniqueness, static JWS storage, nonce hash, and write-once usage fields in `apps/api/src/elite_tickets/tickets/models.py`
+- [X] T030 [P] [US1] Implement Ticket model, ordinal uniqueness, static JWS storage, nonce hash, and write-once usage fields in `apps/api/src/elite_tickets/tickets/models.py`
 - [ ] T031 [US1] Create Event, MovieSnapshot, Reservation, SimulatedPayment, and Ticket tables with checks and indexes in `apps/api/alembic/versions/0002_commerce.py`
 - [ ] T032 [P] [US1] Implement lazy event finalization and published event search/detail projections using saved snapshots in `apps/api/src/elite_tickets/events/service.py`
 - [ ] T033 [P] [US1] Implement signed static QR credential generation/verification with version, `kid`, nonce entropy, and dedicated secret in `apps/api/src/elite_tickets/tickets/credentials.py`
