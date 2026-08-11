@@ -84,12 +84,29 @@ class RedactingJsonFormatter(logging.Formatter):
         return json.dumps(payload, separators=(",", ":"), ensure_ascii=False)
 
 
+class RedactingAccessFilter(logging.Filter):
+    """Redact sensitive paths before Uvicorn interpolates its access-log arguments."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        if record.name != "uvicorn.access" or not isinstance(record.args, tuple):
+            return True
+        if len(record.args) < 3:
+            return True
+        arguments = list(record.args)
+        if isinstance(arguments[2], str):
+            arguments[2] = redact_text(arguments[2])
+            record.args = tuple(arguments)
+        return True
+
+
 def configure_logging(level: int = logging.INFO) -> None:
     handler = logging.StreamHandler()
     handler.setFormatter(RedactingJsonFormatter())
     root_logger = logging.getLogger()
     root_logger.handlers = [handler]
     root_logger.setLevel(level)
+    access_logger = logging.getLogger("uvicorn.access")
+    access_logger.addFilter(RedactingAccessFilter())
 
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):

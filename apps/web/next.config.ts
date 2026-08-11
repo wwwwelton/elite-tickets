@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  logging: {
+    incomingRequests: {
+      ignore: [/^\/shared\/tickets\/[^/?]+/],
+    },
+  },
   async headers() {
     return [
       {

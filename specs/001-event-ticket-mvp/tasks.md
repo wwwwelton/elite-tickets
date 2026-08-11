@@ -163,7 +163,7 @@
 ### Tests for User Story 4
 
 - [X] T064 [P] [US4] Add share entropy/hash, ownership, idempotent retrieval, QR-token separation, anonymous read, use/end expiry, `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, and URL-token redaction tests in `apps/api/tests/integration/test_ticket_sharing.py`
-- [ ] T065 [P] [US4] Add anonymous shared-ticket display and expired-link browser tests in `apps/web/tests/e2e/ticket-sharing.spec.ts`
+- [X] T065 [P] [US4] Add anonymous shared-ticket display and expired-link browser tests in `apps/web/tests/e2e/ticket-sharing.spec.ts`
 
 - [ ] T071 [US4] Verify anonymous access, unchanged ownership, token separation, and both expiry conditions and record results in `specs/001-event-ticket-mvp/validation/us4.md`
 
