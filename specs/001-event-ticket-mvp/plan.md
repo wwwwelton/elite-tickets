@@ -16,7 +16,7 @@ Entregar em um monorepo um monólito modular com frontend Next.js App Router e A
 
 **Storage**: PostgreSQL 16+; snapshots do TMDb e hashes de credenciais persistidos no banco; nenhum cache ou armazenamento de arquivo obrigatório
 
-**Testing**: pytest + pytest-asyncio e PostgreSQL real para integração/concorrência; testes unitários de domínio e autorização; Playwright para um fluxo E2E completo de CUSTOMER
+**Testing**: pytest + pytest-asyncio e PostgreSQL real para integração/concorrência; testes unitários de domínio e autorização; Playwright para os fluxos E2E de CUSTOMER, ORGANIZER, GATE e compartilhamento anônimo
 
 **Target Platform**: containers Linux via Docker Compose; frontend Vercel; API e PostgreSQL Render
 
@@ -110,12 +110,12 @@ compose.yaml
 - O evento mantém contadores `reserved_quantity` e `sold_quantity` com `CHECK` garantindo valores não negativos e soma menor ou igual à capacidade.
 - Reserva executa incremento condicional de `reserved_quantity` e cria a reserva na mesma transação. Sem linha retornada, responde conflito sem reserva parcial.
 - Aprovação, recusa e expiração disputam `PENDING` por compare-and-set. O vencedor move os contadores e persiste pagamento/ingressos na mesma transação; repetições apenas devolvem o estado final.
-- A expiração ocorre de forma lazy antes de leituras/mutações relevantes e por comando idempotente agendável no Render; não requer fila ou serviço adicional.
+- A expiração é aplicada sincronamente antes de toda leitura ou mutação dependente de inventário. Um comando idempotente executado ao menos uma vez por minuto realiza limpeza proativa; sua execução não é necessária para impedir pagamento tardio ou apresentar disponibilidade correta. Docker Compose executa o comando em um runner operacional que reutiliza a imagem da API, e Render usa seu agendador; nenhum deles constitui novo serviço de domínio, fila ou cache.
 
 ### QR, compartilhamento e validação
 
 - O código textual e o QR exibem exatamente o mesmo JWS compacto e estático, assinado com chave exclusiva e contendo versão, `ticket_id`, `event_id`, nonce aleatório, `iat` e `kid` no cabeçalho. O banco guarda o hash do nonce.
-- O token de compartilhamento é aleatório, opaco, independente, guardado somente como hash e nunca aceito pela validação GATE.
+- O token de compartilhamento é aleatório, opaco, independente, guardado somente como hash e nunca aceito pela validação GATE. O endpoint e a página compartilhada enviam `Cache-Control: no-store` e `Referrer-Policy: no-referrer`, e logging/middleware redige o token completo da URL.
 - Após verificar a assinatura e o evento, validação usa consumo condicional `used_at IS NULL`; zero linhas leva a uma leitura para distinguir `INVALID`, `ALREADY_USED` e `WRONG_EVENT`, sem consumir o ingresso.
 
 ### Fronteiras e integração
@@ -126,7 +126,7 @@ compose.yaml
 
 ### Deploy e operação
 
-- Docker Compose inicia PostgreSQL, executa Alembic, sobe FastAPI e Next.js e oferece comando idempotente de seed.
+- Docker Compose inicia PostgreSQL, executa Alembic, sobe FastAPI, Next.js e um runner periódico de expiração que reutiliza a imagem da API, além de oferecer comando idempotente de seed. O deploy Render configura o mesmo comando de expiração para execução ao menos uma vez por minuto.
 - Vercel recebe `NEXT_PUBLIC_API_BASE_URL`; Render recebe URL do banco e segredos de JWT, QR e TMDb. CORS permite apenas as origens configuradas.
 - A API expõe `/health/live` e `/health/ready`; o segundo verifica conectividade com PostgreSQL. Migrações rodam como pre-deploy command, não em cada worker.
 

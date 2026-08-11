@@ -88,12 +88,15 @@ Expected:
 - Cancele um evento publicado próprio: novas reservas e validações falham, pendências passam a `CANCELLED`, inventário é liberado e ingressos permanecem visíveis como cancelados.
 - Use relógio controlado nos testes para avançar além de `ends_at`: o evento é observado como `FINISHED`, não aceita reserva/validação e shares expiram.
 - Avance além de `reservation.expires_at`: a primeira operação relevante aplica expiração atomicamente e pagamento posterior não emite.
+- Confirme nos logs/estado do Compose que o runner de expiração, baseado na mesma imagem da API, executa ao menos uma vez por minuto e libera reservas vencidas sem operação manual.
 
 ## Production smoke checks
 
-Após deploy, confirme:
+Sempre valide estaticamente em `infra/render.yaml` que o comando idempotente de expiração está agendado ao menos uma vez por minuto. Quando houver acesso ao ambiente implantado, registre também as seguintes evidências de smoke; ausência desse acesso deve ser registrada como “não executado”, sem bloquear as validações locais:
 
 - Vercel aponta para a URL HTTPS da API Render e CORS permite somente origens esperadas.
 - Render executou `alembic upgrade head` no pre-deploy e `/health/ready` está saudável.
+- O comando idempotente de expiração executa no Render ao menos uma vez por minuto sem liberação duplicada.
 - `DATABASE_URL`, TMDb, JWT e chave QR estão apenas nos ambientes das plataformas e JWT/QR usam segredos distintos.
 - O frontend não expõe credencial TMDb nem aceita token compartilhado no fluxo GATE.
+- Respostas de links compartilhados enviam `Cache-Control: no-store` e `Referrer-Policy: no-referrer`, inclusive para links inexistentes ou expirados.

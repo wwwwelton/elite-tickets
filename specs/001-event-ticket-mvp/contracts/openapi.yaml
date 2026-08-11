@@ -208,11 +208,28 @@ paths:
       responses:
         '200':
           description: Visualização limitada, sem direitos de gestão
+          headers:
+            Cache-Control:
+              schema: {type: string, const: no-store}
+            Referrer-Policy:
+              schema: {type: string, const: no-referrer}
           content:
             application/json:
               schema: {$ref: '#/components/schemas/SharedTicket'}
-        '404': {$ref: '#/components/responses/NotFound'}
-        '410': {description: Link expirado por uso ou término do evento}
+        '404':
+          description: Link inexistente
+          headers:
+            Cache-Control:
+              schema: {type: string, const: no-store}
+            Referrer-Policy:
+              schema: {type: string, const: no-referrer}
+        '410':
+          description: Link expirado por uso ou término do evento
+          headers:
+            Cache-Control:
+              schema: {type: string, const: no-store}
+            Referrer-Policy:
+              schema: {type: string, const: no-referrer}
   /gate/events:
     get:
       tags: [Gate]

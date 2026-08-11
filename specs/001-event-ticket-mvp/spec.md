@@ -30,7 +30,7 @@ Como CUSTOMER autenticado, quero descobrir um evento publicado, reservar uma qua
 
 **Acceptance Scenarios**:
 
-1. **Given** existem eventos publicados, **When** o CUSTOMER navega ou pesquisa, **Then** visualiza somente eventos publicados com poster, título, data, horário, local e preço.
+1. **Given** existem eventos publicados, **When** um visitante navega ou pesquisa, **Then** visualiza somente eventos publicados com poster, título, data, horário, local, preço e disponibilidade atual.
 2. **Given** um evento publicado possui capacidade disponível, **When** o CUSTOMER abre os detalhes, escolhe uma quantidade válida e cria a reserva, **Then** a quantidade fica vinculada à reserva sem ultrapassar a disponibilidade.
 3. **Given** uma reserva pendente válida, **When** o pagamento simulado é aprovado, **Then** a reserva é confirmada, um ingresso por unidade é emitido e o CUSTOMER recebe confirmação de aprovação.
 4. **Given** uma reserva pendente válida, **When** o pagamento simulado é recusado, **Then** o CUSTOMER recebe confirmação de recusa, nenhum ingresso válido é emitido e a quantidade reservada volta a ficar disponível.
@@ -55,7 +55,7 @@ Como ORGANIZER autenticado, quero selecionar um filme de um catálogo externo e 
 4. **Given** o ORGANIZER possui eventos, **When** abre sua listagem, **Then** vê apenas seus eventos e, para cada um, capacidade, quantidade vendida e quantidade disponível consistentes.
 5. **Given** o catálogo externo está indisponível, **When** o ORGANIZER pesquisa, **Then** recebe uma mensagem de falha com opção de tentar novamente, não pode selecionar um novo filme e nenhum evento incompleto é criado involuntariamente.
 6. **Given** o catálogo externo está indisponível e existem eventos criados anteriormente, **When** qualquer papel autorizado os consulta ou utiliza, **Then** seus fluxos continuam funcionando com o snapshot do catálogo salvo em cada evento.
-7. **Given** um evento publicado pertence ao ORGANIZER, **When** ele o cancela, **Then** novas reservas e validações são bloqueadas, reservas pendentes expiram com liberação do estoque e ingressos emitidos permanecem visíveis como cancelados e inválidos, sem reembolso no MVP.
+7. **Given** um evento publicado pertence ao ORGANIZER, **When** ele o cancela, **Then** novas reservas e validações são bloqueadas, reservas pendentes tornam-se `CANCELLED` com liberação do estoque e ingressos emitidos permanecem visíveis como cancelados e inválidos, sem reembolso no MVP.
 8. **Given** o horário de término de um evento publicado é atingido, **When** seu estado é consultado, **Then** ele está `FINISHED` e não aceita novas reservas nem validações.
 
 ---
@@ -103,6 +103,7 @@ Como CUSTOMER proprietário, quero gerar e compartilhar um link de acesso ao ing
 - A expiração da reserva e a liberação das unidades ocorrem simultaneamente a uma tentativa de pagamento: apenas uma transição final prevalece, sem emissão sem estoque comprometido nem liberação duplicada.
 - O mesmo ingresso é validado simultaneamente em dois dispositivos: no máximo uma tentativa retorna `VALID`; as demais retornam `ALREADY_USED`.
 - O código é bem formado, mas adulterado ou impossível de verificar: o resultado é `INVALID` sem revelar detalhes que facilitem falsificação.
+- O `ticket_id`, `event_id`, nonce, algoritmo ou assinatura de uma credencial é alterado: o resultado é `INVALID` sem revelar qual componente falhou.
 - A conexão com o backend falha durante a validação: a interface não apresenta resultado de elegibilidade, não admite o ingresso offline e permite nova tentativa sem registrar consumo incerto.
 - Um evento não publicado é acessado por busca ou link direto de CUSTOMER: seus detalhes e compra não são disponibilizados.
 - O organizador tenta consultar ou alterar evento de outro organizador: a operação é negada.
@@ -121,24 +122,24 @@ Como CUSTOMER proprietário, quero gerar e compartilhar um link de acesso ao ing
 - **FR-004**: O ORGANIZER DEVE poder criar um evento associado ao filme selecionado, informando local, data, horários de início e término, capacidade inteira positiva e preço não negativo; o término DEVE ser posterior ao início.
 - **FR-005**: Um evento recém-criado DEVE iniciar em `DRAFT` e permanecer não publicado até ação explícita de seu ORGANIZER.
 - **FR-006**: O sistema DEVE permitir a transição `DRAFT → PUBLISHED` somente para evento com todos os campos obrigatórios válidos; um evento `PUBLISHED` DEVE transicionar alternativamente para `CANCELLED`, por ação de seu ORGANIZER proprietário, ou para `FINISHED`, automaticamente ao atingir o horário de término, sem outras transições no MVP.
-- **FR-006a**: Cancelar um evento DEVE, em uma operação consistente, bloquear novas reservas e validações, expirar suas reservas pendentes com liberação do estoque e tornar inválidos os ingressos emitidos, que permanecem visíveis como cancelados; reembolso fica fora do escopo.
+- **FR-006a**: Cancelar um evento DEVE, em uma única operação indivisível, bloquear novas reservas e validações, transicionar suas reservas `PENDING` para `CANCELLED` com liberação integral do estoque comprometido e transicionar seus ingressos emitidos para `CANCELLED`. Reservas e ingressos cancelados permanecem visíveis aos respectivos proprietários; reembolso fica fora do escopo.
 - **FR-007**: O ORGANIZER DEVE visualizar somente os eventos que criou, com estado de publicação, capacidade total, quantidade vendida e quantidade disponível.
 - **FR-008**: A quantidade disponível DEVE ser calculada de forma consistente com a capacidade e com as unidades comprometidas, e NUNCA DEVE ser negativa.
-- **FR-009**: O CUSTOMER DEVE navegar e pesquisar somente eventos no estado `PUBLISHED` por título do filme ou local.
+- **FR-009**: Qualquer visitante DEVE poder navegar e pesquisar, por título do filme ou local, somente eventos no estado `PUBLISHED`; autenticação como `CUSTOMER` DEVE ser exigida para criar uma reserva.
 - **FR-010**: Listagens e detalhes de eventos publicados DEVEM apresentar poster, título, data, horário, local, preço e disponibilidade atual.
 - **FR-011**: O CUSTOMER autenticado DEVE poder solicitar uma reserva para uma quantidade inteira positiva de ingressos de um único evento no estado `PUBLISHED`.
 - **FR-012**: A criação da reserva e o comprometimento de inventário DEVEM ocorrer como uma única operação indivisível, inclusive sob solicitações concorrentes.
 - **FR-013**: O sistema DEVE recusar reservas cuja quantidade exceda a disponibilidade, sem comprometer parcialmente a quantidade solicitada.
 - **FR-014**: Uma reserva DEVE registrar evento, CUSTOMER, quantidade, valor total, estado e momentos relevantes de criação e conclusão.
-- **FR-014a**: Uma reserva pendente DEVE expirar 15 minutos após sua criação; a expiração e a liberação imediata de toda a quantidade comprometida DEVEM ocorrer em uma única operação indivisível.
+- **FR-014a**: Uma reserva `PENDING` DEVE tornar-se inelegível para pagamento exatamente 15 minutos após sua criação. Antes de calcular disponibilidade ou executar reserva, pagamento, publicação, cancelamento ou outra operação que dependa do inventário, o backend DEVE expirar atomicamente as reservas vencidas relevantes e liberar integralmente suas quantidades. Um processo periódico idempotente DEVE limitar a permanência física de reservas vencidas no estado `PENDING` a no máximo 1 minuto.
 - **FR-015**: O CUSTOMER DEVE poder submeter uma reserva pendente a pagamento simulado e receber resultado explícito de aprovado ou recusado.
 - **FR-016**: Pagamento aprovado DEVE confirmar a reserva e emitir exatamente um ingresso para cada unidade reservada.
 - **FR-017**: Pagamento recusado DEVE finalizar a reserva como recusada, liberar sua quantidade comprometida e NÃO DEVE emitir ingresso válido.
 - **FR-018**: Repetições do processamento de uma mesma reserva NÃO DEVEM duplicar ingressos nem mudar um resultado final já estabelecido.
 - **FR-019**: O CUSTOMER DEVE acessar Meus Ingressos e visualizar somente os ingressos dos quais é proprietário.
 - **FR-020**: Cada ingresso DEVE exibir dados suficientes para identificar evento, proprietário, estado e um QR Code utilizável na entrada.
-- **FR-021**: Cada ingresso DEVE possuir um código de validação opaco, aleatório, estático e com pelo menos 128 bits de entropia; conhecer ou enumerar seu identificador interno não pode ser suficiente para produzir acesso válido.
-- **FR-022**: O proprietário DEVE poder gerar um link público não previsível para compartilhar a visualização de um ingresso e seu QR Code sem exigir autenticação de quem o recebe.
+- **FR-021**: Cada ingresso DEVE possuir uma credencial de validação estática, assinada e não forjável, contendo um nonce gerado por CSPRNG com pelo menos 128 bits de entropia. A presença de identificadores legíveis na credencial NÃO DEVE permitir produzir, alterar ou enumerar uma credencial aceita pelo backend.
+- **FR-022**: O proprietário DEVE poder gerar um link público não previsível para compartilhar a visualização de um ingresso e seu QR Code sem exigir autenticação de quem o recebe. Respostas e páginas acessadas por esse link DEVEM enviar `Cache-Control: no-store` e `Referrer-Policy: no-referrer`, além de omitir o token completo de logs.
 - **FR-023**: Abrir ou utilizar o link compartilhado NÃO DEVE transferir propriedade nem conceder permissão de alteração sobre o ingresso.
 - **FR-023a**: O link compartilhado DEVE expirar, sem revogação manual no MVP, quando o ingresso for utilizado ou quando chegar o horário de término do evento, o que ocorrer primeiro.
 - **FR-024**: O GATE DEVE selecionar um evento no estado `PUBLISHED` antes de validar ingressos; eventos `CANCELLED` ou `FINISHED` não admitem validação.
@@ -158,9 +159,9 @@ Como CUSTOMER proprietário, quero gerar e compartilhar um link de acesso ao ing
 - **Usuário**: Pessoa autenticável, identificada por dados de acesso e exatamente um papel; pode possuir eventos, reservas ou ingressos conforme seu papel.
 - **Filme do catálogo**: Snapshot imutável salvo no evento no momento da criação, com identificador externo, título, poster e demais dados descritivos necessários para preservar sua apresentação sem depender de nova consulta ao catálogo.
 - **Evento**: Exibição criada por um ORGANIZER a partir de um filme, com local, data, horários de início e término, capacidade, preço, estado `DRAFT`, `PUBLISHED`, `CANCELLED` ou `FINISHED` e contadores derivados de inventário.
-- **Reserva**: Solicitação de um CUSTOMER para determinada quantidade em um evento, com valor total, instante de expiração e estado pendente, aprovado, recusado ou expirado; compromete inventário somente enquanto está pendente e dentro da validade de 15 minutos.
+- **Reserva**: Solicitação de um CUSTOMER para determinada quantidade em um evento, com valor total, instante de expiração e estado `PENDING`, `APPROVED`, `DECLINED`, `EXPIRED` ou `CANCELLED`; somente `PENDING` e ainda dentro da validade de 15 minutos compromete inventário.
 - **Pagamento simulado**: Resultado associado a uma reserva, com decisão aprovada ou recusada e registro do momento de processamento.
-- **Ingresso**: Unidade emitida somente após aprovação, pertencente ao CUSTOMER, associada a um evento, com código opaco aleatório de pelo menos 128 bits representado igualmente no QR Code e em texto, estado de uso e eventual momento de validação.
+- **Ingresso**: Unidade emitida somente após aprovação, pertencente ao CUSTOMER, associada a um evento, com credencial assinada, estática e não previsível representada igualmente no QR Code e em texto, estado de uso e eventual momento de validação.
 - **Link compartilhado**: Referência pública não previsível que concede visualização limitada de um ingresso sem alterar sua propriedade e permanece válida somente até o uso do ingresso ou o término do evento.
 - **Validação**: Tentativa feita por GATE contra um evento selecionado, registrando ingresso identificável quando aplicável, resultado explícito e momento da tentativa.
 
