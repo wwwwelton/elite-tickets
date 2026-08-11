@@ -44,7 +44,7 @@
 - [X] T015 [P] Implement domain/API exception mapping without sensitive token leakage in `apps/api/src/elite_tickets/shared/errors.py`
 - [X] T016 [P] Implement structured redacting logging and request correlation middleware, including path/query redaction for share tokens, in `apps/api/src/elite_tickets/shared/logging.py`
 - [X] T017 Assemble versioned routers, configured CORS, and `/health/live` plus database-backed `/health/ready` in `apps/api/src/elite_tickets/main.py`
-- [ ] T018 Create the initial User schema migration with required PostgreSQL extensions in `apps/api/alembic/versions/0001_users.py`
+- [X] T018 Create the initial User schema migration with required PostgreSQL extensions in `apps/api/alembic/versions/0001_users.py`
 - [ ] T019 [P] Implement a typed API client, bearer-token handling, normalized errors, and no-store mutation helpers in `apps/web/lib/api.ts`
 - [ ] T020 [P] Implement session persistence, role-aware navigation, protected layouts, and login UI in `apps/web/lib/auth.ts`, `apps/web/components/auth/login-form.tsx`, and `apps/web/app/login/page.tsx`
 - [ ] T021 [P] Implement the exact normative `DESIGN.md` color tokens, 12/4-column grids, zero-radius controls, typography roles, border hierarchy, ticket notches, perforation, ledger rows, and status primitives in `apps/web/app/globals.css` and `apps/web/components/ui/`
