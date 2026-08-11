@@ -182,7 +182,7 @@
 - [X] T076 Validate fresh `docker compose` build, health checks, migrations, repeatable seed, local at-least-once-per-minute expiry runner, all API and PostgreSQL concurrency suites including event-cancellation races, frontend tests, and Chromium E2E; statically verify the equivalent schedule in `infra/render.yaml`, and record deployed Render smoke evidence only when deployment access is available, exactly as documented in `specs/001-event-ticket-mvp/quickstart.md`
 - [X] T077 Update local/deployment walkthrough, demo accounts, safe simulated tokens, expiry command, and troubleshooting in `README.md`
 - [X] T078 Record final requirement, contract, constitution, visual-reference, and generated-code review evidence in `specs/001-event-ticket-mvp/validation/final.md`
-- [ ] T079 Add cross-user resource-ownership tests for ORGANIZER events, CUSTOMER reservations/tickets/shares, and GATE validation access in `apps/api/tests/integration/test_resource_ownership.py`
+- [X] T079 Add cross-user resource-ownership tests for ORGANIZER events, CUSTOMER reservations/tickets/shares, and GATE validation access in `apps/api/tests/integration/test_resource_ownership.py`
 
 ---
 
