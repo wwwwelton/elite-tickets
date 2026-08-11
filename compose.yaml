@@ -1,0 +1,112 @@
+x-api-service: &api-service
+  image: elite-tickets-api:local
+  build:
+    context: ./apps/api
+    dockerfile_inline: |
+      FROM python:3.12-slim
+      WORKDIR /app
+      COPY pyproject.toml ./
+      COPY . ./
+      RUN pip install --no-cache-dir ".[test]"
+  environment: &api-environment
+    DATABASE_URL: postgresql+psycopg://elite_tickets:elite_tickets@postgres:5432/elite_tickets
+    JWT_SECRET: ${JWT_SECRET:-local-demo-jwt-secret-at-least-32-bytes}
+    QR_SECRET: ${QR_SECRET:-local-demo-qr-secret-different-32-bytes}
+    TMDB_API_KEY: ${TMDB_API_KEY:-local-demo-tmdb-key-not-used-by-seed}
+    CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: elite_tickets
+      POSTGRES_PASSWORD: elite_tickets
+      POSTGRES_USER: elite_tickets
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U elite_tickets -d elite_tickets"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  migrate:
+    <<: *api-service
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    <<: *api-service
+    command: ["uvicorn", "elite_tickets.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    ports:
+      - "${API_PORT:-8000}:8000"
+
+  web:
+    image: elite-tickets-web:local
+    build:
+      context: ./apps/web
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000/api/v1}
+      dockerfile_inline: |
+        FROM node:22-alpine
+        WORKDIR /app
+        ARG NEXT_PUBLIC_API_BASE_URL
+        ENV NEXT_PUBLIC_API_BASE_URL=$$NEXT_PUBLIC_API_BASE_URL
+        COPY package.json ./
+        RUN npm install --ignore-scripts
+        COPY . ./
+        RUN npm run build
+        CMD ["npm", "start"]
+    environment:
+      API_INTERNAL_BASE_URL: ${API_INTERNAL_BASE_URL:-http://api:8000/api/v1}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000/api/v1}
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:3000/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    restart: unless-stopped
+
+  expiry:
+    <<: *api-service
+    command:
+      - /bin/sh
+      - -ec
+      - |
+        while true; do
+          python -m elite_tickets.reservations.expire
+          sleep 60
+        done
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

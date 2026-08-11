@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#ffb4aa",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "on-tertiary-fixed": "#001c38",
+                      "inverse-surface": "#e2e2e2",
+                      "secondary-container": "#454747",
+                      "on-secondary-container": "#b4b5b5",
+                      "on-secondary-fixed-variant": "#454747",
+                      "primary-fixed-dim": "#ffb4aa",
+                      "surface-container-highest": "#353535",
+                      "tertiary-fixed-dim": "#a1c9ff",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-fixed": "#d2e4ff",
+                      "surface-variant": "#353535",
+                      "on-surface": "#e2e2e2",
+                      "inverse-primary": "#c0000b",
+                      "on-tertiary-container": "#fdfcff",
+                      "surface-bright": "#393939",
+                      "surface-tint": "#ffb4aa",
+                      "surface-container-low": "#1b1b1b",
+                      "on-background": "#e2e2e2",
+                      "on-primary-fixed": "#410001",
+                      "error-container": "#93000a",
+                      "on-primary-container": "#fffbff",
+                      "on-surface-variant": "#e8bcb6",
+                      "tertiary-container": "#0077cd",
+                      "primary-fixed": "#ffdad5",
+                      "surface-container-high": "#2a2a2a",
+                      "on-primary": "#690003",
+                      "outline": "#ae8782",
+                      "on-primary-fixed-variant": "#930006",
+                      "surface": "#131313",
+                      "on-tertiary": "#00325a",
+                      "surface-dim": "#131313",
+                      "on-secondary": "#2f3131",
+                      "primary-container": "#e61919",
+                      "background": "#131313",
+                      "on-tertiary-fixed-variant": "#004880",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "tertiary": "#a1c9ff",
+                      "secondary": "#c6c6c7",
+                      "outline-variant": "#5e3f3b",
+                      "secondary-fixed": "#e2e2e2",
+                      "error": "#ffb4ab",
+                      "surface-container-lowest": "#0e0e0e",
+                      "inverse-on-surface": "#303030",
+                      "surface-container": "#1f1f1f",
+                      "on-error": "#690005"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "margin-desktop": "64px",
+                      "stack-xl": "64px",
+                      "stack-md": "16px",
+                      "gutter": "24px",
+                      "stack-sm": "8px",
+                      "stack-lg": "32px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "code-data": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg-mobile": [
+                              "Bodoni Moda"
+                      ],
+                      "headline-md": [
+                              "Bodoni Moda"
+                      ],
+                      "display-lg": [
+                              "Bodoni Moda"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Bodoni Moda"
+                      ]
+              },
+              "fontSize": {
+                      "code-data": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "72px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .perforation {
+            border-top: 2px dashed theme('colors.secondary-fixed');
+            position: relative;
+        }
+        .perforation::before, .perforation::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: theme('colors.background');
+            border-radius: 50%;
+        }
+        .perforation::before { left: -10px; }
+        .perforation::after { right: -10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md antialiased pb-24">
+<!-- TopAppBar (Web) -->
+<header class="hidden md:flex justify-between items-center w-full px-margin-desktop py-4 sticky top-0 z-50 bg-background border-b-2 border-primary dark:border-primary">
+<div class="font-display-lg uppercase tracking-tighter text-primary dark:text-primary">ELITE TICKETS</div>
+<nav class="flex gap-8">
+<a class="text-primary dark:text-primary font-bold font-label-caps text-label-caps uppercase hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2 transform scale-95" href="#">Browse</a>
+<a class="text-on-surface dark:text-on-surface font-label-caps text-label-caps uppercase hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2" href="#">Tickets</a>
+<a class="text-on-surface dark:text-on-surface font-label-caps text-label-caps uppercase hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2" href="#">Profile</a>
+</nav>
+<div>
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- TopAppBar (Mobile) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile py-4 sticky top-0 z-50 bg-background border-b-2 border-primary dark:border-primary">
+<div class="font-display-lg-mobile uppercase tracking-tighter text-primary dark:text-primary">ELITE TICKETS</div>
+<div>
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="container mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl max-w-7xl">
+<div class="flex justify-between items-end border-b pb-unit mb-stack-lg border-surface-variant">
+<h1 class="font-headline-md text-headline-md">NOW SHOWING</h1>
+<div class="font-code-data text-code-data text-on-surface-variant">VOL. 04</div>
+</div>
+<!-- Ticket Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Ticket Card 1 -->
+<article class="bg-surface-container-low border border-surface-variant flex flex-col group hover:border-primary transition-colors duration-300">
+<div class="h-64 bg-cover bg-center" data-alt="A gritty, high-contrast black and white cinematic still of a futuristic city skyline at night. Intense neon red accents pierce through the dark shadows, creating a brutalist and neo-noir atmosphere. The composition is stark and architectural." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfCtz5Kumav3dN6kzDxZMYXPD0terb3v2JvlhaDyFrpfEOqS0hnGIemjbILhvrkfWWF0nBib2j0AXKThONlgudbBydu9Y8Gqp2qDvo8J9SQUzmN_bMvMGJVqv7WhlytyAbfh9wcP_oUtyCJgdIntJka1c0wiWNVr3GEN41AlGbnrblT2ST-pNocXgduh0GrpjIxyP1cCfiH_eh95U_hnB3pka35toWkpA0nMfQVt7zP5TwaLnoN_0P6g')"></div>
+<div class="p-stack-md flex-grow flex flex-col">
+<h2 class="font-headline-sm text-headline-sm mb-stack-sm group-hover:text-primary transition-colors">THE NEON CITADEL</h2>
+<p class="font-body-md text-on-surface-variant mb-stack-lg flex-grow">Director's Cut. A masterclass in suspense and visual storytelling.</p>
+<div class="perforation mt-auto pt-stack-md flex flex-col gap-unit">
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DATE</span>
+<span class="font-code-data text-code-data">OCT 24, 2024</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">TIME</span>
+<span class="font-code-data text-code-data">21:00 HRS</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">VENUE</span>
+<span class="font-code-data text-code-data">HALL A</span>
+</div>
+<div class="flex justify-between mt-stack-sm border-t border-surface-variant pt-unit">
+<span class="font-label-caps text-label-caps">ADMIT ONE</span>
+<span class="font-code-data text-code-data text-primary">$18.50</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Ticket Card 2 -->
+<article class="bg-surface-container-low border border-surface-variant flex flex-col group hover:border-primary transition-colors duration-300">
+<div class="h-64 bg-cover bg-center" data-alt="A stark, minimalist poster design for an avant-garde film. A single, bold geometric shape in pure cinema red dominates a pitch-black background. Thin, precise white lines intersect the composition, reflecting a structural, editorial aesthetic. High contrast, premium feel." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3siNdhen3Om2q-wwkIp-NqbC-4_EDlsFcYxf_G85QPzbKEnK83lx2jnTRdY7C8VYt1djWZmMHgSPRZG21IWAkb3MLfZbMAbC-jJSi1TSXmaMxcDbIpihae57MJ8lPXm21t-pY4ZBgkYOhtEV9xdQgc7KLZxXq2S9shrGc6LRxAl_AoQo63uG-03Jfe3I_3zaTnBI2vjMEDFbiYfdaCCUOaE28P7xbyYWx1tDGtxxHLgqBKycUmVTrZw')"></div>
+<div class="p-stack-md flex-grow flex flex-col">
+<div class="flex justify-between items-start">
+<h2 class="font-headline-sm text-headline-sm mb-stack-sm group-hover:text-primary transition-colors">VOID SPACES</h2>
+<div class="border-2 border-primary text-primary font-label-caps text-label-caps px-2 py-1 transform -rotate-6">SOLD OUT</div>
+</div>
+<p class="font-body-md text-on-surface-variant mb-stack-lg flex-grow">An exploration of silence and negative space in modern cinema.</p>
+<div class="perforation mt-auto pt-stack-md flex flex-col gap-unit opacity-50">
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DATE</span>
+<span class="font-code-data text-code-data">OCT 25, 2024</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">TIME</span>
+<span class="font-code-data text-code-data">19:30 HRS</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">VENUE</span>
+<span class="font-code-data text-code-data">STUDIO 4</span>
+</div>
+<div class="flex justify-between mt-stack-sm border-t border-surface-variant pt-unit">
+<span class="font-label-caps text-label-caps">ADMIT ONE</span>
+<span class="font-code-data text-code-data text-primary">--.--</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Ticket Card 3 -->
+<article class="bg-surface-container-low border border-surface-variant flex flex-col group hover:border-primary transition-colors duration-300">
+<div class="h-64 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A classic vintage cinema marquee photographed in dramatic low light. The stark white lettering on the black signboard is sharp and legible. The surrounding architecture is brutalist concrete, creating a high-contrast, moody, and authoritative cinematic environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPR5wC3729-UpLCwXBSIC5ZB4j1rh6EdRvQiKh-VtBOT2gAzpmJRa_VhDJijjjSF7MZ4n-15C2UTjUNbMTm8UzMDWl8yNhe9aktUVosidBWqJL4YWW-8wL0wahL-z1irqn63mMRWUwKFOlvNIssflciUl3M6C9R0FyHycHf2cRYTPjhiRG6e8RMJcBJvi7LItFx6VzgSX4DdAQSDJfJ5FpbnAwRpMpwyGaABqDB73pZ6zBNVJZ10D-QA')"></div>
+<div class="p-stack-md flex-grow flex flex-col">
+<h2 class="font-headline-sm text-headline-sm mb-stack-sm group-hover:text-primary transition-colors">ECHOES OF IRON</h2>
+<p class="font-body-md text-on-surface-variant mb-stack-lg flex-grow">Historical drama redefined with unyielding realism.</p>
+<div class="perforation mt-auto pt-stack-md flex flex-col gap-unit">
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DATE</span>
+<span class="font-code-data text-code-data">OCT 26, 2024</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">TIME</span>
+<span class="font-code-data text-code-data">14:00 HRS</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">VENUE</span>
+<span class="font-code-data text-code-data">GRAND THEATER</span>
+</div>
+<div class="flex justify-between mt-stack-sm border-t border-surface-variant pt-unit">
+<span class="font-label-caps text-label-caps">ADMIT ONE</span>
+<span class="font-code-data text-code-data text-primary">$22.00</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-background dark:bg-background border-t-2 border-primary dark:border-primary">
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 w-full h-full font-label-caps text-label-caps transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span>Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-on-surface p-2 w-full h-full font-label-caps text-label-caps hover:bg-primary-container hover:text-on-primary-container transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+<span>Tickets</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-on-surface p-2 w-full h-full font-label-caps text-label-caps hover:bg-primary-container hover:text-on-primary-container transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Profile</span>
+</a>
+</nav>
+</body></html>
