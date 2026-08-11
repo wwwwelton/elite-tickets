@@ -84,7 +84,7 @@
 - [X] T024 [P] [US1] Add reservation validation, ownership, expiry, payment idempotency, approval/decline, exact ticket issuance, bounded expiry-CLI cleanup delay, and no-double-release tests in `apps/api/tests/integration/test_purchase_flow.py` and `apps/api/tests/integration/test_reservation_expiry.py`
 - [X] T025 [P] [US1] Add independent-connection tests for last-unit reservation contention and payment-versus-expiry races in `apps/api/tests/concurrency/test_inventory.py`
 - [X] T026 [P] [US1] Add unit tests for QR JWS entropy, fixed algorithm allowlist, signature tampering, nonce hashing, and credential redaction in `apps/api/tests/unit/test_qr_credentials.py`
-- [ ] T027 [P] [US1] Add a Chromium E2E for public discovery followed by CUSTOMER login, a two-unit approved purchase and My Tickets, then a declined reservation proving explicit decline, restored availability, immutable retry behavior, and no new ticket issuance in `apps/web/tests/e2e/customer-purchase.spec.ts`
+- [X] T027 [P] [US1] Add a Chromium E2E for public discovery followed by CUSTOMER login, a two-unit approved purchase and My Tickets, then a declined reservation proving explicit decline, restored availability, immutable retry behavior, and no new ticket issuance in `apps/web/tests/e2e/customer-purchase.spec.ts`
 
 - [ ] T043 [US1] Verify the complete US1 API, expiry CLI, concurrency, and Playwright suites and record commands/results in `specs/001-event-ticket-mvp/validation/us1.md`
 
