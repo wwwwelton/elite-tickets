@@ -60,14 +60,6 @@
 
 **Independent Test**: With one published seeded event, sign in as CUSTOMER, reserve two units, approve payment, and verify two owned tickets appear; separately verify decline and 15-minute expiry release inventory and issue nothing.
 
-### Tests for User Story 1
-
-- [ ] T023 [P] [US1] Add anonymous published-event visibility, non-published direct-access denial, search, listing, and detail contract tests for `GET /events` and `GET /events/{eventId}` in `apps/api/tests/integration/test_public_events.py`
-- [ ] T024 [P] [US1] Add reservation validation, ownership, expiry, payment idempotency, approval/decline, exact ticket issuance, bounded expiry-CLI cleanup delay, and no-double-release tests in `apps/api/tests/integration/test_purchase_flow.py` and `apps/api/tests/integration/test_reservation_expiry.py`
-- [ ] T025 [P] [US1] Add independent-connection tests for last-unit reservation contention and payment-versus-expiry races in `apps/api/tests/concurrency/test_inventory.py`
-- [ ] T026 [P] [US1] Add unit tests for QR JWS entropy, fixed algorithm allowlist, signature tampering, nonce hashing, and credential redaction in `apps/api/tests/unit/test_qr_credentials.py`
-- [ ] T027 [P] [US1] Add a Chromium E2E for public discovery followed by CUSTOMER login, a two-unit approved purchase and My Tickets, then a declined reservation proving explicit decline, restored availability, immutable retry behavior, and no new ticket issuance in `apps/web/tests/e2e/customer-purchase.spec.ts`
-
 ### Implementation for User Story 1
 
 - [ ] T028 [P] [US1] Implement Event and MovieSnapshot models with lifecycle and inventory constraints in `apps/api/src/elite_tickets/events/models.py`
@@ -85,6 +77,15 @@
 - [ ] T040 [P] [US1] Build My Tickets list/detail with event, owner, state, identical QR/text credential, and cancellation fallback states in `apps/web/app/customer/tickets/page.tsx`, `apps/web/app/customer/tickets/[ticketId]/page.tsx`, and `apps/web/components/tickets/ticket.tsx`
 - [ ] T041 [US1] Implement idempotent demo seed data for all roles, credentials documentation output, and published purchase fixtures in `apps/api/src/elite_tickets/seed_demo.py`
 - [ ] T042 [US1] Implement an idempotent reservation-expiry CLI suitable for execution at least once per minute in `apps/api/src/elite_tickets/reservations/expire.py`
+
+### Tests for User Story 1
+
+- [ ] T023 [P] [US1] Add anonymous published-event visibility, non-published direct-access denial, search, listing, and detail contract tests for `GET /events` and `GET /events/{eventId}` in `apps/api/tests/integration/test_public_events.py`
+- [ ] T024 [P] [US1] Add reservation validation, ownership, expiry, payment idempotency, approval/decline, exact ticket issuance, bounded expiry-CLI cleanup delay, and no-double-release tests in `apps/api/tests/integration/test_purchase_flow.py` and `apps/api/tests/integration/test_reservation_expiry.py`
+- [ ] T025 [P] [US1] Add independent-connection tests for last-unit reservation contention and payment-versus-expiry races in `apps/api/tests/concurrency/test_inventory.py`
+- [ ] T026 [P] [US1] Add unit tests for QR JWS entropy, fixed algorithm allowlist, signature tampering, nonce hashing, and credential redaction in `apps/api/tests/unit/test_qr_credentials.py`
+- [ ] T027 [P] [US1] Add a Chromium E2E for public discovery followed by CUSTOMER login, a two-unit approved purchase and My Tickets, then a declined reservation proving explicit decline, restored availability, immutable retry behavior, and no new ticket issuance in `apps/web/tests/e2e/customer-purchase.spec.ts`
+
 - [ ] T043 [US1] Verify the complete US1 API, expiry CLI, concurrency, and Playwright suites and record commands/results in `specs/001-event-ticket-mvp/validation/us1.md`
 
 **Checkpoint**: The principal CUSTOMER value flow works end to end and independently of live TMDb access.
@@ -97,13 +98,6 @@
 
 **Independent Test**: Sign in as ORGANIZER, search/select a film, create and publish a valid event, confirm it appears publicly and in the owned-event ledger, then cancel it and verify pending inventory is released and tickets become cancelled; existing events remain usable while TMDb is unavailable.
 
-### Tests for User Story 2
-
-- [ ] T044 [P] [US2] Add TMDb normalization, timeout/retry, missing-poster, and 503-without-partial-event tests in `apps/api/tests/integration/test_catalog.py`
-- [ ] T045 [P] [US2] Add event validation, snapshot immutability, ownership, DRAFT publication, temporal finishing, and atomic cancellation tests in `apps/api/tests/integration/test_organizer_events.py`
-- [ ] T046 [P] [US2] Add independent-connection PostgreSQL races for cancellation versus reservation, approval, decline, and expiry, proving a single terminal outcome, exact-once inventory release, no post-cancellation issuance, and non-negative bounded counters in `apps/api/tests/concurrency/test_event_cancellation.py`
-- [ ] T047 [P] [US2] Add organizer creation/publication and TMDb retry UI tests in `apps/web/tests/e2e/organizer-events.spec.ts`
-
 ### Implementation for User Story 2
 
 - [ ] T048 [P] [US2] Implement the backend-only TMDb adapter with timeout, bounded retry for timeout/429/5xx, Pydantic normalization, and typed unavailability in `apps/api/src/elite_tickets/catalog/tmdb.py`
@@ -111,6 +105,14 @@
 - [ ] T050 [US2] Implement ORGANIZER-only catalog search, event creation, publish, cancel, and owned-list endpoints matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/catalog/router.py` and `apps/api/src/elite_tickets/events/organizer_router.py`
 - [ ] T051 [P] [US2] Build the organizer event ledger with capacity, sold, reserved-derived availability, state, publish, and cancel actions in `apps/web/app/organizer/events/page.tsx` and `apps/web/components/events/organizer-ledger.tsx`
 - [ ] T052 [US2] Build movie search/select with loading, retryable TMDb failure, poster fallback, and validated event creation form in `apps/web/app/organizer/events/new/page.tsx` and `apps/web/components/events/event-form.tsx`
+
+### Tests for User Story 2
+
+- [ ] T044 [P] [US2] Add TMDb normalization, timeout/retry, missing-poster, and 503-without-partial-event tests in `apps/api/tests/integration/test_catalog.py`
+- [ ] T045 [P] [US2] Add event validation, snapshot immutability, ownership, DRAFT publication, temporal finishing, and atomic cancellation tests in `apps/api/tests/integration/test_organizer_events.py`
+- [ ] T046 [P] [US2] Add independent-connection PostgreSQL races for cancellation versus reservation, approval, decline, and expiry, proving a single terminal outcome, exact-once inventory release, no post-cancellation issuance, and non-negative bounded counters in `apps/api/tests/concurrency/test_event_cancellation.py`
+- [ ] T047 [P] [US2] Add organizer creation/publication and TMDb retry UI tests in `apps/web/tests/e2e/organizer-events.spec.ts`
+
 - [ ] T053 [US2] Verify US2 against snapshot continuity, ownership, cancellation, finishing, cancellation concurrency races, API tests, and browser flow and record results in `specs/001-event-ticket-mvp/validation/us2.md`
 
 **Checkpoint**: The supply-side workflow is independently demonstrable and existing-event operations do not depend on TMDb availability.
@@ -123,12 +125,6 @@
 
 **Independent Test**: For a selected event, submit valid, tampered, already-used, and other-event credentials and receive `VALID`, `INVALID`, `ALREADY_USED`, and `WRONG_EVENT`; 100 simultaneous attempts yield exactly one `VALID`, and API unavailability never displays admission.
 
-### Tests for User Story 3
-
-- [ ] T054 [P] [US3] Add integration tests for role enforcement, event eligibility, all four validation results, attempt logging, and non-consumption on failure in `apps/api/tests/integration/test_gate_validation.py`
-- [ ] T055 [P] [US3] Add independent-connection tests for 100 same-ticket validations proving exactly one `VALID` and all applicable remainder `ALREADY_USED`, plus cancellation racing validation proving no post-cancellation consumption, in `apps/api/tests/concurrency/test_ticket_validation.py`
-- [ ] T056 [P] [US3] Add scanner/manual equivalence, camera fallback, four result states, and offline refusal browser tests in `apps/web/tests/e2e/gate-validation.spec.ts`
-
 ### Implementation for User Story 3
 
 - [ ] T057 [P] [US3] Implement TicketValidation model and result enum with auditable attempt fields in `apps/api/src/elite_tickets/tickets/validation_models.py`
@@ -137,6 +133,13 @@
 - [ ] T060 [US3] Implement GATE-only published-event selection and validation endpoints matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/tickets/gate_router.py`
 - [ ] T061 [P] [US3] Build camera scanning with explicit permission/error states and manual credential input feeding one online validation action in `apps/web/app/gate/page.tsx` and `apps/web/components/tickets/scanner.tsx`
 - [ ] T062 [US3] Build accessible `VALID`, `INVALID`, `ALREADY_USED`, `WRONG_EVENT`, and backend-unavailable results that never infer offline admission in `apps/web/components/tickets/validation-result.tsx`
+
+### Tests for User Story 3
+
+- [ ] T054 [P] [US3] Add integration tests for role enforcement, event eligibility, all four validation results, attempt logging, and non-consumption on failure in `apps/api/tests/integration/test_gate_validation.py`
+- [ ] T055 [P] [US3] Add independent-connection tests for 100 same-ticket validations proving exactly one `VALID` and all applicable remainder `ALREADY_USED`, plus cancellation racing validation proving no post-cancellation consumption, in `apps/api/tests/concurrency/test_ticket_validation.py`
+- [ ] T056 [P] [US3] Add scanner/manual equivalence, camera fallback, four result states, and offline refusal browser tests in `apps/web/tests/e2e/gate-validation.spec.ts`
+
 - [ ] T063 [US3] Verify all GATE result, tampering, cancellation/finish, concurrency, and offline scenarios and record results in `specs/001-event-ticket-mvp/validation/us3.md`
 
 **Checkpoint**: Entry validation is online-only, secure against tampering, and single-consumption under contention.
@@ -149,11 +152,6 @@
 
 **Independent Test**: Generate a share as the ticket owner, open it anonymously, verify the ticket and QR are visible with no owner action, confirm ownership is unchanged, then consume the ticket or pass event end and receive an expired response.
 
-### Tests for User Story 4
-
-- [ ] T064 [P] [US4] Add share entropy/hash, ownership, idempotent retrieval, QR-token separation, anonymous read, use/end expiry, `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, and URL-token redaction tests in `apps/api/tests/integration/test_ticket_sharing.py`
-- [ ] T065 [P] [US4] Add anonymous shared-ticket display and expired-link browser tests in `apps/web/tests/e2e/ticket-sharing.spec.ts`
-
 ### Implementation for User Story 4
 
 - [ ] T066 [P] [US4] Implement TicketShare model with one-per-ticket and unique hashed-token constraints in `apps/api/src/elite_tickets/tickets/share_models.py`
@@ -161,6 +159,12 @@
 - [ ] T068 [US4] Implement owner-only CSPRNG share generation and anonymous read-only lookup with used/status/event-end validity checks in `apps/api/src/elite_tickets/tickets/share_service.py`
 - [ ] T069 [US4] Implement owner share creation and public shared-ticket endpoints with limited serializers, `Cache-Control: no-store`, and `Referrer-Policy: no-referrer` matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/tickets/share_router.py`
 - [ ] T070 [P] [US4] Add owner share action/copy feedback and anonymous read-only ticket rendering with no management controls, `no-store`, and `no-referrer` in `apps/web/components/tickets/share-action.tsx` and `apps/web/app/shared/tickets/[shareToken]/page.tsx`
+
+### Tests for User Story 4
+
+- [ ] T064 [P] [US4] Add share entropy/hash, ownership, idempotent retrieval, QR-token separation, anonymous read, use/end expiry, `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, and URL-token redaction tests in `apps/api/tests/integration/test_ticket_sharing.py`
+- [ ] T065 [P] [US4] Add anonymous shared-ticket display and expired-link browser tests in `apps/web/tests/e2e/ticket-sharing.spec.ts`
+
 - [ ] T071 [US4] Verify anonymous access, unchanged ownership, token separation, and both expiry conditions and record results in `specs/001-event-ticket-mvp/validation/us4.md`
 
 **Checkpoint**: Sharing works without authentication, ownership transfer, management privileges, or QR/share credential confusion.
@@ -206,20 +210,20 @@ US1 + US2 + US3 + US4 → Polish and full walkthrough
 
 ### Within Each User Story
 
-1. Write the listed tests and confirm they fail for the expected missing behavior.
-2. Apply schema/model changes before dependent services.
-3. Implement services before exposing endpoints.
-4. Integrate frontend components after stable API behavior exists.
+1. Apply schema/model changes before dependent services.
+2. Implement services before exposing endpoints.
+3. Integrate frontend components after stable API behavior exists.
+4. Add the listed automated tests only after their required behavior exists, and require them to pass before completion.
 5. Run the story checkpoint and save evidence before starting the next sequential priority.
 
 ### Parallel Opportunities
 
 - Setup tasks T002–T004 and T006–T007 can run concurrently after T001 where applicable.
 - Foundational tasks marked `[P]` can be split across API and web after their package initialization.
-- US1 tests T023–T027 can be authored concurrently; models T028–T030 can be implemented concurrently; UI tasks T038 and T040 can proceed concurrently once their APIs are stable.
-- US2 tests T044–T047 run in separate files; adapter T048 and organizer UI T051 can proceed concurrently once contracts are understood.
-- US3 tests T054–T056 are independent; scanner UI T061 can proceed alongside the backend model/migration work.
-- US4 tests T064–T065 are independent; share model T066 and UI T070 can proceed concurrently after the shared Ticket contract is stable.
+- US1 models T028–T030 can be implemented concurrently; UI tasks T038 and T040 can proceed once their APIs are stable; tests T023–T027 can run concurrently after the required US1 behavior exists.
+- US2 adapter T048 and organizer UI T051 can proceed concurrently once contracts are understood; tests T044–T047 run in separate files after the required US2 behavior exists.
+- US3 scanner UI T061 can proceed alongside the backend model/migration work; tests T054–T056 are independent after the required US3 behavior exists.
+- US4 model T066 and UI T070 can proceed after the shared Ticket contract is stable; tests T064–T065 are independent after the required US4 behavior exists.
 - After US1 establishes the shared commerce schema, US2, US3, and US4 can be assigned in parallel using seeded fixtures where appropriate.
 
 ## Parallel Execution Examples
@@ -256,8 +260,6 @@ Task T056: Camera/manual/offline browser tests in apps/web/tests/e2e/gate-valida
 ```text
 Task T064: Share security and expiry tests in apps/api/tests/integration/test_ticket_sharing.py
 Task T065: Anonymous share browser tests in apps/web/tests/e2e/ticket-sharing.spec.ts
-Task T066: TicketShare persistence model in apps/api/src/elite_tickets/tickets/share_models.py
-Task T070: Share action and public page in apps/web/components/tickets/share-action.tsx and apps/web/app/shared/tickets/[shareToken]/page.tsx
 ```
 
 ## Implementation Strategy
