@@ -113,7 +113,7 @@
 - [X] T046 [P] [US2] Add independent-connection PostgreSQL races for cancellation versus reservation, approval, decline, and expiry, proving a single terminal outcome, exact-once inventory release, no post-cancellation issuance, and non-negative bounded counters in `apps/api/tests/concurrency/test_event_cancellation.py`
 - [X] T047 [P] [US2] Add organizer creation/publication and TMDb retry UI tests in `apps/web/tests/e2e/organizer-events.spec.ts`
 
-- [ ] T053 [US2] Verify US2 against snapshot continuity, ownership, cancellation, finishing, cancellation concurrency races, API tests, and browser flow and record results in `specs/001-event-ticket-mvp/validation/us2.md`
+- [X] T053 [US2] Verify US2 against snapshot continuity, ownership, cancellation, finishing, cancellation concurrency races, API tests, and browser flow and record results in `specs/001-event-ticket-mvp/validation/us2.md`
 
 **Checkpoint**: The supply-side workflow is independently demonstrable and existing-event operations do not depend on TMDb availability.
 
