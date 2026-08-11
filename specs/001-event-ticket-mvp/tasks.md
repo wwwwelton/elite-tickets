@@ -157,7 +157,7 @@
 - [X] T066 [P] [US4] Implement TicketShare model with one-per-ticket and unique hashed-token constraints in `apps/api/src/elite_tickets/tickets/share_models.py`
 - [X] T067 [US4] Create the TicketShare table and token hash indexes in `apps/api/alembic/versions/0004_ticket_shares.py`
 - [X] T068 [US4] Implement owner-only CSPRNG share generation and anonymous read-only lookup with used/status/event-end validity checks in `apps/api/src/elite_tickets/tickets/share_service.py`
-- [ ] T069 [US4] Implement owner share creation and public shared-ticket endpoints with limited serializers, `Cache-Control: no-store`, and `Referrer-Policy: no-referrer` matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/tickets/share_router.py`
+- [X] T069 [US4] Implement owner share creation and public shared-ticket endpoints with limited serializers, `Cache-Control: no-store`, and `Referrer-Policy: no-referrer` matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/tickets/share_router.py`
 - [ ] T070 [P] [US4] Add owner share action/copy feedback and anonymous read-only ticket rendering with no management controls, `no-store`, and `no-referrer` in `apps/web/components/tickets/share-action.tsx` and `apps/web/app/shared/tickets/[shareToken]/page.tsx`
 
 ### Tests for User Story 4

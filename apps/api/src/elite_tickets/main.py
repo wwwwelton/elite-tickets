@@ -11,6 +11,7 @@ from elite_tickets.shared.errors import install_exception_handlers
 from elite_tickets.shared.logging import RequestLoggingMiddleware, configure_logging
 from elite_tickets.tickets.gate_router import router as gate_router
 from elite_tickets.tickets.router import router as tickets_router
+from elite_tickets.tickets.share_router import router as share_router
 from fastapi import Depends, FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -46,6 +47,7 @@ app.include_router(organizer_events_router, prefix=API_PREFIX)
 app.include_router(reservations_router, prefix=API_PREFIX)
 app.include_router(tickets_router, prefix=API_PREFIX)
 app.include_router(gate_router, prefix=API_PREFIX)
+app.include_router(share_router, prefix=API_PREFIX)
 
 
 @app.get("/health/live", tags=["Health"])
