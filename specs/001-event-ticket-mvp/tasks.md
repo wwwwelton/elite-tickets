@@ -109,7 +109,7 @@
 ### Tests for User Story 2
 
 - [X] T044 [P] [US2] Add TMDb normalization, timeout/retry, missing-poster, and 503-without-partial-event tests in `apps/api/tests/integration/test_catalog.py`
-- [ ] T045 [P] [US2] Add event validation, snapshot immutability, ownership, DRAFT publication, temporal finishing, and atomic cancellation tests in `apps/api/tests/integration/test_organizer_events.py`
+- [X] T045 [P] [US2] Add event validation, snapshot immutability, ownership, DRAFT publication, temporal finishing, and atomic cancellation tests in `apps/api/tests/integration/test_organizer_events.py`
 - [ ] T046 [P] [US2] Add independent-connection PostgreSQL races for cancellation versus reservation, approval, decline, and expiry, proving a single terminal outcome, exact-once inventory release, no post-cancellation issuance, and non-negative bounded counters in `apps/api/tests/concurrency/test_event_cancellation.py`
 - [ ] T047 [P] [US2] Add organizer creation/publication and TMDb retry UI tests in `apps/web/tests/e2e/organizer-events.spec.ts`
 
