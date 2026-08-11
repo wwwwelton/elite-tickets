@@ -68,7 +68,7 @@
 - [X] T031 [US1] Create Event, MovieSnapshot, Reservation, SimulatedPayment, and Ticket tables with checks and indexes in `apps/api/alembic/versions/0002_commerce.py`
 - [X] T032 [P] [US1] Implement lazy event finalization and published event search/detail projections using saved snapshots in `apps/api/src/elite_tickets/events/service.py`
 - [X] T033 [P] [US1] Implement signed static QR credential generation/verification with version, `kid`, nonce entropy, and dedicated secret in `apps/api/src/elite_tickets/tickets/credentials.py`
-- [ ] T034 [US1] Implement atomic conditional inventory reservation and idempotent pending-reservation expiry with fixed lock ordering in `apps/api/src/elite_tickets/reservations/service.py`
+- [X] T034 [US1] Implement atomic conditional inventory reservation and idempotent pending-reservation expiry with fixed lock ordering in `apps/api/src/elite_tickets/reservations/service.py`
 - [ ] T035 [US1] Implement deterministic `tok_approved`/`tok_declined` processing, payload-bound idempotency, atomic counter transitions, and exact ticket issuance in `apps/api/src/elite_tickets/reservations/payment.py`
 - [ ] T036 [US1] Implement public event list/detail, CUSTOMER reservation, and owner-only payment endpoints matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/events/router.py` and `apps/api/src/elite_tickets/reservations/router.py`
 - [ ] T037 [US1] Implement owner-only ticket listing and QR-safe response serialization in `apps/api/src/elite_tickets/tickets/router.py`
