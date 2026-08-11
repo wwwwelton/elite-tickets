@@ -101,7 +101,7 @@
 ### Implementation for User Story 2
 
 - [X] T048 [P] [US2] Implement the backend-only TMDb adapter with timeout, bounded retry for timeout/429/5xx, Pydantic normalization, and typed unavailability in `apps/api/src/elite_tickets/catalog/tmdb.py`
-- [ ] T049 [US2] Implement ORGANIZER-owned event creation from a fetched snapshot, field/timezone/money validation, DRAFT publication, owned metrics, temporal finishing, and atomic cancellation in `apps/api/src/elite_tickets/events/organizer_service.py`
+- [X] T049 [US2] Implement ORGANIZER-owned event creation from a fetched snapshot, field/timezone/money validation, DRAFT publication, owned metrics, temporal finishing, and atomic cancellation in `apps/api/src/elite_tickets/events/organizer_service.py`
 - [ ] T050 [US2] Implement ORGANIZER-only catalog search, event creation, publish, cancel, and owned-list endpoints matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/catalog/router.py` and `apps/api/src/elite_tickets/events/organizer_router.py`
 - [ ] T051 [P] [US2] Build the organizer event ledger with capacity, sold, reserved-derived availability, state, publish, and cancel actions in `apps/web/app/organizer/events/page.tsx` and `apps/web/components/events/organizer-ledger.tsx`
 - [ ] T052 [US2] Build movie search/select with loading, retryable TMDb failure, poster fallback, and validated event creation form in `apps/web/app/organizer/events/new/page.tsx` and `apps/web/components/events/event-form.tsx`
