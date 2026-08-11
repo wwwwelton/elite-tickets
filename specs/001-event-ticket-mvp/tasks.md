@@ -127,7 +127,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T057 [P] [US3] Implement TicketValidation model and result enum with auditable attempt fields in `apps/api/src/elite_tickets/tickets/validation_models.py`
+- [X] T057 [P] [US3] Implement TicketValidation model and result enum with auditable attempt fields in `apps/api/src/elite_tickets/tickets/validation_models.py`
 - [ ] T058 [US3] Create the TicketValidation table and lookup indexes in `apps/api/alembic/versions/0003_ticket_validations.py`
 - [ ] T059 [US3] Implement signature/nonce eligibility checks and atomic `used_at IS NULL` consumption with non-mutating result classification and same-transaction attempt logging in `apps/api/src/elite_tickets/tickets/validation_service.py`
 - [ ] T060 [US3] Implement GATE-only published-event selection and validation endpoints matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/tickets/gate_router.py`
