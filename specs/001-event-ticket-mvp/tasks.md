@@ -23,7 +23,7 @@
 - [X] T003 [P] Configure strict TypeScript, Next.js, ESLint, and test path aliases in `apps/web/tsconfig.json`, `apps/web/next.config.ts`, and `apps/web/eslint.config.mjs`
 - [X] T004 [P] Configure pytest markers for unit, integration, and PostgreSQL concurrency suites in `apps/api/pyproject.toml`
 - [X] T005 Define PostgreSQL, migration, API, web, and an at-least-once-per-minute expiry runner reusing the API image, with health checks and dependency ordering in `compose.yaml`
-- [ ] T006 [P] Document safe runtime variables with distinct JWT/QR secrets, TMDb configuration, CORS origins, and public API URL in `.env.example`
+- [X] T006 [P] Document safe runtime variables with distinct JWT/QR secrets, TMDb configuration, CORS origins, and public API URL in `.env.example`
 - [ ] T007 [P] Create deployment definitions for the FastAPI service, migration pre-deploy command, PostgreSQL, and a scheduled expiry command running at least once per minute in `infra/render.yaml`
 
 ---
