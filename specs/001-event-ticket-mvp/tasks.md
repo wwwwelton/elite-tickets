@@ -75,7 +75,7 @@
 - [X] T038 [P] [US1] Build public event search, cards, poster fallback, and event detail quantity controls in `apps/web/app/(public)/page.tsx`, `apps/web/app/(public)/events/[eventId]/page.tsx`, and `apps/web/components/events/`
 - [X] T039 [US1] Build CUSTOMER checkout countdown, reservation creation, idempotent simulated payment, and approved/declined states in `apps/web/app/customer/checkout/[eventId]/page.tsx` and `apps/web/components/checkout/`
 - [X] T040 [P] [US1] Build My Tickets list/detail with event, owner, state, identical QR/text credential, and cancellation fallback states in `apps/web/app/customer/tickets/page.tsx`, `apps/web/app/customer/tickets/[ticketId]/page.tsx`, and `apps/web/components/tickets/ticket.tsx`
-- [ ] T041 [US1] Implement idempotent demo seed data for all roles, credentials documentation output, and published purchase fixtures in `apps/api/src/elite_tickets/seed_demo.py`
+- [X] T041 [US1] Implement idempotent demo seed data for all roles, credentials documentation output, and published purchase fixtures in `apps/api/src/elite_tickets/seed_demo.py`
 - [ ] T042 [US1] Implement an idempotent reservation-expiry CLI suitable for execution at least once per minute in `apps/api/src/elite_tickets/reservations/expire.py`
 
 ### Tests for User Story 1
