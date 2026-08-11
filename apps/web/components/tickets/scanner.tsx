@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation";
 
 import { ApiError, apiMutation, apiRequest } from "@/lib/api";
 import { guardRoute } from "@/lib/auth";
+import {
+  ValidationResult,
+  type ValidationResultKind,
+} from "@/components/tickets/validation-result";
 
 type GateEvent = {
   id: string;
@@ -13,9 +17,9 @@ type GateEvent = {
   venue_name: string;
 };
 
-type ValidationResult = {
-  result: "VALID" | "INVALID" | "ALREADY_USED" | "WRONG_EVENT";
-  attempted_at: string;
+type ValidationResponse = {
+  result: ValidationResultKind;
+  attempted_at?: string;
 };
 
 type CameraState = "idle" | "requesting" | "active" | "denied" | "unavailable" | "error";
@@ -52,7 +56,7 @@ export function Scanner() {
   const [manualCredential, setManualCredential] = useState("");
   const [cameraState, setCameraState] = useState<CameraState>("idle");
   const [pending, setPending] = useState(false);
-  const [result, setResult] = useState<ValidationResult | null>(null);
+  const [result, setResult] = useState<ValidationResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const stopCamera = useCallback(() => {
@@ -86,7 +90,7 @@ export function Scanner() {
       setError(null);
       setResult(null);
       try {
-        const response = await apiMutation<ValidationResult, { credential: string }>(
+        const response = await apiMutation<ValidationResponse, { credential: string }>(
           `/gate/events/${encodeURIComponent(selectedEventId)}/validate`,
           {
             accessToken,
@@ -96,11 +100,11 @@ export function Scanner() {
         );
         setResult(response);
       } catch (caught) {
-        setError(
-          caught instanceof ApiError && caught.status === 0
-            ? "Backend indisponível. Nenhum ingresso foi admitido; tente novamente online."
-            : apiMessage(caught, "Não foi possível validar o ingresso."),
-        );
+        if (caught instanceof ApiError && caught.status === 0) {
+          setResult({ result: "BACKEND_UNAVAILABLE" });
+        } else {
+          setError(apiMessage(caught, "Não foi possível validar o ingresso."));
+        }
       } finally {
         submittingRef.current = false;
         setPending(false);
@@ -233,9 +237,10 @@ export function Scanner() {
 
       {error ? <p role="alert">{error}</p> : null}
       {result ? (
-        <p role="status" aria-live="polite" data-validation-result={result.result}>
-          Resultado online: <strong>{result.result}</strong>
-        </p>
+        <ValidationResult
+          result={result.result}
+          {...(result.attempted_at ? { attemptedAt: result.attempted_at } : {})}
+        />
       ) : null}
     </section>
   );
