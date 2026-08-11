@@ -14,6 +14,7 @@ from elite_tickets.reservations.router import router as reservations_router
 from elite_tickets.shared.config import get_settings
 from elite_tickets.shared.errors import install_exception_handlers
 from elite_tickets.shared.logging import RequestLoggingMiddleware, configure_logging
+from elite_tickets.tickets.router import router as tickets_router
 
 API_PREFIX = "/api/v1"
 
@@ -39,6 +40,7 @@ app.add_middleware(
 app.include_router(auth_router, prefix=API_PREFIX)
 app.include_router(events_router, prefix=API_PREFIX)
 app.include_router(reservations_router, prefix=API_PREFIX)
+app.include_router(tickets_router, prefix=API_PREFIX)
 
 
 @app.get("/health/live", tags=["Health"])

@@ -71,7 +71,7 @@
 - [X] T034 [US1] Implement atomic conditional inventory reservation and idempotent pending-reservation expiry with fixed lock ordering in `apps/api/src/elite_tickets/reservations/service.py`
 - [X] T035 [US1] Implement deterministic `tok_approved`/`tok_declined` processing, payload-bound idempotency, atomic counter transitions, and exact ticket issuance in `apps/api/src/elite_tickets/reservations/payment.py`
 - [X] T036 [US1] Implement public event list/detail, CUSTOMER reservation, and owner-only payment endpoints matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/events/router.py` and `apps/api/src/elite_tickets/reservations/router.py`
-- [ ] T037 [US1] Implement owner-only ticket listing and QR-safe response serialization in `apps/api/src/elite_tickets/tickets/router.py`
+- [X] T037 [US1] Implement owner-only ticket listing and QR-safe response serialization in `apps/api/src/elite_tickets/tickets/router.py`
 - [ ] T038 [P] [US1] Build public event search, cards, poster fallback, and event detail quantity controls in `apps/web/app/(public)/page.tsx`, `apps/web/app/(public)/events/[eventId]/page.tsx`, and `apps/web/components/events/`
 - [ ] T039 [US1] Build CUSTOMER checkout countdown, reservation creation, idempotent simulated payment, and approved/declined states in `apps/web/app/customer/checkout/[eventId]/page.tsx` and `apps/web/components/checkout/`
 - [ ] T040 [P] [US1] Build My Tickets list/detail with event, owner, state, identical QR/text credential, and cancellation fallback states in `apps/web/app/customer/tickets/page.tsx`, `apps/web/app/customer/tickets/[ticketId]/page.tsx`, and `apps/web/components/tickets/ticket.tsx`
