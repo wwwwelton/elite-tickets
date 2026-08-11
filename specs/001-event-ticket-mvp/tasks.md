@@ -48,7 +48,7 @@
 - [X] T019 [P] Implement a typed API client, bearer-token handling, normalized errors, and no-store mutation helpers in `apps/web/lib/api.ts`
 - [X] T020 [P] Implement session persistence, role-aware navigation, protected layouts, and login UI in `apps/web/lib/auth.ts`, `apps/web/components/auth/login-form.tsx`, and `apps/web/app/login/page.tsx`
 - [X] T021 [P] Implement the exact normative `DESIGN.md` color tokens, 12/4-column grids, zero-radius controls, typography roles, border hierarchy, ticket notches, perforation, ledger rows, and status primitives in `apps/web/app/globals.css` and `apps/web/components/ui/`
-- [ ] T022 Add authorization and resource-ownership tests covering all three roles, inactive users, invalid JWTs, and cross-user access in `apps/api/tests/integration/test_authorization.py`
+- [X] T022 Add authentication and role-authorization tests covering all three roles, inactive users, invalid JWTs, and 401/403 behavior in `apps/api/tests/integration/test_authorization.py`
 
 **Checkpoint**: Database, API shell, authentication, role enforcement, error handling, and shared UI are ready.
 
@@ -178,6 +178,7 @@
 - [ ] T076 Validate fresh `docker compose` build, health checks, migrations, repeatable seed, local at-least-once-per-minute expiry runner, all API and PostgreSQL concurrency suites including event-cancellation races, frontend tests, and Chromium E2E; statically verify the equivalent schedule in `infra/render.yaml`, and record deployed Render smoke evidence only when deployment access is available, exactly as documented in `specs/001-event-ticket-mvp/quickstart.md`
 - [ ] T077 Update local/deployment walkthrough, demo accounts, safe simulated tokens, expiry command, and troubleshooting in `README.md`
 - [ ] T078 Record final requirement, contract, constitution, visual-reference, and generated-code review evidence in `specs/001-event-ticket-mvp/validation/final.md`
+- [ ] T079 Add cross-user resource-ownership tests for ORGANIZER events, CUSTOMER reservations/tickets/shares, and GATE validation access in `apps/api/tests/integration/test_resource_ownership.py`
 
 ---
 
