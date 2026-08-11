@@ -47,7 +47,7 @@
 - [X] T018 Create the initial User schema migration with required PostgreSQL extensions in `apps/api/alembic/versions/0001_users.py`
 - [X] T019 [P] Implement a typed API client, bearer-token handling, normalized errors, and no-store mutation helpers in `apps/web/lib/api.ts`
 - [X] T020 [P] Implement session persistence, role-aware navigation, protected layouts, and login UI in `apps/web/lib/auth.ts`, `apps/web/components/auth/login-form.tsx`, and `apps/web/app/login/page.tsx`
-- [ ] T021 [P] Implement the exact normative `DESIGN.md` color tokens, 12/4-column grids, zero-radius controls, typography roles, border hierarchy, ticket notches, perforation, ledger rows, and status primitives in `apps/web/app/globals.css` and `apps/web/components/ui/`
+- [X] T021 [P] Implement the exact normative `DESIGN.md` color tokens, 12/4-column grids, zero-radius controls, typography roles, border hierarchy, ticket notches, perforation, ledger rows, and status primitives in `apps/web/app/globals.css` and `apps/web/components/ui/`
 - [ ] T022 Add authorization and resource-ownership tests covering all three roles, inactive users, invalid JWTs, and cross-user access in `apps/api/tests/integration/test_authorization.py`
 
 **Checkpoint**: Database, API shell, authentication, role enforcement, error handling, and shared UI are ready.
