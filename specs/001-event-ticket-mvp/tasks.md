@@ -36,7 +36,7 @@
 
 - [X] T008 Implement typed environment configuration with secret separation and safe validation in `apps/api/src/elite_tickets/shared/config.py`
 - [X] T009 [P] Define the async SQLAlchemy engine, session factory, and transaction dependency in `apps/api/src/elite_tickets/db/session.py`
-- [ ] T010 [P] Define declarative base, UUIDv7/timestamp helpers, and enum conventions in `apps/api/src/elite_tickets/db/base.py`
+- [X] T010 [P] Define declarative base, UUIDv7/timestamp helpers, and enum conventions in `apps/api/src/elite_tickets/db/base.py`
 - [ ] T011 Configure Alembic metadata and database URL handling in `apps/api/alembic/env.py` and `apps/api/alembic.ini`
 - [ ] T012 Implement the User model, role enum, constraints, and indexes in `apps/api/src/elite_tickets/auth/models.py`
 - [ ] T013 Implement Argon2 password verification, short-lived JWT issuance/validation, active-user loading, role dependencies, and 401/403 behavior in `apps/api/src/elite_tickets/auth/security.py`
