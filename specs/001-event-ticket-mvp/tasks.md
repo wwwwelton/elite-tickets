@@ -176,7 +176,7 @@
 **Purpose**: Prove deployment readiness, accessibility, security, performance, and documented reproducibility across all stories.
 
 - [X] T072 [P] Add frontend unit tests for timers, API failure states, role navigation, poster fallback, QR/text equality, and accessibility in `apps/web/tests/unit/`
-- [ ] T073 [P] Add API response-time smoke tests for event search/detail demonstration targets in `apps/api/tests/integration/test_performance_smoke.py`
+- [X] T073 [P] Add API response-time smoke tests for event search/detail demonstration targets in `apps/api/tests/integration/test_performance_smoke.py`
 - [ ] T074 Audit keyboard navigation, focus visibility, status announcements, reduced motion, AA contrast, responsive 12/4-column grids, camera fallback, exact `#000000` canvas and `#E61919` CTA, zero-radius/no-shadow styling, typography roles, and non-color-only states against `DESIGN.md` in `apps/web/tests/e2e/accessibility.spec.ts`
 - [ ] T075 Run dependency/security checks and inspect logs/build artifacts for JWT, QR, share, TMDb, database, or password leakage; record findings in `specs/001-event-ticket-mvp/validation/security.md`
 - [ ] T076 Validate fresh `docker compose` build, health checks, migrations, repeatable seed, local at-least-once-per-minute expiry runner, all API and PostgreSQL concurrency suites including event-cancellation races, frontend tests, and Chromium E2E; statically verify the equivalent schedule in `infra/render.yaml`, and record deployed Render smoke evidence only when deployment access is available, exactly as documented in `specs/001-event-ticket-mvp/quickstart.md`
