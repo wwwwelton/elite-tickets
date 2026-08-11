@@ -140,7 +140,7 @@
 - [X] T055 [P] [US3] Add independent-connection tests for 100 same-ticket validations proving exactly one `VALID` and all applicable remainder `ALREADY_USED`, plus cancellation racing validation proving no post-cancellation consumption, in `apps/api/tests/concurrency/test_ticket_validation.py`
 - [X] T056 [P] [US3] Add scanner/manual equivalence, camera fallback, four result states, and offline refusal browser tests in `apps/web/tests/e2e/gate-validation.spec.ts`
 
-- [ ] T063 [US3] Verify all GATE result, tampering, cancellation/finish, concurrency, and offline scenarios and record results in `specs/001-event-ticket-mvp/validation/us3.md`
+- [X] T063 [US3] Verify all GATE result, tampering, cancellation/finish, concurrency, and offline scenarios and record results in `specs/001-event-ticket-mvp/validation/us3.md`
 
 **Checkpoint**: Entry validation is online-only, secure against tampering, and single-consumption under contention.
 
