@@ -131,7 +131,7 @@
 - [X] T058 [US3] Create the TicketValidation table and lookup indexes in `apps/api/alembic/versions/0003_ticket_validations.py`
 - [X] T059 [US3] Implement signature/nonce eligibility checks and atomic `used_at IS NULL` consumption with non-mutating result classification and same-transaction attempt logging in `apps/api/src/elite_tickets/tickets/validation_service.py`
 - [X] T060 [US3] Implement GATE-only published-event selection and validation endpoints matching `contracts/openapi.yaml` in `apps/api/src/elite_tickets/tickets/gate_router.py`
-- [ ] T061 [P] [US3] Build camera scanning with explicit permission/error states and manual credential input feeding one online validation action in `apps/web/app/gate/page.tsx` and `apps/web/components/tickets/scanner.tsx`
+- [X] T061 [P] [US3] Build camera scanning with explicit permission/error states and manual credential input feeding one online validation action in `apps/web/app/gate/page.tsx` and `apps/web/components/tickets/scanner.tsx`
 - [ ] T062 [US3] Build accessible `VALID`, `INVALID`, `ALREADY_USED`, `WRONG_EVENT`, and backend-unavailable results that never infer offline admission in `apps/web/components/tickets/validation-result.tsx`
 
 ### Tests for User Story 3

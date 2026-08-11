@@ -25,7 +25,7 @@ type RoleNavigation = readonly [NavigationItem, ...NavigationItem[]];
 export const NAVIGATION_BY_ROLE: Record<Role, RoleNavigation> = {
   ORGANIZER: [{ href: "/organizer/events", label: "Meus eventos" }],
   CUSTOMER: [{ href: "/customer/tickets", label: "Meus ingressos" }],
-  GATE: [{ href: "/gate/scan", label: "Validar ingresso" }],
+  GATE: [{ href: "/gate", label: "Validar ingresso" }],
 };
 
 function isRole(value: unknown): value is Role {
