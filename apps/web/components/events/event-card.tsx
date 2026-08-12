@@ -17,6 +17,7 @@ export function EventCard({ event, priority = false }: { event: PublicEvent; pri
   const available = event.available_quantity > 0;
   return (
     <Ticket
+      className="event-card"
       header={
         <>
           <EventPoster src={event.poster_url} alt={`Pôster de ${event.title}`} priority={priority} />
