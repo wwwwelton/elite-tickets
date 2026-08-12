@@ -45,11 +45,6 @@ class Settings(BaseSettings):
             raise ValueError("JWT_SECRET and QR_SECRET must be different")
         return self
 
-    @property
-    def tmdb_api_key(self) -> SecretStr:
-        """Backward-compatible alias while catalog code is migrated."""
-        return self.ticketmaster_api_key
-
 
 @lru_cache
 def get_settings() -> Settings:
