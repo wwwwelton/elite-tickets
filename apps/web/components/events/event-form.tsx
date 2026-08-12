@@ -52,6 +52,7 @@ export function EventForm() {
   const [searchError, setSearchError] = useState<string | null>(null);
   const [searchErrorCode, setSearchErrorCode] = useState<CatalogErrorCode | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
+  const [selectingId, setSelectingId] = useState<string | null>(null);
 
   useEffect(() => {
     const guard = guardRoute(["ORGANIZER"]);
@@ -129,6 +130,23 @@ export function EventForm() {
     }
   }
 
+  async function selectEvent(item: CatalogEvent) {
+    if (!accessToken || selectingId) return;
+    setSelectingId(item.external_id);
+    setFormError(null);
+    try {
+      const detail = await apiRequest<CatalogEvent>(
+        `/catalog/events/${encodeURIComponent(item.external_id)}`,
+        { accessToken, cache: "no-store" },
+      );
+      setSelected(detail);
+    } catch (caught) {
+      setFormError(apiMessage(caught, "Não foi possível carregar os detalhes da origem."));
+    } finally {
+      setSelectingId(null);
+    }
+  }
+
   return (
     <section className="organizer-selector" aria-busy={searching || submitting}>
       <div className="field">
@@ -190,9 +208,14 @@ export function EventForm() {
               <button
                 type="button"
                 className="button button--ghost"
-                onClick={() => setSelected(item)}
+                onClick={() => void selectEvent(item)}
+                disabled={selectingId !== null}
               >
-                {selected?.external_id === item.external_id ? "Selecionado" : "Selecionar evento"}
+                {selectingId === item.external_id
+                  ? "Carregando detalhes…"
+                  : selected?.external_id === item.external_id
+                    ? "Selecionado"
+                    : "Selecionar evento"}
               </button>
             }
           />
