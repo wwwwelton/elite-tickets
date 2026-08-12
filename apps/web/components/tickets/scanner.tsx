@@ -176,7 +176,7 @@ export function Scanner() {
   }
 
   return (
-    <section className="gate-shell" aria-busy={pending}>
+    <section className="gate-shell gate-scanner-shell" aria-busy={pending}>
       <div className="field">
         <label htmlFor="gate-event">Evento publicado</label>
         <select

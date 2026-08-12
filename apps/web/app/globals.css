@@ -170,6 +170,7 @@ canvas {
 .create-event-page { align-items: start; }
 .create-event-form { min-width: 0; }
 .catalog-error-state { border-color: var(--color-warning); }
+.gate-scanner-shell { min-width: 0; }
 
 .page-grid > * {
   min-width: 0;
