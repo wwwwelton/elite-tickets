@@ -63,6 +63,7 @@ As a gate operator, I can select an active event, scan or enter a credential, an
 1. **Given** an authorized operator and active event, **When** a credential is scanned or entered, **Then** the existing validation endpoint is called and a clear result appears.
 2. **Given** VALID, INVALID, ALREADY_USED, or WRONG_EVENT, **When** rendered, **Then** the corresponding reference state communicates status, details, and next action.
 3. **Given** camera denial/unavailability, **When** manual entry is used, **Then** manual validation remains usable and keyboard accessible.
+4. **Given** a gate user signs in, **When** authentication completes, **Then** the user lands directly on event selection instead of a separate gate landing page.
 
 ### User Story 5 - Navigate safely across responsive states (Priority: P3)
 
@@ -81,6 +82,11 @@ As any role, I can use the refactored interface with keyboard navigation and und
 ## Clarifications
 
 ### Session 2026-08-12
+
+- Q: Should the application use one shared login page with role-specific entry choices, or separate entry pages for Customer, Organizer, and Gate staff? → A: One shared login page with clear Customer, Organizer, and Gate entry choices.
+- Q: When an unauthenticated user is sent to sign in from a protected page, should they return to the exact page they tried to reach after login? → A: No, always send users to the role home page after sign-in.
+- Q: When a signed-in user tries to open a page their role is not allowed to use, should the app show an authorization-denied state or silently route them away? → A: Show an explicit authorization-denied state.
+- Q: On mobile, should the shared login entry be a top-level button in the main navigation, or a prominent action inside the compact menu? → A: Top-level button in the primary navigation.
 
 - Q: Quantos pares responsivos aprovados devem ser tratados como uma única experiência? → A: Oito pares: Home, Event Detail, Checkout, My Tickets, Ticket Detail, Organizer Events, Create Event e Gate Scanner.
 - Q: A refatoração pode alterar `apps/web/lib/api.ts`, `apps/web/lib/auth.ts`, contratos ou decisões de autorização para atender ao visual? → A: Não; somente apresentação e consumo dos contratos existentes podem mudar, sem alterar API, autenticação, autorização ou regras de negócio.
@@ -129,19 +135,22 @@ The references establish a high-contrast dark editorial ticket/cinema language: 
 - **FR-002**: The paired HTML MUST be used as reference material and MUST NOT be copied as static application HTML.
 - **FR-003**: Event, catalog, reservation, payment, ticket, share, session, and validation values MUST continue to come from existing APIs/state.
 - **FR-004**: Existing backend contracts, JWT authentication, role authorization, and business rules MUST remain unchanged unless incompatibility is documented.
-- **FR-005**: Customers MUST retain discovery, detail, reservation, approved/declined payment, ticket, QR, and sharing flows.
-- **FR-006**: Organizers MUST retain event management and catalog-backed create, draft, validation, and publish flows.
-- **FR-007**: Gate users MUST retain event selection, scan/manual entry, and all four validation outcomes.
-- **FR-008**: Loading, empty, error, validation, success, and recovery states MUST be preserved for every flow.
-- **FR-009**: Repeated visual patterns SHOULD be reusable while retaining role-specific navigation and readable content.
-- **FR-010**: Primary controls, forms, navigation, scanner fallback, QR/share actions, and feedback MUST remain keyboard accessible with labels and visible focus.
-- **FR-011**: Responsive pairs MUST not require separate mobile and desktop routes/pages.
-- **FR-012**: Secure ticket credentials MUST be preserved; QR validation MUST NOT be reduced to predictable IDs.
-- **FR-013**: Files under `docs/design/` MUST NOT be modified.
-- **FR-014**: Automated frontend tests MUST cover mapped routes, critical responsive states, purchase outcomes, sharing, role guards, gate outcomes, and accessibility regressions.
-- **FR-015**: Refactoring MUST NOT modify `apps/web/lib/api.ts` or `apps/web/lib/auth.ts` in a way that changes API contracts, JWT/session behavior, role authorization, or backend decision-making; any presentation-only adjustment must preserve those boundaries.
-- **FR-016**: Parallel implementation work MUST be limited to tasks with independent files and completed dependencies; tasks sharing `globals.css`, `components/ui`, route shells, or test files MUST be ordered sequentially after their shared foundation.
-- **FR-017**: Focused checkout and Gate unit coverage MUST use the concrete files `apps/web/tests/unit/checkout-flow.test.tsx` and `apps/web/tests/unit/gate-validation.test.tsx`.
+- **FR-005**: The public navigation MUST expose a single obvious authentication entry point that offers explicit Customer, Organizer, and Gate entry choices.
+- **FR-006**: Customers MUST retain discovery, detail, reservation, approved/declined payment, ticket, QR, and sharing flows.
+- **FR-007**: Authenticated users MUST land on the relevant role home page after successful sign-in rather than returning to the originally requested protected destination.
+- **FR-008**: Organizers MUST retain event management and catalog-backed create, draft, validation, and publish flows.
+- **FR-009**: Gate users MUST retain event selection, scan/manual entry, and all four validation outcomes.
+- **FR-010**: Gate users MUST land directly on event selection after sign-in instead of a separate gate landing page.
+- **FR-011**: Loading, empty, error, validation, success, and recovery states MUST be preserved for every flow.
+- **FR-012**: Repeated visual patterns SHOULD be reusable while retaining role-specific navigation and readable content.
+- **FR-013**: Primary controls, forms, navigation, scanner fallback, QR/share actions, and feedback MUST remain keyboard accessible with labels and visible focus.
+- **FR-014**: Responsive pairs MUST not require separate mobile and desktop routes/pages.
+- **FR-015**: Secure ticket credentials MUST be preserved; QR validation MUST NOT be reduced to predictable IDs.
+- **FR-016**: Files under `docs/design/` MUST NOT be modified.
+- **FR-017**: Automated frontend tests MUST cover mapped routes, critical responsive states, purchase outcomes, sharing, role guards, gate outcomes, and accessibility regressions.
+- **FR-018**: Refactoring MUST NOT modify `apps/web/lib/api.ts` or `apps/web/lib/auth.ts` in a way that changes API contracts, JWT/session behavior, role authorization, or backend decision-making; any presentation-only adjustment must preserve those boundaries.
+- **FR-019**: Parallel implementation work MUST be limited to tasks with independent files and completed dependencies; tasks sharing `globals.css`, `components/ui`, route shells, or test files MUST be ordered sequentially after their shared foundation.
+- **FR-020**: Focused checkout and Gate unit coverage MUST use the concrete files `apps/web/tests/unit/checkout-flow.test.tsx` and `apps/web/tests/unit/gate-validation.test.tsx`.
 
 ### Key Entities
 
@@ -151,6 +160,7 @@ The references establish a high-contrast dark editorial ticket/cinema language: 
 - **Ticket**: Issued admission credential with event, purchaser, status, secure QR, and share representation.
 - **Shared ticket**: Read-only public representation addressed by a non-guessable token.
 - **Validation result**: Backend-authoritative VALID, INVALID, ALREADY_USED, or WRONG_EVENT outcome.
+- **Authentication entry**: A single shared login surface that exposes explicit Customer, Organizer, and Gate sign-in choices.
 - **User session**: Authenticated identity with Organizer, Customer, or Gate role.
 
 ## Success Criteria *(mandatory)*
@@ -168,6 +178,10 @@ The references establish a high-contrast dark editorial ticket/cinema language: 
 ## Assumptions
 
 - Existing Next.js routes, React components, API client, authentication, and backend contracts are the baseline.
+- Authentication entry is shared across roles; the login surface presents explicit Customer, Organizer, and Gate choices without changing the backend authentication model.
+- Protected destinations do not require post-login return to the original page; successful sign-in lands users on the relevant role home page.
+- Unauthorized access shows an explicit authorization-denied state rather than silently rerouting.
+- On mobile, authentication entry remains visible as a top-level primary navigation action.
 - `PRD.md`, constitution, `DESIGN.md`, and `specs/001-event-ticket-mvp/` are authoritative; this is presentation/frontend composition work, not a backend rewrite.
 - The requested `docs/product/PRD.md` maps to repository `PRD.md`, and the requested `specs/001-ticket-platform-mvp/` maps to `specs/001-event-ticket-mvp/`.
 - Screenshot dimensions are approved reference points; responsive interpolation is allowed when hierarchy and interactions remain consistent.
