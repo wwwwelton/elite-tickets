@@ -52,6 +52,7 @@ test("anonymous shared ticket stays read-only and expires after admission", asyn
   await expect(page.getByTestId("ticket-credential")).toHaveText(ticket.qr_credential);
   await expect(page.getByRole("button", { name: /Compartilhar|Copiar link/ })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Ver ingresso" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Voltar aos eventos" })).toHaveAttribute("href", "/");
 
   const gateToken = await login(request, "gate@demo.elitetickets.local");
   const validationResponse = await request.post(`${apiUrl}/gate/events/${eventId}/validate`, {
@@ -142,6 +143,7 @@ test("customer creates and copies a read-only share link from the ticket", async
   await expect(shareRegion.getByRole("status")).toContainText(
     "O ingresso continua pertencendo a você",
   );
+  await expect(page.getByRole("link", { name: "Voltar aos eventos" })).toHaveAttribute("href", "/");
   expect(authorizationHeader).toBe("Bearer customer-share-token");
   expect(
     await page.evaluate(() => window.sessionStorage.getItem("elite-tickets.copied-share-url")),
