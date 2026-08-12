@@ -178,3 +178,53 @@ async def test_catalog_error_responses_are_secret_safe() -> None:
     assert rate.json()["error"]["code"] == "catalog_rate_limited"
     assert upstream.status_code == 503
     assert upstream.json()["error"]["code"] == "dependency_unavailable"
+
+
+async def test_catalog_preserves_missing_optional_fields() -> None:
+    stub = StubCatalog(
+        page=CatalogPage(
+            items=[
+                CatalogSearchResult(
+                    external_id="evt-2",
+                    title="Evento sem opcionais",
+                    description=None,
+                    image_url=None,
+                    category=None,
+                    date=None,
+                    venue_name=None,
+                    city=None,
+                    country_code=None,
+                )
+            ],
+            page=1,
+            size=20,
+            total=1,
+            has_more=False,
+        ),
+        detail=CatalogEventDetail(
+            external_id="evt-2",
+            title="Evento sem opcionais",
+            description=None,
+            image_url=None,
+            category=None,
+            date=None,
+            venue_name=None,
+            city=None,
+            country_code=None,
+        ),
+    )
+    app = _catalog_app(stub)
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        search = await client.get("/api/v1/catalog/events", params={"keyword": "evento"})
+        detail = await client.get("/api/v1/catalog/events/evt-2")
+
+    search_item = search.json()["items"][0]
+    assert search_item["image_url"] is None
+    assert search_item["category"] is None
+    assert search_item["date"] is None
+    assert search_item["venue_name"] is None
+    assert search_item["city"] is None
+    assert search_item["country_code"] is None
+    assert detail.json()["image_url"] is None
+    assert detail.json()["category"] is None
