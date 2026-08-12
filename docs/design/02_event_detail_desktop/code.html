@@ -1,0 +1,209 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>02 Event Detail_Desktop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#444748",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "surface-variant": "#353535",
+                        "surface-dim": "#131313",
+                        "background": "#131313",
+                        "on-surface-variant": "#c4c7c7",
+                        "on-background": "#e4e2e1",
+                        "secondary": "#ffb4aa",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-fixed-variant": "#474646",
+                        "primary-fixed": "#e5e2e1",
+                        "surface": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline": "#8e9192",
+                        "surface-tint": "#c8c6c5",
+                        "inverse-on-surface": "#303030",
+                        "tertiary": "#c6c6c7",
+                        "on-secondary-container": "#ffe7e3",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#353535",
+                        "on-primary-container": "#7f7d7d",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "primary-container": "#131313",
+                        "on-surface": "#e4e2e1",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-low": "#1b1c1c",
+                        "on-secondary-fixed-variant": "#930006",
+                        "inverse-primary": "#5f5e5e",
+                        "tertiary-container": "#111313",
+                        "on-tertiary-container": "#7d7e7e",
+                        "inverse-surface": "#e4e2e1",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary": "#313030",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#410001",
+                        "surface-container": "#1f2020",
+                        "secondary-container": "#d7040f",
+                        "on-primary-fixed": "#1c1b1b",
+                        "primary": "#c8c6c5",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "secondary-fixed-dim": "#ffb4aa",
+                        "secondary-fixed": "#ffdad5",
+                        "on-secondary": "#690003"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-surface'); }
+        .dashed-divider { border-top: 1px dashed theme('colors.outline-variant'); }
+        .solid-divider { border-top: 1px solid theme('colors.outline-variant'); }
+        .hover-light-up:hover { background-color: theme('colors.surface-container-high'); transition: background-color 0.2s ease; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center">
+<!-- TopAppBar (Hidden Nav Shell for focused intent, keeping brand only) -->
+<header class="w-full max-w-container-max flex justify-between items-center px-margin-desktop py-4 sticky top-0 z-50 bg-background/90 backdrop-blur-md">
+<div class="font-display-lg text-display-lg uppercase tracking-tighter text-primary leading-none">
+            ELITE TICKETS
+        </div>
+<button class="text-on-surface hover:text-primary transition-colors flex items-center gap-2">
+<span class="font-label-caps text-label-caps">CLOSE</span>
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</header>
+<main class="w-full max-w-container-max px-margin-desktop py-12 flex-1 flex flex-col gap-16">
+<!-- Hero Artifact -->
+<section class="grid grid-cols-12 gap-gutter">
+<div class="col-span-8 relative">
+<div class="w-full aspect-[21/9] border border-[#262626] relative overflow-hidden" data-alt="A cinematic, high-contrast, moody still from a neo-noir film set in a sprawling, dark metropolis. Rain slicked streets reflect harsh, stark white neon lights. A lone figure stands silhouetted against a massive, imposing concrete brutalist structure. The palette is dominated by deep, oppressive blacks, cold steely grays, and piercing, pristine whites, adhering to a minimalist editorial photography style. The atmosphere is tense and mysterious, capturing a premium, exclusive cinematic experience." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBCwa4UdB8o3fhMOuAPrGt33QlwlFIP6KLUV_BuZlA7uMuErXO6SsaFsRmuc5cHws0Cyjg3yT4CLXQnxNBKGlZ42wV-qC9mYDM1qKkHt_cQRQk7Deoryj0geeqwgdtOh36D7R9xO7nx8PEpbsQHe_8kNjEwERcR0yL5Slhphoi2_isrUS5wzUYyOfWQiaufnhZChTWMpzoESK4kBZC0KRv7Tqqo7A0809hBYKZrRsqp_L6VeoZgYYZb8g'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/20 transition-all cursor-pointer group">
+<div class="w-16 h-16 rounded-full border border-white flex items-center justify-center bg-black/50 backdrop-blur-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="play_arrow">play_arrow</span>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-4 flex flex-col justify-end pb-4 border-b border-[#262626]">
+<h1 class="font-display-lg text-display-lg text-primary mb-4 leading-[0.9]">NEON SILENCE</h1>
+<div class="flex gap-4 font-data-mono text-data-mono text-on-surface-variant mb-6">
+<span class="">DIR. J. DOE</span>
+<span class="">142 MIN</span>
+<span class="">R RATED</span>
+</div>
+<div class="font-label-caps text-label-caps text-on-surface tracking-widest uppercase opacity-70">
+                    EXCLUSIVE PREMIERE EVENT
+                </div>
+</div>
+</section>
+<!-- Synopsis & Details -->
+<section class="grid grid-cols-12 gap-gutter">
+<div class="col-span-7 pr-12 border-r border-[#262626]">
+<h2 class="font-headline-md text-headline-md text-primary mb-6">SYNOPSIS</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                    In a sprawling metropolis where shadows conceal more than they reveal, a renegade detective must navigate a labyrinth of corporate espionage and forgotten secrets. "Neon Silence" is a masterclass in atmospheric tension, blending stark brutalist aesthetics with a gripping narrative that challenges the boundaries of modern cinema. This exclusive premiere offers an uncompromising look into a world stripped of color but rich in visceral consequence.
+                </p>
+<div class="mt-8 pt-8 dashed-divider flex gap-8 font-data-mono text-data-mono text-on-surface-variant">
+<div class="">
+<span class="block font-label-caps text-label-caps text-on-surface mb-2">CAST</span>
+                        V. BLACK, S. STERLING, M. ROUGE
+                    </div>
+<div class="">
+<span class="block font-label-caps text-label-caps text-on-surface mb-2">GENRE</span>
+                        NEO-NOIR THRILLER
+                    </div>
+</div>
+</div>
+<div class="col-span-5 pl-12 flex flex-col gap-8">
+<!-- Location & Time -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-4">VENUE DETAILS</h3>
+<div class="font-headline-md text-headline-md text-primary leading-tight mb-2">THE BRUTALIST CINEMATHEQUE</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant">404 CONCRETE BLVD, SECTOR 7</div>
+<div class="mt-4 font-data-mono text-data-mono text-primary">FRIDAY, OCT 27 • 20:00 HRS</div>
+</div>
+<!-- Ticket Tiers -->
+<div class="flex-1 flex flex-col gap-4">
+<h3 class="font-label-caps text-label-caps text-on-surface mb-2">SELECT TIER</h3>
+<label class="block border border-[#262626] p-4 cursor-pointer hover-light-up relative group transition-colors">
+<input checked="" class="peer sr-only" name="ticket_tier" type="radio">
+<div class="absolute inset-0 border border-transparent peer-checked:border-secondary-container pointer-events-none"></div>
+<div class="flex justify-between items-center">
+<div>
+<div class="font-data-mono text-data-mono text-primary mb-1">GENERAL ADMISSION</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">STANDARD SEATING</div>
+</div>
+<div class="font-data-mono text-data-mono text-primary">$45.00</div>
+</div>
+</label>
+<label class="block border border-[#262626] p-4 cursor-pointer hover-light-up relative group transition-colors">
+<input class="peer sr-only" name="ticket_tier" type="radio">
+<div class="absolute inset-0 border border-transparent peer-checked:border-secondary-container pointer-events-none"></div>
+<div class="flex justify-between items-center">
+<div>
+<div class="font-data-mono text-data-mono text-primary mb-1">DIRECTOR's CIRCLE</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">PREMIUM BALCONY + Q&amp;A</div>
+</div>
+<div class="font-data-mono text-data-mono text-primary">$120.00</div>
+</div>
+</label>
+</div>
+<!-- Checkout CTA -->
+<div class="mt-auto pt-8 solid-divider flex items-center justify-between">
+<div class="font-data-mono text-data-mono text-on-surface-variant">
+                        TOTAL: <span class="text-primary">$45.00</span>
+</div>
+<button class="bg-secondary-container text-white font-data-mono text-data-mono px-8 py-4 hover:bg-white hover:text-black transition-colors uppercase tracking-widest flex items-center gap-2">
+                        PROCEED TO CHECKOUT
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+
+
+</body></html>
