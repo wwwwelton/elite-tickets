@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - PostgreSQL available through the existing Docker Compose setup.
-- Backend environment configured with `DATABASE_URL`, `JWT_SECRET`, `QR_SECRET`, `TMDB_API_KEY`, and `CORS_ORIGINS`.
+- Backend environment configured with `DATABASE_URL`, `JWT_SECRET`, `QR_SECRET`, `TICKETMASTER_API_KEY`, and `CORS_ORIGINS`.
 - Frontend environment configured with the API base URL variables already used by the project.
 
 ## Validation steps
@@ -11,14 +11,14 @@
 1. Start the local stack with the existing Docker Compose workflow.
 2. Confirm the backend health endpoints respond successfully.
 3. Sign in as `ORGANIZER`.
-4. Search the catalog with a keyword that returns Ticketmaster results.
+4. Search the catalog with a keyword and, when credentials are available, confirm Ticketmaster results.
 5. Verify the normalized response shows title, image when present, category when present, and stable pagination metadata.
 6. Open a result, select it, and create an event while setting:
    - `starts_at`
    - `venue`
    - `capacity`
    - `price`
-7. Confirm the created event remains available after simulating an upstream outage.
+7. Confirm the created event remains available after simulating a Ticketmaster outage.
 8. Run the customer journey for a published event and confirm checkout, payment, ticket display, QR, and sharing still work.
 9. Run the gate journey and confirm `VALID`, `INVALID`, `ALREADY_USED`, and `WRONG_EVENT` still render and behave as before.
 10. Re-run the frontend build, lint, backend tests, and E2E flow tests.
@@ -33,7 +33,7 @@
 
 ## Test commands
 
-- Frontend: `npm run build`, `npm run lint`, `npm run test`, `npm run test:e2e`
+- Frontend: `npm run build`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run test:e2e`
 - Backend: existing pytest suites plus the new catalog-focused tests for mapping and failure handling
 
 ## References
