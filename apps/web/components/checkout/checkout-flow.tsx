@@ -96,7 +96,7 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
   }
 
   return (
-    <section aria-live="polite" aria-busy={state === "RESERVING" || state === "PAYING"}>
+    <section className="checkout-flow" aria-live="polite" aria-busy={state === "RESERVING" || state === "PAYING"}>
       <ul className="ledger">
         <LedgerRow label="Quantidade" value={quantity} />
         {reservation ? <LedgerRow label="Total" value={`R$ ${reservation.total_amount}`} /> : null}
@@ -109,7 +109,7 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
       ) : null}
 
       {reservation && (state === "PENDING" || state === "PAYING") ? (
-        <>
+        <div className="checkout-flow__actions">
           <Status status="PENDING" />
           <Countdown expiresAt={reservation.expires_at} onExpire={expire} />
           <p>Use um dos tokens seguros de demonstração:</p>
@@ -127,7 +127,7 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
               </button>
             </>
           )}
-        </>
+        </div>
       ) : null}
 
       {state === "APPROVED" ? (
