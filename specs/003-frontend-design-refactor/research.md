@@ -44,3 +44,15 @@
   heavy infrastructure.
 - **Alternatives rejected**: Percy/Chromatic or a new screenshot service would add
   cost and snapshot maintenance without a requirement.
+
+## Reference inventory
+
+All 23 design directories are mapped to the existing application: `01_home` and
+`01_home_desktop` to `/`; `02_event_detail` pair to `/events/[eventId]`;
+`03_checkout` pair to `/customer/checkout/[eventId]`; `04_payment_approved` and
+`05_payment_declined` to checkout result states; `06_my_tickets` pair to
+`/customer/tickets`; `07_ticket_detail` pair to `/customer/tickets/[ticketId]`;
+`08_shared_ticket` to `/shared/tickets/[shareToken]`; `09_organizer_events` pair
+to `/organizer/events`; `10_create_event` pair to `/organizer/events/new`;
+`11_gate_scanner` pair to `/gate`; and `12_valid`, `13_invalid`,
+`14_already_used`, `15_wrong_event` to Gate validation result states.
