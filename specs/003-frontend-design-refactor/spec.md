@@ -78,6 +78,16 @@ As any role, I can use the refactored interface with keyboard navigation and und
 2. **Given** pending, empty, invalid, or failed data, **When** the state appears, **Then** it is understandable and actionable where appropriate.
 3. **Given** keyboard-only use, **When** forms, controls, links, scanner fallback, or share actions are operated, **Then** focus, labels, order, and feedback support completion.
 
+## Clarifications
+
+### Session 2026-08-12
+
+- Q: Quantos pares responsivos aprovados devem ser tratados como uma única experiência? → A: Oito pares: Home, Event Detail, Checkout, My Tickets, Ticket Detail, Organizer Events, Create Event e Gate Scanner.
+- Q: A refatoração pode alterar `apps/web/lib/api.ts`, `apps/web/lib/auth.ts`, contratos ou decisões de autorização para atender ao visual? → A: Não; somente apresentação e consumo dos contratos existentes podem mudar, sem alterar API, autenticação, autorização ou regras de negócio.
+- Q: Quando tarefas compartilham `globals.css`, `components/ui`, testes ou outra área lógica, elas podem ser marcadas como paralelas? → A: Não; `[P]` só é permitido para tarefas com arquivos e dependências independentes, e tarefas compartilhadas devem aguardar a fundação comum.
+- Q: Quais caminhos concretos devem ser usados para testes focados de checkout e Gate? → A: `apps/web/tests/unit/checkout-flow.test.tsx` e `apps/web/tests/unit/gate-validation.test.tsx`.
+- Q: Como a cobertura de FR-014 e a revisão visual de SC-001 devem ser demonstradas? → A: Cada tarefa de E2E/acessibilidade deve rastrear FR-014, e SC-001 deve usar uma matriz dos 15 fluxos com critérios explícitos de bloqueio registrados na documentação de validação.
+
 ### Design reference and route mapping
 
 Every `screen.png` is the primary visual target; its paired `code.html` informs structure, hierarchy, spacing, typography, responsive intent, and interactions. Example titles/values are not application data. Paired references are one responsive page/flow.
@@ -129,6 +139,9 @@ The references establish a high-contrast dark editorial ticket/cinema language: 
 - **FR-012**: Secure ticket credentials MUST be preserved; QR validation MUST NOT be reduced to predictable IDs.
 - **FR-013**: Files under `docs/design/` MUST NOT be modified.
 - **FR-014**: Automated frontend tests MUST cover mapped routes, critical responsive states, purchase outcomes, sharing, role guards, gate outcomes, and accessibility regressions.
+- **FR-015**: Refactoring MUST NOT modify `apps/web/lib/api.ts` or `apps/web/lib/auth.ts` in a way that changes API contracts, JWT/session behavior, role authorization, or backend decision-making; any presentation-only adjustment must preserve those boundaries.
+- **FR-016**: Parallel implementation work MUST be limited to tasks with independent files and completed dependencies; tasks sharing `globals.css`, `components/ui`, route shells, or test files MUST be ordered sequentially after their shared foundation.
+- **FR-017**: Focused checkout and Gate unit coverage MUST use the concrete files `apps/web/tests/unit/checkout-flow.test.tsx` and `apps/web/tests/unit/gate-validation.test.tsx`.
 
 ### Key Entities
 
@@ -144,8 +157,8 @@ The references establish a high-contrast dark editorial ticket/cinema language: 
 
 ### Measurable Outcomes
 
-- **SC-001**: All 15 reference flows render on mapped routes and receive a screenshot-based visual review with no blocking mismatch.
-- **SC-002**: All seven responsive pairs pass mobile and desktop checks without primary-content horizontal overflow.
+- **SC-001**: All 15 reference flows render on mapped routes and receive a screenshot-based visual review using a documented matrix; a blocking mismatch is any missing flow/state, broken primary interaction, wrong product behavior, unreadable content, or primary-content overflow.
+- **SC-002**: All eight responsive pairs pass mobile, intermediate, and desktop checks without primary-content horizontal overflow.
 - **SC-003**: Seeded customer purchase reaches an issued ticket; declined payment reaches recovery without issuance.
 - **SC-004**: Seeded organizer can create/publish an event and seeded gate user can produce all four validation outcomes in automated tests.
 - **SC-005**: Existing frontend end-to-end purchase, sharing, organizer, gate, and backend contract tests remain passing.
