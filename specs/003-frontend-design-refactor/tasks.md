@@ -26,7 +26,7 @@
 - [X] T010 [US1] Recompose Checkout for `03_checkout` + `03_checkout_desktop` in `apps/web/app/customer/checkout/[eventId]/page.tsx` and `apps/web/components/checkout/{checkout-flow,countdown}.tsx`, preserving reservation expiry, payment idempotency, and API errors (FR-001, FR-004, FR-005, FR-008)
 - [X] T011 [US1] Recompose approved and declined payment states in `apps/web/components/checkout/checkout-flow.tsx` with recovery/expiry messaging and no false issuance (FR-005, FR-008, SC-003)
 - [X] T012 [US1] Add unit assertions for Customer data binding, quantity/checkout states, approved/declined/expired semantics, and recovery messaging in `apps/web/tests/unit/public-pages.test.tsx`, `apps/web/tests/unit/countdown.test.tsx`, and `apps/web/tests/unit/checkout-flow.test.tsx` (FR-003, FR-005, FR-008, SC-003, SC-007)
-- [ ] T013 [US1] Update Customer purchase E2E expectations for responsive home/detail/checkout and approved/declined outcomes in `apps/web/tests/e2e/customer-purchase.spec.ts` (FR-014, SC-003, SC-005)
+- [X] T013 [US1] Update Customer purchase E2E expectations for responsive home/detail/checkout and approved/declined outcomes in `apps/web/tests/e2e/customer-purchase.spec.ts` (FR-014, SC-003, SC-005)
 
 ## Phase 4: User Story 2 — Manage, view, and share tickets (Priority: P1)
 
