@@ -4,6 +4,7 @@ const webUrl = process.env.E2E_WEB_URL ?? "http://127.0.0.1:3000";
 
 test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", async ({ page }) => {
   await page.goto(webUrl);
+  await expect(page.getByRole("link", { name: "Entrar" })).toHaveAttribute("href", "/login");
   await page.getByLabel("Filme ou local").fill("Clube da Luta");
   await page.getByRole("button", { name: "Pesquisar" }).click();
   const eventCard = page.locator("article.ticket").filter({ hasText: "Clube da Luta" });
@@ -34,6 +35,10 @@ test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", asyn
   await page.getByRole("button", { name: "Simular aprovação" }).click();
   await expect(page.getByRole("status", { name: "APPROVED" })).toBeVisible();
   await expect(page.getByText("2 ingresso(s) emitido(s).")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Ver meus ingressos" })).toHaveAttribute(
+    "href",
+    "/customer/tickets",
+  );
   await page.getByRole("link", { name: "Ver meus ingressos" }).click();
   await expect(page).toHaveURL(/\/customer\/tickets$/);
   await expect(customerTickets).toHaveCount(initialTickets + 2);
@@ -52,6 +57,10 @@ test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", asyn
   await expect(page.getByRole("status", { name: "DECLINED" })).toBeVisible();
   await expect(page.getByText("Pagamento recusado.", { exact: false })).toBeVisible();
   await expect(page.getByText("Nenhum ingresso foi emitido", { exact: false })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Voltar ao evento" })).toHaveAttribute(
+    "href",
+    eventUrl,
+  );
   await expect(page.getByRole("button", { name: "Simular aprovação" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Repetir tentativa idempotente" })).toHaveCount(0);
   await page.getByRole("link", { name: "Voltar ao evento" }).click();
