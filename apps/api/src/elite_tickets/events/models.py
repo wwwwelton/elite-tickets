@@ -130,6 +130,13 @@ class MovieSnapshot(Base):
         ForeignKey("events.id", ondelete="CASCADE"),
         primary_key=True,
     )
+    external_source: Mapped[str] = mapped_column(
+        String(32),
+        default="ticketmaster",
+        server_default="ticketmaster",
+        nullable=False,
+    )
+    external_id: Mapped[str | None] = mapped_column(String(255))
     tmdb_id: Mapped[int] = mapped_column(Integer, nullable=False)
     media_type: Mapped[str] = mapped_column(
         String(16),
@@ -140,9 +147,15 @@ class MovieSnapshot(Base):
     title: Mapped[str] = mapped_column(String(300), nullable=False)
     overview: Mapped[str | None] = mapped_column(Text)
     poster_path: Mapped[str | None] = mapped_column(Text)
+    image_url: Mapped[str | None] = mapped_column(Text)
     backdrop_path: Mapped[str | None] = mapped_column(Text)
     release_date: Mapped[date | None] = mapped_column(Date)
+    event_date: Mapped[date | None] = mapped_column(Date)
     original_language: Mapped[str | None] = mapped_column(String(16))
+    category: Mapped[str | None] = mapped_column(String(120))
+    venue_name: Mapped[str | None] = mapped_column(String(200))
+    city: Mapped[str | None] = mapped_column(String(120))
+    country_code: Mapped[str | None] = mapped_column(String(2))
     genres: Mapped[list[dict[str, object]]] = mapped_column(
         JSONB,
         default=list,
