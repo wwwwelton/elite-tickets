@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   authenticatedActionForSession,
@@ -38,6 +38,17 @@ export function AppShell({ children }: AppShellProps) {
   const navigation = useMemo(() => primaryNavigationForSession(session), [session]);
   const actionLabel = authenticatedActionForSession(session);
   const currentRole = session?.role ? roleLabel(session.role) : null;
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   function logout() {
     clearSession();

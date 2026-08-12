@@ -64,4 +64,19 @@ describe("AppShell", () => {
     expect(mocks.push).toHaveBeenCalledWith("/");
     expect(mocks.refresh).toHaveBeenCalled();
   });
+
+  it("closes the mobile menu with Escape", () => {
+    render(
+      <AppShell>
+        <p>Conteúdo</p>
+      </AppShell>,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Abrir menu" });
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+  });
 });
