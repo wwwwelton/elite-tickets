@@ -1,0 +1,238 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title class="">03 Checkout_Desktop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#444748",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "surface-variant": "#353535",
+                        "surface-dim": "#131313",
+                        "background": "#131313",
+                        "on-surface-variant": "#c4c7c7",
+                        "on-background": "#e4e2e1",
+                        "secondary": "#ffb4aa",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-fixed-variant": "#474646",
+                        "primary-fixed": "#e5e2e1",
+                        "surface": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline": "#8e9192",
+                        "surface-tint": "#c8c6c5",
+                        "inverse-on-surface": "#303030",
+                        "tertiary": "#c6c6c7",
+                        "on-secondary-container": "#ffe7e3",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#353535",
+                        "on-primary-container": "#7f7d7d",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "primary-container": "#131313",
+                        "on-surface": "#e4e2e1",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-low": "#1b1c1c",
+                        "on-secondary-fixed-variant": "#930006",
+                        "inverse-primary": "#5f5e5e",
+                        "tertiary-container": "#111313",
+                        "on-tertiary-container": "#7d7e7e",
+                        "inverse-surface": "#e4e2e1",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary": "#313030",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#410001",
+                        "surface-container": "#1f2020",
+                        "secondary-container": "#d7040f",
+                        "on-primary-fixed": "#1c1b1b",
+                        "primary": "#c8c6c5",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "secondary-fixed-dim": "#ffb4aa",
+                        "secondary-fixed": "#ffdad5",
+                        "on-secondary": "#690003"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .artifact-border {
+            border: 1px solid #262626;
+        }
+        .ticket-dash {
+            border-bottom: 1px dashed #444748;
+        }
+        .form-input-underline {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #444748;
+            border-radius: 0;
+            padding-left: 0;
+            padding-right: 0;
+            color: #e4e2e1;
+        }
+        .form-input-underline:focus {
+            box-shadow: none;
+            border-bottom-color: #c8c6c5;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-lg">
+<!-- TopAppBar suppressed due to transactional nature of Checkout -->
+<header class="w-full px-margin-mobile md:px-margin-desktop py-6 sticky top-0 z-50 bg-background/90 backdrop-blur-md artifact-border border-b border-t-0 border-x-0">
+<div class="max-w-container-max mx-auto flex justify-between items-center">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary tracking-tighter uppercase">ELITE TICKETS</h1>
+<a class="font-label-caps text-label-caps text-on-surface hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[16px]">close</span>
+                CANCEL
+            </a>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Payment Form (Columns 1-7) -->
+<section class="md:col-span-7 space-y-12 pr-0 md:pr-12">
+<div>
+<h2 class="font-headline-md text-headline-md mb-8">SECURE CHECKOUT</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">Complete your transaction to secure your exclusive access. All fields are required unless noted.</p>
+</div>
+<!-- Contact Info -->
+<div class="space-y-6">
+<h3 class="font-label-caps text-label-caps text-primary border-b border-outline-variant pb-2">01. CONTACT DETAILS</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">FIRST NAME</label>
+<input class="form-input-underline w-full font-body-lg text-body-lg focus:ring-0" placeholder="Enter first name" type="text">
+</div>
+<div class="relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">LAST NAME</label>
+<input class="form-input-underline w-full font-body-lg text-body-lg focus:ring-0" placeholder="Enter last name" type="text">
+</div>
+<div class="relative md:col-span-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">EMAIL ADDRESS</label>
+<input class="form-input-underline w-full font-body-lg text-body-lg focus:ring-0" placeholder="Enter email address" type="email">
+</div>
+</div>
+</div>
+<!-- Payment Info -->
+<div class="space-y-6">
+<h3 class="font-label-caps text-label-caps text-primary border-b border-outline-variant pb-2">02. PAYMENT METHOD</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative md:col-span-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">CARD NUMBER</label>
+<div class="flex items-center form-input-underline w-full">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">credit_card</span>
+<input class="bg-transparent border-none focus:ring-0 p-0 w-full font-data-mono text-data-mono h-10" placeholder="0000 0000 0000 0000" type="text">
+</div>
+</div>
+<div class="relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">EXPIRATION (MM/YY)</label>
+<input class="form-input-underline w-full font-data-mono text-data-mono focus:ring-0" placeholder="MM/YY" type="text">
+</div>
+<div class="relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">SECURITY CODE (CVV)</label>
+<input class="form-input-underline w-full font-data-mono text-data-mono focus:ring-0" placeholder="123" type="text">
+</div>
+</div>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary font-data-mono text-data-mono py-4 px-8 uppercase hover:bg-error transition-colors mt-8 flex justify-center items-center gap-4">
+<span class="">AUTHORIZE PAYMENT</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</section>
+<!-- Order Summary Artifact (Columns 9-12) -->
+<section class="md:col-span-5 md:col-start-8 mt-12 md:mt-0">
+<div class="artifact-border bg-surface-container p-6 relative">
+<!-- Ticket Header -->
+<div class="ticket-dash pb-6 mb-6">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-2">ORDER SUMMARY</h3>
+<h4 class="font-headline-md text-headline-md text-primary">VIP GALA 2024</h4>
+<p class="font-body-sm text-body-sm mt-2 text-on-surface-variant">Metropolitan Art Pavilion</p>
+<p class="font-data-mono text-data-mono mt-1 text-on-surface-variant">OCT 24, 2024 • 19:00 EST</p>
+</div>
+<!-- Ticket Details -->
+<div class="space-y-4 font-data-mono text-data-mono text-on-surface ticket-dash pb-6 mb-6">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">TICKET TYPE</span>
+<span class="">PLATINUM ACCESS</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">QUANTITY</span>
+<span class="">02</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">SEATING</span>
+<span class="">ROW A, SEAT 12-13</span>
+</div>
+</div>
+<!-- Pricing -->
+<div class="space-y-4 font-data-mono text-data-mono mb-8">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="">SUBTOTAL</span>
+<span class="">$1,200.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="">FEES</span>
+<span class="">$45.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="">TAXES</span>
+<span class="">$105.00</span>
+</div>
+</div>
+<!-- Total -->
+<div class="flex justify-between items-end border-t border-outline-variant pt-6">
+<span class="font-label-caps text-label-caps text-primary">TOTAL AMOUNT</span>
+<span class="font-display-lg-mobile text-display-lg-mobile text-primary tracking-tighter leading-none">$1,350.00</span>
+</div>
+</div>
+<!-- Footer Text -->
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-6 opacity-75">
+                    By completing this transaction, you agree to our <a class="underline hover:text-primary" href="#">Terms of Service</a> and confirm you have read the <a class="underline hover:text-primary" href="#">Privacy Policy</a>. All sales are final.
+                </p>
+</section>
+</div>
+</main>
+
+
+</body></html>

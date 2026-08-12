@@ -1,40 +1,52 @@
 ---
 name: EliteTickets Narrative
 colors:
-  background: '#000000'
-  surface: '#000000'
-  surface-dim: '#000000'
+  surface: '#131313'
+  surface-dim: '#131313'
   surface-bright: '#393939'
-  surface-container-lowest: '#000000'
-  surface-container-low: '#131313'
-  surface-container: '#1F1F1F'
-  surface-container-high: '#2A2A2A'
+  surface-container-lowest: '#0e0e0e'
+  surface-container-low: '#1b1b1b'
+  surface-container: '#1f1f1f'
+  surface-container-high: '#2a2a2a'
   surface-container-highest: '#353535'
-  on-surface: '#FFFFFF'
-  on-surface-variant: '#888888'
-  inverse-surface: '#FFFFFF'
-  inverse-on-surface: '#000000'
-  outline: '#FFFFFF'
-  outline-variant: '#888888'
-  surface-tint: '#E61919'
-  primary: '#E61919'
-  primary-hover: '#C91414'
-  on-primary: '#FFFFFF'
-  primary-container: '#E61919'
-  on-primary-container: '#FFFFFF'
-  inverse-primary: '#C0000B'
-  secondary: '#FFFFFF'
-  on-secondary: '#000000'
-  secondary-container: '#353535'
-  on-secondary-container: '#FFFFFF'
-  error: '#E61919'
-  on-error: '#FFFFFF'
-  error-container: '#C91414'
-  on-error-container: '#FFFFFF'
-  data-accent: '#888888'
-  border: '#FFFFFF'
-  focus: '#E61919'
-  on-background: '#FFFFFF'
+  on-surface: '#e2e2e2'
+  on-surface-variant: '#e8bcb6'
+  inverse-surface: '#e2e2e2'
+  inverse-on-surface: '#303030'
+  outline: '#ae8782'
+  outline-variant: '#5e3f3b'
+  surface-tint: '#ffb4aa'
+  primary: '#ffb4aa'
+  on-primary: '#690003'
+  primary-container: '#e61919'
+  on-primary-container: '#fffbff'
+  inverse-primary: '#c0000b'
+  secondary: '#c6c6c7'
+  on-secondary: '#2f3131'
+  secondary-container: '#454747'
+  on-secondary-container: '#b4b5b5'
+  tertiary: '#a1c9ff'
+  on-tertiary: '#00325a'
+  tertiary-container: '#0077cd'
+  on-tertiary-container: '#fdfcff'
+  error: '#ffb4ab'
+  on-error: '#690005'
+  error-container: '#93000a'
+  on-error-container: '#ffdad6'
+  primary-fixed: '#ffdad5'
+  primary-fixed-dim: '#ffb4aa'
+  on-primary-fixed: '#410001'
+  on-primary-fixed-variant: '#930006'
+  secondary-fixed: '#e2e2e2'
+  secondary-fixed-dim: '#c6c6c7'
+  on-secondary-fixed: '#1a1c1c'
+  on-secondary-fixed-variant: '#454747'
+  tertiary-fixed: '#d2e4ff'
+  tertiary-fixed-dim: '#a1c9ff'
+  on-tertiary-fixed: '#001c38'
+  on-tertiary-fixed-variant: '#004880'
+  background: '#131313'
+  on-background: '#e2e2e2'
   surface-variant: '#353535'
 typography:
   display-lg:
@@ -103,9 +115,7 @@ The visual language emphasizes structural integrity through heavy borders, perfo
 
 ## Colors
 
-The palette is intentionally restricted to create a singular focal point and maintain maximum contrast. 
-
-The tokens in the frontmatter are normative. `background` is the global canvas and `primary` is used exclusively for calls to action, focus, and critical states. Values not declared there must not be inferred from external references.
+The palette is intentionally restricted to create a singular focal point and maintain maximum contrast.
 
 - **Primary (Cinema Red):** Used exclusively for calls to action, high-priority status indicators, and critical branding elements. It is the "punch" in the monochromatic environment.
 - **Neutral High (White):** Used for primary text and secondary buttons.
@@ -126,7 +136,7 @@ The typography system relies on a sharp contrast between three distinct voices:
 
 ## Layout & Spacing
 
-The layout is governed by a **strict 12-column fixed-width grid** on desktop and a **4-column fluid grid** on mobile. 
+The layout is governed by a **strict 12-column fixed-width grid** on desktop and a **4-column fluid grid** on mobile.
 
 - **Grid Lines:** Unlike modern designs that hide the grid, this system can utilize visible vertical or horizontal rules (1px white lines) to separate content sections.
 - **The "Ticket" Container:** Major content blocks (like individual tickets) should have a max-width and be centered, mimicking the physical size of a ticket stub.
@@ -137,14 +147,14 @@ The layout is governed by a **strict 12-column fixed-width grid** on desktop and
 This design system is **flat**. It rejects shadows, blurs, and Z-axis depth in favor of **structural layering**.
 
 - **Tonal Layers:** Hierarchy is established by "cutting into" the black background with white containers or 1px white borders.
-- **Visual Separation:** Use dashed (perforated) lines for secondary separations and solid 2px lines for primary separations. 
+- **Visual Separation:** Use dashed (perforated) lines for secondary separations and solid 2px lines for primary separations.
 - **Inversion:** Use color inversion for hover states. If a button is white text on a black background, the hover state is black text on a white background. No "soft" shadow transitions are allowed.
 
 ## Shapes
 
-The shape language is **Sharp (0)**. 
+The shape language is **Sharp (0)**.
 
-- **Corners:** All buttons, cards, and input fields must have 0px border-radius. 
+- **Corners:** All buttons, cards, and input fields must have 0px border-radius.
 - **Ticket Notches:** To evoke a physical ticket, use CSS `mask-image` or `clip-path` to create semi-circle "notches" on the left and right sides of container dividers.
 - **Borders:** Standard border width is 1px. Primary containers or highlighted items use 3px borders for emphasis.
 
@@ -161,27 +171,18 @@ The shape language is **Sharp (0)**.
 - Use `code-data` for all numeric values.
 
 ### Input Fields
-- Underline style only (bottom border 1px white). 
-- Labels stay above the input in `label-caps` at all times. 
+- Underline style only (bottom border 1px white).
+- Labels stay above the input in `label-caps` at all times.
 - Focus state: Bottom border increases to 2px Cinema Red.
 
 ### Lists
-- Separated by 1px solid white lines. 
-- Each list item should feel like a row in a ledger. 
+- Separated by 1px solid white lines.
+- Each list item should feel like a row in a ledger.
 - Use Monospaced fonts for right-aligned data points (e.g., prices).
 
 ### Status Indicators
-
-Every status must include its literal text and a distinct border, stamp, or symbol; color alone must never convey state.
-
-| Product states | Visual treatment |
-|---|---|
-| `PUBLISHED`, `AVAILABLE`, `ACTIVE`, `APPROVED`, `VALID` | Solid white field with black `label-caps` text and a `✓` symbol. `VALID` may use a 3px border for admission emphasis. |
-| `DRAFT`, `PENDING` | Black field with a 1px white border and white `label-caps` text. `PENDING` includes an hourglass symbol; motion is optional and must respect reduced-motion settings. |
-| `FINISHED`, `EXPIRED`, `USED`, `ALREADY_USED` | Black field with a 1px gray border, gray `label-caps` text, and a horizontal strike or perforation motif. `ALREADY_USED` uses a double-stamp outline. |
-| `CANCELLED`, `DECLINED`, `INVALID`, `WRONG_EVENT`, `SOLD_OUT` | Cinema Red text and 3px border on black with a stamped appearance and an `×` symbol. `SOLD_OUT` may be rotated 5 degrees. |
-
-Reservation `APPROVED` and payment `APPROVED` share the same affirmative treatment. Ticket `CANCELLED` and event `CANCELLED` share the same critical treatment. Labels shown to users may be localized, but the semantic mapping must remain unchanged.
+- **Sold Out:** Stamped appearance. Diagonal text in a thick border box, rotated 5 degrees, using Cinema Red.
+- **Available:** Plain white text in a box.
 
 ### Perforation Divider
 - A horizontal element consisting of a `dashed` border-top. Often paired with a circular "punch-out" on either end of the container to complete the ticket aesthetic.

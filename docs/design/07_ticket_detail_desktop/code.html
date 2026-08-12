@@ -1,0 +1,204 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title class="">07 Ticket Detail_Desktop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#444748",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-bright": "#393939",
+                        "surface-variant": "#353535",
+                        "surface-dim": "#131313",
+                        "background": "#131313",
+                        "on-surface-variant": "#c4c7c7",
+                        "on-background": "#e4e2e1",
+                        "secondary": "#ffb4aa",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-fixed-variant": "#474646",
+                        "primary-fixed": "#e5e2e1",
+                        "surface": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline": "#8e9192",
+                        "surface-tint": "#c8c6c5",
+                        "inverse-on-surface": "#303030",
+                        "tertiary": "#c6c6c7",
+                        "on-secondary-container": "#ffe7e3",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#353535",
+                        "on-primary-container": "#7f7d7d",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "primary-container": "#131313",
+                        "on-surface": "#e4e2e1",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-low": "#1b1c1c",
+                        "on-secondary-fixed-variant": "#930006",
+                        "inverse-primary": "#5f5e5e",
+                        "tertiary-container": "#111313",
+                        "on-tertiary-container": "#7d7e7e",
+                        "inverse-surface": "#e4e2e1",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary": "#313030",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#410001",
+                        "surface-container": "#1f2020",
+                        "secondary-container": "#d7040f",
+                        "on-primary-fixed": "#1c1b1b",
+                        "primary": "#c8c6c5",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "secondary-fixed-dim": "#ffb4aa",
+                        "secondary-fixed": "#ffdad5",
+                        "on-secondary": "#690003"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Bodoni Moda"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Bodoni Moda"],
+                        "headline-md": ["Bodoni Moda"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .artifact-border { border: 1px solid #262626; }
+        .dashed-divider { border-top: 1px dashed #444748; }
+        .ticket-cutout {
+            mask-image: radial-gradient(circle at 0 50%, transparent 12px, black 12px), radial-gradient(circle at 100% 50%, transparent 12px, black 12px);
+            mask-size: 51% 100%;
+            mask-repeat: no-repeat;
+            mask-position: left center, right center;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-lg">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop py-4 sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b-2 border-primary">
+<div class="font-display-lg uppercase tracking-tighter text-primary leading-none text-2xl font-bold">
+            ELITE TICKETS
+        </div>
+<nav class="hidden md:flex gap-8">
+<!-- Transactional screen, nav links typically not interactive here, but keeping structure -->
+<span class="text-on-surface font-label-caps text-label-caps uppercase hover:bg-primary hover:text-on-primary transition-colors duration-100 px-2 py-1 cursor-pointer">BROWSE</span>
+<span class="text-primary font-bold font-label-caps text-label-caps uppercase hover:bg-primary hover:text-on-primary transition-colors duration-100 px-2 py-1 cursor-pointer transform scale-95 border-b border-primary">TICKETS</span>
+<span class="text-on-surface font-label-caps text-label-caps uppercase hover:bg-primary hover:text-on-primary transition-colors duration-100 px-2 py-1 cursor-pointer">PROFILE</span>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">account_circle</span>
+</div>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-16 flex items-center justify-center">
+<!-- Ticket Artifact -->
+<div class="w-full max-w-4xl grid grid-cols-12 artifact-border bg-surface-dim relative ticket-cutout shadow-2xl">
+<!-- Left Side: Hero Image & Main Info (Col 1-8) -->
+<div class="col-span-8 flex flex-col border-r border-[#262626]">
+<div class="h-96 relative artifact-border m-4 overflow-hidden">
+<img class="w-full h-full object-cover filter grayscale opacity-80 mix-blend-luminosity hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="A highly atmospheric, cinematic shot of a grand concert hall viewed from the stage looking out. Dramatic red and white stage lights cut through the dark, smoky air, creating high-contrast silhouettes. The aesthetic is premium, brutalist, and intensely dramatic, aligning with a luxury dark mode digital artifact." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6VM7v8_VedMypSiQqZUDUbgI7dAMNYQAgMsrwZ0N_mM_yZykBOouDbR9A1aPryt84IbKgd6XD1MaPTZGVE0HD9-_A3142mrimA_yxrsNCMyXgxyNolD8glFI5FJLZshoITrFQCBrj_9K6DkGWmCwziYuP9g_wLTMNlKA7R5YZU8Lnb-GRo6dELhVd_4GgmYlx_Zpw3tUQhUga0sZBfX6v4mM_ey94gCuwgzTh2hqdYDQ4IxYNgHysig">
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<h1 class="font-display-lg text-display-lg text-primary leading-none uppercase tracking-tighter mb-2">Symphony of the Night</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant uppercase">World Tour 2024</p>
+</div>
+</div>
+<div class="p-6 grid grid-cols-3 gap-6">
+<div>
+<p class="font-label-caps text-label-caps text-outline uppercase mb-1">Date</p>
+<p class="font-data-mono text-data-mono text-on-surface">OCT 24, 2024</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-outline uppercase mb-1">Time</p>
+<p class="font-data-mono text-data-mono text-on-surface">21:00 HRS</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-outline uppercase mb-1">Venue</p>
+<p class="font-data-mono text-data-mono text-on-surface">THE GRAND ARCH, NY</p>
+</div>
+</div>
+<div class="px-6 pb-6 mt-auto">
+<div class="dashed-divider w-full mb-4"></div>
+<div class="flex justify-between items-center">
+<div class="flex gap-2">
+<span class="font-label-caps text-label-caps border border-outline px-2 py-1 text-on-surface-variant">VIP</span>
+<span class="font-label-caps text-label-caps border border-outline px-2 py-1 text-on-surface-variant">BACKSTAGE ACCESS</span>
+</div>
+<div class="font-data-mono text-data-mono text-outline">
+                            ID: 0X9A4B-7721
+                        </div>
+</div>
+</div>
+</div>
+<!-- Right Side: Stub & QR (Col 9-12) -->
+<div class="col-span-4 flex flex-col justify-between p-6 bg-surface-container-lowest">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-6">ADMIT ONE</h2>
+<div class="space-y-4 mb-8">
+<div>
+<p class="font-label-caps text-label-caps text-outline uppercase mb-1">Section</p>
+<p class="font-data-mono text-data-mono text-on-surface text-xl">ORCHESTRA A</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-outline uppercase mb-1">Row / Seat</p>
+<p class="font-data-mono text-data-mono text-on-surface text-xl">R14 / S22</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-outline uppercase mb-1">Purchaser</p>
+<p class="font-data-mono text-data-mono text-on-surface">E. VANCE</p>
+</div>
+</div>
+</div>
+<div class="mt-auto flex flex-col items-center">
+<div class="w-full aspect-square bg-white p-2 artifact-border mb-4">
+<!-- Placeholder for QR Code, styled to fit the brutalist aesthetic -->
+<div class="w-full h-full bg-background grid grid-cols-4 grid-rows-4 gap-1 p-1">
+<div class="bg-primary col-span-2 row-span-2"></div>
+<div class="bg-primary"></div><div class="bg-primary"></div>
+<div class="bg-primary col-start-4"></div>
+<div class="bg-primary col-span-2"></div><div class="bg-primary"></div>
+<div class="bg-primary"></div><div class="bg-primary col-span-2"></div>
+</div>
+</div>
+<p class="font-label-caps text-label-caps text-outline text-center w-full">SCAN AT GATE</p>
+</div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Suppressed due to Transactional/Detail intent) -->
+<!-- BottomNavBar (Suppressed due to Desktop View & Detail intent) -->
+
+
+</body></html>
