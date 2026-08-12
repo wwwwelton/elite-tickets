@@ -174,7 +174,7 @@
 
 - [X] T055 [P] [US4] Audit and fix responsive layout issues in `apps/web/app/**` and `apps/web/components/**` discovered during page migration
 - [X] T056 [P] [US4] Improve accessibility labels, focus states, and status semantics in `apps/web/components/ui/` and `apps/web/components/tickets/`
-- [ ] T057 [US4] Update or add accessibility coverage in `apps/web/tests/e2e/accessibility.spec.ts`
+- [X] T057 [US4] Update or add accessibility coverage in `apps/web/tests/e2e/accessibility.spec.ts`
 
 ## Phase 18: Remove Frontend Legacy Visual Code
 
