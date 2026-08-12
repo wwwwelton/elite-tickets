@@ -1,5 +1,6 @@
 import { EventForm } from "@/components/events/event-form";
 import { Ticket } from "@/components/ui";
+import Link from "next/link";
 
 export default function NewOrganizerEventPage() {
   return (
@@ -14,6 +15,13 @@ export default function NewOrganizerEventPage() {
           </>
         }
         details={<EventForm />}
+        footer={
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href="/organizer/events">
+              Voltar aos meus eventos
+            </Link>
+          </div>
+        }
       />
     </main>
   );

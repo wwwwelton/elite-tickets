@@ -59,7 +59,7 @@
 **Independent Test**: An Organizer can enter the organizer area, reach events and create-event navigation, use the existing catalog-backed workflow, and return to the public experience appropriately.
 
 - [X] T021 [P] [US3] Add organizer entry and organizer-session navigation in `apps/web/app/organizer/events/page.tsx` and `apps/web/components/events/organizer-ledger.tsx` (FR-008, FR-010, FR-012)
-- [ ] T022 [P] [US3] Add Create Event navigation and catalog workflow continuity in `apps/web/app/organizer/events/new/page.tsx` and `apps/web/components/events/event-form.tsx` (FR-008, FR-018)
+- [X] T022 [P] [US3] Add Create Event navigation and catalog workflow continuity in `apps/web/app/organizer/events/new/page.tsx` and `apps/web/components/events/event-form.tsx` (FR-008, FR-018)
 - [ ] T023 [US3] Preserve organizer inventory/sales visibility and public-experience return navigation in `apps/web/components/events/organizer-ledger.tsx`, `apps/web/app/layout.tsx`, and any organizer shell helpers (FR-008, FR-009, FR-012)
 - [ ] T024 [US3] Add organizer navigation and role-guard assertions in `apps/web/tests/e2e/organizer-events.spec.ts` and `apps/web/tests/unit/auth.test.ts` (SC-004, SC-005, SC-006, FR-018)
 
