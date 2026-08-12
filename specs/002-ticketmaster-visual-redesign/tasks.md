@@ -27,9 +27,9 @@
 
 **Independent Test**: Client can search and fetch detail data, handles timeout/401/429/5xx, and never exposes the API key.
 
-- [ ] T008 [P] [US1] Implement the isolated Ticketmaster HTTP client in `apps/api/src/elite_tickets/catalog/ticketmaster_client.py`
-- [ ] T009 [P] [US1] Add request normalization, retry, timeout, and status handling for `/events.json` and `/events/{id}.json` in `apps/api/src/elite_tickets/catalog/ticketmaster_client.py`
-- [ ] T010 [P] [US1] Add unit coverage for upstream request headers and retryable failures in `apps/api/tests/unit/test_ticketmaster_client.py`
+- [X] T008 [P] [US1] Implement the isolated Ticketmaster HTTP client in `apps/api/src/elite_tickets/catalog/ticketmaster_client.py`
+- [X] T009 [P] [US1] Add request normalization, retry, timeout, and status handling for `/events.json` and `/events/{id}.json` in `apps/api/src/elite_tickets/catalog/ticketmaster_client.py`
+- [X] T010 [P] [US1] Add unit coverage for upstream request headers and retryable failures in `apps/api/tests/unit/test_ticketmaster_client.py`
 
 ## Phase 4: Catalog Service
 
@@ -37,9 +37,9 @@
 
 **Independent Test**: Service can search and resolve event detail through normalized DTOs without returning raw upstream payloads.
 
-- [ ] T011 [P] [US1] Implement the provider-agnostic catalog service in `apps/api/src/elite_tickets/catalog/service.py` using the new client and mapping helpers
-- [ ] T012 [P] [US1] Add service-level tests for search pagination, keyword filtering, countryCode defaulting, city filtering, and missing optional fields in `apps/api/tests/unit/test_catalog_service.py`
-- [ ] T013 [US1] Add service-level tests for empty results, 401, 429, timeout, and 5xx state mapping in `apps/api/tests/unit/test_catalog_service.py`
+- [X] T011 [P] [US1] Implement the provider-agnostic catalog service in `apps/api/src/elite_tickets/catalog/service.py` using the new client and mapping helpers
+- [X] T012 [P] [US1] Add service-level tests for search pagination, keyword filtering, countryCode defaulting, city filtering, and missing optional fields in `apps/api/tests/unit/test_catalog_service.py`
+- [X] T013 [US1] Add service-level tests for empty results, 401, 429, timeout, and 5xx state mapping in `apps/api/tests/unit/test_catalog_service.py`
 
 ## Phase 5: Catalog Endpoints
 
@@ -47,8 +47,8 @@
 
 **Independent Test**: `/api/v1/catalog/events` and `/api/v1/catalog/events/{external_id}` return normalized contracts and appropriate error states.
 
-- [ ] T014 [P] [US1] Implement catalog search and detail routes in `apps/api/src/elite_tickets/catalog/router.py`
-- [ ] T015 [P] [US1] Add router wiring in `apps/api/src/elite_tickets/main.py` if any route prefixes or dependency providers need updates
+- [X] T014 [P] [US1] Implement catalog search and detail routes in `apps/api/src/elite_tickets/catalog/router.py`
+- [X] T015 [P] [US1] Add router wiring in `apps/api/src/elite_tickets/main.py` if any route prefixes or dependency providers need updates
 - [ ] T016 [P] [US1] Add integration tests for catalog search and detail contracts in `apps/api/tests/integration/test_catalog.py`
 - [ ] T017 [US1] Add integration tests for catalog error states and secret-safe responses in `apps/api/tests/integration/test_catalog.py`
 
