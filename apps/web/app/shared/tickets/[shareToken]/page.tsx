@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { CustomerTicketView, type CustomerTicket } from "@/components/tickets/ticket";
 import { Status, Ticket } from "@/components/ui";
@@ -49,6 +50,13 @@ export default async function SharedTicketPage({
               </p>
             </div>
           )
+        }
+        footer={
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href="/">
+              Voltar aos eventos
+            </Link>
+          </div>
         }
       />
     </main>
