@@ -98,6 +98,7 @@ test("customer ticket exposes named regions and moves focus to the generated sha
     "O ingresso continua pertencendo a você",
   );
   await expect(shareInput).toHaveAttribute("aria-describedby", /.+/);
+  await expect(page.getByRole("link", { name: "Voltar aos eventos" })).toHaveAttribute("href", "/");
 
   await page.setViewportSize({ width: 390, height: 844 });
   const qrBox = await ticket
