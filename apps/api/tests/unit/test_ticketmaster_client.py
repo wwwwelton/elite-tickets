@@ -5,7 +5,6 @@ from typing import Any
 
 import httpx
 import pytest
-
 from elite_tickets.catalog.errors import (
     CatalogAuthError,
     CatalogRateLimitError,
@@ -170,3 +169,16 @@ async def test_request_retries_timeout_and_5xx_bounded_attempts(monkeypatch: pyt
     assert detail.external_id == "evt-1"
     assert detail.title == "Evento com retry"
     assert detail.category == "Music"
+
+
+@pytest.mark.asyncio
+async def test_malformed_upstream_payload_is_mapped_to_safe_unavailable_error() -> None:
+    def handler(_: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"id": "evt-1"})
+
+    client = _client(handler)
+    try:
+        with pytest.raises(CatalogUpstreamUnavailableError):
+            await client.event_details("evt-1")
+    finally:
+        await client._client.aclose()
