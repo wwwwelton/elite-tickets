@@ -110,6 +110,7 @@ for (const scenario of [
     const result = page.locator(`[data-validation-result="${scenario[0]}"]`);
     await expect(result).toBeVisible();
     await expect(result).toHaveAttribute("role", "alert");
+    await expect(result).toHaveAttribute("role", "alert");
     await expect(result.getByRole("heading", { name: scenario[1] })).toBeVisible();
     await expect(result.getByText(`Tentativa:`, { exact: false })).toBeVisible();
   });
