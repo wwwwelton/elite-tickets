@@ -204,7 +204,7 @@
 **Independent Test**: A new contributor can run the feature locally and validate the main journeys using the documented steps.
 
 - [X] T065 [P] [US5] Update the repository README and feature notes in `README.md` and `specs/002-ticketmaster-visual-redesign/quickstart.md`
-- [ ] T066 [P] [US5] Add a short implementation summary and validation checklist to `specs/002-ticketmaster-visual-redesign/README.md`
+- [X] T066 [P] [US5] Add a short implementation summary and validation checklist to `specs/002-ticketmaster-visual-redesign/README.md`
 
 ## Dependencies & Execution Order
 
