@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { CustomerTicketView, type CustomerTicket } from "@/components/tickets/ticket";
+import { Status, Ticket } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -21,28 +22,35 @@ export default async function SharedTicketPage({
 
   return (
     <main className="page-grid">
-      <div style={{ gridColumn: "1 / -1" }}>
-        <p className="label-caps">Ingresso compartilhado</p>
-        <h1 className="display-lg">Apresentação</h1>
-        {result.kind === "available" ? (
+      <Ticket
+        emphasized
+        header={
           <>
-            <p role="status">Visualização pública somente leitura. A propriedade não foi transferida.</p>
-            <CustomerTicketView allowShare={false} ticket={result.ticket} />
+            <p className="label-caps">Ingresso compartilhado</p>
+            <h1 className="display-lg">Apresentação</h1>
           </>
-        ) : (
-          <section role="alert" style={{ border: "3px solid currentColor", maxWidth: 760, padding: 32 }}>
-            <p className="label-caps">Link indisponível</p>
-            <h2 className="headline-md">
-              {result.kind === "expired" ? "Ingresso compartilhado expirado" : "Link não encontrado"}
-            </h2>
-            <p>
-              {result.kind === "expired"
-                ? "O ingresso já foi utilizado ou o evento terminou. Este link não permite mais apresentar o QR."
-                : "Confira se o link foi copiado por completo."}
-            </p>
-          </section>
-        )}
-      </div>
+        }
+        details={
+          result.kind === "available" ? (
+            <>
+              <p role="status">Visualização pública somente leitura. A propriedade não foi transferida.</p>
+              <CustomerTicketView allowShare={false} ticket={result.ticket} compact />
+            </>
+          ) : (
+            <div className="ticket__details-stack">
+              <Status status={result.kind === "expired" ? "EXPIRED" : "WRONG_EVENT"} />
+              <h2 className="headline-md">
+                {result.kind === "expired" ? "Ingresso compartilhado expirado" : "Link não encontrado"}
+              </h2>
+              <p>
+                {result.kind === "expired"
+                  ? "O ingresso já foi utilizado ou o evento terminou. Este link não permite mais apresentar o QR."
+                  : "Confira se o link foi copiado por completo."}
+              </p>
+            </div>
+          )
+        }
+      />
     </main>
   );
 }

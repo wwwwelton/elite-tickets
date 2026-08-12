@@ -320,6 +320,11 @@ textarea:focus {
   gap: var(--space-stack-md);
 }
 
+.ticket__details-stack {
+  display: grid;
+  gap: var(--space-stack-md);
+}
+
 .perforation {
   position: relative;
   height: 1px;
