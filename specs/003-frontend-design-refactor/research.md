@@ -102,3 +102,31 @@ Navigation research conclusions:
 Reference copy, dates, prices, counts, images, identities, and credentials remain
 illustrative. Product requirements and live API/state values take precedence over
 reference examples; screenshots guide visual composition and HTML guides structure.
+
+## Route and component audit
+
+Verified application routes in the current frontend:
+
+- `/` public home and event discovery.
+- `/events/[eventId]` public event detail.
+- `/login` authentication entry.
+- `/customer/checkout/[eventId]` customer checkout.
+- `/customer/tickets` customer ticket list.
+- `/customer/tickets/[ticketId]` customer ticket detail.
+- `/shared/tickets/[shareToken]` read-only shared ticket.
+- `/organizer/events` organizer event ledger.
+- `/organizer/events/new` organizer create-event workflow.
+- `/gate` gate validation workspace.
+
+Shared reusable components currently in use:
+
+- `components/auth/app-shell.tsx` for role-aware shell/navigation.
+- `components/auth/login-form.tsx` for authentication entry.
+- `components/auth/route-access-state.tsx` for auth-required/access-denied messaging.
+- `components/events/event-list.tsx` and `components/events/event-card.tsx` for discovery.
+- `components/events/event-form.tsx` and `components/events/organizer-ledger.tsx` for organizer workflows.
+- `components/checkout/checkout-flow.tsx` for reservation/payment states.
+- `components/tickets/my-tickets.tsx`, `components/tickets/ticket.tsx`, `components/tickets/share-action.tsx`, `components/tickets/scanner.tsx`, and `components/tickets/validation-result.tsx` for ticket, share, and validation states.
+
+All 15 approved page groups remain represented by these routes or states; the
+payment and gate mockups are state references, not additional routes.
