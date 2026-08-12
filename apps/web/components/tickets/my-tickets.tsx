@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { CustomerTicketView, ticketError, type CustomerTicket } from "@/components/tickets/ticket";
@@ -50,20 +51,41 @@ export function MyTickets({ ticketId }: { ticketId?: string }) {
   if (!tickets) {
     return <p role="status" aria-atomic="true" aria-busy="true">Carregando ingressos…</p>;
   }
+  const sessionActions = (
+    <nav className="ticket__actions" aria-label="Atalhos da conta">
+      <Link className="button button--ghost" href="/">
+        Explorar eventos
+      </Link>
+      <Link className="button button--ghost" href="/customer/tickets">
+        Recarregar ingressos
+      </Link>
+    </nav>
+  );
   if (ticketId) {
     const ticket = tickets.find((candidate) => candidate.id === ticketId);
     return ticket ? (
-      <CustomerTicketView ticket={ticket} />
+      <>
+        {sessionActions}
+        <CustomerTicketView ticket={ticket} />
+      </>
     ) : (
       <p role="alert" aria-atomic="true">Ingresso não encontrado.</p>
     );
   }
   if (tickets.length === 0) {
-    return <p role="status" aria-atomic="true">Você ainda não possui ingressos.</p>;
+    return (
+      <div className="ticket__details-stack">
+        {sessionActions}
+        <p role="status" aria-atomic="true">Você ainda não possui ingressos.</p>
+      </div>
+    );
   }
   return (
-    <section className="ticket__details-stack my-tickets-list" aria-label="Ingressos emitidos">
-      {tickets.map((ticket) => <CustomerTicketView compact key={ticket.id} ticket={ticket} />)}
+    <section className="ticket__details-stack" aria-label="Ingressos emitidos">
+      {sessionActions}
+      <div className="my-tickets-list ticket__details-stack">
+        {tickets.map((ticket) => <CustomerTicketView compact key={ticket.id} ticket={ticket} />)}
+      </div>
     </section>
   );
 }
