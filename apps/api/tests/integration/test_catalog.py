@@ -153,3 +153,28 @@ async def test_search_and_detail_return_normalized_contracts() -> None:
         ("event_details", {"external_id": "evt-1"}),
     ]
 
+
+async def test_catalog_error_responses_are_secret_safe() -> None:
+    class FailingCatalog:
+        async def search_events(self, *args: object, **kwargs: object) -> CatalogPage:
+            raise CatalogAuthError()
+
+        async def event_details(self, external_id: str) -> CatalogEventDetail:
+            if external_id == "rate":
+                raise CatalogRateLimitError()
+            raise CatalogUpstreamUnavailableError()
+
+    app = _catalog_app(FailingCatalog())
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        auth = await client.get("/api/v1/catalog/events", params={"keyword": "festival"})
+        rate = await client.get("/api/v1/catalog/events/rate")
+        upstream = await client.get("/api/v1/catalog/events/down")
+
+    assert auth.status_code == 503
+    assert auth.json()["error"]["code"] == "catalog_auth_error"
+    assert "test-key" not in auth.text
+    assert rate.status_code == 503
+    assert rate.json()["error"]["code"] == "catalog_rate_limited"
+    assert upstream.status_code == 503
+    assert upstream.json()["error"]["code"] == "dependency_unavailable"
