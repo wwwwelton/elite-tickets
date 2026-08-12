@@ -472,6 +472,26 @@ textarea:focus {
   gap: var(--space-stack-md);
 }
 
+.checkout-result {
+  display: grid;
+  gap: var(--space-stack-md);
+  padding: var(--space-stack-lg);
+  border: 2px solid var(--color-border);
+}
+
+.checkout-result--approved {
+  border-color: var(--color-secondary);
+}
+
+.checkout-result--declined {
+  border-color: var(--color-error);
+}
+
+.checkout-result--expired {
+  border-style: dashed;
+  border-color: var(--color-outline-variant);
+}
+
 .ticket__details-stack {
   display: grid;
   gap: var(--space-stack-md);
