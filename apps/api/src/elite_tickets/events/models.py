@@ -5,6 +5,14 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
+from elite_tickets.auth.models import User
+from elite_tickets.db.base import (
+    Base,
+    TimestampMixin,
+    UUIDPrimaryKeyMixin,
+    enum_type,
+    utc_now,
+)
 from sqlalchemy import (
     CheckConstraint,
     Date,
@@ -19,15 +27,6 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from elite_tickets.auth.models import User
-from elite_tickets.db.base import (
-    Base,
-    TimestampMixin,
-    UUIDPrimaryKeyMixin,
-    enum_type,
-    utc_now,
-)
 
 
 class EventState(StrEnum):
@@ -136,7 +135,8 @@ class MovieSnapshot(Base):
         server_default="ticketmaster",
         nullable=False,
     )
-    external_id: Mapped[str | None] = mapped_column(String(255))
+    external_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    external_url: Mapped[str | None] = mapped_column(Text)
     tmdb_id: Mapped[int] = mapped_column(Integer, nullable=False)
     media_type: Mapped[str] = mapped_column(
         String(16),
