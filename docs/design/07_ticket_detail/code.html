@@ -1,144 +1,200 @@
-<!DOCTYPE html><html class="dark" lang="en" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title class="">07 Ticket Detail_Mobile</title>
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Ticket Detail</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Libre+Franklin:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary": "#ffb4aa",
-                        "on-secondary-fixed": "#1a1c1c",
-                        "on-tertiary-fixed": "#001c38",
-                        "inverse-surface": "#e2e2e2",
-                        "secondary-container": "#454747",
-                        "on-secondary-container": "#b4b5b5",
-                        "on-secondary-fixed-variant": "#454747",
-                        "primary-fixed-dim": "#ffb4aa",
-                        "surface-container-highest": "#353535",
-                        "tertiary-fixed-dim": "#a1c9ff",
-                        "on-error-container": "#ffdad6",
-                        "tertiary-fixed": "#d2e4ff",
-                        "surface-variant": "#353535",
-                        "on-surface": "#e2e2e2",
-                        "inverse-primary": "#c0000b",
-                        "on-tertiary-container": "#fdfcff",
-                        "surface-bright": "#393939",
-                        "surface-tint": "#ffb4aa",
-                        "surface-container-low": "#1b1b1b",
-                        "on-background": "#e2e2e2",
-                        "on-primary-fixed": "#410001",
-                        "error-container": "#93000a",
-                        "on-primary-container": "#fffbff",
-                        "on-surface-variant": "#e8bcb6",
-                        "tertiary-container": "#0077cd",
-                        "primary-fixed": "#ffdad5",
-                        "surface-container-high": "#2a2a2a",
-                        "on-primary": "#690003",
-                        "outline": "#ae8782",
-                        "on-primary-fixed-variant": "#930006",
-                        "surface": "#131313",
-                        "on-tertiary": "#00325a",
-                        "surface-dim": "#131313",
-                        "on-secondary": "#2f3131",
-                        "primary-container": "#e61919",
-                        "background": "#131313",
-                        "on-tertiary-fixed-variant": "#004880",
-                        "secondary-fixed-dim": "#c6c6c7",
-                        "tertiary": "#a1c9ff",
-                        "secondary": "#c6c6c7",
-                        "outline-variant": "#5e3f3b",
-                        "secondary-fixed": "#e2e2e2",
-                        "error": "#ffb4ab",
-                        "surface-container-lowest": "#0e0e0e",
-                        "inverse-on-surface": "#303030",
-                        "surface-container": "#1f1f1f",
-                        "on-error": "#690005"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "margin-mobile": "20px",
-                        "margin-desktop": "64px",
-                        "stack-xl": "64px",
-                        "stack-md": "16px",
-                        "gutter": "24px",
-                        "stack-sm": "8px",
-                        "stack-lg": "32px",
-                        "unit": "4px"
-                    },
-                    "fontFamily": {
-                        "code-data": ["JetBrains Mono"],
-                        "display-lg-mobile": ["Bodoni Moda"],
-                        "headline-md": ["Bodoni Moda"],
-                        "display-lg": ["Bodoni Moda"],
-                        "label-caps": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-sm": ["Bodoni Moda"]
-                    },
-                    "fontSize": {
-                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
-                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
-                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
-                    }
-                },
-            },
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#4e4633",
+                      "on-secondary-container": "#b7b5b1",
+                      "on-secondary-fixed-variant": "#474744",
+                      "on-tertiary-fixed": "#001f24",
+                      "on-secondary-fixed": "#1c1c1a",
+                      "surface-container": "#1e2020",
+                      "primary": "#ffebc0",
+                      "error": "#ffb4ab",
+                      "surface": "#121414",
+                      "surface-bright": "#37393a",
+                      "secondary-fixed-dim": "#c8c6c3",
+                      "primary-fixed": "#ffdf92",
+                      "on-error-container": "#ffdad6",
+                      "surface-dim": "#121414",
+                      "on-surface-variant": "#d2c5ac",
+                      "surface-container-lowest": "#0c0f0f",
+                      "ticket-paper": "#F5F7F8",
+                      "on-primary-container": "#6f5600",
+                      "primary-container": "#feca27",
+                      "inverse-on-surface": "#2f3131",
+                      "secondary-container": "#474744",
+                      "surface-container-highest": "#333535",
+                      "primary-fixed-dim": "#f3c019",
+                      "tertiary-fixed-dim": "#00daf2",
+                      "on-tertiary-fixed-variant": "#004f58",
+                      "error-container": "#93000a",
+                      "tertiary": "#c2f5ff",
+                      "background": "#121414",
+                      "surface-container-low": "#1a1c1c",
+                      "on-tertiary-container": "#00626e",
+                      "on-primary": "#3e2e00",
+                      "deep-navy": "#1A2337",
+                      "secondary": "#c8c6c3",
+                      "inverse-primary": "#755b00",
+                      "on-surface": "#e2e2e2",
+                      "outline": "#9b9079",
+                      "on-secondary": "#31302e",
+                      "ticket-void": "#FF3B30",
+                      "surface-container-high": "#282a2b",
+                      "on-tertiary": "#00363d",
+                      "on-primary-fixed": "#241a00",
+                      "on-primary-fixed-variant": "#594400",
+                      "surface-variant": "#333535",
+                      "ticket-valid": "#34C759",
+                      "on-background": "#e2e2e2",
+                      "on-error": "#690005",
+                      "surface-tint": "#f3c019",
+                      "tertiary-container": "#00e5fe",
+                      "secondary-fixed": "#e5e2de",
+                      "inverse-surface": "#e2e2e2",
+                      "tertiary-fixed": "#9af0ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "unit": "4px",
+                      "margin-desktop": "64px",
+                      "ticket-perforation": "12px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "subheading": [
+                              "Libre Franklin"
+                      ],
+                      "body-md": [
+                              "Libre Franklin"
+                      ],
+                      "headline-lg": [
+                              "Anton"
+                      ],
+                      "label-caps": [
+                              "Space Mono"
+                      ],
+                      "headline-lg-mobile": [
+                              "Anton"
+                      ],
+                      "data-mono": [
+                              "Space Mono"
+                      ],
+                      "display-xl": [
+                              "Anton"
+                      ]
+              },
+              "fontSize": {
+                      "subheading": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "52px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "36px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-mono": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-xl": [
+                              "84px",
+                              {
+                                      "lineHeight": "84px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
         }
     </script>
 <style>
-        .perforated-edge {
-            position: relative;
-        }
-        .perforated-edge::before, .perforated-edge::after {
-            content: '';
+        .ticket-cutout-left {
             position: absolute;
-            top: -12px;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
             width: 24px;
             height: 24px;
             background-color: theme('colors.background');
             border-radius: 50%;
+            border-right: 2px solid theme('colors.primary');
             z-index: 10;
         }
-        .perforated-edge::before {
-            left: -12px;
-        }
-        .perforated-edge::after {
+        .ticket-cutout-right {
+            position: absolute;
             right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: theme('colors.background');
+            border-radius: 50%;
+            border-left: 2px solid theme('colors.primary');
+            z-index: 10;
         }
-        
-        .ticket-cutout {
-            position: relative;
-            background: theme('colors.surface');
+        .ticket-dashed-line {
+            border-top: 2px dashed theme('colors.primary');
+            margin-top: -1px;
+            opacity: 0.5;
         }
-        
-        /* Custom scrollbar for webkit */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: theme('colors.background'); 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: theme('colors.surface-variant'); 
-            border: 1px solid theme('colors.background');
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: theme('colors.secondary-container'); 
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
         }
     </style>
 <style>
@@ -147,119 +203,89 @@
     }
   </style>
   </head>
-<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<body class="antialiased min-h-screen flex flex-col pt-16">
 <!-- TopAppBar -->
-<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-50 bg-background border-b-2 border-primary">
-<div class="flex items-center gap-4">
-<a class="hidden md:flex flex-col group" href="#">
-<span class="material-symbols-outlined text-primary group-hover:text-white transition-colors" data-icon="arrow_back" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
-</a>
-<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg uppercase tracking-tighter text-primary leading-none">ELITE TICKETS</h1>
-</div>
-<div class="flex items-center gap-4">
-<button aria-label="Account" class="p-2 text-primary hover:bg-primary hover:text-on-primary transition-colors duration-100 transform active:scale-95">
-<span class="material-symbols-outlined" data-icon="account_circle" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+<header class="bg-background dark:bg-background border-b-2 border-outline-variant flex justify-between items-center px-margin-mobile h-16 w-full fixed top-0 z-50">
+<button class="text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full active:scale-95 duration-100 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
 </button>
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tighter">
+            EliteTickets
+        </div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img class="object-cover w-full h-full" data-alt="A small, stylized profile avatar of a user. The avatar is a high-contrast black and white illustration of a face with bold shadows, fitting the brutalist aesthetic of the site. It is set against a dark background, reflecting the overall dark mode theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCC60ndJAUnD6L88ySe_IMveFzXJWFVrUtY-LDMgBH9b_34g18705GZscFSejd6WqQm-ZrEc70xU5rK6cCi6MHnFnZiTeL2ZS0j6wrKn-pRbTnwCT2AZ5YvZ8RCVKEb5lT_FmPmfXumuTJQP6E59-tfkge0PyJphcPFUJtybXAQgmPU2NnxUYp4sFRwmw-FSMUreWPnEisCsqo9WWI_f4BLrj5ZXTs0lQpw-ciYCI1_JlG4ljs"/>
 </div>
 </header>
-<div class="flex flex-1 w-full relative">
-<!-- Main Content Area -->
-<main class="flex-1 flex justify-center items-start pt-stack-xl pb-32 px-margin-mobile overflow-y-auto">
-<div class="w-full max-w-md flex flex-col gap-stack-lg">
-<!-- Back button for mobile -->
-<a class="md:hidden flex items-center gap-2 text-secondary hover:text-white transition-colors w-fit" href="#">
-<span class="material-symbols-outlined text-xl" data-icon="arrow_back">arrow_back</span>
-<span class="font-label-caps text-label-caps uppercase">Back to Tickets</span>
-</a>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-start px-margin-mobile py-8 md:py-margin-desktop md:px-margin-desktop w-full max-w-lg mx-auto">
 <!-- Ticket Container -->
-<article class="ticket-cutout w-full border-2 border-surface-variant flex flex-col relative overflow-hidden bg-white text-black shadow-[0_0_0_1px_rgba(255,255,255,0.1)]">
-<!-- Top Section: Poster & Title -->
-<div class="relative w-full h-[400px] bg-black border-b-2 border-dashed border-black">
-<div class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-luminosity grayscale contrast-125" data-alt="A highly detailed cinematic poster for a neo-noir film. A solitary figure stands under a harsh, flickering streetlamp in a rain-slicked metropolis. The lighting is extremely dramatic, with high contrast absolute blacks and piercing white highlights, accented by intense, saturated cinema red reflections in the puddles. The composition is brutalist, stark, and exclusive, evoking a premium physical artifact." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC5BEwffyiQhUjAufTFOKyvdFvVmJMES4tGX8SkU6jnjS7L5T454bj1vjpkNdcjXFn2jQJQgRvF8i7f6xNxRZ67WxbH3TEm0_8ZDAbxg08tAm6lCZgzghlSlQLJWAeZuvZvaprcfyd3PqDmlL0N59nE35rqQRO3U4YVhvJ5CBgiRPfNcCZV-Z4Gx9SnN91JXjY8MGtP15Rx5px9EMC2i7M1bncS6F7ZPiIlAlIzFL-Zp96bylTQLh6PGA')"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-<div class="absolute bottom-0 left-0 w-full p-6 flex flex-col gap-2">
-<span class="font-label-caps text-label-caps text-primary border border-primary px-2 py-1 w-fit bg-black/50 backdrop-blur-sm uppercase">Admit One</span>
-<h2 class="font-headline-md text-headline-md text-white uppercase leading-tight tracking-tight">The Midnight<br>Protocol</h2>
+<div class="w-full relative bg-deep-navy border-2 border-primary flex flex-col rounded-DEFAULT shadow-2xl">
+<!-- Cutouts for perforation effect -->
+<div class="ticket-cutout-left hidden md:block"></div>
+<div class="ticket-cutout-right hidden md:block"></div>
+<!-- Stub/Header Section -->
+<div class="p-6 flex flex-col items-center justify-center border-b border-primary border-opacity-20 relative">
+<span class="font-label-caps text-label-caps text-primary border border-primary px-2 py-1 mb-4">ADMIT ONE</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary text-center mb-2 uppercase tracking-wide">DUNE: PART TWO</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-center">IMAX 70MM PRESENTATION</p>
+</div>
+<!-- The Dashed Line -->
+<div class="w-full relative h-0">
+<div class="absolute inset-0 ticket-dashed-line mx-4"></div>
+</div>
+<!-- Info Section -->
+<div class="p-6 flex flex-col gap-6">
+<!-- Time & Venue -->
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DATE &amp; TIME</span>
+<span class="font-data-mono text-data-mono text-on-surface">FRI, MAR 15 • 8:00 PM</span>
+</div>
+<div class="flex flex-col gap-1 text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant">VENUE</span>
+<span class="font-data-mono text-data-mono text-on-surface">AMC LINCOLN SQ</span>
 </div>
 </div>
-<!-- Middle Section: Event Details (Perforated) -->
-<div class="perforated-edge border-t-2 border-dashed border-surface-variant bg-white p-6 flex flex-col gap-6">
-<!-- Grid Details -->
-<div class="grid grid-cols-2 gap-y-6 gap-x-4">
-<div class="flex flex-col border-l-2 border-black pl-3">
-<span class="font-label-caps text-label-caps text-surface-variant uppercase mb-1">Date</span>
-<span class="font-code-data text-code-data text-black font-bold">OCT 24, 2024</span>
+<!-- Seat Details Grid -->
+<div class="grid grid-cols-3 gap-4 border-t border-b border-outline-variant py-4">
+<div class="flex flex-col items-center justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">SEC</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">ORC</span>
 </div>
-<div class="flex flex-col border-l-2 border-black pl-3">
-<span class="font-label-caps text-label-caps text-surface-variant uppercase mb-1">Time</span>
-<span class="font-code-data text-code-data text-black font-bold">21:30 EST</span>
+<div class="flex flex-col items-center justify-center border-l border-r border-outline-variant">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">ROW</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">G</span>
 </div>
-<div class="flex flex-col border-l-2 border-black pl-3 col-span-2">
-<span class="font-label-caps text-label-caps text-surface-variant uppercase mb-1">Venue</span>
-<span class="font-body-md text-body-md text-black font-bold uppercase">The Grand Rex Cinema, Studio 1</span>
-</div>
-<div class="flex flex-col border-l-2 border-black pl-3">
-<span class="font-label-caps text-label-caps text-surface-variant uppercase mb-1">Row</span>
-<span class="font-headline-sm text-headline-sm text-black">G</span>
-</div>
-<div class="flex flex-col border-l-2 border-black pl-3">
-<span class="font-label-caps text-label-caps text-surface-variant uppercase mb-1">Seat</span>
-<span class="font-headline-sm text-headline-sm text-black">14</span>
+<div class="flex flex-col items-center justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">SEAT</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">14</span>
 </div>
 </div>
+<!-- QR Code Area -->
+<div class="flex flex-col items-center justify-center py-4">
+<div class="bg-white p-4 rounded-sm border-4 border-white mb-2">
+<img class="w-48 h-48 object-cover" data-alt="A high-contrast, black and white QR code. The QR code is complex and dense, centered perfectly on a pure white background. It is designed to look like a functional, scannable digital ticket element within a brutalist user interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjhXO4qwNiLlaUnMgIoUjX7IJC15HajUqQ-3nLqZapIIUw_uqAlQneK01k4ffAeioPnM0s45_FueLThL0EJ55zlWp9qKGXe9X9aYeWN7kozD-O9sXCLPGv7FC2Yy6L4TILljVbgqpAer_FYpz00eOUFRx0vuIndiIcV_Virr4P75P7-lsw6HcJa-Yi7DtzpRGyy2Jh2DJCmEJq9AjusC5bLUg9BIQpPumpHRPsa09NnGe649Du"/>
 </div>
-<!-- Bottom Section: QR Code & Actions -->
-<div class="perforated-edge border-t-2 border-dashed border-surface-variant bg-white p-6 flex flex-col items-center gap-6">
-<div class="w-full max-w-[200px] aspect-square bg-white border-4 border-black p-2 flex items-center justify-center relative">
-<!-- Placeholder for QR Code, stylized -->
-<div class="w-full h-full border border-black p-1 flex flex-wrap gap-1 content-start">
-<!-- Fake QR code pattern blocks -->
-<div class="w-8 h-8 border-4 border-black"></div>
-<div class="flex-1 h-8 bg-black"></div>
-<div class="w-8 h-8 border-4 border-black"></div>
-<div class="w-full h-4 bg-black/80"></div>
-<div class="w-1/2 h-4 bg-black/60"></div>
-<div class="w-1/3 h-4 bg-black"></div>
-<div class="w-8 h-8 border-4 border-black mt-auto"></div>
-<div class="flex-1 h-8 bg-black mt-auto"></div>
-<div class="w-8 h-8 bg-black mt-auto"></div>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-xs opacity-70">TKT-8934-XV-001</span>
+</div>
+<!-- Status Badge -->
+<div class="flex justify-center mt-2">
+<div class="border-2 border-ticket-valid text-ticket-valid font-headline-lg text-headline-lg px-6 py-2 uppercase tracking-widest transform -rotate-3 opacity-90 mix-blend-screen">
+                        VALID
+                    </div>
 </div>
 </div>
-<div class="flex flex-col items-center w-full">
-<span class="font-label-caps text-label-caps text-surface-variant uppercase mb-2">Ticket Code</span>
-<span class="font-code-data text-code-data text-black text-lg tracking-[0.2em]">ELT-889-MX-14</span>
 </div>
-</div>
-</article>
 <!-- Actions -->
-<div class="flex flex-col gap-4 w-full mt-4">
-<button class="w-full bg-primary-container text-on-primary-container font-label-caps text-label-caps uppercase py-4 px-6 hover:bg-white hover:text-black transition-colors duration-150 flex items-center justify-center gap-3 border-2 border-transparent hover:border-black active:scale-[0.98]">
-<span class="material-symbols-outlined text-xl" data-icon="ios_share">ios_share</span>
-                        Share Ticket
-                    </button>
-<button class="w-full bg-transparent text-white font-label-caps text-label-caps uppercase py-4 px-6 border border-white hover:bg-white hover:text-black transition-colors duration-150 flex items-center justify-center gap-3 active:scale-[0.98]">
-<span class="material-symbols-outlined text-xl" data-icon="add_to_drive">add_to_drive</span>
-                        Add to Wallet
-                    </button>
-</div>
+<div class="w-full mt-8 flex flex-col gap-4">
+<button class="w-full bg-primary-container text-black font-subheading text-subheading py-4 flex items-center justify-center gap-2 hover:bg-primary-fixed-dim transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+                SAVE TO WALLET
+            </button>
+<button class="w-full bg-transparent border-2 border-white text-white font-subheading text-subheading py-4 flex items-center justify-center gap-2 hover:bg-surface-container-high transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+                SHARE TICKET
+            </button>
 </div>
 </main>
-</div>
-<!-- BottomNavBar (Mobile Only) -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-background border-t-2 border-primary">
-<a class="flex flex-col items-center justify-center text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container transition-all" href="#">
-<span class="material-symbols-outlined mb-1" data-icon="search" style="font-variation-settings: 'FILL' 0;">search</span>
-<span class="font-label-caps text-label-caps uppercase">Browse</span>
-</a>
-<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 w-full h-full transition-all" href="#">
-<span class="material-symbols-outlined mb-1" data-icon="confirmation_number" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
-<span class="font-label-caps text-label-caps uppercase font-bold">Tickets</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container transition-all" href="#">
-<span class="material-symbols-outlined mb-1" data-icon="person" style="font-variation-settings: 'FILL' 0;">person</span>
-<span class="font-label-caps text-label-caps uppercase">Profile</span>
-</a>
-</nav>
-
-
 </body></html>

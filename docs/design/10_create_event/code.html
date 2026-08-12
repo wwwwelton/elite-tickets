@@ -1,64 +1,70 @@
-<!DOCTYPE html><html class="dark" lang="en"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>10 Create Event_Desktop</title>
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Create Event</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@400..700&amp;family=JetBrains+Mono:wght@400..700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Libre+Franklin:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "primary": "#ffb4aa",
-                        "on-secondary-fixed": "#1a1c1c",
-                        "on-tertiary-fixed": "#001c38",
-                        "inverse-surface": "#e2e2e2",
-                        "secondary-container": "#454747",
-                        "on-secondary-container": "#b4b5b5",
-                        "on-secondary-fixed-variant": "#454747",
-                        "primary-fixed-dim": "#ffb4aa",
-                        "surface-container-highest": "#353535",
-                        "tertiary-fixed-dim": "#a1c9ff",
-                        "on-error-container": "#ffdad6",
-                        "tertiary-fixed": "#d2e4ff",
-                        "surface-variant": "#353535",
-                        "on-surface": "#e2e2e2",
-                        "inverse-primary": "#c0000b",
-                        "on-tertiary-container": "#fdfcff",
-                        "surface-bright": "#393939",
-                        "surface-tint": "#ffb4aa",
-                        "surface-container-low": "#1b1b1b",
-                        "on-background": "#e2e2e2",
-                        "on-primary-fixed": "#410001",
-                        "error-container": "#93000a",
-                        "on-primary-container": "#fffbff",
-                        "on-surface-variant": "#e8bcb6",
-                        "tertiary-container": "#0077cd",
-                        "primary-fixed": "#ffdad5",
-                        "surface-container-high": "#2a2a2a",
-                        "on-primary": "#690003",
-                        "outline": "#ae8782",
-                        "on-primary-fixed-variant": "#930006",
-                        "surface": "#131313",
-                        "on-tertiary": "#00325a",
-                        "surface-dim": "#131313",
-                        "on-secondary": "#2f3131",
-                        "primary-container": "#e61919",
-                        "background": "#131313",
-                        "on-tertiary-fixed-variant": "#004880",
-                        "secondary-fixed-dim": "#c6c6c7",
-                        "tertiary": "#a1c9ff",
-                        "secondary": "#c6c6c7",
-                        "outline-variant": "#5e3f3b",
-                        "secondary-fixed": "#e2e2e2",
+                        "outline-variant": "#4e4633",
+                        "on-secondary-container": "#b7b5b1",
+                        "on-secondary-fixed-variant": "#474744",
+                        "on-tertiary-fixed": "#001f24",
+                        "on-secondary-fixed": "#1c1c1a",
+                        "surface-container": "#1e2020",
+                        "primary": "#ffebc0",
                         "error": "#ffb4ab",
-                        "surface-container-lowest": "#0e0e0e",
-                        "inverse-on-surface": "#303030",
-                        "surface-container": "#1f1f1f",
-                        "on-error": "#690005"
+                        "surface": "#121414",
+                        "surface-bright": "#37393a",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "primary-fixed": "#ffdf92",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#121414",
+                        "on-surface-variant": "#d2c5ac",
+                        "surface-container-lowest": "#0c0f0f",
+                        "ticket-paper": "#F5F7F8",
+                        "on-primary-container": "#6f5600",
+                        "primary-container": "#feca27",
+                        "inverse-on-surface": "#2f3131",
+                        "secondary-container": "#474744",
+                        "surface-container-highest": "#333535",
+                        "primary-fixed-dim": "#f3c019",
+                        "tertiary-fixed-dim": "#00daf2",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "error-container": "#93000a",
+                        "tertiary": "#c2f5ff",
+                        "background": "#121414",
+                        "surface-container-low": "#1a1c1c",
+                        "on-tertiary-container": "#00626e",
+                        "on-primary": "#3e2e00",
+                        "deep-navy": "#1A2337",
+                        "secondary": "#c8c6c3",
+                        "inverse-primary": "#755b00",
+                        "on-surface": "#e2e2e2",
+                        "outline": "#9b9079",
+                        "on-secondary": "#31302e",
+                        "ticket-void": "#FF3B30",
+                        "surface-container-high": "#282a2b",
+                        "on-tertiary": "#00363d",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary-fixed-variant": "#594400",
+                        "surface-variant": "#333535",
+                        "ticket-valid": "#34C759",
+                        "on-background": "#e2e2e2",
+                        "on-error": "#690005",
+                        "surface-tint": "#f3c019",
+                        "tertiary-container": "#00e5fe",
+                        "secondary-fixed": "#e5e2de",
+                        "inverse-surface": "#e2e2e2",
+                        "tertiary-fixed": "#9af0ff"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -68,229 +74,261 @@
                     },
                     "spacing": {
                         "margin-mobile": "20px",
+                        "unit": "4px",
                         "margin-desktop": "64px",
-                        "stack-xl": "64px",
-                        "stack-md": "16px",
-                        "gutter": "24px",
-                        "stack-sm": "8px",
-                        "stack-lg": "32px",
-                        "unit": "4px"
+                        "ticket-perforation": "12px",
+                        "gutter": "16px"
                     },
                     "fontFamily": {
-                        "code-data": ["JetBrains Mono"],
-                        "display-lg-mobile": ["Bodoni Moda"],
-                        "headline-md": ["Bodoni Moda"],
-                        "display-lg": ["Bodoni Moda"],
-                        "label-caps": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-sm": ["Bodoni Moda"]
+                        "subheading": ["Libre Franklin"],
+                        "body-md": ["Libre Franklin"],
+                        "headline-lg": ["Anton"],
+                        "label-caps": ["Space Mono"],
+                        "headline-lg-mobile": ["Anton"],
+                        "data-mono": ["Space Mono"],
+                        "display-xl": ["Anton"]
                     },
                     "fontSize": {
-                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
-                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
-                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                        "subheading": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "52px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "40px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "display-xl": ["84px", { "lineHeight": "84px", "letterSpacing": "-0.02em", "fontWeight": "400" }]
                     }
-                },
-            },
+                }
+            }
         }
     </script>
 <style>
-        body {
-            background-color: #131313;
+        .ticket-dashed-border {
+            border-bottom: 2px dashed #4e4633; /* outline-variant */
+        }
+        .cutout-left, .cutout-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: #121414; /* background */
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .cutout-left { left: -12px; border-right: 2px solid #4e4633; }
+        .cutout-right { right: -12px; border-left: 2px solid #4e4633; }
+        
+        .brutalist-input {
+            border: none;
+            border-bottom: 2px solid #9b9079;
+            background: transparent;
             color: #e2e2e2;
-        }
-        
-        .ticket-perforation {
-            border-top: 1px dashed white;
-        }
-
-        .input-underline {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid white;
-            border-radius: 0;
             padding: 8px 0;
-            color: white;
+            border-radius: 0;
         }
-        
-        .input-underline:focus {
+        .brutalist-input:focus {
             outline: none;
-            border-bottom: 2px solid #ffb4aa;
+            border-bottom-color: #ffebc0;
             box-shadow: none;
-        }
-
-        .input-underline::placeholder {
-            color: #b4b5b5;
-        }
-        
-        .btn-primary {
-            background-color: #c0000b;
-            color: white;
-            border: none;
-            transition: background-color 0.2s ease;
-        }
-        .btn-primary:hover {
-            background-color: #93000a;
-        }
-        
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid white;
-            color: white;
-            transition: all 0.2s ease;
-        }
-        
-        .btn-ghost:hover {
-            background: white;
-            color: black;
         }
     </style>
 </head>
-<body class="bg-background text-on-surface antialiased font-body-md h-screen overflow-hidden flex">
-<!-- SideNavBar -->
-<nav class="bg-background dark:bg-background text-primary dark:text-primary border-r-2 border-primary dark:border-primary hidden md:flex flex-col h-screen p-6 fixed left-0 top-0 overflow-y-auto docked left-0 h-full w-64 z-50">
-<div class="font-display-lg text-display-lg text-primary dark:text-primary leading-none mb-8">ELITE TICKETS</div>
-<div class="font-label-caps text-label-caps text-on-surface mb-8">ORGANIZER PORTAL</div>
-<ul class="flex flex-col gap-2 flex-grow font-headline-sm text-headline-sm">
-<li class="">
-<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<body class="bg-background text-on-background font-body-md min-h-screen antialiased flex">
+<!-- NavigationDrawer (Hidden on Mobile) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-screen z-40 bg-surface-container dark:bg-surface-container h-full w-64 border-r-2 border-outline-variant">
+<div class="p-6 border-b-2 border-outline-variant flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex-shrink-0">
+<img alt="Organizer Profile" class="w-full h-full object-cover" data-alt="A high-contrast black and white portrait of a person wearing sleek, dark sunglasses, illuminated by a harsh, dramatic spotlight creating deep shadows. The image feels edgy, modern, and authoritative, fitting a premium event organizer profile. The background is pure, deep black." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ8VHs_V-TTymBqDzm2Wzf_ZnxhbuMKY1ci3WOfGuJW12WHvzOOJt0vmKYxwOj6kh2mtZrU2jdjmJN2ZD2P65It1ns6weXy_ul-R-4FEyKQlfrme5QuXP8mvBGNBubgee1pz7lAR2IoHfoS3q-1cKMv6cRGeSfwI100XmklJrubfUBrbinAy38VmMLWWMKq1PTXwqhIAlEjbeJ1SnM4sSNCRbyhRmt3IAgtrb7XixgwJVXeSCX"/>
+</div>
+<div>
+<h2 class="font-headline-lg text-primary uppercase text-2xl">Organizer Studio</h2>
+<p class="font-label-caps text-on-surface-variant text-[10px]">Manage your events</p>
+</div>
+</div>
+<ul class="flex-1 py-4">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant pl-4 py-3 hover:bg-secondary-container/20 transition-all active:translate-x-1 duration-150" href="#">
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                    Dashboard
-                </a>
+<span class="font-subheading text-subheading">Dashboard</span>
+</a>
 </li>
-<li class="">
-<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
-<span class="material-symbols-outlined" data-icon="event">event</span>
-                    My Events
-                </a>
+<li>
+<a class="flex items-center gap-3 text-primary border-l-4 border-primary pl-4 py-3 bg-primary-container/10 hover:bg-secondary-container/20 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="event" style="font-variation-settings: 'FILL' 1;">event</span>
+<span class="font-subheading text-subheading">Events</span>
+</a>
 </li>
-<li class="">
-<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
-<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
-                    Scan Tickets
-                </a>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant pl-4 py-3 hover:bg-secondary-container/20 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-subheading text-subheading">Inventory</span>
+</a>
 </li>
-<li class="">
-<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant pl-4 py-3 hover:bg-secondary-container/20 transition-all active:translate-x-1 duration-150" href="#">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
-                    Settings
-                </a>
+<span class="font-subheading text-subheading">Settings</span>
+</a>
 </li>
 </ul>
-<div class="mt-auto pt-8 border-t border-secondary-container">
-<button class="w-full btn-primary font-label-caps text-label-caps py-4 flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-[18px]">add</span>
-                Create Event
-            </button>
-</div>
 </nav>
-<!-- Main Canvas -->
-<main class="ml-0 md:ml-64 flex-1 h-screen overflow-y-auto bg-surface-container-low p-margin-mobile md:p-margin-desktop relative">
-<!-- Header -->
-<header class="mb-stack-xl flex justify-between items-end border-b border-surface-container-highest pb-stack-sm">
-<div>
-<h1 class="font-headline-md text-headline-md text-white">CREATE EVENT</h1>
-<p class="font-code-data text-code-data text-on-surface-variant mt-2">SYS_ID: <span class="text-primary">EVT-NEW-9932</span></p>
+<!-- TopAppBar (Visible on Mobile) -->
+<header class="flex md:hidden justify-between items-center px-margin-mobile h-16 w-full fixed top-0 z-50 bg-background dark:bg-background border-b-2 border-outline-variant flat no shadows">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="confirmation_number">confirmation_number</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tighter">EliteTickets</h1>
 </div>
-<div class="hidden md:flex gap-4">
-<button class="btn-ghost font-label-caps text-label-caps px-6 py-3">SAVE DRAFT</button>
-<button class="btn-primary font-label-caps text-label-caps px-6 py-3">PUBLISH EVENT</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A high-contrast black and white portrait of a person wearing sleek, dark sunglasses, illuminated by a harsh, dramatic spotlight creating deep shadows. The image feels edgy, modern, and authoritative, fitting a premium event organizer profile. The background is pure, deep black." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj2_FIApm1P7u03_rQBOzjXSZXp5bvpXtan0PbWWa4mGYwsIkwEEd7TVXh4W1Ck774lrb5apK4Wabv1-g4oHSJz_5EWD-vaU0vGHir4vUQfWx-JNOZv8XFmhyB6WPasvE0jbZIFL3uxAMJs5GB6Ch7Kn0vjjHsbGAir9HPltjrkeacv5rdS_7sTYj9zyyj5X7Eu_VSbObGRWACjPncGt-CI6LnqhmYkk9PwbeNYU0GZxV2qlDE"/>
 </div>
 </header>
-<!-- Form Layout -->
-<div class="max-w-4xl mx-auto">
-<form class="space-y-stack-lg">
-<!-- Section 1: Film Identification -->
-<div class="border border-white p-6 bg-surface relative">
-<div class="absolute top-0 right-0 p-2 bg-white text-black font-label-caps text-label-caps">01 / IDENTITY</div>
-<div class="space-y-6 mt-4">
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">SEARCH CATALOG</label>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 pt-16 md:pt-0 p-4 md:p-margin-desktop min-h-screen">
+<div class="max-w-6xl mx-auto">
+<header class="mb-12 flex justify-between items-end border-b-2 border-outline-variant pb-4">
+<div>
+<span class="font-label-caps text-label-caps text-primary block mb-2 tracking-widest uppercase">New Setup</span>
+<h1 class="font-display-xl text-display-xl text-on-background uppercase tracking-tighter">Create Event</h1>
+</div>
+<button class="bg-primary-container text-on-primary-container font-label-caps text-label-caps py-3 px-8 uppercase tracking-widest hover:bg-primary-fixed-dim transition-colors border-2 border-primary-container active:scale-95">Publish</button>
+</header>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+<!-- Form Section -->
+<div class="xl:col-span-7 space-y-10">
+<!-- Search Catalog -->
+<section class="bg-surface-container-low border-2 border-outline-variant p-6 relative">
+<div class="absolute top-0 left-0 w-2 h-full bg-primary"></div>
+<h2 class="font-headline-lg text-3xl mb-6 uppercase">1. Select Movie</h2>
+<div class="relative mb-6">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant pl-2">search</span>
+<input class="w-full brutalist-input pl-10 font-data-mono text-data-mono" placeholder="Search title or ID..." type="text" value="DUNE: PART TWO"/>
+</div>
+<div class="flex gap-4 p-4 border-2 border-outline-variant bg-surface items-center cursor-pointer hover:border-primary transition-colors">
+<div class="w-16 h-24 bg-surface-variant flex-shrink-0 border border-outline-variant">
+<img alt="Movie Poster" class="w-full h-full object-cover" data-alt="A stark, minimalist cinematic poster showing a vast, barren desert landscape under a blazing white sun. Deep, high-contrast shadows cut across sand dunes. The mood is epic, severe, and monumental, fitting a brutalist sci-fi aesthetic. Color palette emphasizes deep oranges, stark blacks, and bright whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtzdWqC0-sgwM-p0nSI10fUKXq_rL_t_kmKV-Ik5DQCcRTx8P9o3boqT_IyuVcaE5rsKa6pKquaYtcJVXiZdTdznPYpWR0p9irmQbo5_Y1NUXnv5OnSMAj2G1WmqIKilwO9DoFRAPq9XqAnCVHFSHpshbHZsarmuqLlQa39hlPHd0PbFFAkeSh2hX77NBgl3ORtd1i1pn5GMHSXHcOzjM0yKN-ZH33cEc5Wa0DGNJrLSH9RURS"/>
+</div>
+<div>
+<h3 class="font-headline-lg text-2xl uppercase tracking-tight">Dune: Part Two</h3>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-1">ID: MV-84920 | 166 MIN</p>
+<span class="inline-block mt-2 font-label-caps text-[10px] bg-secondary-container text-on-surface px-2 py-1 uppercase border border-outline-variant">Sci-Fi</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-primary text-3xl">check_circle</span>
+</div>
+</section>
+<!-- Date & Venue -->
+<section class="bg-surface-container-low border-2 border-outline-variant p-6 relative">
+<div class="absolute top-0 left-0 w-2 h-full bg-secondary-container"></div>
+<h2 class="font-headline-lg text-3xl mb-6 uppercase">2. Logistics</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-6">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Show Date</label>
 <div class="relative">
-<span class="material-symbols-outlined absolute left-0 top-2 text-on-secondary-container">search</span>
-<input class="input-underline font-code-data text-code-data w-full pl-8" placeholder="ENTER FILM TITLE OR IMDB ID..." type="text">
+<input class="w-full brutalist-input font-data-mono text-data-mono" type="date" value="2024-11-15"/>
 </div>
 </div>
-<!-- Manual Entry Fallback Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-8 pt-8 ticket-perforation">
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">MANUAL TITLE</label>
-<input class="input-underline font-code-data text-code-data w-full" placeholder="FILM NAME" type="text">
-</div>
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">DIRECTOR</label>
-<input class="input-underline font-code-data text-code-data w-full" placeholder="DIRECTOR NAME" type="text">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Show Time</label>
+<div class="relative">
+<input class="w-full brutalist-input font-data-mono text-data-mono" type="time" value="19:30"/>
 </div>
 </div>
 </div>
-</div>
-<!-- Section 2: Temporal Logistics -->
-<div class="border border-white p-6 bg-surface relative">
-<div class="absolute top-0 right-0 p-2 bg-white text-black font-label-caps text-label-caps">02 / LOGISTICS</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-4">
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">DATE</label>
-<input class="input-underline font-code-data text-code-data w-full" style="color-scheme: dark;" type="date">
-</div>
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">TIME</label>
-<input class="input-underline font-code-data text-code-data w-full" style="color-scheme: dark;" type="time">
-</div>
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">RUNTIME (MIN)</label>
-<input class="input-underline font-code-data text-code-data w-full" placeholder="120" type="number">
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-8 pt-8 ticket-perforation">
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">VENUE / THEATER</label>
-<select class="input-underline font-code-data text-code-data w-full bg-surface" style="color-scheme: dark;">
-<option>MAIN HALL - THE ROXY</option>
-<option>SCREEN 1 - INDIE HOUSE</option>
-<option>SCREEN 2 - INDIE HOUSE</option>
-<option>OUTDOOR AMPHITHEATER</option>
+<div class="space-y-6">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Venue</label>
+<select class="w-full brutalist-input font-data-mono text-data-mono appearance-none">
+<option value="tcl">TCL Chinese Theatre - IMAX</option>
+<option value="amc">AMC Lincoln Square 13</option>
+<option value="bfi">BFI IMAX Waterloo</option>
 </select>
 </div>
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">SEATING TYPE</label>
-<select class="input-underline font-code-data text-code-data w-full bg-surface" style="color-scheme: dark;">
-<option>GENERAL ADMISSION</option>
-<option>ASSIGNED SEATING</option>
-</select>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Capacity</label>
+<input class="w-full brutalist-input font-data-mono text-data-mono" type="number" value="932"/>
 </div>
-</div>
-</div>
-<!-- Section 3: Economics -->
-<div class="border border-white p-6 bg-surface relative">
-<div class="absolute top-0 right-0 p-2 bg-white text-black font-label-caps text-label-caps">03 / ECONOMICS</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-4">
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">CAPACITY</label>
-<input class="input-underline font-code-data text-code-data w-full" placeholder="250" type="number">
-</div>
-<div class="flex flex-col">
-<label class="font-label-caps text-label-caps text-on-surface mb-2">PRICE PER TICKET (USD)</label>
-<div class="relative">
-<span class="absolute left-0 top-2 font-code-data text-code-data text-on-secondary-container">$</span>
-<input class="input-underline font-code-data text-code-data w-full pl-6" placeholder="15.00" step="0.01" type="number">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Price (USD)</label>
+<input class="w-full brutalist-input font-data-mono text-data-mono text-primary" type="text" value="$28.00"/>
 </div>
 </div>
 </div>
 </div>
-<!-- Mobile Action Area -->
-<div class="md:hidden flex flex-col gap-4 mt-8 pt-8 border-t border-surface-container-highest">
-<button class="btn-ghost font-label-caps text-label-caps px-6 py-4 w-full">SAVE DRAFT</button>
-<button class="btn-primary font-label-caps text-label-caps px-6 py-4 w-full">PUBLISH EVENT</button>
+</section>
 </div>
-</form>
+<!-- Preview Section (Sticky) -->
+<div class="xl:col-span-5 relative">
+<div class="sticky top-24">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">visibility</span> Live Preview
+                        </h2>
+<!-- Ticket Card Component -->
+<article class="bg-deep-navy border-2 border-outline-variant relative overflow-hidden shadow-2xl">
+<!-- Stub Section -->
+<div class="p-6 ticket-dashed-border relative bg-surface-container-low">
+<div class="cutout-left"></div>
+<div class="cutout-right"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-label-caps bg-primary text-on-primary px-2 py-1 uppercase border border-outline-variant tracking-widest">IMAX 70MM</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">ADM: 01</span>
+</div>
+<h3 class="font-headline-lg text-4xl uppercase tracking-tighter mb-1 leading-none text-on-surface">DUNE: PART TWO</h3>
+<p class="font-data-mono text-data-mono text-primary uppercase tracking-widest">TCL Chinese Theatre</p>
+</div>
+<!-- Body Section -->
+<div class="p-6 bg-surface-container relative">
+<div class="grid grid-cols-3 gap-4 mb-6">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Date</p>
+<p class="font-data-mono text-data-mono text-on-surface mt-1">NOV 15</p>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Time</p>
+<p class="font-data-mono text-data-mono text-on-surface mt-1">19:30</p>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Section</p>
+<p class="font-data-mono text-data-mono text-on-surface mt-1">GA-1</p>
+</div>
+</div>
+<div class="flex justify-between items-end mt-8 pt-4 border-t border-outline-variant/50">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Total</p>
+<p class="font-headline-lg-mobile text-2xl text-primary">$28.00</p>
+</div>
+<div class="w-16 h-16 bg-white p-1 border-2 border-outline-variant">
+<!-- Placeholder for QR -->
+<div class="w-full h-full bg-black flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl">qr_code_2</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Vertical barcode decoration -->
+<div class="absolute right-0 top-0 bottom-0 w-2 flex flex-col justify-between py-6 opacity-20 hidden">
+<div class="w-full h-1 bg-white"></div><div class="w-full h-2 bg-white"></div><div class="w-full h-1 bg-white"></div>
+<div class="w-full h-4 bg-white"></div><div class="w-full h-1 bg-white"></div><div class="w-full h-3 bg-white"></div>
+</div>
+</article>
+</div>
+</div>
+</div>
 </div>
 </main>
-
-
+<!-- BottomNavBar (Visible on Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-4 bg-surface dark:bg-surface border-t-2 border-outline-variant flat no shadows">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 hover:text-primary transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="event" style="font-variation-settings: 'FILL' 1;">event</span>
+<span class="font-label-caps text-label-caps mt-1">Events</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps mt-1">Settings</span>
+</a>
+</nav>
 </body></html>
