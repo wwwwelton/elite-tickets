@@ -1,17 +1,31 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useMemo, useState } from "react";
 
 import { EventPoster } from "@/components/events/poster";
+import { Ticket, Status, LedgerRow } from "@/components/ui";
 import { ApiError, apiMutation, apiRequest } from "@/lib/api";
 import { guardRoute } from "@/lib/auth";
 
-type MovieResult = {
-  tmdb_id: number;
+type CatalogEvent = {
+  external_id: string;
   title: string;
-  poster_path: string | null;
-  release_date: string | null;
+  description: string | null;
+  image_url: string | null;
+  category: string | null;
+  date: string | null;
+  venue_name: string | null;
+  city: string | null;
+  country_code: string | null;
+};
+
+type CatalogPage = {
+  items: CatalogEvent[];
+  page: number;
+  size: number;
+  total: number;
+  has_more: boolean;
 };
 
 type CreateEventPayload = {
@@ -29,8 +43,8 @@ export function EventForm() {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState<MovieResult[]>([]);
-  const [selected, setSelected] = useState<MovieResult | null>(null);
+  const [catalog, setCatalog] = useState<CatalogPage | null>(null);
+  const [selected, setSelected] = useState<CatalogEvent | null>(null);
   const [searching, setSearching] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
@@ -45,18 +59,26 @@ export function EventForm() {
     setAccessToken(guard.session.accessToken);
   }, [router]);
 
+  const emptyState = useMemo(
+    () => catalog !== null && catalog.items.length === 0,
+    [catalog],
+  );
+
   async function search() {
     if (!accessToken || !query.trim()) return;
     setSearching(true);
     setSearchError(null);
+    setCatalog(null);
+    setSelected(null);
     try {
-      setMovies(
-        await apiRequest<MovieResult[]>(
-          `/catalog/movies?query=${encodeURIComponent(query.trim())}`,
+      setCatalog(
+        await apiRequest<CatalogPage>(
+          `/catalog/events?keyword=${encodeURIComponent(query.trim())}&countryCode=BR`,
           { accessToken, cache: "no-store" },
         ),
       );
     } catch (caught) {
+      setCatalog(null);
       setSearchError(apiMessage(caught, "O catálogo está indisponível."));
     } finally {
       setSearching(false);
@@ -73,7 +95,7 @@ export function EventForm() {
       await apiMutation<unknown, CreateEventPayload>("/events", {
         accessToken,
         body: {
-          tmdb_id: selected.tmdb_id,
+          tmdb_id: externalIdAsNumber(selected.external_id),
           venue_name: String(data.get("venue_name")),
           venue_address: String(data.get("venue_address")),
           starts_at: localDateTime(String(data.get("starts_at"))),
@@ -92,49 +114,97 @@ export function EventForm() {
   }
 
   return (
-    <section>
+    <section className="organizer-selector" aria-busy={searching || submitting}>
       <div className="field">
-        <label htmlFor="movie-query">Pesquisar filme</label>
-        <input id="movie-query" value={query} onChange={(event) => setQuery(event.target.value)} maxLength={200} />
-        <button type="button" disabled={!accessToken || searching || !query.trim()} onClick={search}>
-          {searching ? "Pesquisando…" : "Pesquisar no TMDb"}
+        <label htmlFor="event-query">Pesquisar evento Ticketmaster</label>
+        <input
+          id="event-query"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          maxLength={200}
+        />
+        <button type="button" disabled={!accessToken || searching || !query.trim()} onClick={() => void search()}>
+          {searching ? "Pesquisando…" : "Pesquisar no catálogo"}
         </button>
       </div>
+
       {searchError ? (
-        <div role="alert">
-          <p>{searchError}</p>
-          <button type="button" className="button button--ghost" onClick={search}>Tentar novamente</button>
-        </div>
-      ) : null}
-      <div className="page-grid" style={{ width: "100%" }}>
-        {movies.map((movie) => (
-          <article className="ticket" key={movie.tmdb_id}>
-            <div className="ticket__section">
-              <EventPoster src={posterUrl(movie.poster_path)} alt={`Pôster de ${movie.title}`} />
-              <h2 className="headline-sm">{movie.title}</h2>
-              <p className="code-data">{movie.release_date ?? "Data não informada"}</p>
-              <button type="button" className="button button--ghost" onClick={() => setSelected(movie)}>
-                {selected?.tmdb_id === movie.tmdb_id ? "Selecionado" : "Selecionar filme"}
+        <Ticket
+          header={
+            <>
+              <Status status={statusForError(searchError)} />
+              <h2 className="headline-sm">Catálogo indisponível</h2>
+            </>
+          }
+          details={
+            <>
+              <p role="alert">{searchError}</p>
+              <button type="button" className="button button--ghost" onClick={() => void search()}>
+                Tentar novamente
               </button>
-            </div>
-          </article>
+            </>
+          }
+        />
+      ) : null}
+
+      {searching ? <p role="status">Carregando resultados…</p> : null}
+      {emptyState ? <p role="status">Nenhum evento encontrado.</p> : null}
+
+      <div className="page-grid organizer-selector__results" style={{ width: "100%" }}>
+        {catalog?.items.map((item) => (
+          <Ticket
+            key={item.external_id}
+            emphasized={selected?.external_id === item.external_id}
+            header={
+              <>
+                <EventPoster src={item.image_url} alt={`Pôster de ${item.title}`} />
+                <p className="label-caps">{item.category ?? "Ticketmaster"}</p>
+                <h2 className="headline-sm">{item.title}</h2>
+              </>
+            }
+            details={
+              <ul className="ledger">
+                <LedgerRow label="Data" value={item.date ?? "Não informada"} />
+                <LedgerRow label="Local" value={item.venue_name ?? "Não informado"} />
+                <LedgerRow label="Cidade" value={item.city ?? "Não informada"} />
+                <LedgerRow label="País" value={item.country_code ?? "—"} />
+              </ul>
+            }
+            footer={
+              <button
+                type="button"
+                className="button button--ghost"
+                onClick={() => setSelected(item)}
+              >
+                {selected?.external_id === item.external_id ? "Selecionado" : "Selecionar evento"}
+              </button>
+            }
+          />
         ))}
       </div>
 
       {selected ? (
-        <form onSubmit={submit} aria-describedby={formError ? "event-form-error" : undefined}>
-          <p className="label-caps">Filme selecionado</p>
-          <h2 className="headline-md">{selected.title}</h2>
-          <div className="field"><label htmlFor="venue-name">Local</label><input id="venue-name" name="venue_name" required maxLength={180} /></div>
-          <div className="field"><label htmlFor="venue-address">Endereço</label><input id="venue-address" name="venue_address" required maxLength={300} /></div>
-          <div className="field"><label htmlFor="starts-at">Início</label><input id="starts-at" name="starts_at" type="datetime-local" required /></div>
-          <div className="field"><label htmlFor="ends-at">Término</label><input id="ends-at" name="ends_at" type="datetime-local" required /></div>
-          <div className="field"><label htmlFor="timezone">Fuso horário</label><input id="timezone" name="timezone" defaultValue="America/Sao_Paulo" required maxLength={64} /></div>
-          <div className="field"><label htmlFor="capacity">Capacidade</label><input id="capacity" name="capacity" type="number" min={1} step={1} required /></div>
-          <div className="field"><label htmlFor="price">Preço (BRL)</label><input id="price" name="price" type="number" min="0" step="0.01" required /></div>
-          {formError ? <p id="event-form-error" role="alert">{formError}</p> : null}
-          <button type="submit" disabled={submitting}>{submitting ? "Criando…" : "Criar rascunho"}</button>
-        </form>
+        <Ticket
+          header={
+            <>
+              <p className="label-caps">Origem selecionada</p>
+              <h2 className="headline-md">{selected.title}</h2>
+            </>
+          }
+          details={
+            <form onSubmit={submit} aria-describedby={formError ? "event-form-error" : undefined} className="organizer-selector__form">
+              <div className="field"><label htmlFor="venue-name">Local</label><input id="venue-name" name="venue_name" required maxLength={180} defaultValue={selected.venue_name ?? ""} /></div>
+              <div className="field"><label htmlFor="venue-address">Endereço</label><input id="venue-address" name="venue_address" required maxLength={300} defaultValue="" /></div>
+              <div className="field"><label htmlFor="starts-at">Início</label><input id="starts-at" name="starts_at" type="datetime-local" required /></div>
+              <div className="field"><label htmlFor="ends-at">Término</label><input id="ends-at" name="ends_at" type="datetime-local" required /></div>
+              <div className="field"><label htmlFor="timezone">Fuso horário</label><input id="timezone" name="timezone" defaultValue="America/Sao_Paulo" required maxLength={64} /></div>
+              <div className="field"><label htmlFor="capacity">Capacidade</label><input id="capacity" name="capacity" type="number" min={1} step={1} required /></div>
+              <div className="field"><label htmlFor="price">Preço (BRL)</label><input id="price" name="price" type="number" min="0" step="0.01" required /></div>
+              {formError ? <p id="event-form-error" role="alert">{formError}</p> : null}
+              <button type="submit" disabled={submitting}>{submitting ? "Criando…" : "Criar rascunho"}</button>
+            </form>
+          }
+        />
       ) : null}
     </section>
   );
@@ -146,10 +216,27 @@ function localDateTime(value: string): string {
   return date.toISOString();
 }
 
-function posterUrl(path: string | null): string | null {
-  return path ? `https://image.tmdb.org/t/p/w500/${path.replace(/^\/+/, "")}` : null;
+function externalIdAsNumber(externalId: string): number {
+  const parsed = Number(externalId);
+  if (Number.isInteger(parsed) && parsed > 0) return parsed;
+  return Math.abs(hashCode(externalId)) % 1_000_000_000;
+}
+
+function hashCode(value: string): number {
+  let hash = 0;
+  for (const char of value) {
+    hash = (hash * 31 + char.charCodeAt(0)) | 0;
+  }
+  return hash;
+}
+
+function statusForError(message: string) {
+  if (message.includes("autenticação") || message.includes("configuração")) return "INVALID";
+  if (message.includes("Limite temporário") || message.includes("requisições")) return "SOLD_OUT";
+  return "WRONG_EVENT";
 }
 
 function apiMessage(error: unknown, fallback: string): string {
-  return error instanceof ApiError ? error.message : fallback;
+  if (error instanceof ApiError) return error.message;
+  return fallback;
 }
