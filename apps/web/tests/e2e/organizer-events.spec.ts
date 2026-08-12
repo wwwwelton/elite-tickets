@@ -87,6 +87,7 @@ test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async 
   await expect(page.locator(".organizer-responsive-ledger")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Meus eventos" })).toBeVisible();
   await expect(page.getByText("Acompanhe publicação e estoque", { exact: false })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sair" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Eventos públicos" })).toHaveAttribute("href", "/");
   await expect(page.getByRole("link", { name: "Voltar aos eventos públicos" })).toHaveAttribute(
     "href",
