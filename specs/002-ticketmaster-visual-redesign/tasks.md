@@ -16,10 +16,10 @@
 
 **Purpose**: Create the provider abstraction and normalized catalog model that all catalog endpoints and event snapshot logic will use.
 
-- [ ] T004 [P] Create normalized catalog DTOs in `apps/api/src/elite_tickets/catalog/schemas.py` for search results, detail payloads, pagination, and error metadata
-- [ ] T005 [P] Create catalog mapping helpers in `apps/api/src/elite_tickets/catalog/mapping.py` to convert Ticketmaster payloads into internal DTOs
-- [ ] T006 [P] Create a catalog abstraction interface in `apps/api/src/elite_tickets/catalog/service.py` or `apps/api/src/elite_tickets/catalog/interfaces.py` so routes do not depend on raw Ticketmaster shapes
-- [ ] T007 Add Ticketmaster-specific error types and upstream state mapping in `apps/api/src/elite_tickets/catalog/errors.py`
+- [X] T004 [P] Create normalized catalog DTOs in `apps/api/src/elite_tickets/catalog/schemas.py` for search results, detail payloads, pagination, and error metadata
+- [X] T005 [P] Create catalog mapping helpers in `apps/api/src/elite_tickets/catalog/mapping.py` to convert Ticketmaster payloads into internal DTOs
+- [X] T006 [P] Create a catalog abstraction interface in `apps/api/src/elite_tickets/catalog/service.py` or `apps/api/src/elite_tickets/catalog/interfaces.py` so routes do not depend on raw Ticketmaster shapes
+- [X] T007 Add Ticketmaster-specific error types and upstream state mapping in `apps/api/src/elite_tickets/catalog/errors.py`
 
 ## Phase 3: Ticketmaster HTTP Client
 
