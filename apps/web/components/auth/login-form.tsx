@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { ApiError, apiMutation } from "@/lib/api";
 import { roleHome, saveSession, type TokenResponse } from "@/lib/auth";
+import { Button } from "@/components/ui";
 
 type LoginPayload = {
   email: string;
@@ -44,8 +45,14 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} aria-describedby={error ? "login-error" : undefined}>
-      <div>
+    <form
+      className="ticket__details-stack"
+      aria-label="Acesso à conta"
+      aria-busy={isSubmitting}
+      aria-describedby={error ? "login-error" : undefined}
+      onSubmit={handleSubmit}
+    >
+      <div className="field">
         <label htmlFor="email">E-mail</label>
         <input
           id="email"
@@ -56,7 +63,7 @@ export function LoginForm() {
           required
         />
       </div>
-      <div>
+      <div className="field">
         <label htmlFor="password">Senha</label>
         <input
           id="password"
@@ -68,13 +75,15 @@ export function LoginForm() {
         />
       </div>
       {error ? (
-        <p id="login-error" role="alert">
+        <p id="login-error" role="alert" aria-atomic="true">
           {error}
         </p>
       ) : null}
-      <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
-        {isSubmitting ? "Entrando…" : "Entrar"}
-      </button>
+      <div className="ticket__actions">
+        <Button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+          {isSubmitting ? "Entrando…" : "Entrar"}
+        </Button>
+      </div>
     </form>
   );
 }
