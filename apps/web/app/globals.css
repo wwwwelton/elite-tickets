@@ -160,6 +160,9 @@ canvas {
   margin-inline: auto;
 }
 
+.tickets-page { align-items: start; }
+.my-tickets-list { min-width: 0; }
+
 .page-grid > * {
   min-width: 0;
 }
