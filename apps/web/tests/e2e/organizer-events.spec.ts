@@ -87,6 +87,11 @@ test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async 
   await expect(page.locator(".organizer-responsive-ledger")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Meus eventos" })).toBeVisible();
   await expect(page.getByText("Acompanhe publicação e estoque", { exact: false })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Eventos públicos" })).toHaveAttribute("href", "/");
+  await expect(page.getByRole("link", { name: "Voltar aos eventos públicos" })).toHaveAttribute(
+    "href",
+    "/",
+  );
   await page.getByRole("link", { name: "Criar evento" }).click();
   await expect(page.getByRole("heading", { name: "Criar evento" })).toBeVisible();
 
@@ -125,6 +130,9 @@ test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async 
   await expect(ledger.getByRole("status", { name: "DRAFT" })).toBeVisible();
   await expect(ledger.getByRole("region", { name: "Estoque de Filme de Teste" })).toContainText(
     "50",
+  );
+  await expect(ledger.getByRole("region", { name: "Estoque de Filme de Teste" })).toContainText(
+    "Vendidos",
   );
   await ledger.getByRole("button", { name: "Publicar" }).click();
   await expect(ledger.getByRole("status", { name: "PUBLISHED" })).toBeVisible();
