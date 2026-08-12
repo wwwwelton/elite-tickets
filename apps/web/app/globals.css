@@ -164,6 +164,8 @@ canvas {
 .my-tickets-list { min-width: 0; }
 .ticket-detail-page { align-items: start; }
 .ticket-detail-card { min-width: 0; }
+.shared-ticket-page { align-items: start; }
+.shared-ticket-actions { min-width: 0; }
 
 .page-grid > * {
   min-width: 0;
