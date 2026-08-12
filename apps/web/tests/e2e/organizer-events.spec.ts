@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const webUrl = process.env.E2E_WEB_URL ?? "http://127.0.0.1:3000";
 
-test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page }) => {
+test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async ({ page }) => {
   let catalogAttempts = 0;
   let events: Array<Record<string, unknown>> = [];
 
@@ -18,7 +18,7 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
       }),
     });
   });
-  await page.route("**/api/v1/catalog/movies**", async (route) => {
+  await page.route("**/api/v1/catalog/events**", async (route) => {
     catalogAttempts += 1;
     if (catalogAttempts === 1) {
       await route.fulfill({
@@ -34,7 +34,17 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
       status: 200,
       contentType: "application/json",
       body: JSON.stringify([
-        { tmdb_id: 42, title: "Filme de Teste", poster_path: null, release_date: "2026-01-02" },
+        {
+          external_id: "42",
+          title: "Filme de Teste",
+          description: null,
+          image_url: null,
+          category: "Cinema",
+          date: "2026-01-02",
+          venue_name: "Cinema Central",
+          city: "São Paulo",
+          country_code: "BR",
+        },
       ]),
     });
   });
@@ -65,12 +75,12 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
   await expect(page).toHaveURL(/\/organizer\/events$/);
   await page.getByRole("link", { name: "Criar evento" }).click();
 
-  await page.getByLabel("Pesquisar filme").fill("Filme");
-  await page.getByRole("button", { name: "Pesquisar no TMDb" }).click();
+  await page.getByLabel("Pesquisar evento Ticketmaster").fill("Filme");
+  await page.getByRole("button", { name: "Pesquisar no catálogo" }).click();
   await expect(page.getByRole("alert").filter({ hasText: "Catálogo indisponível" })).toBeVisible();
   await page.getByRole("button", { name: "Tentar novamente" }).click();
   await expect(page.getByText("Pôster indisponível", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Selecionar filme" }).click();
+  await page.getByRole("button", { name: "Selecionar evento" }).click();
 
   await page.getByLabel("Local").fill("Cinema Central");
   await page.getByLabel("Endereço").fill("Avenida Central, 10");
