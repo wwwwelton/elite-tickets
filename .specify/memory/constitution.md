@@ -11,6 +11,8 @@ Relatório de Impacto da Sincronização
   XIII. Decisões Arquiteturais Documentadas; XIV. Identidade Visual Não Genérica;
   XV. DESIGN.md como Fonte Visual; XVI. spec.md como Fonte Funcional;
   XVII. plan.md como Fonte Técnica; XVIII. Verificação de Código Gerado por IA
+  XVIII. PRD.md é a fonte de verdade para a visão, objetivos, problema de negócio,
+  usuários, escopo de alto nível e critérios de sucesso do produto.
 - Seções adicionadas: Restrições de Engenharia; Fluxo de Desenvolvimento
 - Seções removidas: nenhuma
 - TODOs pendentes: nenhum
