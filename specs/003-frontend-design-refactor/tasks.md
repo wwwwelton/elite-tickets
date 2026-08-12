@@ -13,7 +13,7 @@
 ## Phase 2: Shared UI foundation
 
 - [X] T004 Refine design tokens, typography, spacing, grid, responsive breakpoints, focus styling, and overflow-safe primitives in `apps/web/app/globals.css` using `DESIGN.md` and screenshots (FR-001, FR-009, FR-010, FR-011)
-- [ ] T005 [P] After T004, refine reusable `Button`, `Ticket`, `Status`, `LedgerRow`, and `Perforation` primitives in `apps/web/components/ui/{button,ticket,status,ledger,perforation}.tsx` and `apps/web/components/ui/index.ts` (FR-009, FR-010, FR-016)
+- [X] T005 [P] After T004, refine reusable `Button`, `Ticket`, `Status`, `LedgerRow`, and `Perforation` primitives in `apps/web/components/ui/{button,ticket,status,ledger,perforation}.tsx` and `apps/web/components/ui/index.ts` (FR-009, FR-010, FR-016)
 - [ ] T006 Create/refine shared poster, page-shell, field, loading, empty, error, and result-state patterns in `apps/web/components/events/poster.tsx`, `apps/web/components/ui/`, and `apps/web/app/globals.css` after T004–T005 (FR-008, FR-009, FR-010, FR-016)
 - [ ] T007 Add unit coverage for shared primitives, state semantics, focus-visible behavior, and missing-image fallback in `apps/web/tests/unit/ui-primitives.test.tsx`, `apps/web/tests/unit/design-tokens.test.tsx`, and `apps/web/tests/unit/image-config.test.ts` (FR-008, FR-010, SC-007)
 
