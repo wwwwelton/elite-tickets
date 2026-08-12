@@ -70,6 +70,83 @@ test("anonymous shared ticket stays read-only and expires after admission", asyn
   await expect(page.getByRole("img", { name: "QR do ingresso" })).toHaveCount(0);
 });
 
+test("customer creates and copies a read-only share link from the ticket", async ({ page }) => {
+  const ticket = {
+    id: "ticket-share",
+    event_id: "event-share",
+    owner_name: "Cliente Compartilhamento",
+    status: "ACTIVE",
+    issued_at: "2026-08-11T12:00:00Z",
+    used_at: null,
+    qr_credential: "signed.share.credential",
+  };
+  const shareUrl = `${webUrl}/shared/tickets/read-only-token`;
+  let authorizationHeader: string | undefined;
+
+  await page.addInitScript(() => {
+    window.sessionStorage.setItem(
+      "elite-tickets.session",
+      JSON.stringify({
+        accessToken: "customer-share-token",
+        expiresAt: Date.now() + 15 * 60 * 1000,
+        role: "CUSTOMER",
+      }),
+    );
+    Object.defineProperty(window.navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (value: string) => {
+          window.sessionStorage.setItem("elite-tickets.copied-share-url", value);
+        },
+      },
+    });
+  });
+  await page.route("**/api/v1/me/tickets", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify([ticket]),
+    });
+  });
+  await page.route("**/api/v1/events/event-share", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        title: "Concerto compartilhado",
+        starts_at: "2030-01-01T20:00:00Z",
+        venue_name: "Sala Editorial",
+      }),
+    });
+  });
+  await page.route("**/api/v1/me/tickets/ticket-share/share", async (route) => {
+    authorizationHeader = route.request().headers().authorization;
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ share_url: shareUrl }),
+    });
+  });
+
+  await page.goto(`${webUrl}/customer/tickets/${ticket.id}`);
+  const ticketArticle = page.getByRole("article", { name: "Ingresso de Concerto compartilhado" });
+  await expect(ticketArticle).toBeVisible();
+  await expect(ticketArticle.getByRole("img", { name: "QR do ingresso" })).toBeVisible();
+  const shareRegion = ticketArticle.getByRole("region", { name: "Compartilhamento do ingresso" });
+  await shareRegion.getByRole("button", { name: "Compartilhar ingresso" }).click();
+
+  const publicLink = shareRegion.getByLabel("Link público somente leitura");
+  await expect(publicLink).toHaveValue(shareUrl);
+  await expect(publicLink).toHaveAttribute("readonly", "");
+  await expect(shareRegion.getByRole("status")).toContainText(
+    "O ingresso continua pertencendo a você",
+  );
+  expect(authorizationHeader).toBe("Bearer customer-share-token");
+  expect(
+    await page.evaluate(() => window.sessionStorage.getItem("elite-tickets.copied-share-url")),
+  ).toBe(shareUrl);
+});
+
 async function login(
   request: import("@playwright/test").APIRequestContext,
   email: string,
