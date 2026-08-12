@@ -17,6 +17,7 @@ class CatalogAuthError(CatalogUpstreamError):
 
 
 class CatalogRateLimitError(CatalogUpstreamError):
+    status_code = 429
     code = "catalog_rate_limited"
     public_message = "The catalog provider rate limit was reached"
 

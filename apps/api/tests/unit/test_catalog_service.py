@@ -3,16 +3,25 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pytest
-
 from elite_tickets.catalog.errors import (
     CatalogAuthError,
     CatalogRateLimitError,
     CatalogUpstreamUnavailableError,
 )
-from elite_tickets.catalog.schemas import CatalogEventDetail, CatalogPage, CatalogSearchResult
+from elite_tickets.catalog.schemas import (
+    CatalogEventDetail,
+    CatalogPage,
+    CatalogSearchResult,
+)
 from elite_tickets.catalog.service import CatalogService
 
 pytestmark = pytest.mark.unit
+
+
+def test_catalog_error_http_status_policy() -> None:
+    assert CatalogAuthError.status_code == 503
+    assert CatalogRateLimitError.status_code == 429
+    assert CatalogUpstreamUnavailableError.status_code == 503
 
 
 @dataclass
