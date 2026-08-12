@@ -68,3 +68,60 @@
 ### Auth
 
 - `apps/web/components/auth/login-form.tsx`
+
+## Visual direction extracted from approved design artifacts
+
+### From `DESIGN.md`
+
+- Editorial brutalist aesthetic: high-contrast, ticket-like, poster-like, strongly structured.
+- Black canvas with white text and a single cinema-red accent.
+- No rounded corners, no shadows, no glassmorphism, no generic SaaS styling.
+- Ticket components should use perforation/dashed dividers and visible structural borders.
+- Typography hierarchy:
+  - Bodoni Moda for display and headings.
+  - Inter for body and functional labels.
+  - JetBrains Mono for data, codes, prices, and ticket metadata.
+- Statuses must be explicit, not color-only.
+- Customer experience is mobile-first.
+- Gate must prioritize speed and legibility.
+- Organizer may be desktop-oriented but still responsive.
+
+### From `docs/design/stitch-prompts.md`
+
+- Design targets:
+  - Home
+  - Event Detail
+  - Checkout
+  - Payment Approved
+  - Payment Declined
+  - My Tickets
+  - Ticket Detail
+  - Shared Ticket
+  - Organizer Events
+  - Create Event
+  - Gate Scanner
+  - Valid
+  - Invalid
+  - Already Used
+  - Wrong Event
+- Reused motifs:
+  - physical tickets
+  - cinema admission tickets
+  - event posters
+  - editorial typography
+- Explicit exclusions:
+  - no generic dashboard SaaS look
+  - no excessive gradients
+  - no glassmorphism
+  - no heavy statistic-card layouts
+
+### HTML references
+
+- No `docs/design/*.html` files are present in this repository snapshot.
+
+## Implementation implications
+
+- Preserve the current app routes and rebuild them with reusable ticket/editorial primitives.
+- Keep the strong black/white/red palette and the monospace data treatment.
+- Treat ticket cards, ledgers, perforation dividers, and status stamps as core shared building blocks.
+- Avoid introducing a second visual language in any new page or selector UI.
