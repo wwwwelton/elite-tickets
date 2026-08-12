@@ -4,124 +4,129 @@
 
 ## Summary
 
-Refactor the existing Next.js/React frontend to implement the 23 approved design
-references as 15 route/interaction flows, without changing backend contracts,
-domain behavior, routes, or `docs/design/`. Screenshots are the visual target;
-HTML files provide composition guidance. Existing API/state values remain dynamic.
+Refactor the existing Next.js/React frontend across 15 approved flows and 23
+design directories. `screen.png` is the visual target, `code.html` is structural
+reference only, and product behavior/API contracts remain authoritative. The
+implementation uses one responsive flow for each of eight responsive pairs and
+keeps payment and Gate result references as states of existing routes.
 
 ## Technical Context
 
 **Language/Version**: TypeScript 5.9, React 19, Node.js 22+
 
-**Primary Dependencies**: Next.js 15 App Router, React 19, existing CSS in `app/globals.css`, QRCode package
+**Primary Dependencies**: Next.js 15 App Router, React 19, npm 12, existing CSS, QRCode package, Vitest, Testing Library, Playwright
 
-**Storage**: N/A for this UI-only change; existing FastAPI/PostgreSQL data remains authoritative
+**Storage**: N/A; existing FastAPI/PostgreSQL data remains authoritative
 
-**Testing**: Vitest + Testing Library, Playwright, ESLint, `tsc --noEmit`, Next production build
+**Testing**: Vitest, Testing Library, Playwright, ESLint, `tsc --noEmit`, Next production build
 
-**Target Platform**: Browser, responsive mobile and desktop viewports, served by existing Next.js container
+**Target Platform**: Browser at mobile, intermediate, and desktop viewport widths
 
 **Project Type**: Web application frontend
 
-**Performance Goals**: Preserve current route/build performance; avoid adding client bundles or dependencies without evidence
+**Performance Goals**: Preserve existing build/runtime characteristics; no new client state/cache/dependency layer
 
-**Constraints**: Preserve routes, API contracts, JWT role guards, inventory/payment/QR behavior, keyboard access, and no horizontal overflow on primary content
+**Constraints**: Preserve routes, backend/API contracts, JWT/session behavior, authorization, inventory/payment/QR rules, dynamic data, keyboard access, and primary-content overflow safety
 
-**Scale/Scope**: 46 reference files (23 `code.html` + 23 `screen.png`) across 15 design directories, 12 existing App Router route files, shared UI/event/ticket components
+**Scale/Scope**: 46 reference files (23 HTML + 23 screenshots), 15 flows, 12 App Router route files, existing shared UI/event/ticket components
 
 ## Constitution Check
 
-- I, II, III, IV, V, VI, VII, VIII: PASS — presentation-only work; backend authorization, inventory, payment, and QR rules remain untouched.
-- IX: PASS — reuse existing primitives and CSS; no new abstraction or dependency without repeated usage.
-- X, XI, XII: PASS — existing Docker/demo configuration and secrets remain unchanged.
-- XIV, XV: PASS — `DESIGN.md` and approved screenshots govern visual decisions; no generic dashboard language.
-- XVI, XVII, XVIII: PASS — behavior follows `spec.md`, this plan records technical decisions, and all changes require tests/build review.
+- Principles I–VIII: PASS — presentation-only work does not move business rules, authorization, inventory, payment, or QR decisions out of the backend.
+- Principle IX: PASS — existing CSS and primitives are reused; no framework or visual library is introduced.
+- Principles X–XIII: PASS — Docker, demo data, secrets, and architectural decisions remain unchanged.
+- Principles XIV–XV: PASS — `DESIGN.md` and approved screenshots govern visual direction; `docs/design/` is immutable.
+- Principles XVI–XVIII: PASS — behavior follows `spec.md`, this plan is technical authority, and changes require execution/review/tests.
 
-## Design inventory and mapping
+## Actual project architecture
 
-The 23 `code.html`/`screen.png` assets map to the 15 flows listed in `spec.md`:
-customer home, event detail, checkout, approved/declined checkout states, ticket
-list/detail/shared ticket, organizer list/create, gate scanner, and four gate
-result states. Seven pairs are responsive variants: home, event detail, checkout,
-my tickets, ticket detail, organizer events, create event, plus gate scanner's
-desktop counterpart (the spec's paired-flow rule applies to each available pair).
-Payment and gate results remain post-action component states in their existing
-routes, not new routes. Any copy, artwork, price, date, or count in references is
-placeholder content and is replaced by the existing view models/API responses.
+- Package manager: npm with `apps/web/package-lock.json` and `packageManager: npm@12.0.2`.
+- Framework: Next.js 15.5 App Router with server route files under `apps/web/app/**` and client interactivity in existing components.
+- Styling: `apps/web/app/globals.css` with design tokens, layout utilities, media queries, and component classes; no Tailwind, CSS Modules, Bootstrap, or React Router.
+- API boundary: `apps/web/lib/api.ts` normalizes errors and base URLs; it is not a contract redesign target.
+- Auth boundary: `apps/web/lib/auth.ts` stores/reads JWT session state and role guards; presentation may consume existing results but must not change authorization semantics.
+- Tests: Vitest/Testing Library in `apps/web/tests/unit`, Playwright in `apps/web/tests/e2e`, plus lint/typecheck/build scripts.
 
-## Existing architecture and reuse strategy
+## Design inventory and route/state mapping
 
-- Keep App Router route files under `apps/web/app/**` and the existing server/client
-  boundaries. Pages continue to fetch server-safe data where they do so today;
-  interactive components remain client components.
-- Keep `apps/web/lib/api.ts` as the sole normalized HTTP/error boundary and
-  `apps/web/lib/auth.ts` as the session/role guard boundary.
-- Extend/refine existing primitives (`Button`, `Ticket`, `Status`, `LedgerRow`,
-  `Perforation`) and event/ticket components before changing page composition.
-- Share poster, ticket frame, ledger rows, status messaging, form fields, and
-  responsive shell patterns. Do not create separate mobile/desktop business
-  components.
-- Preserve existing scanner, checkout, countdown, quantity, sharing, and QR logic;
-  change only hierarchy, semantics, and styling around them.
+| References | Existing route/state |
+|---|---|
+| `01_home` + `_desktop` | `/` |
+| `02_event_detail` + `_desktop` | `/events/[eventId]` |
+| `03_checkout` + `_desktop` | `/customer/checkout/[eventId]` |
+| `04_payment_approved` | checkout approved state |
+| `05_payment_declined` | checkout declined/recovery state |
+| `06_my_tickets` + `_desktop` | `/customer/tickets` |
+| `07_ticket_detail` + `_desktop` | `/customer/tickets/[ticketId]` |
+| `08_shared_ticket` | `/shared/tickets/[shareToken]` |
+| `09_organizer_events` + `_mobile` | `/organizer/events` |
+| `10_create_event` + `_mobile` | `/organizer/events/new` |
+| `11_gate_scanner` + `_desktop` | `/gate` |
+| `12_valid` | Gate `VALID` state |
+| `13_invalid` | Gate `INVALID` state |
+| `14_already_used` | Gate `ALREADY_USED` state |
+| `15_wrong_event` | Gate `WRONG_EVENT` state |
 
-## Responsive implementation
+The eight pairs are Home, Event Detail, Checkout, My Tickets, Ticket Detail,
+Organizer Events, Create Event, and Gate Scanner. Payment and Gate outcomes remain
+state transitions in existing routes, not new routes. Reference text, images,
+prices, dates, counts, identities, and credentials are illustrative; view models
+and API responses remain dynamic. Conflicts are resolved in this order:
+approved product requirements/specification, `DESIGN.md`, `screen.png`, then
+`code.html`; any unresolved conflict returns to clarification rather than being
+resolved silently in code.
 
-Implement one CSS-responsive flow per paired reference. Use the existing tokenized
-CSS and media-query conventions in `globals.css`; derive column changes, spacing,
-full-width mobile actions, and dense desktop ledgers from screenshots. Validate at
-reference mobile/desktop sizes plus an intermediate width. Primary content must not
-overflow horizontally.
+## Reuse and responsive strategy
 
-## Data and state binding
+Refine existing `components/ui` primitives (`Button`, `Ticket`, `Status`,
+`LedgerRow`, `Perforation`) and existing event/ticket/checkout/scanner components.
+Share poster, ticket frame, ledger, field, state-message, and shell patterns only
+where repeated usage is demonstrated. Keep one business component per flow and
+use CSS/media queries for mobile, intermediate, and desktop composition. Tasks
+sharing `globals.css`, `components/ui`, route shells, or test files are sequential;
+`[P]` is reserved for independent files and completed dependencies.
 
-Map reference placeholders to existing `PublicEvent`, catalog result, reservation,
-payment, ticket, session, organizer event, and gate validation types. Keep loading,
-empty, network/API, validation, authorization, success, declined, expired, and
-camera-denied states explicit in components. Never embed design mock values or alter
-the backend/API shape to fit a screenshot.
+## Data, state, and accessibility
 
-## Accessibility and interaction
-
-Use semantic landmarks/headings, associated labels, accessible names, visible
-`:focus-visible`, live status/alert regions, text plus non-color status indicators,
-and keyboard-operable controls. If a dialog is not present in the existing flow,
-do not introduce one solely for visual matching. Preserve camera failure/manual QR
-fallback and focus feedback after validation/share actions.
+Map placeholders to existing event, catalog, reservation, payment, ticket, session,
+organizer, and validation view models. Preserve loading, empty, network/API,
+validation, authorization, success, declined, expired, `VALID`, `INVALID`,
+`ALREADY_USED`, `WRONG_EVENT`, and camera-denied/manual-fallback states. Use
+semantic landmarks/headings, labels, accessible names, meaningful image
+alternatives, visible focus, keyboard operation, live regions, and text/non-color
+feedback. Do not alter `apps/web/lib/api.ts` or `apps/web/lib/auth.ts` in a way that
+changes contracts, JWT/session behavior, role authorization, or backend decisions.
 
 ## Validation strategy
 
-1. Run unit tests for primitives, login, public pages, checkout states, ticket/QR/share semantics.
-2. Run Playwright customer purchase, organizer create/publish, gate outcomes, ticket sharing, and accessibility suites at mobile and desktop projects.
-3. Run lint, typecheck, and production build after each migration slice and finally across `apps/web`.
-4. Review each screenshot mapping manually at the documented viewport sizes; record any intentional discrepancy in implementation notes rather than changing product behavior.
+1. Baseline existing lint, typecheck, unit, build, and Customer/Organizer/Gate/Sharing E2E suites.
+2. Add focused unit coverage at the concrete paths `apps/web/tests/unit/checkout-flow.test.tsx` and `apps/web/tests/unit/gate-validation.test.tsx`.
+3. Validate every responsive pair at reference mobile, intermediate, and desktop widths; use a matrix for all 15 flows.
+4. Run Customer purchase, Organizer create/publish, Gate/manual fallback/results, sharing, and accessibility E2E journeys.
+5. Define a blocking visual mismatch as missing flow/state, broken primary interaction, wrong product behavior, unreadable content, or primary-content overflow.
+6. Verify `git diff -- docs/design` is empty and run final lint/typecheck/unit/build/E2E checks.
 
 ## Project Structure
 
 ```text
 apps/web/
-├── app/                         # Existing App Router routes and global CSS
-├── components/
-│   ├── ui/                      # Shared visual primitives
-│   ├── auth/                    # Login form
-│   ├── events/                  # Discovery, detail, organizer, catalog form
-│   ├── checkout/                # Reservation/payment states
-│   └── tickets/                 # Ticket, QR, sharing, gate scanner/results
-├── lib/                         # API client and JWT/session guards
-└── tests/
-    ├── unit/                    # Vitest/Testing Library
-    └── e2e/                     # Playwright journeys/accessibility
+├── app/                         # Existing App Router pages and globals.css
+├── components/{ui,auth,events,checkout,tickets}/
+├── lib/{api,auth}.ts            # Existing API/session boundaries
+└── tests/{unit,e2e}/
 ```
 
-**Structure Decision**: retain the existing Next.js App Router structure and
-component folders; this feature adds no backend, route, or persistent data layer.
+**Structure Decision**: retain the actual Next.js App Router and existing folders;
+no backend, route, persistent data model, or new interface contract is required.
 
 ## Delivery phases
 
-1. Inventory/tokens and shared shell/primitives.
-2. Customer discovery/detail, checkout, ticket list/detail/share.
-3. Organizer list/create/catalog states.
-4. Gate scanner and result states.
-5. Accessibility/responsive audit, legacy cleanup, E2E and final validation.
+1. Inventory and baseline.
+2. Shared foundation.
+3. Customer discovery/purchase and ticket/share flows.
+4. Organizer flow.
+5. Gate flow.
+6. Responsive/accessibility audit, E2E, cleanup, and immutable-reference check.
 
 ## Complexity Tracking
 

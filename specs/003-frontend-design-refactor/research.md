@@ -1,46 +1,46 @@
 # Research: Frontend Design Refactor
 
-## Decision: retain Next.js App Router and npm
+## Decision: retain npm, Next.js App Router, and React
 
-- **Evidence**: `apps/web/package.json` uses `next dev`, `next build`, npm lockfile,
-  Next 15.5.23, React 19.2.8, and App Router files under `apps/web/app/`.
-- **Rationale**: changing framework or package manager would add risk unrelated to
-  visual refactoring and could break server/client boundaries.
-- **Alternatives considered**: Vite/React Router and Tailwind were rejected because
-  neither is present in the repository.
+- **Evidence**: `apps/web/package.json` uses npm, Next.js 15.5.23, React 19.2.8,
+  `next dev/build`, and route files under `apps/web/app/`.
+- **Rationale**: the requested work is a visual refactor; changing framework or
+  package manager would add unrelated migration risk.
+- **Alternatives rejected**: Vite, React Router, Tailwind, CSS Modules, Bootstrap,
+  and a component library are not present and are unnecessary.
 
-## Decision: extend existing CSS tokens and primitives
+## Decision: preserve API and authentication boundaries
 
-- **Evidence**: `apps/web/app/globals.css` defines visual tokens/layout utilities;
-  `components/ui` already contains Button, Ticket, Status, LedgerRow and
-  Perforation.
-- **Rationale**: it preserves the approved editorial language and minimizes bundle
-  and regression risk.
-- **Alternatives considered**: introducing Tailwind, CSS Modules, or a component
-  library was rejected as unnecessary new infrastructure.
+- **Evidence**: `apps/web/lib/api.ts` owns URL/error normalization and
+  `apps/web/lib/auth.ts` owns JWT session storage and role guards.
+- **Rationale**: FR-015 requires presentation-only consumption; no contract,
+  session, authorization, or backend decision changes are allowed.
+- **Alternatives rejected**: introducing a new API client, cache, auth provider, or
+  state library would expand scope and risk.
 
-## Decision: preserve API/auth boundaries
+## Decision: eight responsive pairs, 15 flows
 
-- **Evidence**: `lib/api.ts` normalizes HTTP errors and supports internal/public API
-  base URLs; `lib/auth.ts` persists JWT sessions and role navigation/guards.
-- **Rationale**: the feature changes composition, not data contracts or security.
-- **Alternatives considered**: a new client cache/state library was rejected; no
-  requirement demonstrates a need for it.
+- **Evidence**: 23 design directories contain eight mobile/desktop pairs plus
+  seven standalone states/flows.
+- **Rationale**: each pair is one responsive product feature; payment and Gate
+  result references are states of existing routes.
+- **Alternatives rejected**: treating mobile and desktop as separate pages would
+  duplicate business behavior and violate FR-011/FR-016.
 
-## Decision: use stateful components for standalone references
+## Decision: existing CSS tokens and primitives
 
-- **Evidence**: existing checkout renders approved/declined/expired results and
-  gate renders validation results in `/customer/checkout/[eventId]` and `/gate`.
-- **Rationale**: references 04–05 and 12–15 describe post-action states, not
-  independently navigable product resources.
-- **Alternatives considered**: adding routes for each result was rejected because it
-  would alter routing and make refresh/deep-link behavior misleading.
+- **Evidence**: `apps/web/app/globals.css` and `apps/web/components/ui/` already
+  provide tokens, layout rules, Button, Ticket, Status, LedgerRow, and perforation.
+- **Rationale**: extending these preserves the approved editorial identity and
+  avoids new dependencies.
+- **Alternatives rejected**: a new design system or CSS framework is not justified.
 
-## Decision: visual validation without new screenshot tooling
+## Decision: validation uses existing tools plus a documented visual matrix
 
-- **Evidence**: Playwright is already installed and existing E2E/accessibility
-  suites cover the main flows; no visual-regression runner is configured.
-- **Rationale**: use existing browser checks plus manual screenshot review at the
-  reference dimensions, avoiding heavy tooling and snapshot churn.
-- **Alternatives considered**: adding Percy/Chromatic or a new screenshot service
-  was rejected as disproportionate for this refactor.
+- **Evidence**: Vitest, Testing Library, Playwright, ESLint, TypeScript, and Next
+  build are already configured; no visual comparison service exists.
+- **Rationale**: existing tools cover behavior/accessibility, while a manual or
+  browser-assisted matrix can record the SC-001 blocking criteria without adding
+  heavy infrastructure.
+- **Alternatives rejected**: Percy/Chromatic or a new screenshot service would add
+  cost and snapshot maintenance without a requirement.

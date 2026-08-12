@@ -2,12 +2,11 @@
 
 ## Prerequisites
 
-- Node.js 22+ and npm installed, or Docker Compose running the project.
-- PostgreSQL/API available with demo seed data for authenticated journeys.
-- `NEXT_PUBLIC_API_BASE_URL` and, for server rendering, `API_INTERNAL_BASE_URL`
-  configured as in the repository README.
+- Node.js 22+ and npm, or the existing Docker Compose stack.
+- PostgreSQL/API with demo seed data for authenticated journeys.
+- Existing `NEXT_PUBLIC_API_BASE_URL` and `API_INTERNAL_BASE_URL` configuration.
 
-## Local validation
+## Baseline and final commands
 
 ```bash
 docker compose up --build -d --wait
@@ -21,9 +20,7 @@ npm run test
 npm run build
 ```
 
-## Browser journeys
-
-With API on `http://localhost:8000` and web on `http://localhost:3000`:
+## Browser validation
 
 ```bash
 cd apps/web
@@ -32,21 +29,16 @@ E2E_API_URL=http://localhost:8000/api/v1 \
 npm run test:e2e -- --project=chromium
 ```
 
-Exercise or verify:
+Review all 15 mapped flows in a matrix at reference mobile, intermediate, and
+desktop widths. The matrix records each of the eight responsive pairs and seven
+standalone states. A blocking mismatch is a missing flow/state, broken primary
+interaction, wrong product behavior, unreadable content, or primary-content
+horizontal overflow.
 
-1. Customer: home → event detail → quantity/reservation → approved and declined
-   checkout → My Tickets → ticket detail/QR/share.
-2. Organizer: login → event list → catalog selection → create draft → publish.
-3. Gate: login → event selection → manual validation and camera fallback → all
-   four result states.
-4. Accessibility: keyboard-only focus/order, labels, live feedback, and no
-   horizontal overflow at mobile, intermediate, and desktop widths.
+Required journeys: Customer purchase with approved/declined payment; Organizer
+catalog selection, draft, and publish; Gate selection, camera/manual fallback,
+and all four results; ticket QR/share; keyboard/focus/accessibility review.
 
-## Expected outcomes
-
-- All dynamic values come from the existing API/state layer.
-- Routes and backend contracts are unchanged.
-- Each paired reference is one responsive implementation.
-- Loading, empty, error, success, declined, expired, validation, and fallback
-  states remain reachable and understandable.
-- No file under `docs/design/` is modified.
+Expected outcome: routes, API contracts, JWT/session behavior, authorization,
+business rules, and dynamic values remain unchanged; no file under `docs/design/`
+is modified.
