@@ -56,3 +56,7 @@ All 23 design directories are mapped to the existing application: `01_home` and
 to `/organizer/events`; `10_create_event` pair to `/organizer/events/new`;
 `11_gate_scanner` pair to `/gate`; and `12_valid`, `13_invalid`,
 `14_already_used`, `15_wrong_event` to Gate validation result states.
+
+Reference copy, dates, prices, counts, images, identities, and credentials remain
+illustrative. Product requirements and live API/state values take precedence over
+reference examples; screenshots guide visual composition and HTML guides structure.
