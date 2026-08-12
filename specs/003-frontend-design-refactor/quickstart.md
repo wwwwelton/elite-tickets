@@ -42,3 +42,16 @@ and all four results; ticket QR/share; keyboard/focus/accessibility review.
 Expected outcome: routes, API contracts, JWT/session behavior, authorization,
 business rules, and dynamic values remain unchanged; no file under `docs/design/`
 is modified.
+
+## Responsive/state matrix
+
+| Pair | Mobile | Intermediate (640–1023px) | Desktop |
+|---|---|---|---|
+| Home, Event Detail, Checkout | single-column primary flow | fluid two-column where space allows | editorial split layout |
+| My Tickets, Ticket Detail | stacked ticket content | constrained readable card | expanded ticket/card composition |
+| Organizer Events, Create Event | stacked controls | fluid form and ledger | two-column workspace |
+| Gate Scanner | manual-first fallback | readable scanner/manual split | scanner and manual panels |
+
+Nominal states covered by the existing flows: loading, empty, API/network error,
+validation error, authorization redirect, success, approved, declined, expired,
+VALID, INVALID, ALREADY_USED, WRONG_EVENT, and camera failure with manual fallback.
