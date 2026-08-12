@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { EventList } from "@/components/events/event-list";
 import type { PublicEventPage } from "@/components/events/types";
 import { Ticket } from "@/components/ui";
@@ -43,7 +45,19 @@ export default async function Home({ searchParams }: HomeProps) {
                 <button type="submit">Pesquisar</button>
               </form>
             }
-            footer={<p className="code-data">{events.total} evento(s)</p>}
+            footer={
+              <div className="ticket__details-stack">
+                <div className="ticket__actions">
+                  <Link className="button button--primary" href="/login">
+                    Entrar
+                  </Link>
+                  <Link className="button button--ghost" href="/organizer/events">
+                    Área do organizador
+                  </Link>
+                </div>
+                <p className="code-data">{events.total} evento(s)</p>
+              </div>
+            }
           />
         </section>
         <EventList events={events.items} />
