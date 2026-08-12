@@ -13,15 +13,14 @@ from elite_tickets.catalog.errors import (
 )
 from elite_tickets.catalog.mapping import (
     detail_from_ticketmaster,
-    page_from_ticketmaster,
     search_result_from_ticketmaster,
 )
 from elite_tickets.catalog.schemas import CatalogEventDetail, CatalogPage
 from elite_tickets.shared.config import get_settings
 from elite_tickets.shared.errors import DomainValidationError
 
-TMDB_TIMEOUT_SECONDS = 3.0
-TMDB_MAX_ATTEMPTS = 3
+TICKETMASTER_TIMEOUT_SECONDS = 3.0
+TICKETMASTER_MAX_ATTEMPTS = 3
 
 
 class TicketmasterClient:
@@ -85,12 +84,12 @@ class TicketmasterClient:
     ) -> dict[str, Any]:
         request_params = dict(params or {})
         request_params.setdefault("apikey", get_settings().ticketmaster_api_key.get_secret_value())
-        for attempt in range(1, TMDB_MAX_ATTEMPTS + 1):
+        for attempt in range(1, TICKETMASTER_MAX_ATTEMPTS + 1):
             try:
                 response = await self._client.get(
                     path,
                     params=request_params,
-                    timeout=TMDB_TIMEOUT_SECONDS,
+                    timeout=TICKETMASTER_TIMEOUT_SECONDS,
                 )
                 if response.status_code == 401:
                     raise CatalogAuthError()
@@ -104,11 +103,11 @@ class TicketmasterClient:
                     raise CatalogUpstreamUnavailableError("invalid Ticketmaster response")
                 return payload
             except httpx.TimeoutException:
-                if attempt == TMDB_MAX_ATTEMPTS:
+                if attempt == TICKETMASTER_MAX_ATTEMPTS:
                     raise CatalogUpstreamUnavailableError("Ticketmaster request timed out") from None
                 await asyncio.sleep(0.1 * attempt)
             except _RetryableTicketmasterResponse:
-                if attempt == TMDB_MAX_ATTEMPTS:
+                if attempt == TICKETMASTER_MAX_ATTEMPTS:
                     raise CatalogUpstreamUnavailableError("Ticketmaster retry budget exhausted") from None
                 await asyncio.sleep(0.1 * attempt)
             except httpx.HTTPError as exc:

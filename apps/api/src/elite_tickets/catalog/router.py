@@ -20,10 +20,6 @@ async def get_ticketmaster_client() -> AsyncIterator[TicketmasterClient]:
         yield TicketmasterClient(http_client)
 
 
-async def get_tmdb_client() -> AsyncIterator[TicketmasterClient]:
-    async for client in get_ticketmaster_client():
-        yield client
-
 
 @router.get("/events", response_model=CatalogPage)
 async def search_events(

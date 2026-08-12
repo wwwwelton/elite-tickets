@@ -36,7 +36,7 @@ _sensitive_query_names = {
     "qr_secret",
     "share_token",
     "sharetoken",
-    "tmdb_api_key",
+    "ticketmaster_api_key",
     "token",
 }
 

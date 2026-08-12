@@ -24,7 +24,7 @@ services:
         sync: false
       - key: QR_SECRET
         sync: false
-      - key: TMDB_API_KEY
+      - key: TICKETMASTER_API_KEY
         sync: false
       - key: CORS_ORIGINS
         sync: false
@@ -48,7 +48,7 @@ services:
         sync: false
       - key: QR_SECRET
         sync: false
-      - key: TMDB_API_KEY
+      - key: TICKETMASTER_API_KEY
         sync: false
       - key: CORS_ORIGINS
         sync: false
