@@ -164,7 +164,7 @@
 
 - [X] T052 [P] [US4] Rebuild the gate page in `apps/web/app/gate/page.tsx`
 - [X] T053 [P] [US4] Update scanner and validation result components in `apps/web/components/tickets/scanner.tsx` and `apps/web/components/tickets/validation-result.tsx`
-- [ ] T054 [US4] Add gate regression tests in `apps/web/tests/e2e/gate-validation.spec.ts`
+- [X] T054 [US4] Add gate regression tests in `apps/web/tests/e2e/gate-validation.spec.ts`
 
 ## Phase 17: Responsive and Accessibility Pass
 
