@@ -59,13 +59,21 @@ class TicketmasterClient:
         total = int(page_data.get("totalElements") or len(events))
         current_page = int(page_data.get("number") or (page - 1))
         current_size = int(page_data.get("size") or size)
-        return CatalogPage(
-            items=[search_result_from_ticketmaster(item) for item in events if isinstance(item, dict)],
-            page=current_page + 1,
-            size=current_size,
-            total=total,
-            has_more=current_page + 1 < int(page_data.get("totalPages") or 0),
-        )
+        try:
+            items = [
+                search_result_from_ticketmaster(item)
+                for item in events
+                if isinstance(item, dict)
+            ]
+            return CatalogPage(
+                items=items,
+                page=current_page + 1,
+                size=current_size,
+                total=total,
+                has_more=current_page + 1 < int(page_data.get("totalPages") or 0),
+            )
+        except (TypeError, ValueError):
+            raise CatalogUpstreamUnavailableError("invalid Ticketmaster search response") from None
 
     async def event_details(self, external_id: str) -> CatalogEventDetail:
         normalized_external_id = external_id.strip()
@@ -74,7 +82,10 @@ class TicketmasterClient:
         payload = await self._request(f"events/{normalized_external_id}.json")
         if not isinstance(payload, dict):
             raise CatalogUpstreamUnavailableError()
-        return detail_from_ticketmaster(payload)
+        try:
+            return detail_from_ticketmaster(payload)
+        except (TypeError, ValueError):
+            raise CatalogUpstreamUnavailableError("invalid Ticketmaster event response") from None
 
     async def _request(
         self,
