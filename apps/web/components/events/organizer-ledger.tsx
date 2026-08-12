@@ -66,7 +66,7 @@ export function OrganizerLedger() {
   if (error && !events) return <p className="organizer-ledger__message" role="alert">{error}</p>;
   if (!events) return <p className="organizer-ledger__message" role="status">Carregando eventos…</p>;
   return (
-    <section className="organizer-ledger" aria-busy={pendingId !== null} aria-label="Inventário dos eventos">
+    <section className="organizer-ledger organizer-responsive-ledger" aria-busy={pendingId !== null} aria-label="Inventário dos eventos">
       <div className="organizer-ledger__toolbar">
         <div>
           <p className="label-caps">Programação própria</p>
