@@ -520,6 +520,14 @@ textarea:focus {
   border: 2px solid var(--color-border);
 }
 
+.checkout-result .button {
+  justify-self: start;
+}
+
+.checkout-result--approved {
+  background: var(--color-surface-container-low);
+}
+
 .checkout-shell {
   width: min(100%, 760px);
   margin-inline: auto;
