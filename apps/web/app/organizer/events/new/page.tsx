@@ -3,7 +3,7 @@ import { Ticket } from "@/components/ui";
 
 export default function NewOrganizerEventPage() {
   return (
-    <main className="page-grid organizer-page">
+    <main className="page-grid organizer-page create-event-page">
       <Ticket
         className="organizer-workspace"
         emphasized

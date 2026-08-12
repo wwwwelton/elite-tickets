@@ -232,7 +232,7 @@ export function EventForm() {
             </>
           }
           details={
-            <form onSubmit={submit} aria-describedby={formError ? "event-form-error" : undefined} className="organizer-selector__form">
+            <form onSubmit={submit} aria-describedby={formError ? "event-form-error" : undefined} className="organizer-selector__form create-event-form">
               <div className="field"><label htmlFor="venue-name">Local</label><input id="venue-name" name="venue_name" required maxLength={180} defaultValue={selected.venue_name ?? ""} /></div>
               <div className="field"><label htmlFor="venue-address">Endereço</label><input id="venue-address" name="venue_address" required maxLength={300} defaultValue="" /></div>
               <div className="field"><label htmlFor="starts-at">Início</label><input id="starts-at" name="starts_at" type="datetime-local" required /></div>
