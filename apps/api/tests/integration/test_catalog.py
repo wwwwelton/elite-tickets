@@ -15,9 +15,17 @@ os.environ.setdefault("CORS_ORIGINS", "http://localhost:3000")
 
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import get_current_user
-from elite_tickets.catalog.errors import CatalogAuthError, CatalogRateLimitError, CatalogUpstreamUnavailableError
+from elite_tickets.catalog.errors import (
+    CatalogAuthError,
+    CatalogRateLimitError,
+    CatalogUpstreamUnavailableError,
+)
 from elite_tickets.catalog.router import get_ticketmaster_client
-from elite_tickets.catalog.schemas import CatalogEventDetail, CatalogPage, CatalogSearchResult
+from elite_tickets.catalog.schemas import (
+    CatalogEventDetail,
+    CatalogPage,
+    CatalogSearchResult,
+)
 from elite_tickets.db.base import uuid7
 from elite_tickets.shared.errors import install_exception_handlers
 
@@ -174,7 +182,7 @@ async def test_catalog_error_responses_are_secret_safe() -> None:
     assert auth.status_code == 503
     assert auth.json()["error"]["code"] == "catalog_auth_error"
     assert "test-key" not in auth.text
-    assert rate.status_code == 503
+    assert rate.status_code == 429
     assert rate.json()["error"]["code"] == "catalog_rate_limited"
     assert upstream.status_code == 503
     assert upstream.json()["error"]["code"] == "dependency_unavailable"

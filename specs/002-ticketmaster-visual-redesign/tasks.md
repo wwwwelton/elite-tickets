@@ -266,7 +266,7 @@
 - [X] T067 CRITICAL replace the numeric `tmdb_id` event-creation contract with the Ticketmaster `external_id` string across organizer routes, services, frontend payloads, and automated tests per FR-004 and US1/AC3 (contradicts)
 - [ ] T068 Render absolute Ticketmaster snapshot image URLs without the legacy TMDb prefix and configure the frontend image allowlist with regression coverage per FR-008 and SC-003 (contradicts)
 - [ ] T069 Replace active TMDb runtime and deployment configuration, remove the obsolete catalog adapter and compatibility aliases, and adapt demo data without requiring real provider credentials per FR-001, FR-013, and plan: catalog integration (partial)
-- [ ] T070 Return the explicit HTTP 429 catalog rate-limit contract and update backend contract tests per FR-011 and `contracts/catalog-errors.md` (contradicts)
+- [X] T070 Return the explicit HTTP 429 catalog rate-limit contract and update backend contract tests per FR-011 and `contracts/catalog-errors.md` (contradicts)
 - [ ] T071 Normalize incomplete or malformed Ticketmaster payloads into secret-safe provider errors and add coverage per FR-010 and Edge Cases (partial)
 - [ ] T072 Resolve the normalized catalog detail endpoint when the organizer selects a result and preserve the valid selection/retry behavior per plan: API contract and T049 (partial)
 - [ ] T073 Rebuild the login page and form with reusable editorial ticket components while preserving role redirects and authentication errors per FR-020 and FR-021 (missing)
