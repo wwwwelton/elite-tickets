@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         hostname: "image.tmdb.org",
         pathname: "/t/p/**",
       },
+      {
+        protocol: "https",
+        hostname: "s1.ticketm.net",
+        pathname: "/dam/**",
+      },
     ],
   },
   poweredByHeader: false,
