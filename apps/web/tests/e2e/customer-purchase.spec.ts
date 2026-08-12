@@ -8,6 +8,7 @@ test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", asyn
   await page.getByRole("button", { name: "Pesquisar" }).click();
   const eventCard = page.locator("article.ticket").filter({ hasText: "Clube da Luta" });
   await expect(eventCard).toBeVisible();
+  await expect(eventCard).toHaveClass(/event-card/);
   await eventCard.getByRole("link", { name: "Ver evento" }).click();
   await expect(page).toHaveURL(/\/events\/[0-9a-f-]+$/);
   const eventUrl = page.url();
