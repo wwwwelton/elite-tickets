@@ -96,7 +96,7 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
   }
 
   return (
-    <section aria-live="polite" aria-busy={state === "RESERVING" || state === "PAYING"}>
+    <section className="checkout-flow" aria-live="polite" aria-busy={state === "RESERVING" || state === "PAYING"}>
       <ul className="ledger">
         <LedgerRow label="Quantidade" value={quantity} />
         {reservation ? <LedgerRow label="Total" value={`R$ ${reservation.total_amount}`} /> : null}
@@ -109,7 +109,7 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
       ) : null}
 
       {reservation && (state === "PENDING" || state === "PAYING") ? (
-        <>
+        <div className="checkout-flow__actions">
           <Status status="PENDING" />
           <Countdown expiresAt={reservation.expires_at} onExpire={expire} />
           <p>Use um dos tokens seguros de demonstração:</p>
@@ -127,26 +127,29 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
               </button>
             </>
           )}
-        </>
+        </div>
       ) : null}
 
       {state === "APPROVED" ? (
-        <div role="status">
+        <div className="checkout-result checkout-result--approved" role="status" aria-labelledby="checkout-approved-title">
           <Status status="APPROVED" />
+          <h2 id="checkout-approved-title" className="headline-md">Pagamento aprovado</h2>
           <p>{tickets.length} ingresso(s) emitido(s).</p>
           <Link className="button button--primary" href="/customer/tickets">Ver meus ingressos</Link>
         </div>
       ) : null}
       {state === "DECLINED" ? (
-        <div role="status">
+        <div className="checkout-result checkout-result--declined" role="status" aria-labelledby="checkout-declined-title">
           <Status status="DECLINED" />
+          <h2 id="checkout-declined-title" className="headline-md">Pagamento recusado</h2>
           <p>Pagamento recusado. Nenhum ingresso foi emitido e a disponibilidade foi restaurada.</p>
           <Link className="button button--ghost" href={`/events/${eventId}`}>Voltar ao evento</Link>
         </div>
       ) : null}
       {state === "EXPIRED" ? (
-        <div role="status">
+        <div className="checkout-result checkout-result--expired" role="status" aria-labelledby="checkout-expired-title">
           <Status status="EXPIRED" />
+          <h2 id="checkout-expired-title" className="headline-md">Reserva expirada</h2>
           <p>O prazo terminou. Crie uma nova reserva a partir do evento.</p>
           <Link className="button button--ghost" href={`/events/${eventId}`}>Voltar ao evento</Link>
         </div>

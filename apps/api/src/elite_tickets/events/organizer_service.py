@@ -5,10 +5,11 @@ from datetime import datetime
 from decimal import Decimal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from elite_tickets.catalog.tmdb import MovieDetails, TmdbClient
+from elite_tickets.catalog.interfaces import CatalogProvider
+from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.db.base import utc_now
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
-from elite_tickets.events.service import _poster_url, finalize_ended_events
+from elite_tickets.events.service import _snapshot_poster_url, finalize_ended_events
 from elite_tickets.reservations.models import Reservation, ReservationStatus
 from elite_tickets.shared.errors import (
     ConflictError,
@@ -41,11 +42,11 @@ class OrganizerEvent(BaseModel):
     price: Decimal
 
 
-async def create_event_from_tmdb(
+async def create_event_from_catalog(
     session: AsyncSession,
     *,
     organizer_id: uuid.UUID,
-    tmdb_id: int,
+    external_id: str,
     venue_name: str,
     venue_address: str,
     starts_at: datetime,
@@ -53,7 +54,7 @@ async def create_event_from_tmdb(
     timezone: str,
     capacity: int,
     price: Decimal,
-    catalog: TmdbClient,
+    catalog: CatalogProvider,
 ) -> OrganizerEvent:
     normalized = _validate_event_fields(
         venue_name=venue_name,
@@ -64,7 +65,10 @@ async def create_event_from_tmdb(
         capacity=capacity,
         price=price,
     )
-    movie = await catalog.movie_details(tmdb_id)
+    normalized_external_id = external_id.strip()
+    if not normalized_external_id:
+        raise DomainValidationError("invalid external event id")
+    movie = await catalog.event_details(normalized_external_id)
     event = Event(
         organizer_id=organizer_id,
         state=EventState.DRAFT,
@@ -78,7 +82,7 @@ async def create_event_from_tmdb(
         sold_quantity=0,
         price=price,
         currency="BRL",
-        movie_snapshot=_snapshot(movie),
+        movie_snapshot=_snapshot(movie, external_id=normalized_external_id),
     )
     session.add(event)
     await session.flush()
@@ -212,18 +216,34 @@ async def _snapshot_for(session: AsyncSession, event_id: uuid.UUID) -> MovieSnap
     return snapshot
 
 
-def _snapshot(movie: MovieDetails) -> MovieSnapshot:
+def _snapshot(movie: CatalogEventDetail, *, external_id: str) -> MovieSnapshot:
+    tmdb_id = _stable_snapshot_id(external_id)
     return MovieSnapshot(
-        tmdb_id=movie.tmdb_id,
+        external_source="ticketmaster",
+        external_id=movie.external_id,
+        external_url=movie.external_url,
+        tmdb_id=tmdb_id,
         title=movie.title,
-        overview=movie.overview,
-        poster_path=movie.poster_path,
-        backdrop_path=movie.backdrop_path,
-        release_date=movie.release_date,
-        original_language=movie.original_language,
-        genres=[genre.model_dump() for genre in movie.genres],
+        overview=movie.description,
+        poster_path=movie.image_url,
+        image_url=movie.image_url,
+        event_date=movie.date,
+        release_date=movie.date,
+        category=movie.category,
+        venue_name=movie.venue_name,
+        city=movie.city,
+        country_code=movie.country_code,
+        genres=[],
         snapshot_at=utc_now(),
     )
+
+
+def _stable_snapshot_id(external_id: str) -> int:
+    try:
+        value = int(external_id)
+    except ValueError:
+        value = abs(hash(external_id))
+    return value % 1_000_000_000 + 1
 
 
 def _projection(event: Event, snapshot: MovieSnapshot) -> OrganizerEvent:
@@ -231,7 +251,7 @@ def _projection(event: Event, snapshot: MovieSnapshot) -> OrganizerEvent:
         id=event.id,
         state=event.state,
         title=snapshot.title,
-        poster_url=_poster_url(snapshot.poster_path),
+        poster_url=_snapshot_poster_url(snapshot),
         starts_at=event.starts_at,
         ends_at=event.ends_at,
         timezone=event.timezone,

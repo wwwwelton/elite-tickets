@@ -9,20 +9,22 @@ export type EventPosterProps = {
 export function EventPoster({ alt, priority = false, src }: EventPosterProps) {
   if (!src) {
     return (
-      <div role="img" aria-label={`Pôster indisponível para ${alt}`} className="ticket__section">
+      <figure role="img" aria-label={`Pôster indisponível para ${alt}`} className="poster poster--empty">
         <span className="label-caps">Pôster indisponível</span>
-      </div>
+      </figure>
     );
   }
   return (
-    <Image
-      src={src}
-      alt={alt}
-      width={500}
-      height={750}
-      priority={priority}
-      sizes="(max-width: 767px) 100vw, 33vw"
-      style={{ width: "100%", height: "auto" }}
-    />
+    <figure className="poster">
+      <Image
+        src={src}
+        alt={alt}
+        width={500}
+        height={750}
+        priority={priority}
+        sizes="(max-width: 767px) 100vw, 33vw"
+        style={{ width: "100%", height: "auto" }}
+      />
+    </figure>
   );
 }

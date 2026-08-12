@@ -1,4 +1,5 @@
 import { CheckoutFlow } from "@/components/checkout/checkout-flow";
+import { Ticket } from "@/components/ui";
 
 type CheckoutPageProps = {
   params: Promise<{ eventId: string }>;
@@ -14,11 +15,16 @@ export default async function CheckoutPage({ params, searchParams }: CheckoutPag
 
   return (
     <main className="page-grid">
-      <div style={{ gridColumn: "1 / -1" }}>
-        <p className="label-caps">Checkout</p>
-        <h1 className="display-lg">Confirmar reserva</h1>
-        <CheckoutFlow eventId={eventId} quantity={quantity} />
-      </div>
+      <Ticket
+        emphasized
+        header={
+          <>
+            <p className="label-caps">Checkout</p>
+            <h1 className="display-lg">Confirmar reserva</h1>
+          </>
+        }
+        details={<CheckoutFlow eventId={eventId} quantity={quantity} />}
+      />
     </main>
   );
 }

@@ -4,8 +4,13 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "EliteTickets",
-  description: "Eventos de cinema e ingressos digitais.",
+  title: {
+    default: "EliteTickets",
+    template: "%s · EliteTickets",
+  },
+  description: "EliteTickets organiza eventos, ingressos digitais e validação de acesso.",
+  applicationName: "EliteTickets",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

@@ -25,7 +25,8 @@ class Settings(BaseSettings):
     database_url: PostgresDsn
     jwt_secret: SecretStr = Field(min_length=32)
     qr_secret: SecretStr = Field(min_length=32)
-    tmdb_api_key: SecretStr = Field(min_length=1)
+    ticketmaster_api_key: SecretStr = Field(min_length=1)
+    ticketmaster_base_url: str = "https://app.ticketmaster.com/discovery/v2/"
     cors_origins: Annotated[list[AnyHttpUrl], NoDecode]
 
     @field_validator("cors_origins", mode="before")

@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const webUrl = process.env.E2E_WEB_URL ?? "http://127.0.0.1:3000";
 
-test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page }) => {
+test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async ({ page }) => {
   let catalogAttempts = 0;
   let events: Array<Record<string, unknown>> = [];
 
@@ -18,7 +18,11 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
       }),
     });
   });
-  await page.route("**/api/v1/catalog/movies**", async (route) => {
+  await page.route("**/api/v1/catalog/events**", async (route) => {
+    const requestUrl = new URL(route.request().url());
+    expect(requestUrl.searchParams.get("keyword")).toBe("Filme");
+    expect(requestUrl.searchParams.get("countryCode")).toBe("BR");
+    expect(route.request().headers().authorization).toBe("Bearer organizer-test-token");
     catalogAttempts += 1;
     if (catalogAttempts === 1) {
       await route.fulfill({
@@ -33,9 +37,26 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
     await route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify([
-        { tmdb_id: 42, title: "Filme de Teste", poster_path: null, release_date: "2026-01-02" },
-      ]),
+      body: JSON.stringify({
+        items: [
+          {
+          external_id: "G5diZf-test-42",
+            title: "Filme de Teste",
+            description: null,
+            image_url: null,
+            category: "Cinema",
+            date: "2026-01-02",
+            venue_name: "Cinema Central",
+            city: "São Paulo",
+            country_code: "BR",
+            source: "ticketmaster",
+          },
+        ],
+        page: 1,
+        size: 1,
+        total: 1,
+        has_more: false,
+      }),
     });
   });
   await page.route("**/api/v1/organizer/events", async (route) => {
@@ -45,7 +66,7 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
     if (route.request().method() !== "POST") return route.fallback();
     const payload = route.request().postDataJSON();
     expect(payload).toMatchObject({
-      tmdb_id: 42,
+      external_id: "G5diZf-test-42",
       venue_name: "Cinema Central",
       capacity: 50,
       price: "25.00",
@@ -63,14 +84,32 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
   await page.getByLabel("Senha").fill("Organizer123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page).toHaveURL(/\/organizer\/events$/);
+  await expect(page.getByRole("heading", { name: "Meus eventos" })).toBeVisible();
+  await expect(page.getByText("Acompanhe publicação e estoque", { exact: false })).toBeVisible();
   await page.getByRole("link", { name: "Criar evento" }).click();
+  await expect(page.getByRole("heading", { name: "Criar evento" })).toBeVisible();
 
-  await page.getByLabel("Pesquisar filme").fill("Filme");
-  await page.getByRole("button", { name: "Pesquisar no TMDb" }).click();
-  await expect(page.getByRole("alert").filter({ hasText: "Catálogo indisponível" })).toBeVisible();
-  await page.getByRole("button", { name: "Tentar novamente" }).click();
-  await expect(page.getByText("Pôster indisponível", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Selecionar filme" }).click();
+  await page.getByLabel("Pesquisar evento Ticketmaster").fill("Filme");
+  await page.getByRole("button", { name: "Pesquisar no catálogo" }).click();
+  const catalogError = page.locator("article.ticket").filter({ hasText: "Catálogo indisponível" });
+  await expect(catalogError.getByRole("status", { name: "WRONG_EVENT" })).toBeVisible();
+  await expect(catalogError.getByRole("alert")).toHaveText("Catálogo indisponível");
+  await catalogError.getByRole("button", { name: "Tentar novamente" }).click();
+
+  const catalogResult = page
+    .locator(".organizer-selector__results > article.ticket")
+    .filter({ hasText: "Filme de Teste" });
+  await expect(
+    catalogResult.getByRole("img", {
+      name: "Pôster indisponível para Pôster de Filme de Teste",
+    }),
+  ).toBeVisible();
+  await expect(catalogResult).toContainText("Cinema");
+  await expect(catalogResult).toContainText("Cinema Central");
+  await expect(catalogResult).toContainText("São Paulo");
+  await expect(catalogResult).toContainText("BR");
+  await catalogResult.getByRole("button", { name: "Selecionar evento" }).click();
+  await expect(page.getByText("Origem selecionada", { exact: true })).toBeVisible();
 
   await page.getByLabel("Local").fill("Cinema Central");
   await page.getByLabel("Endereço").fill("Avenida Central, 10");
@@ -81,10 +120,13 @@ test("ORGANIZER retries TMDb, creates a draft, and publishes it", async ({ page 
   await page.getByRole("button", { name: "Criar rascunho" }).click();
 
   await expect(page).toHaveURL(/\/organizer\/events$/);
-  const ledger = page.locator("article.ticket").filter({ hasText: "Filme de Teste" });
-  await expect(ledger).toContainText("DRAFT");
+  const ledger = page.locator("article.organizer-event-card").filter({ hasText: "Filme de Teste" });
+  await expect(ledger.getByRole("status", { name: "DRAFT" })).toBeVisible();
+  await expect(ledger.getByRole("region", { name: "Estoque de Filme de Teste" })).toContainText(
+    "50",
+  );
   await ledger.getByRole("button", { name: "Publicar" }).click();
-  await expect(ledger).toContainText("PUBLISHED");
+  await expect(ledger.getByRole("status", { name: "PUBLISHED" })).toBeVisible();
   expect(catalogAttempts).toBe(2);
 });
 
