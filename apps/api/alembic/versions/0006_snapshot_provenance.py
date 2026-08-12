@@ -20,7 +20,7 @@ def upgrade() -> None:
     op.execute(
         "UPDATE movie_snapshots SET external_id = COALESCE(external_id, CAST(tmdb_id AS VARCHAR))"
     )
-    op.alter_column("movie_snapshots", "external_id", nullable=False)
+    # Keep pre-Ticketmaster snapshots readable; new snapshots always provide it.
 
 
 def downgrade() -> None:
