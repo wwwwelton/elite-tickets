@@ -117,7 +117,7 @@
 
 ### HTML references
 
-- No `docs/design/*.html` files are present in this repository snapshot.
+- Use `docs/design/*.html` files as approved structure and composition references when they are present in the repository snapshot. None are present in this snapshot.
 
 ## Implementation implications
 
