@@ -92,9 +92,14 @@ export function OrganizerLedger() {
           <p className="label-caps">Programação própria</p>
           <p className="body-md">Acompanhe publicação e estoque sem depender do catálogo externo.</p>
         </div>
-        <Link className="button button--primary" href="/organizer/events/new">
-          Criar evento
-        </Link>
+        <div className="ticket__actions">
+          <Link className="button button--ghost" href="/">
+            Eventos públicos
+          </Link>
+          <Link className="button button--primary" href="/organizer/events/new">
+            Criar evento
+          </Link>
+        </div>
       </div>
       {error ? <p className="organizer-ledger__message" role="alert">{error}</p> : null}
       {events.length === 0 ? <p className="organizer-ledger__message" role="status">Nenhum evento criado.</p> : null}
