@@ -93,4 +93,32 @@ describe("LoginForm", () => {
     expect(screen.getByRole("button", { name: "Entrar" })).toBeEnabled();
     expect(mocks.replace).not.toHaveBeenCalled();
   });
+
+  it("marks the submit action busy while the login request is pending", async () => {
+    let resolveRequest: (value: unknown) => void;
+    const pendingRequest = new Promise((resolve) => {
+      resolveRequest = resolve;
+    });
+    mocks.apiMutation.mockReturnValue(pendingRequest);
+
+    render(<LoginForm />);
+    fireEvent.change(screen.getByLabelText("E-mail"), {
+      target: { value: "customer@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Senha"), {
+      target: { value: "Customer123!" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
+
+    expect(screen.getByRole("button", { name: "Entrando…" })).toBeDisabled();
+    expect(screen.getByRole("form", { name: "Acesso à conta" })).toHaveAttribute("aria-busy", "true");
+
+    resolveRequest?.({
+      access_token: "customer-token",
+      token_type: "bearer",
+      expires_in: 900,
+      role: "CUSTOMER",
+    });
+    await pendingRequest;
+  });
 });

@@ -33,6 +33,14 @@ describe("role navigation", () => {
     });
   });
 
+  it("redirects signed-out visitors to the login entry", () => {
+    expect(guardRoute(["CUSTOMER"])).toEqual({
+      allowed: false,
+      redirectTo: "/login",
+      reason: "auth_required",
+    });
+  });
+
   it("exposes shared and role-specific navigation helpers for the shell", () => {
     expect(primaryNavigationForSession(null)).toEqual(PUBLIC_NAVIGATION);
     expect(authenticatedActionForSession(null)).toBeNull();
