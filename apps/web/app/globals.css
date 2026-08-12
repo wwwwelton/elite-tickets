@@ -325,6 +325,35 @@ textarea:focus {
   gap: var(--space-stack-md);
 }
 
+.gate-shell {
+  display: grid;
+  gap: var(--space-stack-lg);
+}
+
+.gate-sections {
+  display: grid;
+  gap: var(--space-stack-lg);
+}
+
+.gate-manual {
+  display: grid;
+  gap: var(--space-stack-md);
+}
+
+.validation-result {
+  display: grid;
+  gap: var(--space-stack-sm);
+  margin-block: var(--space-stack-lg);
+  padding: var(--space-stack-lg);
+  border: 3px solid currentColor;
+}
+
+.validation-result__symbol {
+  margin: 0;
+  font-size: 48px;
+  line-height: 1;
+}
+
 .perforation {
   position: relative;
   height: 1px;
