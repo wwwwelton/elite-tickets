@@ -260,3 +260,16 @@
 2. Move the frontend foundation and shared primitives next.
 3. Rebuild customer, checkout, tickets, organizer, selector, and gate flows one by one.
 4. Finish with accessibility, cleanup, E2E stabilization, and documentation.
+
+## Phase 21: Convergence
+
+- [ ] T067 CRITICAL replace the numeric `tmdb_id` event-creation contract with the Ticketmaster `external_id` string across organizer routes, services, frontend payloads, and automated tests per FR-004 and US1/AC3 (contradicts)
+- [ ] T068 Render absolute Ticketmaster snapshot image URLs without the legacy TMDb prefix and configure the frontend image allowlist with regression coverage per FR-008 and SC-003 (contradicts)
+- [ ] T069 Replace active TMDb runtime and deployment configuration, remove the obsolete catalog adapter and compatibility aliases, and adapt demo data without requiring real provider credentials per FR-001, FR-013, and plan: catalog integration (partial)
+- [ ] T070 Return the explicit HTTP 429 catalog rate-limit contract and update backend contract tests per FR-011 and `contracts/catalog-errors.md` (contradicts)
+- [ ] T071 Normalize incomplete or malformed Ticketmaster payloads into secret-safe provider errors and add coverage per FR-010 and Edge Cases (partial)
+- [ ] T072 Resolve the normalized catalog detail endpoint when the organizer selects a result and preserve the valid selection/retry behavior per plan: API contract and T049 (partial)
+- [ ] T073 Rebuild the login page and form with reusable editorial ticket components while preserving role redirects and authentication errors per FR-020 and FR-021 (missing)
+- [ ] T074 Recompose approved, declined, and expired checkout states with the approved transactional hierarchy and regression coverage per FR-018 and FR-021 (partial)
+- [ ] T075 Present distinct catalog authentication/configuration, rate-limit, unavailable, loading, and empty states with actionable guidance and component tests per FR-011, FR-012, and SC-004 (partial)
+- [ ] T076 Persist complete immutable Ticketmaster provenance, including non-null external identification and optional canonical URL, with migration and snapshot tests per FR-008, FR-009, and `data-model.md` (partial)
