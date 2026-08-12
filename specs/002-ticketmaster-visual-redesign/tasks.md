@@ -8,9 +8,9 @@
 
 **Purpose**: Add backend configuration and isolate the new provider contract before changing behavior.
 
-- [ ] T001 Update backend settings for Ticketmaster in `apps/api/src/elite_tickets/shared/config.py` to accept `ticketmaster_api_key` and any provider-specific base URL or defaults needed by the plan
-- [ ] T002 [P] Replace legacy catalog environment examples with Ticketmaster variables in `apps/api/.env.example`, `apps/web/.env.example`, and `README.md`
-- [ ] T003 [P] Remove TMDb-specific naming from catalog documentation and comments in `apps/api/src/elite_tickets/catalog/` so the new provider boundary is explicit
+- [X] T001 Update backend settings for Ticketmaster in `apps/api/src/elite_tickets/shared/config.py` to accept `ticketmaster_api_key` and any provider-specific base URL or defaults needed by the plan
+- [X] T002 [P] Replace legacy catalog environment examples with Ticketmaster variables in `apps/api/.env.example`, `apps/web/.env.example`, and `README.md`
+- [X] T003 [P] Remove TMDb-specific naming from catalog documentation and comments in `apps/api/src/elite_tickets/catalog/` so the new provider boundary is explicit
 
 ## Phase 2: Foundational Backend Catalog Layer
 
