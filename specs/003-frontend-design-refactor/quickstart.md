@@ -58,3 +58,7 @@ VALID, INVALID, ALREADY_USED, WRONG_EVENT, and camera failure with manual fallba
 
 Latest local validation: `npm run lint`, `npm run typecheck`, `npm run test`
 (12 files, 32 tests), and `npm run build` passed.
+
+Legacy cleanup audit: all selectors in `apps/web/app/globals.css` are referenced
+by current app/components; no obsolete CSS or component file was removed because
+there was no proven-unused implementation to delete.
