@@ -133,7 +133,7 @@
 - [X] T041 [P] [US4] Rebuild the ticket detail page in `apps/web/app/customer/tickets/[ticketId]/page.tsx`
 - [X] T042 [P] [US4] Rebuild the shared ticket page in `apps/web/app/shared/tickets/[shareToken]/page.tsx`
 - [X] T043 [US4] Update ticket and share components in `apps/web/components/tickets/ticket.tsx`, `apps/web/components/tickets/my-tickets.tsx`, and `apps/web/components/tickets/share-action.tsx`
-- [ ] T044 [US4] Add ticket accessibility and sharing regression tests in `apps/web/tests/unit/` and `apps/web/tests/e2e/ticket-sharing.spec.ts`
+- [X] T044 [US4] Add ticket accessibility and sharing regression tests in `apps/web/tests/unit/` and `apps/web/tests/e2e/ticket-sharing.spec.ts`
 
 ## Phase 14: Organizer
 

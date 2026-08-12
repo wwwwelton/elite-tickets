@@ -69,5 +69,33 @@ describe("ticket visual fallbacks and accessibility", () => {
     expect(screen.getByTestId("ticket-credential")).toHaveTextContent(credential);
     await waitFor(() => expect(toCanvas).toHaveBeenCalled());
     expect(toCanvas.mock.calls[0]?.[1]).toBe(credential);
+    expect(screen.getByRole("img", { name: "QR do ingresso" })).toBeVisible();
+    expect(screen.getByRole("region", { name: "Código para entrada manual" })).toBeVisible();
+    expect(screen.getByText("Ativo")).toHaveAttribute("data-status", "ACTIVE");
+    await waitFor(() => {
+      expect(screen.getByRole("article", { name: "Ingresso de Sessão" })).toBeVisible();
+    });
+  });
+
+  it("removes entry and sharing actions from a cancelled ticket", async () => {
+    render(
+      <CustomerTicketView
+        ticket={{
+          id: "ticket-cancelled",
+          event_id: "event-1",
+          owner_name: "Cliente",
+          status: "CANCELLED",
+          issued_at: "2026-08-11T12:00:00Z",
+          used_at: null,
+          qr_credential: "cancelled.credential",
+        }}
+      />,
+    );
+
+    expect(screen.getByText("Cancelado")).toHaveAttribute("data-status", "CANCELLED");
+    expect(screen.getByRole("status")).toHaveTextContent("QR indisponível para entrada");
+    expect(screen.queryByRole("img", { name: "QR do ingresso" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Compartilhar ingresso" })).not.toBeInTheDocument();
+    expect(toCanvas).not.toHaveBeenCalled();
   });
 });
