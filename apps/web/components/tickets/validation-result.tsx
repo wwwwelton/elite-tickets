@@ -74,7 +74,7 @@ export function ValidationResult({ result, attemptedAt }: ValidationResultProps)
       aria-describedby={descriptionId}
       tabIndex={-1}
       data-validation-result={result}
-      className="validation-result"
+      className="validation-result validation-result-card"
     >
       <p aria-hidden="true" className="validation-result__symbol code-data">
         {message.symbol}

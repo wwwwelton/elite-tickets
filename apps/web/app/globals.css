@@ -171,6 +171,7 @@ canvas {
 .create-event-form { min-width: 0; }
 .catalog-error-state { border-color: var(--color-warning); }
 .gate-scanner-shell { min-width: 0; }
+.validation-result-card { min-width: 0; }
 
 .page-grid > * {
   min-width: 0;
