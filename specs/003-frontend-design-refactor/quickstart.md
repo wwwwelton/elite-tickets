@@ -37,7 +37,9 @@ horizontal overflow.
 
 Required journeys: Customer purchase with approved/declined payment; Organizer
 catalog selection, draft, and publish; Gate selection, camera/manual fallback,
-and all four results; ticket QR/share; keyboard/focus/accessibility review.
+and all four results; ticket QR/share; keyboard/focus/accessibility review;
+shared login visibility; logout; role-aware navigation; protected-route denial
+states; and direct Gate entry to event selection after sign-in.
 
 Expected outcome: routes, API contracts, JWT/session behavior, authorization,
 business rules, and dynamic values remain unchanged; no file under `docs/design/`
@@ -53,8 +55,9 @@ is modified.
 | Gate Scanner | manual-first fallback | readable scanner/manual split | scanner and manual panels |
 
 Nominal states covered by the existing flows: loading, empty, API/network error,
-validation error, authorization redirect, success, approved, declined, expired,
-VALID, INVALID, ALREADY_USED, WRONG_EVENT, and camera failure with manual fallback.
+validation error, auth required, access denied, authorization redirect, success,
+approved, declined, expired, VALID, INVALID, ALREADY_USED, WRONG_EVENT, and
+camera failure with manual fallback.
 
 Latest local validation: `npm run lint`, `npm run typecheck`, `npm run test`
 (12 files, 32 tests), and `npm run build` passed.
