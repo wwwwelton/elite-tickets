@@ -142,7 +142,7 @@
 **Independent Test**: Organizer authentication, catalog access, event list, and inventory counts still work.
 
 - [X] T045 [P] [US4] Rebuild the organizer events page in `apps/web/app/organizer/events/page.tsx`
-- [ ] T046 [P] [US4] Update organizer ledger and event list components in `apps/web/components/events/organizer-ledger.tsx`, `apps/web/components/events/event-list.tsx`, and related files
+- [X] T046 [P] [US4] Update organizer ledger and event list components in `apps/web/components/events/organizer-ledger.tsx`, `apps/web/components/events/event-list.tsx`, and related files
 - [X] T047 [US4] Add organizer regression tests in `apps/web/tests/e2e/organizer-events.spec.ts`
 
 ## Phase 15: Ticketmaster Selector

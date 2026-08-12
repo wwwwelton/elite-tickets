@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { EventPoster } from "@/components/events/poster";
 import { LedgerRow, Status, Ticket } from "@/components/ui";
 import { ApiError, apiMutation, apiRequest } from "@/lib/api";
 import { guardRoute } from "@/lib/auth";
@@ -12,6 +13,7 @@ type OrganizerEvent = {
   id: string;
   state: "DRAFT" | "PUBLISHED" | "CANCELLED" | "FINISHED";
   title: string;
+  poster_url: string | null;
   starts_at: string;
   venue_name: string;
   capacity: number;
@@ -61,34 +63,44 @@ export function OrganizerLedger() {
     }
   }
 
-  if (error && !events) return <p role="alert">{error}</p>;
-  if (!events) return <p role="status">Carregando eventos…</p>;
+  if (error && !events) return <p className="organizer-ledger__message" role="alert">{error}</p>;
+  if (!events) return <p className="organizer-ledger__message" role="status">Carregando eventos…</p>;
   return (
-    <section aria-busy={pendingId !== null}>
-      {error ? <p role="alert">{error}</p> : null}
-      <Link className="button button--primary" href="/organizer/events/new">
-        Criar evento
-      </Link>
-      {events.length === 0 ? <p role="status">Nenhum evento criado.</p> : null}
-      <div className="page-grid" style={{ width: "100%" }}>
+    <section className="organizer-ledger" aria-busy={pendingId !== null} aria-label="Inventário dos eventos">
+      <div className="organizer-ledger__toolbar">
+        <div>
+          <p className="label-caps">Programação própria</p>
+          <p className="body-md">Acompanhe publicação e estoque sem depender do catálogo externo.</p>
+        </div>
+        <Link className="button button--primary" href="/organizer/events/new">
+          Criar evento
+        </Link>
+      </div>
+      {error ? <p className="organizer-ledger__message" role="alert">{error}</p> : null}
+      {events.length === 0 ? <p className="organizer-ledger__message" role="status">Nenhum evento criado.</p> : null}
+      <div className="organizer-event-list">
         {events.map((event) => (
           <Ticket
             key={event.id}
+            className="organizer-event-card"
             header={
               <>
-                <Status status={event.state} />
-                <h2 className="headline-sm">{event.title}</h2>
+                <EventPoster src={event.poster_url} alt={`Pôster de ${event.title}`} />
+                <div className="ticket__header-copy">
+                  <Status status={event.state} />
+                  <h2 className="headline-sm">{event.title}</h2>
+                  <p className="code-data">{dateFormatter.format(new Date(event.starts_at))}</p>
+                </div>
               </>
             }
             details={
-              <ul className="ledger">
-                <LedgerRow label="Sessão" value={dateFormatter.format(new Date(event.starts_at))} />
-                <LedgerRow label="Local" value={event.venue_name} />
-                <LedgerRow label="Capacidade" value={event.capacity} />
-                <LedgerRow label="Vendidos" value={event.sold_quantity} />
-                <LedgerRow label="Reservados" value={event.reserved_quantity} />
-                <LedgerRow label="Disponíveis" value={event.available_quantity} />
-              </ul>
+              <>
+                <ul className="ledger">
+                  <LedgerRow label="Local" value={event.venue_name} />
+                  <LedgerRow label="Capacidade" value={event.capacity} />
+                </ul>
+                <Inventory event={event} />
+              </>
             }
             footer={
               event.state === "DRAFT" ? (
@@ -104,6 +116,30 @@ export function OrganizerLedger() {
           />
         ))}
       </div>
+    </section>
+  );
+}
+
+function Inventory({ event }: { event: OrganizerEvent }) {
+  const soldPercentage = Math.round((event.sold_quantity / event.capacity) * 100);
+
+  return (
+    <section className="organizer-inventory" aria-label={`Estoque de ${event.title}`}>
+      <div className="organizer-inventory__heading">
+        <span className="label-caps">Inventário</span>
+        <span className="code-data">{soldPercentage}% vendido</span>
+      </div>
+      <progress
+        className="organizer-inventory__progress"
+        aria-label={`${event.sold_quantity} de ${event.capacity} ingressos vendidos`}
+        max={event.capacity}
+        value={event.sold_quantity}
+      />
+      <ul className="ledger organizer-inventory__counts">
+        <LedgerRow label="Vendidos" value={event.sold_quantity} />
+        <LedgerRow label="Reservados" value={event.reserved_quantity} />
+        <LedgerRow label="Disponíveis" value={event.available_quantity} />
+      </ul>
     </section>
   );
 }
