@@ -135,7 +135,9 @@ class MovieSnapshot(Base):
         server_default="ticketmaster",
         nullable=False,
     )
-    external_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    # Older locally seeded snapshots may not have provider provenance. New
+    # Ticketmaster snapshots populate this field through the organizer flow.
+    external_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
     external_url: Mapped[str | None] = mapped_column(Text)
     tmdb_id: Mapped[int] = mapped_column(Integer, nullable=False)
     media_type: Mapped[str] = mapped_column(
