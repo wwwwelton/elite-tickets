@@ -167,12 +167,13 @@ export function EventForm() {
           header={
             <>
               <Status status={statusForError(searchErrorCode)} />
-              <h2 className="headline-sm">Catálogo indisponível</h2>
+              <h2 className="headline-sm">{errorTitle(searchErrorCode)}</h2>
             </>
           }
           details={
             <>
               <p role="alert">{searchError}</p>
+              <p className="body-md">{errorGuidance(searchErrorCode)}</p>
               <button type="button" className="button button--ghost" onClick={() => void search()}>
                 Tentar novamente
               </button>
@@ -259,6 +260,18 @@ function statusForError(code: CatalogErrorCode | null) {
   if (code === "catalog_auth_error") return "INVALID";
   if (code === "catalog_rate_limited") return "SOLD_OUT";
   return "WRONG_EVENT";
+}
+
+function errorTitle(code: CatalogErrorCode | null): string {
+  if (code === "catalog_auth_error") return "Configuração do catálogo necessária";
+  if (code === "catalog_rate_limited") return "Limite temporário atingido";
+  return "Catálogo temporariamente indisponível";
+}
+
+function errorGuidance(code: CatalogErrorCode | null): string {
+  if (code === "catalog_auth_error") return "Peça ao administrador para revisar a credencial do provedor.";
+  if (code === "catalog_rate_limited") return "Aguarde alguns instantes antes de tentar novamente.";
+  return "Tente novamente em instantes; seus eventos existentes continuam disponíveis.";
 }
 
 function apiMessage(error: unknown, fallback: string): string {

@@ -271,5 +271,5 @@
 - [X] T072 Resolve the normalized catalog detail endpoint when the organizer selects a result and preserve the valid selection/retry behavior per plan: API contract and T049 (partial)
 - [X] T073 Rebuild the login page and form with reusable editorial ticket components while preserving role redirects and authentication errors per FR-020 and FR-021 (missing)
 - [X] T074 Recompose approved, declined, and expired checkout states with the approved transactional hierarchy and regression coverage per FR-018 and FR-021 (partial)
-- [ ] T075 Present distinct catalog authentication/configuration, rate-limit, unavailable, loading, and empty states with actionable guidance and component tests per FR-011, FR-012, and SC-004 (partial)
+- [X] T075 Present distinct catalog authentication/configuration, rate-limit, unavailable, loading, and empty states with actionable guidance and component tests per FR-011, FR-012, and SC-004 (partial)
 - [ ] T076 Persist complete immutable Ticketmaster provenance, including non-null external identification and optional canonical URL, with migration and snapshot tests per FR-008, FR-009, and `data-model.md` (partial)
