@@ -358,6 +358,18 @@ textarea:focus {
   max-width: none;
 }
 
+.event-card {
+  align-self: stretch;
+}
+
+.event-card .ticket__header-copy {
+  min-width: 0;
+}
+
+.event-card .headline-sm {
+  overflow-wrap: anywhere;
+}
+
 .event-list--empty {
   min-height: 160px;
   align-items: center;
