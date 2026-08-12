@@ -72,7 +72,7 @@
 - [X] T025 [P] [US4] Add Gate/Portaria entry and direct event-selection landing behavior in `apps/web/app/gate/page.tsx` and `apps/web/components/tickets/scanner.tsx` (FR-009, FR-010, FR-012)
 - [X] T026 [P] [US4] Preserve scanner/manual fallback and next-validation action semantics in `apps/web/components/tickets/scanner.tsx` and `apps/web/components/tickets/validation-result.tsx` (FR-011, FR-013, FR-015)
 - [X] T027 [P] [US4] Ensure the four gate validation states remain unmistakable and non-color-dependent in `apps/web/components/tickets/validation-result.tsx` (FR-011, FR-013, FR-015)
-- [ ] T028 [US4] Add gate navigation, camera-fallback, and all four outcome assertions in `apps/web/tests/e2e/gate-validation.spec.ts` and `apps/web/tests/unit/gate-validation.test.tsx` (SC-004, SC-006, SC-007)
+- [X] T028 [US4] Add gate navigation, camera-fallback, and all four outcome assertions in `apps/web/tests/e2e/gate-validation.spec.ts` and `apps/web/tests/unit/gate-validation.test.tsx` (SC-004, SC-006, SC-007)
 
 ## Phase 7: Accessibility / state completeness / regression
 
