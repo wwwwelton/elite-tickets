@@ -163,7 +163,7 @@ export function EventForm() {
       </div>
 
       {searchError ? (
-        <Ticket
+        <Ticket className="catalog-error-state"
           header={
             <>
               <Status status={statusForError(searchErrorCode)} />

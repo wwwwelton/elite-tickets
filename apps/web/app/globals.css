@@ -169,6 +169,7 @@ canvas {
 .organizer-responsive-ledger { min-width: 0; }
 .create-event-page { align-items: start; }
 .create-event-form { min-width: 0; }
+.catalog-error-state { border-color: var(--color-warning); }
 
 .page-grid > * {
   min-width: 0;
