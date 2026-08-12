@@ -264,7 +264,7 @@
 ## Phase 21: Convergence
 
 - [X] T067 CRITICAL replace the numeric `tmdb_id` event-creation contract with the Ticketmaster `external_id` string across organizer routes, services, frontend payloads, and automated tests per FR-004 and US1/AC3 (contradicts)
-- [ ] T068 Render absolute Ticketmaster snapshot image URLs without the legacy TMDb prefix and configure the frontend image allowlist with regression coverage per FR-008 and SC-003 (contradicts)
+- [X] T068 Render absolute Ticketmaster snapshot image URLs without the legacy TMDb prefix and configure the frontend image allowlist with regression coverage per FR-008 and SC-003 (contradicts)
 - [X] T069 Replace active TMDb runtime and deployment configuration, remove the obsolete catalog adapter and compatibility aliases, and adapt demo data without requiring real provider credentials per FR-001, FR-013, and plan: catalog integration (partial)
 - [X] T070 Return the explicit HTTP 429 catalog rate-limit contract and update backend contract tests per FR-011 and `contracts/catalog-errors.md` (contradicts)
 - [X] T071 Normalize incomplete or malformed Ticketmaster payloads into secret-safe provider errors and add coverage per FR-010 and Edge Cases (partial)
