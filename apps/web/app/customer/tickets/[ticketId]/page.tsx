@@ -1,5 +1,6 @@
 import { MyTickets } from "@/components/tickets/my-tickets";
 import { Ticket } from "@/components/ui";
+import Link from "next/link";
 
 export default async function TicketDetailPage({ params }: { params: Promise<{ ticketId: string }> }) {
   const { ticketId } = await params;
@@ -14,6 +15,13 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ t
           </>
         }
         details={<MyTickets ticketId={ticketId} />}
+        footer={
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href="/customer/tickets">
+              Voltar aos meus ingressos
+            </Link>
+          </div>
+        }
       />
     </main>
   );
