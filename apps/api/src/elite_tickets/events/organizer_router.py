@@ -5,8 +5,8 @@ from typing import Annotated
 
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import require_roles
+from elite_tickets.catalog.interfaces import CatalogProvider
 from elite_tickets.catalog.router import get_tmdb_client
-from elite_tickets.catalog.tmdb import TmdbClient
 from elite_tickets.db.session import get_session
 from elite_tickets.events.organizer_service import (
     OrganizerEvent,
@@ -42,7 +42,7 @@ async def create_event(
     payload: EventCreate,
     user: Annotated[User, Depends(require_roles(Role.ORGANIZER))],
     session: Annotated[AsyncSession, Depends(get_session)],
-    catalog: Annotated[TmdbClient, Depends(get_tmdb_client)],
+    catalog: Annotated[CatalogProvider, Depends(get_tmdb_client)],
 ) -> OrganizerEvent:
     return await create_event_from_tmdb(
         session,
