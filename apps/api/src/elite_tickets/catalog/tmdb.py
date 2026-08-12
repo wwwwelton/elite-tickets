@@ -1,4 +1,4 @@
-"""Backend-only TMDb adapter with bounded resilience and normalization."""
+"""Backend-only Ticketmaster adapter with bounded resilience and normalization."""
 
 import asyncio
 from datetime import date
@@ -18,7 +18,7 @@ TMDB_MAX_ATTEMPTS = 3
 
 
 class TmdbUnavailableError(DependencyUnavailableError):
-    """TMDb could not return a complete, valid response within the retry budget."""
+    """Ticketmaster could not return a complete, valid response within the retry budget."""
 
 
 class Genre(BaseModel):
@@ -69,7 +69,7 @@ class TmdbClient:
     async def search_movies(self, query: str, *, page: int = 1) -> list[MovieResult]:
         normalized_query = query.strip()
         if not normalized_query or page < 1:
-            raise DomainValidationError("invalid TMDb search")
+            raise DomainValidationError("invalid Ticketmaster search")
         payload = await self._get(
             "search/movie", params={"query": normalized_query, "page": page}
         )
@@ -85,11 +85,11 @@ class TmdbClient:
                 for item in response.results
             ]
         except ValidationError:
-            raise TmdbUnavailableError("invalid TMDb search response") from None
+            raise TmdbUnavailableError("invalid Ticketmaster search response") from None
 
     async def movie_details(self, tmdb_id: int) -> MovieDetails:
         if tmdb_id < 1:
-            raise DomainValidationError("invalid TMDb movie id")
+            raise DomainValidationError("invalid Ticketmaster event id")
         payload = await self._get(f"movie/{tmdb_id}")
         try:
             item = _MovieResponse.model_validate(payload)
@@ -104,11 +104,11 @@ class TmdbClient:
                 genres=tuple(item.genres),
             )
         except ValidationError:
-            raise TmdbUnavailableError("invalid TMDb movie response") from None
+            raise TmdbUnavailableError("invalid Ticketmaster event response") from None
 
     async def _get(self, path: str, *, params: dict[str, Any] | None = None) -> Any:
         request_params = dict(params or {})
-        authorization = f"Bearer {get_settings().tmdb_api_key.get_secret_value()}"
+        authorization = f"Bearer {get_settings().ticketmaster_api_key.get_secret_value()}"
         for attempt in range(1, TMDB_MAX_ATTEMPTS + 1):
             try:
                 response = await self._client.get(
@@ -126,8 +126,8 @@ class TmdbClient:
                     break
                 await asyncio.sleep(0.1 * attempt)
             except (httpx.HTTPError, ValueError):
-                raise TmdbUnavailableError("TMDb request failed") from None
-        raise TmdbUnavailableError("TMDb retry budget exhausted")
+                raise TmdbUnavailableError("Ticketmaster request failed") from None
+        raise TmdbUnavailableError("Ticketmaster retry budget exhausted")
 
 
 class _RetryableTmdbResponse(Exception):
@@ -136,5 +136,6 @@ class _RetryableTmdbResponse(Exception):
 
 def create_tmdb_http_client() -> httpx.AsyncClient:
     return httpx.AsyncClient(
-        base_url=TMDB_BASE_URL, headers={"Accept": "application/json"}
+        base_url=get_settings().ticketmaster_base_url,
+        headers={"Accept": "application/json"},
     )
