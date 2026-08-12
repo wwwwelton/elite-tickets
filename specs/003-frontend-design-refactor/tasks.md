@@ -44,7 +44,7 @@
 
 - [X] T019 [US3] Recompose Organizer Events for `09_organizer_events` + `09_organizer_events_mobile` in `apps/web/app/organizer/events/page.tsx` and `apps/web/components/events/organizer-ledger.tsx`, preserving status, availability, loading, empty, and errors (FR-001, FR-006, FR-008)
 - [X] T020 [US3] Recompose Create Event for `10_create_event` + `10_create_event_mobile` in `apps/web/app/organizer/events/new/page.tsx` and `apps/web/components/events/event-form.tsx`, preserving catalog selection, validation, draft creation, and publish behavior (FR-001, FR-003, FR-006)
-- [ ] T021 [US3] Preserve existing authentication/role-guard and normalized catalog error presentation by changing only presentation branches in `apps/web/components/events/event-form.tsx`; do not modify `apps/web/lib/api.ts` or `apps/web/lib/auth.ts`, contracts, JWT/session behavior, or authorization decisions (FR-004, FR-006, FR-008, FR-015)
+- [X] T021 [US3] Preserve existing authentication/role-guard and normalized catalog error presentation by changing only presentation branches in `apps/web/components/events/event-form.tsx`; do not modify `apps/web/lib/api.ts` or `apps/web/lib/auth.ts`, contracts, JWT/session behavior, or authorization decisions (FR-004, FR-006, FR-008, FR-015)
 - [ ] T022 [US3] Update organizer and accessibility E2E coverage in `apps/web/tests/e2e/organizer-events.spec.ts` and `apps/web/tests/e2e/accessibility.spec.ts` for responsive catalog selection, draft/publish, loading/empty/error, and wrong-role behavior (FR-014, SC-004, SC-005, SC-006, SC-007)
 
 ## Phase 6: User Story 4 — Validate entry at the gate (Priority: P2)
