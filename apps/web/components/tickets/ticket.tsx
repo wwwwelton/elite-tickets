@@ -57,12 +57,14 @@ export function CustomerTicketView({ allowShare = true, compact = false, ticket 
   const cancelled = ticket.status === "CANCELLED" || eventUnavailable;
   return (
     <TicketFrame
+      aria-label={`Ingresso de ${event?.title ?? ticket.event_id}`}
+      className={compact ? "customer-ticket customer-ticket--compact" : "customer-ticket"}
       emphasized={!compact}
       header={
-        <>
+        <div className="ticket__header-copy">
           <p className="label-caps">Ingresso digital</p>
           <h2 className="headline-md">{event?.title ?? (cancelled ? "Evento cancelado ou indisponível" : "Carregando evento…")}</h2>
-        </>
+        </div>
       }
       details={
         <ul className="ledger">
@@ -74,17 +76,22 @@ export function CustomerTicketView({ allowShare = true, compact = false, ticket 
         </ul>
       }
       footer={
-        <>
-          <Status status={cancelled ? "CANCELLED" : ticket.status} />
+        <div className="ticket__details-stack">
+          <Status
+            label={cancelled ? "Cancelado" : ticket.status === "ACTIVE" ? "Ativo" : "Utilizado"}
+            status={cancelled ? "CANCELLED" : ticket.status}
+          />
           {compact ? (
-            <Link className="button button--ghost" href={`/customer/tickets/${ticket.id}`}>Ver ingresso</Link>
+            <div className="ticket__actions">
+              <Link className="button button--ghost" href={`/customer/tickets/${ticket.id}`}>Ver ingresso</Link>
+            </div>
           ) : (
             <>
               <Credential credential={ticket.qr_credential} canvas={canvas} disabled={cancelled} />
               {allowShare && !cancelled && ticket.status === "ACTIVE" ? <ShareAction ticketId={ticket.id} /> : null}
             </>
           )}
-        </>
+        </div>
       }
     />
   );
@@ -95,11 +102,13 @@ function Credential({ credential, canvas, disabled }: { credential: string; canv
     return <p role="status">QR indisponível para entrada. Este ingresso não pode ser utilizado.</p>;
   }
   return (
-    <div>
+    <section className="ticket__details-stack" aria-labelledby="ticket-credential-label">
       <canvas ref={canvas} role="img" aria-label="QR do ingresso" />
-      <p className="label-caps">Código para entrada manual</p>
-      <code data-testid="ticket-credential" style={{ overflowWrap: "anywhere" }}>{credential}</code>
-    </div>
+      <div className="ticket__details-stack">
+        <p className="label-caps" id="ticket-credential-label">Código para entrada manual</p>
+        <code className="code-data" data-testid="ticket-credential" style={{ overflowWrap: "anywhere" }}>{credential}</code>
+      </div>
+    </section>
   );
 }
 

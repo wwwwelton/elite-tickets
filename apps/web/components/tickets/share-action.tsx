@@ -41,12 +41,12 @@ export function ShareAction({ ticketId }: { ticketId: string }) {
   }
 
   return (
-    <div style={{ marginTop: 24 }}>
-      <button type="button" className="button button--ghost" disabled={pending} onClick={() => void createShare()}>
+    <section className="ticket__actions" aria-label="Compartilhamento do ingresso">
+      <button type="button" className="button button--primary" disabled={pending} onClick={() => void createShare()}>
         {pending ? "Criando link…" : shareUrl ? "Recuperar link" : "Compartilhar ingresso"}
       </button>
       {shareUrl ? (
-        <div className="field" style={{ marginTop: 16 }}>
+        <div className="field">
           <label htmlFor={`share-${ticketId}`}>Link público somente leitura</label>
           <input id={`share-${ticketId}`} value={shareUrl} readOnly onFocus={(event) => event.currentTarget.select()} />
           <button type="button" className="button button--secondary" onClick={() => void copyLink(shareUrl, setFeedback)}>
@@ -56,7 +56,7 @@ export function ShareAction({ ticketId }: { ticketId: string }) {
       ) : null}
       {feedback ? <p role="status">{feedback}</p> : null}
       {error ? <p role="alert">{error}</p> : null}
-    </div>
+    </section>
   );
 }
 
