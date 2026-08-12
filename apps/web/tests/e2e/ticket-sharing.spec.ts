@@ -48,6 +48,7 @@ test("anonymous shared ticket stays read-only and expires after admission", asyn
   await expect(page.getByText("Visualização pública somente leitura", { exact: false })).toBeVisible();
   await expect(page.getByText(ticket.owner_name, { exact: true })).toBeVisible();
   await expect(page.getByRole("img", { name: "QR do ingresso para validação na portaria" })).toBeVisible();
+  await expect(page.getByRole("article")).toHaveClass(/customer-ticket/);
   await expect(page.getByTestId("ticket-credential")).toHaveText(ticket.qr_credential);
   await expect(page.getByRole("button", { name: /Compartilhar|Copiar link/ })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Ver ingresso" })).toHaveCount(0);
