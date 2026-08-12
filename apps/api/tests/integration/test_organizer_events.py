@@ -14,6 +14,7 @@ os.environ.setdefault("CORS_ORIGINS", "http://localhost:3000")
 
 from elite_tickets.auth.models import Role, User
 from elite_tickets.catalog.schemas import CatalogEventDetail
+from elite_tickets.catalog.errors import CatalogUpstreamUnavailableError
 from elite_tickets.db.base import utc_now, uuid7
 from elite_tickets.events.models import EventState, MovieSnapshot
 from elite_tickets.events.organizer_service import (
@@ -54,6 +55,22 @@ class FakeCatalog:
             city="São Paulo",
             country_code="BR",
         )
+
+
+class UnavailableCatalog:
+    async def event_details(self, external_id: str) -> CatalogEventDetail:
+        raise CatalogUpstreamUnavailableError("offline")
+
+
+class TrackingSession:
+    def __init__(self) -> None:
+        self.add_calls = 0
+
+    def add(self, _: object) -> None:
+        self.add_calls += 1
+
+    async def flush(self) -> None:
+        return None
 
 
 @pytest_asyncio.fixture
@@ -196,3 +213,32 @@ async def test_cancellation_atomically_releases_pending_and_cancels_ticket(sessi
     assert pending.status is ReservationStatus.CANCELLED
     assert len(payment.tickets) == 1
     assert payment.tickets[0].status is TicketStatus.CANCELLED
+
+
+async def test_catalog_outage_blocks_event_creation_before_persisting() -> None:
+    organizer = User(
+        email=f"o-{uuid7()}@test.local",
+        password_hash="x",
+        display_name="Owner",
+        role=Role.ORGANIZER,
+    )
+    session = TrackingSession()
+    catalog = UnavailableCatalog()
+    now = utc_now()
+
+    with pytest.raises(CatalogUpstreamUnavailableError):
+        await create_event_from_tmdb(
+            session,  # type: ignore[arg-type]
+            organizer_id=organizer.id,
+            tmdb_id=100,
+            venue_name="Cinema",
+            venue_address="Address",
+            starts_at=now + timedelta(days=1),
+            ends_at=now + timedelta(days=1, hours=2),
+            timezone="America/Sao_Paulo",
+            capacity=5,
+            price=Decimal("20.00"),
+            catalog=catalog,
+        )
+
+    assert session.add_calls == 0
