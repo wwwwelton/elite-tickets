@@ -63,6 +63,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
   background: var(--color-background);
   color: var(--color-on-background);
   font-family: var(--font-functional);
@@ -85,6 +86,13 @@ a {
   color: inherit;
 }
 
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 3px;
@@ -92,11 +100,13 @@ a {
 
 .display-lg {
   margin: 0;
+  max-width: 100%;
   font-family: var(--font-editorial);
   font-size: 72px;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.1;
+  overflow-wrap: break-word;
 }
 
 .headline-md,
@@ -148,6 +158,15 @@ a {
   gap: var(--space-gutter);
   width: min(calc(100% - (2 * var(--space-margin))), var(--grid-max-width));
   margin-inline: auto;
+}
+
+.page-grid > * {
+  min-width: 0;
+}
+
+.page-grid > .ticket {
+  grid-column: 1 / -1;
+  justify-self: center;
 }
 
 .button,
@@ -263,6 +282,11 @@ textarea:focus {
   box-shadow: none;
 }
 
+.ticket > *,
+.ticket__section {
+  min-width: 0;
+}
+
 .ticket--emphasized {
   border-width: 3px;
 }
@@ -287,12 +311,18 @@ textarea:focus {
   justify-items: start;
 }
 
+.ticket__actions .field {
+  width: 100%;
+}
+
 .poster {
   margin: 0;
 }
 
 .poster img {
   display: block;
+  width: 100%;
+  height: auto;
 }
 
 .poster--empty {
@@ -304,6 +334,11 @@ textarea:focus {
 
 .event-grid {
   align-items: start;
+}
+
+.event-grid > .ticket {
+  grid-column: span 4;
+  max-width: none;
 }
 
 .event-list--empty {
@@ -318,9 +353,34 @@ textarea:focus {
 
 .organizer-ledger,
 .organizer-event-list,
-.organizer-inventory {
+.organizer-inventory,
+.organizer-selector,
+.organizer-selector__form {
   display: grid;
   gap: var(--space-stack-lg);
+}
+
+.organizer-workspace,
+.gate-workspace {
+  max-width: 1200px;
+}
+
+.organizer-selector__results > .ticket {
+  grid-column: span 6;
+  max-width: none;
+}
+
+.organizer-selector > .ticket {
+  max-width: none;
+}
+
+.organizer-selector__form {
+  gap: var(--space-stack-lg) var(--space-gutter);
+}
+
+.organizer-selector__form > [role="alert"],
+.organizer-selector__form > button {
+  grid-column: 1 / -1;
 }
 
 .organizer-ledger__toolbar {
@@ -366,6 +426,7 @@ textarea:focus {
 
 .organizer-inventory__heading {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-stack-md);
   align-items: baseline;
   justify-content: space-between;
@@ -426,6 +487,18 @@ textarea:focus {
   gap: var(--space-stack-lg);
 }
 
+.gate-sections > .ticket {
+  max-width: none;
+}
+
+.gate-shell video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--color-surface-container-low);
+}
+
 .gate-manual {
   display: grid;
   gap: var(--space-stack-md);
@@ -437,6 +510,7 @@ textarea:focus {
   margin-block: var(--space-stack-lg);
   padding: var(--space-stack-lg);
   border: 3px solid currentColor;
+  overflow-wrap: anywhere;
 }
 
 .validation-result__symbol {
@@ -489,12 +563,47 @@ textarea:focus {
 }
 
 .ledger__value {
+  min-width: 0;
+  max-width: 48ch;
   font-family: var(--font-technical);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.05em;
   line-height: 1.4;
+  overflow-wrap: anywhere;
   text-align: right;
+}
+
+.customer-ticket canvas {
+  display: block;
+  width: min(100%, 280px);
+  height: auto;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .organizer-selector__form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .organizer-event-list,
+  .gate-sections {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gate-sections {
+    grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
+    align-items: start;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .event-grid > .ticket,
+  .organizer-selector__results > .ticket {
+    grid-column: span 6;
+  }
 }
 
 .status {
@@ -556,7 +665,7 @@ textarea:focus {
   }
 
   .display-lg {
-    font-size: 48px;
+    font-size: clamp(36px, 12vw, 48px);
   }
 
   .page-grid {
@@ -565,6 +674,29 @@ textarea:focus {
 
   .ticket__section {
     padding: var(--space-stack-md);
+  }
+
+  .event-grid > .ticket,
+  .organizer-selector__results > .ticket {
+    grid-column: span 4;
+  }
+
+  .hero-shell {
+    margin-block: var(--space-stack-lg);
+  }
+
+  .ledger__row {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+
+  .ticket__actions {
+    justify-items: stretch;
+  }
+
+  .ticket__actions .button,
+  .ticket__footer > .button,
+  .ticket__footer > button {
+    width: 100%;
   }
 
   .organizer-ledger__toolbar {
