@@ -84,6 +84,7 @@ test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async 
   await page.getByLabel("Senha").fill("Organizer123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page).toHaveURL(/\/organizer\/events$/);
+  await expect(page.locator(".organizer-responsive-ledger")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Meus eventos" })).toBeVisible();
   await expect(page.getByText("Acompanhe publicação e estoque", { exact: false })).toBeVisible();
   await page.getByRole("link", { name: "Criar evento" }).click();
