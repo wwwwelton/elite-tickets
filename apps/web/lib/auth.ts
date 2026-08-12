@@ -105,13 +105,17 @@ export function authenticatedActionForSession(session: AuthSession | null): stri
 
 export type RouteGuard =
   | { allowed: true; session: AuthSession }
-  | { allowed: false; redirectTo: string };
+  | {
+      allowed: false;
+      redirectTo: string;
+      reason: "auth_required" | "access_denied";
+    };
 
 export function guardRoute(allowedRoles: readonly Role[]): RouteGuard {
   const session = getSession();
-  if (!session) return { allowed: false, redirectTo: "/login" };
+  if (!session) return { allowed: false, redirectTo: "/login", reason: "auth_required" };
   if (!allowedRoles.includes(session.role)) {
-    return { allowed: false, redirectTo: roleHome(session.role) };
+    return { allowed: false, redirectTo: roleHome(session.role), reason: "access_denied" };
   }
   return { allowed: true, session };
 }

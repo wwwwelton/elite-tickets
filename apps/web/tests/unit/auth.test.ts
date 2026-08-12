@@ -26,7 +26,11 @@ describe("role navigation", () => {
 
   it("redirects an authenticated role away from another role's route", () => {
     saveSession({ access_token: "token", token_type: "bearer", expires_in: 900, role: "GATE" });
-    expect(guardRoute(["CUSTOMER"])).toEqual({ allowed: false, redirectTo: "/gate" });
+    expect(guardRoute(["CUSTOMER"])).toEqual({
+      allowed: false,
+      redirectTo: "/gate",
+      reason: "access_denied",
+    });
   });
 
   it("exposes shared and role-specific navigation helpers for the shell", () => {

@@ -1,8 +1,8 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
+import { RouteAccessState } from "@/components/auth/route-access-state";
 import { ApiError, apiMutation, apiRequest } from "@/lib/api";
 import { guardRoute } from "@/lib/auth";
 import {
@@ -45,7 +45,6 @@ const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
 });
 
 export function Scanner() {
-  const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -59,6 +58,7 @@ export function Scanner() {
   const [pending, setPending] = useState(false);
   const [result, setResult] = useState<ValidationResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [accessState, setAccessState] = useState<"auth_required" | "access_denied" | null>(null);
 
   const stopCamera = useCallback(() => {
     if (animationRef.current !== null) cancelAnimationFrame(animationRef.current);
@@ -73,12 +73,12 @@ export function Scanner() {
   useEffect(() => {
     const guard = guardRoute(["GATE"]);
     if (!guard.allowed) {
-      router.replace(guard.redirectTo);
+      setAccessState(guard.reason);
       return;
     }
     setAccessToken(guard.session.accessToken);
     void loadEvents(guard.session.accessToken, setEvents, setError);
-  }, [router]);
+  }, []);
 
   useEffect(() => stopCamera, [stopCamera]);
 
@@ -170,6 +170,26 @@ export function Scanner() {
     void submitCredential(manualCredential);
   }
 
+  if (accessState === "auth_required") {
+    return (
+      <RouteAccessState
+        title="Acesso necessário"
+        message="Entre para validar ingressos na portaria"
+        actionHref="/login"
+        actionLabel="Entrar"
+      />
+    );
+  }
+  if (accessState === "access_denied") {
+    return (
+      <RouteAccessState
+        title="Acesso negado"
+        message="Este painel pertence ao perfil da portaria"
+        actionHref="/"
+        actionLabel="Voltar ao início"
+      />
+    );
+  }
   if (error && !events) return <p role="alert" aria-atomic="true">{error}</p>;
   if (!events) {
     return <p role="status" aria-atomic="true" aria-busy="true">Carregando eventos publicados…</p>;

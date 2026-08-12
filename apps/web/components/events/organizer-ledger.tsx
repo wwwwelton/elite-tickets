@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { RouteAccessState } from "@/components/auth/route-access-state";
 import { EventPoster } from "@/components/events/poster";
 import { LedgerRow, Status, Ticket } from "@/components/ui";
 import { ApiError, apiMutation, apiRequest } from "@/lib/api";
@@ -28,21 +28,21 @@ const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
 });
 
 export function OrganizerLedger() {
-  const router = useRouter();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [events, setEvents] = useState<OrganizerEvent[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
+  const [accessState, setAccessState] = useState<"auth_required" | "access_denied" | null>(null);
 
   useEffect(() => {
     const guard = guardRoute(["ORGANIZER"]);
     if (!guard.allowed) {
-      router.replace(guard.redirectTo);
+      setAccessState(guard.reason);
       return;
     }
     setAccessToken(guard.session.accessToken);
     void loadEvents(guard.session.accessToken, setEvents, setError);
-  }, [router]);
+  }, []);
 
   async function transition(event: OrganizerEvent, action: "publish" | "cancel") {
     if (!accessToken) return;
@@ -63,6 +63,26 @@ export function OrganizerLedger() {
     }
   }
 
+  if (accessState === "auth_required") {
+    return (
+      <RouteAccessState
+        title="Acesso necessário"
+        message="Entre como organizador para ver seus eventos"
+        actionHref="/login"
+        actionLabel="Entrar"
+      />
+    );
+  }
+  if (accessState === "access_denied") {
+    return (
+      <RouteAccessState
+        title="Acesso negado"
+        message="Este painel pertence ao perfil do organizador"
+        actionHref="/"
+        actionLabel="Voltar ao início"
+      />
+    );
+  }
   if (error && !events) return <p className="organizer-ledger__message" role="alert">{error}</p>;
   if (!events) return <p className="organizer-ledger__message" role="status">Carregando eventos…</p>;
   return (

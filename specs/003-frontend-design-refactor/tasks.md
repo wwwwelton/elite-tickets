@@ -26,7 +26,7 @@
 - [X] T007 [P] Implement a reusable shell/navigation component for signed-out, Customer, Organizer, and Gate states in `apps/web/components/ui/` or `apps/web/components/auth/` (FR-005, FR-008, FR-009, FR-010, FR-012)
 - [X] T008 [P] Update `apps/web/lib/auth.ts` to expose the role-home and route-guard behavior needed by the shared shell without changing session semantics or authorization authority (FR-004, FR-007, FR-018)
 - [X] T009 [P] Add explicit Login/Entrar and Logout/Sair entry points that remain visible in the public shell and authenticated shell in `apps/web/app/layout.tsx`, `apps/web/app/login/page.tsx`, and related shell components (FR-005, FR-007, FR-012)
-- [ ] T010 [P] Add explicit access-denied and auth-required presentation states that align with existing guard outcomes in `apps/web/components/ui/state-message.tsx` and route-level wrappers under `apps/web/app/**` (FR-004, FR-011, FR-018)
+- [X] T010 [P] Add explicit access-denied and auth-required presentation states that align with existing guard outcomes in `apps/web/components/ui/state-message.tsx` and route-level wrappers under `apps/web/app/**` (FR-004, FR-011, FR-018)
 - [ ] T011 Add unit coverage for shared navigation visibility, logout transitions, and role-based route-guard messaging in `apps/web/tests/unit/auth.test.ts` and `apps/web/tests/unit/login-form.test.tsx` (FR-005, FR-007, FR-010, SC-007)
 
 ## Phase 3: User Story 1 - Discover and purchase an event (Priority: P1) 🎯 MVP
