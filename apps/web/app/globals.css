@@ -162,6 +162,8 @@ canvas {
 
 .tickets-page { align-items: start; }
 .my-tickets-list { min-width: 0; }
+.ticket-detail-page { align-items: start; }
+.ticket-detail-card { min-width: 0; }
 
 .page-grid > * {
   min-width: 0;

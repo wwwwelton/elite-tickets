@@ -60,7 +60,7 @@ export function CustomerTicketView({ allowShare = true, compact = false, ticket 
     <TicketFrame
       aria-labelledby={headingId}
       aria-busy={!event && !eventUnavailable}
-      className={compact ? "customer-ticket customer-ticket--compact" : "customer-ticket"}
+      className={compact ? "customer-ticket customer-ticket--compact ticket-detail-card" : "customer-ticket ticket-detail-card"}
       detailsLabel="Dados do ingresso"
       emphasized={!compact}
       header={
