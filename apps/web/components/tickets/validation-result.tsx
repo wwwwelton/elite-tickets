@@ -61,9 +61,9 @@ export function ValidationResult({ result, attemptedAt }: ValidationResultProps)
       role="alert"
       aria-atomic="true"
       data-validation-result={result}
-      style={{ border: "3px solid currentColor", marginBlock: 32, padding: 24 }}
+      className="validation-result"
     >
-      <p aria-hidden="true" className="display-lg" style={{ fontFamily: "var(--font-technical)" }}>
+      <p aria-hidden="true" className="validation-result__symbol code-data">
         {message.symbol}
       </p>
       <p className="label-caps">{message.eyebrow}</p>
