@@ -8,7 +8,7 @@ export function QuantityControl({ available, eventId }: { available: number; eve
   const [quantity, setQuantity] = useState(1);
   const soldOut = available < 1;
   return (
-    <section aria-labelledby="quantity-title">
+    <section className="quantity-control" aria-labelledby="quantity-title">
       <h2 id="quantity-title" className="headline-sm">
         Quantidade
       </h2>
