@@ -49,8 +49,8 @@
 
 - [X] T014 [P] [US1] Implement catalog search and detail routes in `apps/api/src/elite_tickets/catalog/router.py`
 - [X] T015 [P] [US1] Add router wiring in `apps/api/src/elite_tickets/main.py` if any route prefixes or dependency providers need updates
-- [ ] T016 [P] [US1] Add integration tests for catalog search and detail contracts in `apps/api/tests/integration/test_catalog.py`
-- [ ] T017 [US1] Add integration tests for catalog error states and secret-safe responses in `apps/api/tests/integration/test_catalog.py`
+- [X] T016 [P] [US1] Add integration tests for catalog search and detail contracts in `apps/api/tests/integration/test_catalog.py`
+- [X] T017 [US1] Add integration tests for catalog error states and secret-safe responses in `apps/api/tests/integration/test_catalog.py`
 
 ## Phase 6: Event Snapshot Persistence
 
@@ -58,10 +58,10 @@
 
 **Independent Test**: Creating an event stores the normalized snapshot and later rendering does not require a fresh provider call.
 
-- [ ] T018 [P] [US2] Extend `apps/api/src/elite_tickets/events/models.py` with the external snapshot fields and any relationship adjustments required by the plan
-- [ ] T019 [P] [US2] Update `apps/api/alembic/versions/0002_commerce.py` or create a new migration under `apps/api/alembic/versions/` for the snapshot columns/table changes
-- [ ] T020 [P] [US2] Update `apps/api/src/elite_tickets/events/organizer_service.py` so event creation persists the normalized Ticketmaster snapshot
-- [ ] T021 [US2] Add integration tests for snapshot creation, immutability, and preserved rendering in `apps/api/tests/integration/test_organizer_events.py`
+- [X] T018 [P] [US2] Extend `apps/api/src/elite_tickets/events/models.py` with the external snapshot fields and any relationship adjustments required by the plan
+- [X] T019 [P] [US2] Update `apps/api/alembic/versions/0002_commerce.py` or create a new migration under `apps/api/alembic/versions/` for the snapshot columns/table changes
+- [X] T020 [P] [US2] Update `apps/api/src/elite_tickets/events/organizer_service.py` so event creation persists the normalized Ticketmaster snapshot
+- [X] T021 [US2] Add integration tests for snapshot creation, immutability, and preserved rendering in `apps/api/tests/integration/test_organizer_events.py`
 
 ## Phase 7: Backend Regression Tests
 
@@ -69,10 +69,10 @@
 
 **Independent Test**: Backend test suite covers mapping, upstream failures, snapshot creation, and missing optional fields while existing flows remain green.
 
-- [ ] T022 [P] [US3] Add mapping and optional-field coverage in `apps/api/tests/integration/test_catalog.py`
-- [ ] T023 [P] [US5] Add snapshot persistence and outage resilience coverage in `apps/api/tests/integration/test_organizer_events.py`
-- [ ] T024 [P] [US5] Add a regression test for event rendering during catalog outage in `apps/api/tests/integration/test_public_events.py`
-- [ ] T025 [US5] Add a regression test to ensure Ticketmaster credentials never appear in backend errors or logs in `apps/api/tests/integration/test_catalog.py`
+- [X] T022 [P] [US3] Add mapping and optional-field coverage in `apps/api/tests/integration/test_catalog.py`
+- [X] T023 [P] [US5] Add snapshot persistence and outage resilience coverage in `apps/api/tests/integration/test_organizer_events.py`
+- [X] T024 [P] [US5] Add a regression test for event rendering during catalog outage in `apps/api/tests/integration/test_public_events.py`
+- [X] T025 [US5] Add a regression test to ensure Ticketmaster credentials never appear in backend errors or logs in `apps/api/tests/integration/test_catalog.py`
 
 ## Phase 8: Design Inventory
 
@@ -80,8 +80,8 @@
 
 **Independent Test**: The inventory identifies current routes, shared components, and the approved visual patterns that will be reused.
 
-- [ ] T026 [P] [US4] Document the current frontend route and component inventory in `apps/web/README.md` or `specs/002-ticketmaster-visual-redesign/frontend-inventory.md`
-- [ ] T027 [P] [US4] Extract visual findings from `docs/design/stitch-prompts.md` and `docs/design/*.html` into `specs/002-ticketmaster-visual-redesign/frontend-inventory.md`
+- [X] T026 [P] [US4] Document the current frontend route and component inventory in `apps/web/README.md` or `specs/002-ticketmaster-visual-redesign/frontend-inventory.md`
+- [X] T027 [P] [US4] Extract visual findings from `docs/design/stitch-prompts.md` and `docs/design/*.html` into `specs/002-ticketmaster-visual-redesign/frontend-inventory.md`
 
 ## Phase 9: Design Tokens
 
@@ -89,9 +89,9 @@
 
 **Independent Test**: Global styles compile, the typography/color tokens match the approved design system, and no new visual language is introduced.
 
-- [ ] T028 [P] [US4] Refine global CSS tokens and typography in `apps/web/app/globals.css` to match DESIGN.md exactly
-- [ ] T029 [P] [US4] Update root metadata and layout shell in `apps/web/app/layout.tsx` for the editorial ticket presentation baseline
-- [ ] T030 [US4] Add style regression tests or snapshots for the shared design tokens in `apps/web/tests/unit/`
+- [X] T028 [P] [US4] Refine global CSS tokens and typography in `apps/web/app/globals.css` to match DESIGN.md exactly
+- [X] T029 [P] [US4] Update root metadata and layout shell in `apps/web/app/layout.tsx` for the editorial ticket presentation baseline
+- [X] T030 [US4] Add style regression tests or snapshots for the shared design tokens in `apps/web/tests/unit/`
 
 ## Phase 10: Shared Components
 
@@ -99,9 +99,9 @@
 
 **Independent Test**: Shared components render the approved ticket, perforation, status, and ledger patterns across roles.
 
-- [ ] T031 [P] [US4] Refactor shared ticket primitives in `apps/web/components/ui/ticket.tsx`, `apps/web/components/ui/perforation.tsx`, `apps/web/components/ui/status.tsx`, and `apps/web/components/ui/ledger.tsx`
-- [ ] T032 [P] [US4] Update event media and card composition components in `apps/web/components/events/poster.tsx`, `apps/web/components/events/event-card.tsx`, and `apps/web/components/events/event-list.tsx`
-- [ ] T033 [US4] Add unit tests for shared UI primitives in `apps/web/tests/unit/ticket-accessibility.test.tsx` and related component tests
+- [X] T031 [P] [US4] Refactor shared ticket primitives in `apps/web/components/ui/ticket.tsx`, `apps/web/components/ui/perforation.tsx`, `apps/web/components/ui/status.tsx`, and `apps/web/components/ui/ledger.tsx`
+- [X] T032 [P] [US4] Update event media and card composition components in `apps/web/components/events/poster.tsx`, `apps/web/components/events/event-card.tsx`, and `apps/web/components/events/event-list.tsx`
+- [X] T033 [US4] Add unit tests for shared UI primitives in `apps/web/tests/unit/ticket-accessibility.test.tsx` and related component tests
 
 ## Phase 11: Customer Pages
 
@@ -109,9 +109,9 @@
 
 **Independent Test**: Home and event detail pages remain mobile-first and functional with the new visual language.
 
-- [ ] T034 [P] [US4] Rebuild the public home page in `apps/web/app/(public)/page.tsx` to use the new shared components and catalog data contract
-- [ ] T035 [P] [US4] Rebuild the public event detail page in `apps/web/app/(public)/events/[eventId]/page.tsx` with the approved layout patterns
-- [ ] T036 [US4] Add or update frontend tests for public catalog and detail rendering in `apps/web/tests/unit/` or `apps/web/tests/e2e/`
+- [X] T034 [P] [US4] Rebuild the public home page in `apps/web/app/(public)/page.tsx` to use the new shared components and catalog data contract
+- [X] T035 [P] [US4] Rebuild the public event detail page in `apps/web/app/(public)/events/[eventId]/page.tsx` with the approved layout patterns
+- [X] T036 [US4] Add or update frontend tests for public catalog and detail rendering in `apps/web/tests/unit/` or `apps/web/tests/e2e/`
 
 ## Phase 12: Checkout
 
@@ -119,9 +119,9 @@
 
 **Independent Test**: Checkout still resolves quantity, reservation, and payment states without visual regressions.
 
-- [ ] T037 [P] [US4] Rebuild the checkout page shell in `apps/web/app/customer/checkout/[eventId]/page.tsx`
-- [ ] T038 [P] [US4] Update the checkout flow component composition in `apps/web/components/checkout/checkout-flow.tsx` and `apps/web/components/checkout/countdown.tsx`
-- [ ] T039 [US4] Add checkout regression tests in `apps/web/tests/e2e/customer-purchase.spec.ts`
+- [X] T037 [P] [US4] Rebuild the checkout page shell in `apps/web/app/customer/checkout/[eventId]/page.tsx`
+- [X] T038 [P] [US4] Update the checkout flow component composition in `apps/web/components/checkout/checkout-flow.tsx` and `apps/web/components/checkout/countdown.tsx`
+- [X] T039 [US4] Add checkout regression tests in `apps/web/tests/e2e/customer-purchase.spec.ts`
 
 ## Phase 13: Tickets
 
@@ -129,9 +129,9 @@
 
 **Independent Test**: Ticket views render, share, and validate as before.
 
-- [ ] T040 [P] [US4] Rebuild the customer tickets index page in `apps/web/app/customer/tickets/page.tsx`
-- [ ] T041 [P] [US4] Rebuild the ticket detail page in `apps/web/app/customer/tickets/[ticketId]/page.tsx`
-- [ ] T042 [P] [US4] Rebuild the shared ticket page in `apps/web/app/shared/tickets/[shareToken]/page.tsx`
+- [X] T040 [P] [US4] Rebuild the customer tickets index page in `apps/web/app/customer/tickets/page.tsx`
+- [X] T041 [P] [US4] Rebuild the ticket detail page in `apps/web/app/customer/tickets/[ticketId]/page.tsx`
+- [X] T042 [P] [US4] Rebuild the shared ticket page in `apps/web/app/shared/tickets/[shareToken]/page.tsx`
 - [ ] T043 [US4] Update ticket and share components in `apps/web/components/tickets/ticket.tsx`, `apps/web/components/tickets/my-tickets.tsx`, and `apps/web/components/tickets/share-action.tsx`
 - [ ] T044 [US4] Add ticket accessibility and sharing regression tests in `apps/web/tests/unit/` and `apps/web/tests/e2e/ticket-sharing.spec.ts`
 
@@ -141,9 +141,9 @@
 
 **Independent Test**: Organizer authentication, catalog access, event list, and inventory counts still work.
 
-- [ ] T045 [P] [US4] Rebuild the organizer events page in `apps/web/app/organizer/events/page.tsx`
+- [X] T045 [P] [US4] Rebuild the organizer events page in `apps/web/app/organizer/events/page.tsx`
 - [ ] T046 [P] [US4] Update organizer ledger and event list components in `apps/web/components/events/organizer-ledger.tsx`, `apps/web/components/events/event-list.tsx`, and related files
-- [ ] T047 [US4] Add organizer regression tests in `apps/web/tests/e2e/organizer-events.spec.ts`
+- [X] T047 [US4] Add organizer regression tests in `apps/web/tests/e2e/organizer-events.spec.ts`
 
 ## Phase 15: Ticketmaster Selector
 
@@ -151,10 +151,10 @@
 
 **Independent Test**: Organizer can search Ticketmaster, select a result, and create an EliteTickets event with a persisted snapshot.
 
-- [ ] T048 [P] [US1] Rebuild the create-event page in `apps/web/app/organizer/events/new/page.tsx`
-- [ ] T049 [P] [US1] Update the event creation form in `apps/web/components/events/event-form.tsx` to consume `/api/v1/catalog/events` and `/api/v1/catalog/events/{external_id}`
-- [ ] T050 [P] [US3] Add explicit loading, empty, auth/config, rate-limit, and error states for the catalog selector in `apps/web/components/events/event-form.tsx`
-- [ ] T051 [US1] Add frontend tests for organizer catalog search and selection in `apps/web/tests/unit/` or `apps/web/tests/e2e/organizer-events.spec.ts`
+- [X] T048 [P] [US1] Rebuild the create-event page in `apps/web/app/organizer/events/new/page.tsx`
+- [X] T049 [P] [US1] Update the event creation form in `apps/web/components/events/event-form.tsx` to consume `/api/v1/catalog/events` and `/api/v1/catalog/events/{external_id}`
+- [X] T050 [P] [US3] Add explicit loading, empty, auth/config, rate-limit, and error states for the catalog selector in `apps/web/components/events/event-form.tsx`
+- [X] T051 [US1] Add frontend tests for organizer catalog search and selection in `apps/web/tests/unit/` or `apps/web/tests/e2e/organizer-events.spec.ts`
 
 ## Phase 16: Gate
 
@@ -162,8 +162,8 @@
 
 **Independent Test**: Gate selection, QR scan, manual entry, and validation states remain intact.
 
-- [ ] T052 [P] [US4] Rebuild the gate page in `apps/web/app/gate/page.tsx`
-- [ ] T053 [P] [US4] Update scanner and validation result components in `apps/web/components/tickets/scanner.tsx` and `apps/web/components/tickets/validation-result.tsx`
+- [X] T052 [P] [US4] Rebuild the gate page in `apps/web/app/gate/page.tsx`
+- [X] T053 [P] [US4] Update scanner and validation result components in `apps/web/components/tickets/scanner.tsx` and `apps/web/components/tickets/validation-result.tsx`
 - [ ] T054 [US4] Add gate regression tests in `apps/web/tests/e2e/gate-validation.spec.ts`
 
 ## Phase 17: Responsive and Accessibility Pass
