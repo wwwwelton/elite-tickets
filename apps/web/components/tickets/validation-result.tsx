@@ -10,6 +10,8 @@ export type ValidationResultKind =
 type ValidationResultProps = {
   result: ValidationResultKind;
   attemptedAt?: string;
+  nextActionLabel?: string;
+  onNextAction?: () => void;
 };
 
 const content: Record<
@@ -53,7 +55,7 @@ const attemptedAtFormatter = new Intl.DateTimeFormat("pt-BR", {
   timeStyle: "medium",
 });
 
-export function ValidationResult({ result, attemptedAt }: ValidationResultProps) {
+export function ValidationResult({ result, attemptedAt, nextActionLabel, onNextAction }: ValidationResultProps) {
   const resultRef = useRef<HTMLElement>(null);
   const titleId = useId();
   const descriptionId = useId();
@@ -83,6 +85,11 @@ export function ValidationResult({ result, attemptedAt }: ValidationResultProps)
       <h2 className="headline-md" id={titleId}>{message.title}</h2>
       <p id={descriptionId}>{message.description}</p>
       {formattedTime ? <p className="code-data">Tentativa: {formattedTime}</p> : null}
+      {onNextAction ? (
+        <button type="button" className="button button--ghost" onClick={onNextAction}>
+          {nextActionLabel ?? "Nova validação"}
+        </button>
+      ) : null}
     </section>
   );
 }
