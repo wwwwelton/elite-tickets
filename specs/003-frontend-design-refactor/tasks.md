@@ -8,7 +8,7 @@
 
 - [X] T001 Create a route/component/design inventory covering all 23 `docs/design/*/code.html` and `screen.png` references, their 15 flows, and eight responsive pairs in `specs/003-frontend-design-refactor/research.md` (FR-001, FR-002)
 - [X] T002 Record screenshot-versus-product-requirement discrepancies and placeholder-data rules in `specs/003-frontend-design-refactor/research.md` after T001, without editing `docs/design/` (FR-002, FR-003, FR-013)
-- [ ] T003 Run the existing backend contract/regression suite from `apps/api` plus frontend lint, typecheck, unit tests, production build, and Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/package.json`; record the baseline in `specs/003-frontend-design-refactor/quickstart.md` (FR-004, FR-014, SC-005)
+- [X] T003 Run the existing backend contract/regression suite from `apps/api` plus frontend lint, typecheck, unit tests, production build, and Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/package.json`; record the baseline in `specs/003-frontend-design-refactor/quickstart.md` (FR-004, FR-014, SC-005)
 
 ## Phase 2: Shared UI foundation
 
