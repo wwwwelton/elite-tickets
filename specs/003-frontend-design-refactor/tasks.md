@@ -39,7 +39,7 @@
 - [X] T013 [P] [US1] Add customer navigation continuity for event detail and checkout entry in `apps/web/app/(public)/events/[eventId]/page.tsx` and `apps/web/app/customer/checkout/[eventId]/page.tsx` (FR-006, FR-007, FR-014)
 - [X] T014 [US1] Ensure approved and declined payment result states remain reachable from checkout flow state handling in `apps/web/components/checkout/checkout-flow.tsx` and `apps/web/components/checkout/countdown.tsx` (FR-011, FR-014)
 - [X] T015 [P] [US1] Update customer My Tickets entry and customer-session navigation in `apps/web/app/customer/tickets/page.tsx` and `apps/web/components/tickets/my-tickets.tsx` (FR-006, FR-007, FR-012)
-- [ ] T016 [US1] Add customer journey assertions for signed-out Login visibility, Home/Search navigation, checkout continuity, and payment-result navigation in `apps/web/tests/e2e/customer-purchase.spec.ts` and `apps/web/tests/unit/public-pages.test.tsx` (SC-003, SC-005, SC-006)
+- [X] T016 [US1] Add customer journey assertions for signed-out Login visibility, Home/Search navigation, checkout continuity, and payment-result navigation in `apps/web/tests/e2e/customer-purchase.spec.ts` and `apps/web/tests/unit/public-pages.test.tsx` (SC-003, SC-005, SC-006)
 
 ## Phase 4: User Story 2 - Manage, view, and share tickets (Priority: P1)
 

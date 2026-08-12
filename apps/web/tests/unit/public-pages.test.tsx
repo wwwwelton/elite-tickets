@@ -1,9 +1,19 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const mocks = vi.hoisted(() => ({
+  apiRequest: vi.fn(),
+}));
+
+vi.mock("@/lib/api", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/api")>();
+  return { ...actual, apiRequest: mocks.apiRequest };
+});
 
 import { EventCard } from "@/components/events/event-card";
 import { EventList } from "@/components/events/event-list";
 import type { PublicEvent } from "@/components/events/types";
+import Home from "@/app/(public)/page";
 
 const event: PublicEvent = {
   id: "event-1",
@@ -20,6 +30,10 @@ const event: PublicEvent = {
 };
 
 describe("public catalog and detail rendering", () => {
+  beforeEach(() => {
+    mocks.apiRequest.mockReset();
+  });
+
   it("renders an event card with ticket semantics", () => {
     render(<EventCard event={event} />);
 
@@ -32,5 +46,22 @@ describe("public catalog and detail rendering", () => {
   it("renders the empty state for the public catalog", () => {
     render(<EventList events={[]} />);
     expect(screen.getByRole("status")).toHaveTextContent("Nenhum evento publicado encontrado.");
+  });
+
+  it("keeps the public discovery and authentication entry points visible", async () => {
+    mocks.apiRequest.mockResolvedValue({
+      items: [event],
+      page: 1,
+      total: 1,
+    });
+
+    const page = await Home({
+      searchParams: Promise.resolve({ query: "" }),
+    });
+    render(page);
+
+    expect(screen.getByRole("link", { name: "Entrar" })).toHaveAttribute("href", "/login");
+    expect(screen.getByLabelText("Filme ou local")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Pesquisar" })).toBeVisible();
   });
 });
