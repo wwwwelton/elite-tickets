@@ -607,6 +607,28 @@ textarea:focus {
   }
 }
 
+@media (min-width: 640px) and (max-width: 1023px) {
+  :root {
+    --space-gutter: 20px;
+    --space-margin: 32px;
+  }
+
+  .display-lg {
+    font-size: clamp(48px, 8vw, 64px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 @media (min-width: 1024px) {
   .organizer-event-list,
   .gate-sections {
