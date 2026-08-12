@@ -148,3 +148,18 @@ Verified session behavior in `apps/web/lib/auth.ts`:
 
 Frontend navigation consumes these helpers; it does not replace backend
 authentication or authorization decisions.
+
+## Navigation gap audit
+
+Before the refactor, the usable shell was missing or unclear in these areas:
+
+- Login/Entrar was not consistently surfaced from the public browsing path.
+- My Tickets had no obvious top-level customer entry from the shell.
+- Organizer entry was easy to miss from the public experience.
+- Create Event was not exposed as a first-class organizer action.
+- Gate/Portaria entry was not clearly separated as a distinct role path.
+- Logout was not persistently visible across authenticated contexts.
+
+Those gaps are the reason the current shell and role-aware links were added.
+They are now addressed in the application, but the verification remains relevant
+for future regressions.
