@@ -130,6 +130,8 @@ Shared reusable components currently in use:
 
 All 15 approved page groups remain represented by these routes or states; the
 payment and gate mockups are state references, not additional routes.
+The current application still maps all 15 approved page groups and keeps the
+route coverage aligned with the design inventory verified for this feature.
 
 ## Auth and guard audit
 

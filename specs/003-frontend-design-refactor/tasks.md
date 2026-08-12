@@ -84,7 +84,7 @@
 - [X] T030 [P] Audit semantic navigation, keyboard order, visible focus, and mobile-menu open/close behavior in `apps/web/app/layout.tsx`, `apps/web/app/globals.css`, and shared shell components (FR-012, FR-013, SC-006)
 - [X] T031 [P] Update responsive navigation assertions for intermediate widths and all eight responsive pairs in `apps/web/tests/e2e/accessibility.spec.ts` and `apps/web/tests/e2e/customer-purchase.spec.ts` (FR-014, SC-001, SC-002, SC-006)
 - [ ] T032 Run final `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, and the Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/`, then record the results in `specs/003-frontend-design-refactor/quickstart.md` (SC-005, SC-007)
-- [ ] T033 Verify `git diff -- docs/design` remains empty and that all 15 design page groups are still mapped in `specs/003-frontend-design-refactor/research.md` (FR-016, SC-001)
+- [X] T033 Verify `git diff -- docs/design` remains empty and that all 15 design page groups are still mapped in `specs/003-frontend-design-refactor/research.md` (FR-016, SC-001)
 
 ## Dependencies & Execution Order
 
