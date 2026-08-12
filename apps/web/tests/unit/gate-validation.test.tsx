@@ -10,6 +10,15 @@ describe("gate validation results", () => {
     expect(alert).toHaveAttribute("data-validation-result", result);
     expect(alert).toHaveAttribute("tabindex", "-1");
     expect(alert).toHaveTextContent(result === "VALID" ? "Entrada autorizada" : /Entrada|ingresso/i);
+    expect(alert).toHaveTextContent(
+      result === "VALID"
+        ? "✓"
+        : result === "INVALID"
+          ? "×"
+          : result === "ALREADY_USED"
+            ? "!"
+            : "↔",
+    );
   });
 
   it("exposes a next-validation action when requested", () => {
