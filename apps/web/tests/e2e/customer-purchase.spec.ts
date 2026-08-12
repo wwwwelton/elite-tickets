@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 const webUrl = process.env.E2E_WEB_URL ?? "http://127.0.0.1:3000";
 
 test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 900 });
   await page.goto(webUrl);
   await expect(page.getByRole("link", { name: "Entrar" })).toHaveAttribute("href", "/login");
   await page.getByLabel("Filme ou local").fill("Clube da Luta");
@@ -42,6 +43,12 @@ test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", asyn
   await page.getByRole("link", { name: "Ver meus ingressos" }).click();
   await expect(page).toHaveURL(/\/customer\/tickets$/);
   await expect(customerTickets).toHaveCount(initialTickets + 2);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(webUrl);
+  await expect(page.getByRole("button", { name: "Abrir menu" })).toBeVisible();
+  await page.getByRole("button", { name: "Abrir menu" }).click();
+  await expect(page.getByRole("link", { name: "Entrar" })).toBeVisible();
 
   await page.goto(eventUrl);
   const availabilityValue = page
