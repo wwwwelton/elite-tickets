@@ -21,7 +21,7 @@ export default async function SharedTicketPage({
   const result = await loadSharedTicket(shareToken);
 
   return (
-    <main className="page-grid">
+    <main className="page-grid shared-ticket-page">
       <Ticket
         emphasized
         header={

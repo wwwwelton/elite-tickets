@@ -51,7 +51,7 @@ export function ShareAction({ ticketId }: { ticketId: string }) {
 
   return (
     <section
-      className="ticket__actions"
+      className="ticket__actions shared-ticket-actions"
       aria-label="Compartilhamento do ingresso"
       aria-busy={pending}
     >
