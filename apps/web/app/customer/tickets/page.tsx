@@ -1,5 +1,6 @@
 import { MyTickets } from "@/components/tickets/my-tickets";
 import { Ticket } from "@/components/ui";
+import Link from "next/link";
 
 export default function TicketsPage() {
   return (
@@ -13,6 +14,13 @@ export default function TicketsPage() {
           </>
         }
         details={<MyTickets />}
+        footer={
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href="/">
+              Voltar aos eventos
+            </Link>
+          </div>
+        }
       />
     </main>
   );
