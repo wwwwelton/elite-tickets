@@ -22,6 +22,13 @@ export type NavigationItem = {
 
 type RoleNavigation = readonly [NavigationItem, ...NavigationItem[]];
 
+export const PUBLIC_NAVIGATION: readonly NavigationItem[] = [
+  { href: "/", label: "Início" },
+  { href: "/login", label: "Entrar" },
+  { href: "/organizer/events", label: "Área do organizador" },
+  { href: "/gate", label: "Portaria" },
+] as const;
+
 export const NAVIGATION_BY_ROLE: Record<Role, RoleNavigation> = {
   ORGANIZER: [{ href: "/organizer/events", label: "Meus eventos" }],
   CUSTOMER: [{ href: "/customer/tickets", label: "Meus ingressos" }],
@@ -80,6 +87,20 @@ export function getSession(): AuthSession | null {
 
 export function roleHome(role: Role): string {
   return NAVIGATION_BY_ROLE[role][0].href;
+}
+
+export function primaryNavigationForSession(session: AuthSession | null): readonly NavigationItem[] {
+  if (!session) return PUBLIC_NAVIGATION;
+  return [{ href: "/", label: "Início" }, ...NAVIGATION_BY_ROLE[session.role]];
+}
+
+export function authenticatedActionForSession(session: AuthSession | null): string | null {
+  if (!session) return null;
+  return session.role === "CUSTOMER"
+    ? "Meus ingressos"
+    : session.role === "ORGANIZER"
+      ? "Meus eventos"
+      : "Validar ingresso";
 }
 
 export type RouteGuard =
