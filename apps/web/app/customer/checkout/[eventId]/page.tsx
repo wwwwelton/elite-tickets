@@ -1,5 +1,6 @@
 import { CheckoutFlow } from "@/components/checkout/checkout-flow";
 import { Ticket } from "@/components/ui";
+import Link from "next/link";
 
 type CheckoutPageProps = {
   params: Promise<{ eventId: string }>;
@@ -25,6 +26,16 @@ export default async function CheckoutPage({ params, searchParams }: CheckoutPag
           </>
         }
         details={<CheckoutFlow eventId={eventId} quantity={quantity} />}
+        footer={
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href={`/events/${eventId}`}>
+              Voltar ao evento
+            </Link>
+            <Link className="button button--ghost" href="/customer/tickets">
+              Meus ingressos
+            </Link>
+          </div>
+        }
       />
     </main>
   );

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 import { EventPoster } from "@/components/events/poster";
 import { QuantityControl } from "@/components/events/quantity-control";
@@ -54,7 +55,17 @@ export default async function EventDetailPage({
             </ul>
           }
           footer={
-            <Status status={event.available_quantity > 0 ? "AVAILABLE" : "SOLD_OUT"} />
+            <div className="ticket__details-stack">
+              <Status status={event.available_quantity > 0 ? "AVAILABLE" : "SOLD_OUT"} />
+              <div className="ticket__actions">
+                <Link className="button button--ghost" href="/">
+                  Voltar ao início
+                </Link>
+                <Link className="button button--ghost" href="/customer/tickets">
+                  Meus ingressos
+                </Link>
+              </div>
+            </div>
           }
         />
         <QuantityControl available={event.available_quantity} eventId={event.id} />
