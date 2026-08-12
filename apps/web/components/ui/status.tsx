@@ -52,7 +52,7 @@ export function Status({ label, status }: StatusProps) {
     .filter(Boolean)
     .join(" ");
   return (
-    <span className={modifiers} data-status={status}>
+    <span className={modifiers} data-status={status} aria-label={label ?? status}>
       <span aria-hidden="true">{STATUS_SYMBOL[status]}</span>
       {label ?? status}
     </span>

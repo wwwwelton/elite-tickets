@@ -15,13 +15,15 @@ export function Ticket({ className, details, emphasized, footer, header, ...prop
     .join(" ");
   return (
     <article className={classes} {...props}>
-      <div className="ticket__section">{header}</div>
+      <header className="ticket__section ticket__header">{header}</header>
       <Perforation />
-      <div className="ticket__section code-data">{details}</div>
+      <section className="ticket__section ticket__details code-data" aria-label="Detalhes do ingresso">
+        {details}
+      </section>
       {footer === undefined ? null : (
         <>
           <Perforation />
-          <div className="ticket__section">{footer}</div>
+          <footer className="ticket__section ticket__footer">{footer}</footer>
         </>
       )}
     </article>
