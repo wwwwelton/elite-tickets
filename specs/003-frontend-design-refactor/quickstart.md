@@ -55,3 +55,6 @@ is modified.
 Nominal states covered by the existing flows: loading, empty, API/network error,
 validation error, authorization redirect, success, approved, declined, expired,
 VALID, INVALID, ALREADY_USED, WRONG_EVENT, and camera failure with manual fallback.
+
+Latest local validation: `npm run lint`, `npm run typecheck`, `npm run test`
+(12 files, 32 tests), and `npm run build` passed.
