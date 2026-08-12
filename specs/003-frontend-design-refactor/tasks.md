@@ -34,7 +34,7 @@
 
 - [X] T014 [P] [US2] Recompose My Tickets for `06_my_tickets` + `06_my_tickets_desktop` in `apps/web/app/customer/tickets/page.tsx` and `apps/web/components/tickets/my-tickets.tsx` with dynamic loading, empty, error, and ticket data (FR-001, FR-003, FR-005, FR-008)
 - [X] T015 [P] [US2] Recompose Ticket Detail/QR for `07_ticket_detail` + `07_ticket_detail_desktop` in `apps/web/app/customer/tickets/[ticketId]/page.tsx` and `apps/web/components/tickets/ticket.tsx`, preserving secure QR and status semantics (FR-001, FR-005, FR-010, FR-012)
-- [ ] T016 [P] [US2] Recompose public Shared Ticket for `08_shared_ticket` in `apps/web/app/shared/tickets/[shareToken]/page.tsx` and `apps/web/components/tickets/share-action.tsx`, preserving read-only controls, no-store behavior, and expiry/used states (FR-003, FR-005, FR-008, FR-012)
+- [X] T016 [P] [US2] Recompose public Shared Ticket for `08_shared_ticket` in `apps/web/app/shared/tickets/[shareToken]/page.tsx` and `apps/web/components/tickets/share-action.tsx`, preserving read-only controls, no-store behavior, and expiry/used states (FR-003, FR-005, FR-008, FR-012)
 - [ ] T017 [US2] Add/update ticket, QR, sharing, and public read-only unit coverage in `apps/web/tests/unit/ticket-accessibility.test.tsx` and `apps/web/tests/unit/ticket-sharing.test.tsx` (FR-010, FR-012, SC-007)
 - [ ] T018 [US2] Update ticket-sharing and accessibility E2E expectations in `apps/web/tests/e2e/ticket-sharing.spec.ts` and `apps/web/tests/e2e/accessibility.spec.ts` (FR-014, SC-005, SC-006, SC-007)
 
