@@ -7,5 +7,6 @@ export type StateMessageProps = HTMLAttributes<HTMLDivElement> & {
 
 export function StateMessage({ children, className, tone = "neutral", ...props }: StateMessageProps) {
   const classes = ["state-message", `state-message--${tone}`, className].filter(Boolean).join(" ");
-  return <div className={classes} {...props}>{children}</div>;
+  const role = props.role ?? (tone === "error" ? "alert" : "status");
+  return <div className={classes} role={role} {...props}>{children}</div>;
 }
