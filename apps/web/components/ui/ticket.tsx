@@ -3,25 +3,36 @@ import type { HTMLAttributes, ReactNode } from "react";
 import { Perforation } from "@/components/ui/perforation";
 
 export type TicketProps = HTMLAttributes<HTMLElement> & {
+  detailsLabel?: string;
   emphasized?: boolean;
   header: ReactNode;
   details: ReactNode;
   footer?: ReactNode;
 };
 
-export function Ticket({ className, details, emphasized, footer, header, ...props }: TicketProps) {
+export function Ticket({
+  className,
+  details,
+  detailsLabel = "Detalhes",
+  emphasized,
+  footer,
+  header,
+  ...props
+}: TicketProps) {
   const classes = ["ticket", emphasized ? "ticket--emphasized" : "", className]
     .filter(Boolean)
     .join(" ");
   return (
     <article className={classes} {...props}>
-      <div className="ticket__section">{header}</div>
+      <header className="ticket__section ticket__header">{header}</header>
       <Perforation />
-      <div className="ticket__section code-data">{details}</div>
+      <section className="ticket__section ticket__details code-data" aria-label={detailsLabel}>
+        {details}
+      </section>
       {footer === undefined ? null : (
         <>
           <Perforation />
-          <div className="ticket__section">{footer}</div>
+          <footer className="ticket__section ticket__footer">{footer}</footer>
         </>
       )}
     </article>

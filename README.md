@@ -18,7 +18,7 @@ As regras de negócio e autorização ficam na API. Os papéis disponíveis são
 
 ## Executar localmente
 
-Crie a configuração local e substitua JWT, QR e TMDb por valores próprios. JWT e
+Crie a configuração local e substitua JWT, QR e Ticketmaster por valores próprios. JWT e
 QR devem ser diferentes e ter pelo menos 32 bytes; nunca versione o arquivo `.env`.
 
 ```bash
@@ -52,7 +52,7 @@ Todas as contas abaixo são exclusivamente locais e usam a senha
 | CUSTOMER | `customer@demo.elitetickets.local` |
 | GATE | `gate@demo.elitetickets.local` |
 
-O evento publicado do seed permite percorrer o fluxo sem consultar o TMDb. Na
+O evento publicado do seed permite percorrer o fluxo sem consultar a Ticketmaster. Na
 tela de pagamento, use apenas os tokens simulados:
 
 - `tok_approved`: aprova, vende a reserva e emite os ingressos uma única vez;
@@ -70,9 +70,9 @@ tokens reais.
 3. Como GATE, selecione o evento e valide o código. A primeira tentativa retorna
    `VALID`; repetições retornam `ALREADY_USED`. Sem API, a tela nunca autoriza
    entrada offline.
-4. Como ORGANIZER, pesquise um filme no TMDb, crie um evento `DRAFT`, publique-o
+4. Como ORGANIZER, pesquise um show ou evento na Ticketmaster, crie um evento `DRAFT`, publique-o
    e confirme sua presença na vitrine. Eventos existentes usam o snapshot salvo
-   e continuam legíveis quando o TMDb está indisponível.
+   e continuam legíveis quando a Ticketmaster está indisponível.
 5. Crie outra reserva como CUSTOMER e use `tok_declined` para confirmar que não
    há emissão nem nova tentativa de aprovação da mesma recusa.
 
@@ -115,7 +115,7 @@ do ingresso. O relatório da validação local está em
 
 `infra/render.yaml` descreve PostgreSQL, API, migration pre-deploy e o cron de
 expiração no Render. Configure na plataforma `DATABASE_URL`, `JWT_SECRET`,
-`QR_SECRET`, `TMDB_API_KEY` e `CORS_ORIGINS`; JWT e QR devem ser secretos e
+`QR_SECRET`, `TICKETMASTER_API_KEY` e `CORS_ORIGINS`; JWT e QR devem ser secretos e
 distintos. O frontend pode ser implantado na Vercel com:
 
 - `NEXT_PUBLIC_API_BASE_URL`: URL HTTPS pública da API terminada em `/api/v1`;
@@ -132,15 +132,16 @@ origens HTTPS esperadas e confirme os smoke checks descritos em
 - **Porta ocupada:** altere `POSTGRES_PORT`, `API_PORT` ou `WEB_PORT` no `.env` e
   recrie os serviços.
 - **API não inicia:** confirme que JWT/QR têm pelo menos 32 bytes, são diferentes
-  e que `TMDB_API_KEY` não está vazio; depois consulte `docker compose logs api migrate`.
+  e que `TICKETMASTER_API_KEY` não está vazio; depois consulte `docker compose logs api migrate`.
 - **Frontend mostra eventos indisponíveis:** dentro do Compose,
   `API_INTERNAL_BASE_URL` deve apontar para `http://api:8000/api/v1`. No navegador,
   `NEXT_PUBLIC_API_BASE_URL` deve ser acessível pela máquina do usuário.
 - **Login bloqueado por CORS:** use a mesma origem configurada em `CORS_ORIGINS`.
   A configuração local padrão permite `http://localhost:3000`, não
   `http://127.0.0.1:3000`.
-- **TMDb falha:** valide a chave e a conectividade. O catálogo do ORGANIZER requer
-  TMDb, mas a vitrine e eventos já salvos usam snapshots locais.
+- **Ticketmaster falha:** valide `TICKETMASTER_API_KEY` e a conectividade. O
+  catálogo do ORGANIZER sinaliza indisponibilidade, mas a vitrine e eventos já
+  salvos usam snapshots locais.
 - **Migration pendente:** execute
   `docker compose run --rm api alembic upgrade head` e confira
   `docker compose run --rm api alembic current`.

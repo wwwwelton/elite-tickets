@@ -19,6 +19,36 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
+test("renders the redesigned gate shell and requires an event selection", async ({ page }) => {
+  await page.goto(`${webUrl}/gate`);
+
+  const gateShell = page.locator("article.ticket").filter({ hasText: "Validar ingresso" });
+  await expect(gateShell).toBeVisible();
+  await expect(gateShell.getByText("Portaria", { exact: true })).toBeVisible();
+  await expect(gateShell.getByRole("heading", { name: "Validar ingresso" })).toBeVisible();
+
+  const eventSelect = page.getByLabel("Evento publicado");
+  await expect(eventSelect).toHaveValue("");
+  await expect(eventSelect.locator("option")).toHaveCount(2);
+  await expect(eventSelect.locator(`option[value="${gateEvent.id}"]`)).toContainText(
+    `${gateEvent.title} —`,
+  );
+
+  const gateSections = page.locator(".gate-sections > article.ticket");
+  const cameraTicket = gateSections.filter({ hasText: "Leitura por câmera" });
+  const manualTicket = gateSections.filter({ hasText: "Entrada manual" });
+  await expect(cameraTicket).toBeVisible();
+  await expect(manualTicket).toBeVisible();
+  await expect(cameraTicket.getByRole("button", { name: "Usar câmera" })).toBeDisabled();
+
+  await page.getByLabel("Código do ingresso").fill("manual-code");
+  await expect(manualTicket.getByRole("button", { name: "Validar código" })).toBeDisabled();
+
+  await eventSelect.selectOption(gateEvent.id);
+  await expect(cameraTicket.getByRole("button", { name: "Usar câmera" })).toBeEnabled();
+  await expect(manualTicket.getByRole("button", { name: "Validar código" })).toBeEnabled();
+});
+
 test("camera and manual input feed the same online validation action", async ({ page }) => {
   const credentials: string[] = [];
   await installCamera(page, { credential: "camera-code" });
@@ -79,7 +109,9 @@ for (const scenario of [
     await page.getByRole("button", { name: "Validar código" }).click();
     const result = page.locator(`[data-validation-result="${scenario[0]}"]`);
     await expect(result).toBeVisible();
+    await expect(result).toHaveAttribute("role", "alert");
     await expect(result.getByRole("heading", { name: scenario[1] })).toBeVisible();
+    await expect(result.getByText(`Tentativa:`, { exact: false })).toBeVisible();
   });
 }
 

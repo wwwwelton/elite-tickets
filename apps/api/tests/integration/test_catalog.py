@@ -1,9 +1,8 @@
-import asyncio
+from __future__ import annotations
+
 import os
 from collections.abc import AsyncIterator
-from unittest.mock import AsyncMock
 
-import httpx
 import pytest
 from fastapi import FastAPI
 from httpx import ASGITransport, AsyncClient
@@ -11,91 +10,71 @@ from httpx import ASGITransport, AsyncClient
 os.environ.setdefault("DATABASE_URL", "postgresql+psycopg://test:test@localhost:5432/test")
 os.environ.setdefault("JWT_SECRET", "test-jwt-secret-with-at-least-32-bytes")
 os.environ.setdefault("QR_SECRET", "different-test-qr-secret-at-least-32-bytes")
-os.environ.setdefault("TMDB_API_KEY", "test-key")
+os.environ.setdefault("TICKETMASTER_API_KEY", "test-key")
 os.environ.setdefault("CORS_ORIGINS", "http://localhost:3000")
 
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import get_current_user
-from elite_tickets.catalog.router import get_tmdb_client
-from elite_tickets.catalog.tmdb import TmdbClient, TmdbUnavailableError
+from elite_tickets.catalog.errors import (
+    CatalogAuthError,
+    CatalogRateLimitError,
+    CatalogUpstreamUnavailableError,
+)
+from elite_tickets.catalog.router import get_ticketmaster_client
+from elite_tickets.catalog.schemas import (
+    CatalogEventDetail,
+    CatalogPage,
+    CatalogSearchResult,
+)
 from elite_tickets.db.base import uuid7
-from elite_tickets.db.session import get_session
-from elite_tickets.events.organizer_router import router as organizer_router
-from elite_tickets.shared.config import get_settings
 from elite_tickets.shared.errors import install_exception_handlers
 
 pytestmark = pytest.mark.integration
 
 
-async def test_search_normalizes_results_and_accepts_missing_poster() -> None:
-    async def handler(request: httpx.Request) -> httpx.Response:
-        configured_key = get_settings().tmdb_api_key.get_secret_value()
-        assert request.headers["Authorization"] == f"Bearer {configured_key}"
-        return httpx.Response(
-            200,
-            json={
-                "results": [
-                    {
-                        "id": 42,
-                        "title": "The Answer",
-                        "poster_path": None,
-                        "release_date": "2026-01-02",
-                    }
-                ]
-            },
+class StubCatalog:
+    def __init__(self, *, page: CatalogPage | None = None, detail: CatalogEventDetail | None = None) -> None:
+        self.page = page
+        self.detail = detail
+        self.calls: list[tuple[str, dict[str, object]]] = []
+
+    async def search_events(
+        self,
+        query: str,
+        *,
+        page: int = 1,
+        size: int = 20,
+        country_code: str = "BR",
+        city: str | None = None,
+    ) -> CatalogPage:
+        self.calls.append(
+            (
+                "search_events",
+                {
+                    "query": query,
+                    "page": page,
+                    "size": size,
+                    "country_code": country_code,
+                    "city": city,
+                },
+            )
         )
+        assert self.page is not None
+        return self.page
 
-    async with httpx.AsyncClient(
-        transport=httpx.MockTransport(handler),
-        base_url="https://api.test/",
-    ) as client:
-        results = await TmdbClient(client).search_movies(" answer ")
-
-    assert len(results) == 1
-    assert results[0].tmdb_id == 42
-    assert results[0].title == "The Answer"
-    assert results[0].poster_path is None
-    assert results[0].release_date is not None
-    assert results[0].release_date.isoformat() == "2026-01-02"
+    async def event_details(self, external_id: str) -> CatalogEventDetail:
+        self.calls.append(("event_details", {"external_id": external_id}))
+        assert self.detail is not None
+        return self.detail
 
 
-@pytest.mark.parametrize("failure", ["timeout", "429", "500"])
-async def test_retryable_failures_use_bounded_attempts(
-    failure: str,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    attempts = 0
+def _catalog_app(catalog: object) -> FastAPI:
+    app = FastAPI()
+    install_exception_handlers(app)
 
-    async def handler(request: httpx.Request) -> httpx.Response:
-        nonlocal attempts
-        attempts += 1
-        if failure == "timeout":
-            raise httpx.ReadTimeout("slow", request=request)
-        return httpx.Response(int(failure))
+    from elite_tickets.catalog.router import router as catalog_router
 
-    sleep = AsyncMock()
-    monkeypatch.setattr(asyncio, "sleep", sleep)
-    async with httpx.AsyncClient(
-        transport=httpx.MockTransport(handler),
-        base_url="https://api.test/",
-    ) as client:
-        with pytest.raises(TmdbUnavailableError):
-            await TmdbClient(client).search_movies("movie")
-
-    assert attempts == 3
-    assert sleep.await_count == 2
-
-
-async def test_catalog_unavailability_returns_503_without_partial_event() -> None:
-    class UnavailableCatalog:
-        async def movie_details(self, _: int) -> None:
-            raise TmdbUnavailableError("offline")
-
-    class TrackingSession:
-        add_calls = 0
-
-        def add(self, _: object) -> None:
-            self.add_calls += 1
+    app.include_router(catalog_router, prefix="/api/v1")
 
     organizer = User(
         id=uuid7(),
@@ -105,41 +84,174 @@ async def test_catalog_unavailability_returns_503_without_partial_event() -> Non
         role=Role.ORGANIZER,
         is_active=True,
     )
-    session = TrackingSession()
-    app = FastAPI()
-    install_exception_handlers(app)
-    app.include_router(organizer_router, prefix="/api/v1")
 
     async def current_user_override() -> User:
         return organizer
 
-    async def session_override() -> AsyncIterator[TrackingSession]:
-        yield session
-
-    async def catalog_override() -> AsyncIterator[UnavailableCatalog]:
-        yield UnavailableCatalog()
+    async def catalog_override() -> AsyncIterator[object]:
+        yield catalog
 
     app.dependency_overrides[get_current_user] = current_user_override
-    app.dependency_overrides[get_session] = session_override
-    app.dependency_overrides[get_tmdb_client] = catalog_override
-    async with AsyncClient(
-        transport=ASGITransport(app=app),
-        base_url="http://test",
-    ) as client:
-        response = await client.post(
-            "/api/v1/events",
-            json={
-                "tmdb_id": 42,
-                "venue_name": "Cinema",
-                "venue_address": "Address",
-                "starts_at": "2030-01-01T10:00:00Z",
-                "ends_at": "2030-01-01T12:00:00Z",
-                "timezone": "America/Sao_Paulo",
-                "capacity": 10,
-                "price": "20.00",
-            },
+    app.dependency_overrides[get_ticketmaster_client] = catalog_override
+    return app
+
+
+async def test_search_and_detail_return_normalized_contracts() -> None:
+    stub = StubCatalog(
+        page=CatalogPage(
+            items=[
+                CatalogSearchResult(
+                    external_id="evt-1",
+                    title="Festival Elite",
+                    description="Evento principal",
+                    image_url="https://cdn.example.com/event.jpg",
+                    category="Music",
+                    date=None,
+                    venue_name="Arena Elite",
+                    city="São Paulo",
+                    country_code="BR",
+                )
+            ],
+            page=1,
+            size=20,
+            total=1,
+            has_more=False,
+        ),
+        detail=CatalogEventDetail(
+            external_id="evt-1",
+            title="Festival Elite",
+            description="Evento principal",
+            image_url="https://cdn.example.com/event.jpg",
+            category="Music",
+            date=None,
+            venue_name="Arena Elite",
+            city="São Paulo",
+            country_code="BR",
+        ),
+    )
+    app = _catalog_app(stub)
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        search = await client.get(
+            "/api/v1/catalog/events",
+            params={"keyword": "festival", "page": 1, "size": 20, "countryCode": "BR"},
         )
+        detail = await client.get("/api/v1/catalog/events/evt-1")
+
+    assert search.status_code == 200
+    assert search.json()["items"][0]["external_id"] == "evt-1"
+    assert search.json()["items"][0]["source"] == "ticketmaster"
+    assert search.json()["page"] == 1
+    assert search.json()["size"] == 20
+    assert search.json()["total"] == 1
+    assert detail.status_code == 200
+    assert detail.json()["external_id"] == "evt-1"
+    assert detail.json()["title"] == "Festival Elite"
+    assert stub.calls == [
+        (
+            "search_events",
+            {
+                "query": "festival",
+                "page": 1,
+                "size": 20,
+                "country_code": "BR",
+                "city": None,
+            },
+        ),
+        ("event_details", {"external_id": "evt-1"}),
+    ]
+
+
+async def test_catalog_error_responses_are_secret_safe() -> None:
+    class FailingCatalog:
+        async def search_events(self, *args: object, **kwargs: object) -> CatalogPage:
+            raise CatalogAuthError()
+
+        async def event_details(self, external_id: str) -> CatalogEventDetail:
+            if external_id == "rate":
+                raise CatalogRateLimitError()
+            raise CatalogUpstreamUnavailableError()
+
+    app = _catalog_app(FailingCatalog())
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        auth = await client.get("/api/v1/catalog/events", params={"keyword": "festival"})
+        rate = await client.get("/api/v1/catalog/events/rate")
+        upstream = await client.get("/api/v1/catalog/events/down")
+
+    assert auth.status_code == 503
+    assert auth.json()["error"]["code"] == "catalog_auth_error"
+    assert "test-key" not in auth.text
+    assert rate.status_code == 429
+    assert rate.json()["error"]["code"] == "catalog_rate_limited"
+    assert upstream.status_code == 503
+    assert upstream.json()["error"]["code"] == "dependency_unavailable"
+
+
+async def test_catalog_preserves_missing_optional_fields() -> None:
+    stub = StubCatalog(
+        page=CatalogPage(
+            items=[
+                CatalogSearchResult(
+                    external_id="evt-2",
+                    title="Evento sem opcionais",
+                    description=None,
+                    image_url=None,
+                    category=None,
+                    date=None,
+                    venue_name=None,
+                    city=None,
+                    country_code=None,
+                )
+            ],
+            page=1,
+            size=20,
+            total=1,
+            has_more=False,
+        ),
+        detail=CatalogEventDetail(
+            external_id="evt-2",
+            title="Evento sem opcionais",
+            description=None,
+            image_url=None,
+            category=None,
+            date=None,
+            venue_name=None,
+            city=None,
+            country_code=None,
+        ),
+    )
+    app = _catalog_app(stub)
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        search = await client.get("/api/v1/catalog/events", params={"keyword": "evento"})
+        detail = await client.get("/api/v1/catalog/events/evt-2")
+
+    search_item = search.json()["items"][0]
+    assert search_item["image_url"] is None
+    assert search_item["category"] is None
+    assert search_item["date"] is None
+    assert search_item["venue_name"] is None
+    assert search_item["city"] is None
+    assert search_item["country_code"] is None
+    assert detail.json()["image_url"] is None
+    assert detail.json()["category"] is None
+
+
+async def test_catalog_errors_do_not_expose_credentials_in_logs_or_responses(caplog: pytest.LogCaptureFixture) -> None:
+    class SecretFailingCatalog:
+        async def search_events(self, *args: object, **kwargs: object) -> CatalogPage:
+            raise CatalogAuthError("TICKETMASTER_API_KEY=test-key")
+
+        async def event_details(self, external_id: str) -> CatalogEventDetail:
+            raise CatalogAuthError("TICKETMASTER_API_KEY=test-key")
+
+    app = _catalog_app(SecretFailingCatalog())
+
+    with caplog.at_level("ERROR"):
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            response = await client.get("/api/v1/catalog/events", params={"keyword": "festival"})
 
     assert response.status_code == 503
-    assert response.json()["error"]["code"] == "dependency_unavailable"
-    assert session.add_calls == 0
+    assert "test-key" not in response.text
+    assert "test-key" not in caplog.text

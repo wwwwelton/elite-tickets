@@ -5,6 +5,14 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
+from elite_tickets.auth.models import User
+from elite_tickets.db.base import (
+    Base,
+    TimestampMixin,
+    UUIDPrimaryKeyMixin,
+    enum_type,
+    utc_now,
+)
 from sqlalchemy import (
     CheckConstraint,
     Date,
@@ -19,15 +27,6 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from elite_tickets.auth.models import User
-from elite_tickets.db.base import (
-    Base,
-    TimestampMixin,
-    UUIDPrimaryKeyMixin,
-    enum_type,
-    utc_now,
-)
 
 
 class EventState(StrEnum):
@@ -130,6 +129,16 @@ class MovieSnapshot(Base):
         ForeignKey("events.id", ondelete="CASCADE"),
         primary_key=True,
     )
+    external_source: Mapped[str] = mapped_column(
+        String(32),
+        default="ticketmaster",
+        server_default="ticketmaster",
+        nullable=False,
+    )
+    # Older locally seeded snapshots may not have provider provenance. New
+    # Ticketmaster snapshots populate this field through the organizer flow.
+    external_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    external_url: Mapped[str | None] = mapped_column(Text)
     tmdb_id: Mapped[int] = mapped_column(Integer, nullable=False)
     media_type: Mapped[str] = mapped_column(
         String(16),
@@ -140,9 +149,15 @@ class MovieSnapshot(Base):
     title: Mapped[str] = mapped_column(String(300), nullable=False)
     overview: Mapped[str | None] = mapped_column(Text)
     poster_path: Mapped[str | None] = mapped_column(Text)
+    image_url: Mapped[str | None] = mapped_column(Text)
     backdrop_path: Mapped[str | None] = mapped_column(Text)
     release_date: Mapped[date | None] = mapped_column(Date)
+    event_date: Mapped[date | None] = mapped_column(Date)
     original_language: Mapped[str | None] = mapped_column(String(16))
+    category: Mapped[str | None] = mapped_column(String(120))
+    venue_name: Mapped[str | None] = mapped_column(String(200))
+    city: Mapped[str | None] = mapped_column(String(120))
+    country_code: Mapped[str | None] = mapped_column(String(2))
     genres: Mapped[list[dict[str, object]]] = mapped_column(
         JSONB,
         default=list,

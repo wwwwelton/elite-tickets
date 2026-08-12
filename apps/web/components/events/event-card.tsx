@@ -20,7 +20,10 @@ export function EventCard({ event, priority = false }: { event: PublicEvent; pri
       header={
         <>
           <EventPoster src={event.poster_url} alt={`Pôster de ${event.title}`} priority={priority} />
-          <h2 className="headline-sm">{event.title}</h2>
+          <div className="ticket__header-copy">
+            <p className="label-caps">Sessão em cartaz</p>
+            <h2 className="headline-sm">{event.title}</h2>
+          </div>
         </>
       }
       details={
@@ -32,12 +35,12 @@ export function EventCard({ event, priority = false }: { event: PublicEvent; pri
         </ul>
       }
       footer={
-        <>
+        <div className="ticket__actions">
           <Status status={available ? "AVAILABLE" : "SOLD_OUT"} />
           <Link className="button button--ghost" href={`/events/${event.id}`}>
             Ver evento
           </Link>
-        </>
+        </div>
       }
     />
   );

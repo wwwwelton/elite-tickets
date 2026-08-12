@@ -9,6 +9,7 @@ import {
   ValidationResult,
   type ValidationResultKind,
 } from "@/components/tickets/validation-result";
+import { Ticket } from "@/components/ui";
 
 type GateEvent = {
   id: string;
@@ -169,15 +170,18 @@ export function Scanner() {
     void submitCredential(manualCredential);
   }
 
-  if (error && !events) return <p role="alert">{error}</p>;
-  if (!events) return <p role="status">Carregando eventos publicados…</p>;
+  if (error && !events) return <p role="alert" aria-atomic="true">{error}</p>;
+  if (!events) {
+    return <p role="status" aria-atomic="true" aria-busy="true">Carregando eventos publicados…</p>;
+  }
 
   return (
-    <section aria-busy={pending} style={{ maxWidth: 760 }}>
+    <section className="gate-shell" aria-busy={pending}>
       <div className="field">
         <label htmlFor="gate-event">Evento publicado</label>
         <select
           id="gate-event"
+          aria-describedby="gate-event-help"
           value={selectedEventId}
           onChange={(event) => {
             stopCamera();
@@ -193,49 +197,69 @@ export function Scanner() {
             </option>
           ))}
         </select>
+        <p id="gate-event-help">Escolha o evento antes de ler ou digitar um ingresso.</p>
       </div>
 
       {events.length === 0 ? <p role="status">Nenhum evento disponível para validação.</p> : null}
 
-      <div style={{ marginBlock: 32 }}>
-        <p className="label-caps">Leitura por câmera</p>
-        <video
-          ref={videoRef}
-          aria-label="Imagem da câmera para leitura do QR"
-          muted
-          playsInline
-          style={{ display: cameraState === "active" ? "block" : "none", maxWidth: "100%" }}
+      <div className="gate-sections">
+        <Ticket
+          aria-label="Leitura de ingresso por câmera"
+          detailsLabel="Controles da câmera"
+          header={<p className="label-caps">Leitura por câmera</p>}
+          details={
+            <>
+              <video
+                ref={videoRef}
+                aria-label="Imagem da câmera para leitura do QR"
+                muted
+                playsInline
+                style={{ display: cameraState === "active" ? "block" : "none", maxWidth: "100%" }}
+              />
+              <CameraMessage state={cameraState} />
+              {cameraState === "active" ? (
+                <button type="button" className="button button--ghost" onClick={stopCamera}>
+                  Parar câmera
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled={!selectedEventId || pending}
+                  onClick={() => void startCamera()}
+                >
+                  {cameraState === "requesting" ? "Solicitando câmera…" : "Usar câmera"}
+                </button>
+              )}
+            </>
+          }
         />
-        <CameraMessage state={cameraState} />
-        {cameraState === "active" ? (
-          <button type="button" className="button button--ghost" onClick={stopCamera}>
-            Parar câmera
-          </button>
-        ) : (
-          <button type="button" disabled={!selectedEventId || pending} onClick={() => void startCamera()}>
-            {cameraState === "requesting" ? "Solicitando câmera…" : "Usar câmera"}
-          </button>
-        )}
+
+        <Ticket
+          aria-label="Validação por entrada manual"
+          detailsLabel="Código e ação de validação"
+          header={<p className="label-caps">Entrada manual</p>}
+          details={
+            <form onSubmit={submitManual} className="gate-manual" aria-busy={pending}>
+              <div className="field">
+                <label htmlFor="manual-credential">Código do ingresso</label>
+                <textarea
+                  id="manual-credential"
+                  rows={4}
+                  value={manualCredential}
+                  onChange={(event) => setManualCredential(event.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+              </div>
+              <button type="submit" disabled={!selectedEventId || !manualCredential.trim() || pending}>
+                {pending ? "Validando online…" : "Validar código"}
+              </button>
+            </form>
+          }
+        />
       </div>
 
-      <form onSubmit={submitManual}>
-        <div className="field">
-          <label htmlFor="manual-credential">Código do ingresso</label>
-          <textarea
-            id="manual-credential"
-            rows={4}
-            value={manualCredential}
-            onChange={(event) => setManualCredential(event.target.value)}
-            autoComplete="off"
-            spellCheck={false}
-          />
-        </div>
-        <button type="submit" disabled={!selectedEventId || !manualCredential.trim() || pending}>
-          {pending ? "Validando online…" : "Validar código"}
-        </button>
-      </form>
-
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? <p role="alert" aria-atomic="true">{error}</p> : null}
       {result ? (
         <ValidationResult
           result={result.result}
@@ -255,7 +279,7 @@ function CameraMessage({ state }: { state: CameraState }) {
     unavailable: "Leitura por câmera indisponível neste navegador. Use a entrada manual abaixo.",
     error: "Não foi possível ler pela câmera. Use a entrada manual abaixo.",
   };
-  return messages[state] ? <p role="status">{messages[state]}</p> : null;
+  return messages[state] ? <p role="status" aria-atomic="true">{messages[state]}</p> : null;
 }
 
 async function loadEvents(

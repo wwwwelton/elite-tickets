@@ -33,7 +33,7 @@ export default async function EventDetailPage({
 
   return (
     <main className="page-grid">
-      <div style={{ gridColumn: "1 / -1" }}>
+      <div className="hero-shell" style={{ gridColumn: "1 / -1" }}>
         <Ticket
           emphasized
           header={
@@ -48,6 +48,7 @@ export default async function EventDetailPage({
               <LedgerRow label="Início" value={dateFormatter.format(new Date(event.starts_at))} />
               <LedgerRow label="Término" value={dateFormatter.format(new Date(event.ends_at))} />
               <LedgerRow label="Local" value={event.venue_name} />
+              <LedgerRow label="Capacidade" value={event.capacity} />
               <LedgerRow label="Preço unitário" value={moneyFormatter.format(Number(event.price))} />
               <LedgerRow label="Disponíveis" value={event.available_quantity} />
             </ul>

@@ -17,6 +17,7 @@ os.environ.setdefault("TMDB_API_KEY", "test-key")
 os.environ.setdefault("CORS_ORIGINS", "http://localhost:3000")
 
 from elite_tickets.auth.models import Role, User
+from elite_tickets.catalog.router import get_ticketmaster_client
 from elite_tickets.db.base import utc_now, uuid7
 from elite_tickets.db.session import get_session
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
@@ -190,3 +191,29 @@ async def test_published_detail_matches_public_contract(
 async def test_invalid_page_is_rejected_by_contract(client: AsyncClient) -> None:
     response = await client.get("/api/v1/events", params={"page": 0})
     assert response.status_code == 422
+
+
+async def test_published_events_render_while_catalog_is_unavailable(
+    client: AsyncClient,
+    database_session: AsyncSession,
+) -> None:
+    published, _ = await seed_public_and_draft(database_session)
+
+    class FailingCatalog:
+        async def search_events(self, *args: object, **kwargs: object) -> None:
+            raise AssertionError("catalog should not be used for public events")
+
+        async def event_details(self, external_id: str) -> None:
+            raise AssertionError("catalog should not be used for public events")
+
+    async def catalog_override() -> AsyncIterator[FailingCatalog]:
+        yield FailingCatalog()
+
+    app.dependency_overrides[get_ticketmaster_client] = catalog_override
+    try:
+        response = await client.get(f"/api/v1/events/{published.id}")
+    finally:
+        app.dependency_overrides.pop(get_ticketmaster_client, None)
+
+    assert response.status_code == 200
+    assert response.json()["id"] == str(published.id)

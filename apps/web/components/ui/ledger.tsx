@@ -8,7 +8,7 @@ export type LedgerRowProps = {
 export function LedgerRow({ label, value }: LedgerRowProps) {
   return (
     <li className="ledger__row">
-      <span>{label}</span>
+      <span className="ledger__label">{label}</span>
       <span className="ledger__value">{value}</span>
     </li>
   );

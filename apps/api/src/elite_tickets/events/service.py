@@ -1,16 +1,16 @@
 import uuid
 from datetime import datetime
 from decimal import Decimal
-
-from pydantic import BaseModel, ConfigDict
-from sqlalchemy import func, or_, select, update
-from sqlalchemy.ext.asyncio import AsyncSession
+from urllib.parse import urlsplit
 
 from elite_tickets.db.base import utc_now
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
 from elite_tickets.shared.errors import DomainValidationError
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import func, or_, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 
-TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
+LEGACY_TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 DEFAULT_PAGE_SIZE = 20
 MAX_PAGE_SIZE = 100
 
@@ -39,10 +39,19 @@ class PublicEventPage(BaseModel):
     total: int
 
 
-def _poster_url(path: str | None) -> str | None:
-    if not path:
+def _poster_url(value: str | None) -> str | None:
+    if not value or not (normalized := value.strip()):
         return None
-    return f"{TMDB_POSTER_BASE_URL}/{path.lstrip('/')}"
+    parsed = urlsplit(normalized)
+    if parsed.scheme or parsed.netloc:
+        if parsed.scheme == "https" and parsed.netloc:
+            return normalized
+        return None
+    return f"{LEGACY_TMDB_POSTER_BASE_URL}/{normalized.lstrip('/')}"
+
+
+def _snapshot_poster_url(snapshot: MovieSnapshot) -> str | None:
+    return _poster_url(snapshot.image_url or snapshot.poster_path)
 
 
 def _projection(event: Event, snapshot: MovieSnapshot) -> PublicEvent:
@@ -50,7 +59,7 @@ def _projection(event: Event, snapshot: MovieSnapshot) -> PublicEvent:
         id=event.id,
         state=event.state,
         title=snapshot.title,
-        poster_url=_poster_url(snapshot.poster_path),
+        poster_url=_snapshot_poster_url(snapshot),
         starts_at=event.starts_at,
         ends_at=event.ends_at,
         venue_name=event.venue_name,

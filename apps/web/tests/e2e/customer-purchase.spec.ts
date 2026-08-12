@@ -17,31 +17,46 @@ test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", asyn
   await page.getByLabel("Senha").fill("DemoElite2026!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page).toHaveURL(/\/customer\/tickets$/);
-  const initialTickets = await page.locator("article.ticket").count();
+  await expect(page.getByText("Carregando ingressos…")).toHaveCount(0);
+  const customerTickets = page.locator("article.customer-ticket");
+  const initialTickets = await customerTickets.count();
 
   await page.goto(eventUrl);
+  await expect(page.getByRole("heading", { name: /Clube da Luta/, level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Quantidade" })).toBeVisible();
   await page.getByRole("button", { name: "Aumentar quantidade" }).click();
   await page.getByRole("link", { name: "Reservar ingressos" }).click();
-  await expect(page.getByText("Quantidade").locator("..")).toContainText("2");
+  await expect(page).toHaveURL(/\/customer\/checkout\/[0-9a-f-]+\?quantity=2$/);
+  await expect(page.locator("article.ticket").filter({ hasText: "Checkout" })).toBeVisible();
+  await expect(page.locator(".ledger__row").filter({ hasText: "Quantidade" })).toContainText("2");
   await page.getByRole("button", { name: "Criar reserva" }).click();
   await page.getByRole("button", { name: "Simular aprovação" }).click();
+  await expect(page.getByRole("status", { name: "APPROVED" })).toBeVisible();
   await expect(page.getByText("2 ingresso(s) emitido(s).")).toBeVisible();
   await page.getByRole("link", { name: "Ver meus ingressos" }).click();
-  await expect(page.locator("article.ticket")).toHaveCount(initialTickets + 2);
+  await expect(page).toHaveURL(/\/customer\/tickets$/);
+  await expect(customerTickets).toHaveCount(initialTickets + 2);
 
   await page.goto(eventUrl);
-  const availabilityRow = page.locator(".ledger__row").filter({ hasText: "Disponíveis" }).first();
-  const availabilityBeforeDecline = await availabilityRow.textContent();
+  const availabilityValue = page
+    .locator(".ledger__row")
+    .filter({ hasText: "Disponíveis" })
+    .first()
+    .locator(".ledger__value");
+  const availabilityBeforeDecline = (await availabilityValue.textContent())?.trim();
+  expect(availabilityBeforeDecline).toBeTruthy();
   await page.getByRole("link", { name: "Reservar ingressos" }).click();
   await page.getByRole("button", { name: "Criar reserva" }).click();
   await page.getByRole("button", { name: "Simular recusa" }).click();
+  await expect(page.getByRole("status", { name: "DECLINED" })).toBeVisible();
   await expect(page.getByText("Pagamento recusado.", { exact: false })).toBeVisible();
   await expect(page.getByText("Nenhum ingresso foi emitido", { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: "Simular aprovação" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Repetir tentativa idempotente" })).toHaveCount(0);
   await page.getByRole("link", { name: "Voltar ao evento" }).click();
-  await expect(availabilityRow).toHaveText(availabilityBeforeDecline ?? "");
+  await expect(page).toHaveURL(/\/events\/[0-9a-f-]+$/);
+  await expect(availabilityValue).toHaveText(availabilityBeforeDecline ?? "");
 
   await page.goto(`${webUrl}/customer/tickets`);
-  await expect(page.locator("article.ticket")).toHaveCount(initialTickets + 2);
+  await expect(customerTickets).toHaveCount(initialTickets + 2);
 });

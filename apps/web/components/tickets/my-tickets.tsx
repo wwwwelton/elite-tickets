@@ -26,16 +26,24 @@ export function MyTickets({ ticketId }: { ticketId?: string }) {
       .catch((caught) => setError(ticketError(caught)));
   }, [router]);
 
-  if (error) return <p role="alert">{error}</p>;
-  if (!tickets) return <p role="status">Carregando ingressos…</p>;
+  if (error) return <p role="alert" aria-atomic="true">{error}</p>;
+  if (!tickets) {
+    return <p role="status" aria-atomic="true" aria-busy="true">Carregando ingressos…</p>;
+  }
   if (ticketId) {
     const ticket = tickets.find((candidate) => candidate.id === ticketId);
-    return ticket ? <CustomerTicketView ticket={ticket} /> : <p role="alert">Ingresso não encontrado.</p>;
+    return ticket ? (
+      <CustomerTicketView ticket={ticket} />
+    ) : (
+      <p role="alert" aria-atomic="true">Ingresso não encontrado.</p>
+    );
   }
-  if (tickets.length === 0) return <p role="status">Você ainda não possui ingressos.</p>;
+  if (tickets.length === 0) {
+    return <p role="status" aria-atomic="true">Você ainda não possui ingressos.</p>;
+  }
   return (
-    <div className="page-grid" style={{ width: "100%" }}>
+    <section className="ticket__details-stack" aria-label="Ingressos emitidos">
       {tickets.map((ticket) => <CustomerTicketView compact key={ticket.id} ticket={ticket} />)}
-    </div>
+    </section>
   );
 }
