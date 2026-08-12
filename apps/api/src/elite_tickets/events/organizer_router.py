@@ -3,27 +3,28 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Annotated
 
+from fastapi import APIRouter, Depends, Path, status
+from pydantic import BaseModel, Field
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import require_roles
 from elite_tickets.catalog.interfaces import CatalogProvider
-from elite_tickets.catalog.router import get_tmdb_client
+from elite_tickets.catalog.router import get_ticketmaster_client
 from elite_tickets.db.session import get_session
 from elite_tickets.events.organizer_service import (
     OrganizerEvent,
     cancel_owned_event,
-    create_event_from_tmdb,
+    create_event_from_catalog,
     list_owned_events,
     publish_owned_event,
 )
-from fastapi import APIRouter, Depends, Path, status
-from pydantic import BaseModel, Field
-from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(tags=["Events"])
 
 
 class EventCreate(BaseModel):
-    tmdb_id: int = Field(gt=0)
+    external_id: str = Field(min_length=1, max_length=255)
     venue_name: str = Field(min_length=1, max_length=180)
     venue_address: str = Field(min_length=1, max_length=300)
     starts_at: datetime
@@ -42,12 +43,12 @@ async def create_event(
     payload: EventCreate,
     user: Annotated[User, Depends(require_roles(Role.ORGANIZER))],
     session: Annotated[AsyncSession, Depends(get_session)],
-    catalog: Annotated[CatalogProvider, Depends(get_tmdb_client)],
+    catalog: Annotated[CatalogProvider, Depends(get_ticketmaster_client)],
 ) -> OrganizerEvent:
-    return await create_event_from_tmdb(
+    return await create_event_from_catalog(
         session,
         organizer_id=user.id,
-        tmdb_id=payload.tmdb_id,
+        external_id=payload.external_id,
         venue_name=payload.venue_name,
         venue_address=payload.venue_address,
         starts_at=payload.starts_at,
