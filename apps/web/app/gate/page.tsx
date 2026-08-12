@@ -3,8 +3,9 @@ import { Ticket } from "@/components/ui";
 
 export default function GatePage() {
   return (
-    <main className="page-grid">
+    <main className="page-grid gate-page">
       <Ticket
+        className="gate-workspace"
         emphasized
         header={
           <>
