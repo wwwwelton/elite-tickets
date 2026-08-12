@@ -16,6 +16,7 @@ export default async function CheckoutPage({ params, searchParams }: CheckoutPag
   return (
     <main className="page-grid">
       <Ticket
+        className="checkout-shell"
         emphasized
         header={
           <>

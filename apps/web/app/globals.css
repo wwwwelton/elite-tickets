@@ -520,6 +520,16 @@ textarea:focus {
   border: 2px solid var(--color-border);
 }
 
+.checkout-shell {
+  width: min(100%, 760px);
+  margin-inline: auto;
+}
+
+.checkout-flow {
+  display: grid;
+  gap: var(--space-stack-lg);
+}
+
 .checkout-result--approved {
   border-color: var(--color-secondary);
 }
