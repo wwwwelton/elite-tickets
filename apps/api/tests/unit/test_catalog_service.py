@@ -4,6 +4,11 @@ from dataclasses import dataclass
 
 import pytest
 
+from elite_tickets.catalog.errors import (
+    CatalogAuthError,
+    CatalogRateLimitError,
+    CatalogUpstreamUnavailableError,
+)
 from elite_tickets.catalog.schemas import CatalogEventDetail, CatalogPage, CatalogSearchResult
 from elite_tickets.catalog.service import CatalogService
 
@@ -117,3 +122,56 @@ async def test_event_details_delegates_and_preserves_optional_fields() -> None:
     assert detail.external_id == "evt-2"
     assert detail.image_url is None
     assert detail.venue_name == "Arena"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    ("error", "expected"),
+    [
+        (CatalogAuthError("auth"), CatalogAuthError),
+        (CatalogRateLimitError("rate"), CatalogRateLimitError),
+        (CatalogUpstreamUnavailableError("upstream"), CatalogUpstreamUnavailableError),
+    ],
+)
+async def test_event_details_propagates_upstream_error_states(
+    error: Exception,
+    expected: type[Exception],
+) -> None:
+    class FailingProvider:
+        async def search_events(self, *args: object, **kwargs: object) -> CatalogPage:
+            raise AssertionError("search_events should not be called")
+
+        async def event_details(self, external_id: str) -> CatalogEventDetail:
+            assert external_id == "evt-3"
+            raise error
+
+    service = CatalogService(FailingProvider())
+
+    with pytest.raises(expected):
+        await service.event_details("evt-3")
+
+
+@pytest.mark.asyncio
+async def test_search_events_can_return_empty_results() -> None:
+    provider = RecordingProvider(
+        result=CatalogPage(items=[], page=1, size=20, total=0, has_more=False),
+        calls=[],
+    )
+
+    service = CatalogService(provider)
+    page = await service.search_events("nothing")
+
+    assert provider.calls == [
+        (
+            "search_events",
+            {
+                "query": "nothing",
+                "page": 1,
+                "size": 20,
+                "country_code": "BR",
+                "city": None,
+            },
+        )
+    ]
+    assert page.items == []
+    assert page.total == 0
