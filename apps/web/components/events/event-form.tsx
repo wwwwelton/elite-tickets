@@ -28,6 +28,8 @@ type CatalogPage = {
   has_more: boolean;
 };
 
+type CatalogErrorCode = "catalog_auth_error" | "catalog_rate_limited" | "dependency_unavailable";
+
 type CreateEventPayload = {
   tmdb_id: number;
   venue_name: string;
@@ -48,6 +50,7 @@ export function EventForm() {
   const [searching, setSearching] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [searchErrorCode, setSearchErrorCode] = useState<CatalogErrorCode | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -68,6 +71,7 @@ export function EventForm() {
     if (!accessToken || !query.trim()) return;
     setSearching(true);
     setSearchError(null);
+    setSearchErrorCode(null);
     setCatalog(null);
     setSelected(null);
     try {
@@ -79,7 +83,19 @@ export function EventForm() {
       );
     } catch (caught) {
       setCatalog(null);
-      setSearchError(apiMessage(caught, "O catálogo está indisponível."));
+      if (caught instanceof ApiError) {
+        setSearchError(apiMessage(caught, "O catálogo está indisponível."));
+        setSearchErrorCode(
+          caught.code === "catalog_auth_error" ||
+            caught.code === "catalog_rate_limited" ||
+            caught.code === "dependency_unavailable"
+            ? caught.code
+            : "dependency_unavailable",
+        );
+      } else {
+        setSearchError(apiMessage(caught, "O catálogo está indisponível."));
+        setSearchErrorCode("dependency_unavailable");
+      }
     } finally {
       setSearching(false);
     }
@@ -132,7 +148,7 @@ export function EventForm() {
         <Ticket
           header={
             <>
-              <Status status={statusForError(searchError)} />
+              <Status status={statusForError(searchErrorCode)} />
               <h2 className="headline-sm">Catálogo indisponível</h2>
             </>
           }
@@ -230,9 +246,9 @@ function hashCode(value: string): number {
   return hash;
 }
 
-function statusForError(message: string) {
-  if (message.includes("autenticação") || message.includes("configuração")) return "INVALID";
-  if (message.includes("Limite temporário") || message.includes("requisições")) return "SOLD_OUT";
+function statusForError(code: CatalogErrorCode | null) {
+  if (code === "catalog_auth_error") return "INVALID";
+  if (code === "catalog_rate_limited") return "SOLD_OUT";
   return "WRONG_EVENT";
 }
 
