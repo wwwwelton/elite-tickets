@@ -47,7 +47,7 @@ test("anonymous shared ticket stays read-only and expires after admission", asyn
   expect(pageResponse?.headers()["referrer-policy"]).toBe("no-referrer");
   await expect(page.getByText("Visualização pública somente leitura", { exact: false })).toBeVisible();
   await expect(page.getByText(ticket.owner_name, { exact: true })).toBeVisible();
-  await expect(page.getByRole("img", { name: "QR do ingresso" })).toBeVisible();
+  await expect(page.getByRole("img", { name: "QR do ingresso para validação na portaria" })).toBeVisible();
   await expect(page.getByTestId("ticket-credential")).toHaveText(ticket.qr_credential);
   await expect(page.getByRole("button", { name: /Compartilhar|Copiar link/ })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Ver ingresso" })).toHaveCount(0);
@@ -67,7 +67,7 @@ test("anonymous shared ticket stays read-only and expires after admission", asyn
   expect(expiredResponse?.headers()["cache-control"]).toContain("no-store");
   expect(expiredResponse?.headers()["referrer-policy"]).toBe("no-referrer");
   await expect(page.getByRole("heading", { name: "Ingresso compartilhado expirado" })).toBeVisible();
-  await expect(page.getByRole("img", { name: "QR do ingresso" })).toHaveCount(0);
+  await expect(page.getByRole("img", { name: "QR do ingresso para validação na portaria" })).toHaveCount(0);
 });
 
 test("customer creates and copies a read-only share link from the ticket", async ({ page }) => {
@@ -131,7 +131,7 @@ test("customer creates and copies a read-only share link from the ticket", async
   await page.goto(`${webUrl}/customer/tickets/${ticket.id}`);
   const ticketArticle = page.getByRole("article", { name: "Ingresso de Concerto compartilhado" });
   await expect(ticketArticle).toBeVisible();
-  await expect(ticketArticle.getByRole("img", { name: "QR do ingresso" })).toBeVisible();
+  await expect(ticketArticle.getByRole("img", { name: "QR do ingresso para validação na portaria" })).toBeVisible();
   const shareRegion = ticketArticle.getByRole("region", { name: "Compartilhamento do ingresso" });
   await shareRegion.getByRole("button", { name: "Compartilhar ingresso" }).click();
 
