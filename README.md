@@ -115,7 +115,7 @@ do ingresso. O relatório da validação local está em
 
 `infra/render.yaml` descreve PostgreSQL, API, migration pre-deploy e o cron de
 expiração no Render. Configure na plataforma `DATABASE_URL`, `JWT_SECRET`,
-`QR_SECRET`, `TMDB_API_KEY` e `CORS_ORIGINS`; JWT e QR devem ser secretos e
+`QR_SECRET`, `TICKETMASTER_API_KEY` e `CORS_ORIGINS`; JWT e QR devem ser secretos e
 distintos. O frontend pode ser implantado na Vercel com:
 
 - `NEXT_PUBLIC_API_BASE_URL`: URL HTTPS pública da API terminada em `/api/v1`;
@@ -132,7 +132,7 @@ origens HTTPS esperadas e confirme os smoke checks descritos em
 - **Porta ocupada:** altere `POSTGRES_PORT`, `API_PORT` ou `WEB_PORT` no `.env` e
   recrie os serviços.
 - **API não inicia:** confirme que JWT/QR têm pelo menos 32 bytes, são diferentes
-  e que `TMDB_API_KEY` não está vazio; depois consulte `docker compose logs api migrate`.
+  e que `TICKETMASTER_API_KEY` não está vazio; depois consulte `docker compose logs api migrate`.
 - **Frontend mostra eventos indisponíveis:** dentro do Compose,
   `API_INTERNAL_BASE_URL` deve apontar para `http://api:8000/api/v1`. No navegador,
   `NEXT_PUBLIC_API_BASE_URL` deve ser acessível pela máquina do usuário.
