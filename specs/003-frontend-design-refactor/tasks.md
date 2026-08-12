@@ -62,7 +62,7 @@
 - [X] T028 [P] Audit keyboard order, visible focus, semantic landmarks, labels, live regions, image alternatives, and non-color state feedback across `apps/web/app/**` and `apps/web/components/**`; add assertions in `apps/web/tests/e2e/accessibility.spec.ts` (FR-010, FR-014, SC-006, SC-007)
 - [X] T029 Remove only obsolete CSS/component code proven unused after migration from `apps/web/app/globals.css` and `apps/web/components/**`, preserving shared primitives and dynamic behavior (FR-009, scope constraint)
 - [X] T030 Run final `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, and all Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/`; record results in `specs/003-frontend-design-refactor/quickstart.md` (SC-005, SC-007)
-- [ ] T031 [P] Verify `git diff -- docs/design` is empty and all 23 design directories remain present and mapped in `specs/003-frontend-design-refactor/research.md` (FR-013, SC-001)
+- [X] T031 [P] Verify `git diff -- docs/design` is empty and all 23 design directories remain present and mapped in `specs/003-frontend-design-refactor/research.md` (FR-013, SC-001)
 
 ## Dependencies and execution order
 
