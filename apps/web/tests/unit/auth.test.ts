@@ -1,11 +1,15 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
 import {
+  PUBLIC_NAVIGATION,
   NAVIGATION_BY_ROLE,
   clearSession,
+  authenticatedActionForSession,
   guardRoute,
+  getSession,
   roleHome,
   saveSession,
+  primaryNavigationForSession,
 } from "@/lib/auth";
 
 describe("role navigation", () => {
@@ -23,5 +27,25 @@ describe("role navigation", () => {
   it("redirects an authenticated role away from another role's route", () => {
     saveSession({ access_token: "token", token_type: "bearer", expires_in: 900, role: "GATE" });
     expect(guardRoute(["CUSTOMER"])).toEqual({ allowed: false, redirectTo: "/gate" });
+  });
+
+  it("exposes shared and role-specific navigation helpers for the shell", () => {
+    expect(primaryNavigationForSession(null)).toEqual(PUBLIC_NAVIGATION);
+    expect(authenticatedActionForSession(null)).toBeNull();
+
+    saveSession({
+      access_token: "token",
+      token_type: "bearer",
+      expires_in: 900,
+      role: "ORGANIZER",
+    });
+
+    const session = getSession();
+    expect(session?.role).toBe("ORGANIZER");
+    expect(primaryNavigationForSession(session)).toEqual([
+      { href: "/", label: "Início" },
+      ...NAVIGATION_BY_ROLE.ORGANIZER,
+    ]);
+    expect(authenticatedActionForSession(session)).toBe("Meus eventos");
   });
 });
