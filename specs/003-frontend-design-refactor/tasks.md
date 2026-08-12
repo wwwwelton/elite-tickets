@@ -49,7 +49,7 @@
 
 - [X] T017 [P] [US2] Add customer ticket-detail navigation, QR, and share affordances in `apps/web/app/customer/tickets/[ticketId]/page.tsx` and `apps/web/components/tickets/ticket.tsx` (FR-006, FR-015, FR-012)
 - [X] T018 [P] [US2] Preserve read-only shared-ticket navigation and sharing boundaries in `apps/web/app/shared/tickets/[shareToken]/page.tsx` and `apps/web/components/tickets/share-action.tsx` (FR-015, FR-018)
-- [ ] T019 [US2] Add unit coverage for My Tickets, ticket detail, QR/share state, and shared-ticket read-only behavior in `apps/web/tests/unit/ticket-accessibility.test.tsx` and `apps/web/tests/unit/ticket-sharing.test.tsx` (SC-007, FR-015)
+- [X] T019 [US2] Add unit coverage for My Tickets, ticket detail, QR/share state, and shared-ticket read-only behavior in `apps/web/tests/unit/ticket-accessibility.test.tsx` and `apps/web/tests/unit/ticket-sharing.test.tsx` (SC-007, FR-015)
 - [ ] T020 [US2] Update ticket-sharing and accessibility E2E coverage in `apps/web/tests/e2e/ticket-sharing.spec.ts` and `apps/web/tests/e2e/accessibility.spec.ts` (SC-005, SC-006, SC-007)
 
 ## Phase 5: User Story 3 - Create and manage organizer events (Priority: P2)
