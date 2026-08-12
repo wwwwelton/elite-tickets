@@ -228,3 +228,22 @@ async def test_catalog_preserves_missing_optional_fields() -> None:
     assert search_item["country_code"] is None
     assert detail.json()["image_url"] is None
     assert detail.json()["category"] is None
+
+
+async def test_catalog_errors_do_not_expose_credentials_in_logs_or_responses(caplog: pytest.LogCaptureFixture) -> None:
+    class SecretFailingCatalog:
+        async def search_events(self, *args: object, **kwargs: object) -> CatalogPage:
+            raise CatalogAuthError("TICKETMASTER_API_KEY=test-key")
+
+        async def event_details(self, external_id: str) -> CatalogEventDetail:
+            raise CatalogAuthError("TICKETMASTER_API_KEY=test-key")
+
+    app = _catalog_app(SecretFailingCatalog())
+
+    with caplog.at_level("ERROR"):
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            response = await client.get("/api/v1/catalog/events", params={"keyword": "festival"})
+
+    assert response.status_code == 503
+    assert "test-key" not in response.text
+    assert "test-key" not in caplog.text
