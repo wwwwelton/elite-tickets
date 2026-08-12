@@ -3,7 +3,7 @@ import { Ticket } from "@/components/ui";
 
 export default function TicketsPage() {
   return (
-    <main className="page-grid">
+    <main className="page-grid tickets-page">
       <Ticket
         emphasized
         header={

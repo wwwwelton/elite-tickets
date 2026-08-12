@@ -42,7 +42,7 @@ export function MyTickets({ ticketId }: { ticketId?: string }) {
     return <p role="status" aria-atomic="true">Você ainda não possui ingressos.</p>;
   }
   return (
-    <section className="ticket__details-stack" aria-label="Ingressos emitidos">
+    <section className="ticket__details-stack my-tickets-list" aria-label="Ingressos emitidos">
       {tickets.map((ticket) => <CustomerTicketView compact key={ticket.id} ticket={ticket} />)}
     </section>
   );
