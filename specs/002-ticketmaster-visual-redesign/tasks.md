@@ -182,8 +182,8 @@
 
 **Independent Test**: No dead visual components or unused CSS remain for the migrated paths.
 
-- [ ] T058 [P] [US4] Remove obsolete legacy event and ticket styling from `apps/web/app/globals.css` and any replaced component files
-- [ ] T059 [P] [US4] Remove unused frontend components or helpers superseded by the new shared primitives in `apps/web/components/`
+- [X] T058 [P] [US4] Remove obsolete legacy event and ticket styling from `apps/web/app/globals.css` and any replaced component files
+- [X] T059 [P] [US4] Remove unused frontend components or helpers superseded by the new shared primitives in `apps/web/components/`
 - [ ] T060 [US4] Run a final frontend lint and build pass to confirm the removed legacy code did not break imports in `apps/web/package.json` scripts
 
 ## Phase 19: E2E
