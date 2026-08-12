@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 
 import { ValidationResult } from "@/components/tickets/validation-result";
 
@@ -10,5 +10,13 @@ describe("gate validation results", () => {
     expect(alert).toHaveAttribute("data-validation-result", result);
     expect(alert).toHaveAttribute("tabindex", "-1");
     expect(alert).toHaveTextContent(result === "VALID" ? "Entrada autorizada" : /Entrada|ingresso/i);
+  });
+
+  it("exposes a next-validation action when requested", () => {
+    const restart = vi.fn();
+    render(<ValidationResult result="VALID" onNextAction={restart} nextActionLabel="Próxima leitura" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Próxima leitura" }));
+    expect(restart).toHaveBeenCalledTimes(1);
   });
 });

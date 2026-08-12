@@ -170,6 +170,13 @@ export function Scanner() {
     void submitCredential(manualCredential);
   }
 
+  function restartValidation() {
+    stopCamera();
+    setManualCredential("");
+    setResult(null);
+    setError(null);
+  }
+
   if (accessState === "auth_required") {
     return (
       <RouteAccessState
@@ -284,6 +291,8 @@ export function Scanner() {
         <ValidationResult
           result={result.result}
           {...(result.attempted_at ? { attemptedAt: result.attempted_at } : {})}
+          nextActionLabel="Nova validação"
+          onNextAction={restartValidation}
         />
       ) : null}
     </section>

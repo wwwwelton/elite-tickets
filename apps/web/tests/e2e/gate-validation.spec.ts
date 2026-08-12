@@ -47,6 +47,10 @@ test("renders the redesigned gate shell and requires an event selection", async 
   await eventSelect.selectOption(gateEvent.id);
   await expect(cameraTicket.getByRole("button", { name: "Usar câmera" })).toBeEnabled();
   await expect(manualTicket.getByRole("button", { name: "Validar código" })).toBeEnabled();
+  await expect(page.getByRole("link", { name: "Voltar aos eventos públicos" })).toHaveAttribute(
+    "href",
+    "/",
+  );
 });
 
 test("camera and manual input feed the same online validation action", async ({ page }) => {
@@ -113,6 +117,7 @@ for (const scenario of [
     await expect(result).toHaveAttribute("role", "alert");
     await expect(result.getByRole("heading", { name: scenario[1] })).toBeVisible();
     await expect(result.getByText(`Tentativa:`, { exact: false })).toBeVisible();
+    await expect(result.getByRole("button", { name: "Nova validação" })).toBeVisible();
   });
 }
 
