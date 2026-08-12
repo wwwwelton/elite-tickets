@@ -332,6 +332,23 @@ textarea:focus {
   border: 1px solid var(--color-border);
 }
 
+.state-message {
+  display: grid;
+  gap: var(--space-stack-sm);
+  margin: 0;
+  padding: var(--space-stack-md);
+  border: 1px solid var(--color-border);
+}
+
+.state-message--error {
+  border-color: var(--color-error);
+  color: var(--color-on-surface);
+}
+
+.state-message--success {
+  border-color: var(--color-primary);
+}
+
 .event-grid {
   align-items: start;
 }
