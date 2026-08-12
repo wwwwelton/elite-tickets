@@ -130,3 +130,21 @@ Shared reusable components currently in use:
 
 All 15 approved page groups remain represented by these routes or states; the
 payment and gate mockups are state references, not additional routes.
+
+## Auth and guard audit
+
+Verified session behavior in `apps/web/lib/auth.ts`:
+
+- Sessions are stored in `window.sessionStorage` under `elite-tickets.session`.
+- Session shape is `{ accessToken, expiresAt, role }`.
+- Expired or malformed sessions are cleared and treated as signed out.
+- Role-specific navigation is derived from the saved session role.
+- `roleHome()` returns `/organizer/events`, `/customer/tickets`, or `/gate`
+  depending on the authenticated role.
+- `guardRoute()` returns `auth_required` for signed-out users and
+  `access_denied` for authenticated users who attempt another role's route.
+- `guardRoute()` redirects access-denied users to their own role home; it does
+  not invent a new authorization model or bypass backend authority.
+
+Frontend navigation consumes these helpers; it does not replace backend
+authentication or authorization decisions.

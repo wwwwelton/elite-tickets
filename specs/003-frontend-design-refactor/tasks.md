@@ -11,7 +11,7 @@
 **Independent Test**: The audit artifacts should identify all 15 design page groups, all existing protected routes, and the current missing navigation entry points.
 
 - [X] T001 [P] Document the current route map, shared components, and design-reference coverage for all 15 approved page groups in `specs/003-frontend-design-refactor/research.md` (FR-001, FR-002, SC-001)
-- [ ] T002 [P] Record the current auth/session/role model, route-guard behavior, and role-home redirects in `apps/web/lib/auth.ts` and summarize the verified behavior in `specs/003-frontend-design-refactor/research.md` (FR-004, FR-007, FR-018)
+- [X] T002 [P] Record the current auth/session/role model, route-guard behavior, and role-home redirects in `apps/web/lib/auth.ts` and summarize the verified behavior in `specs/003-frontend-design-refactor/research.md` (FR-004, FR-007, FR-018)
 - [ ] T003 [P] Capture verified navigation gaps for signed-out Login visibility, My Tickets entry, Organizer entry, Create Event entry, Gate entry, and Logout in `specs/003-frontend-design-refactor/research.md` (FR-005, FR-008, FR-009, FR-010)
 - [ ] T004 [P] Record approved design/product mismatches, static-data constraints, and `docs/design/` immutability notes in `specs/003-frontend-design-refactor/research.md` (FR-002, FR-003, FR-016)
 - [ ] T005 Create a baseline validation log covering current lint, typecheck, unit, and Playwright results in `specs/003-frontend-design-refactor/quickstart.md` (SC-005, SC-007)
