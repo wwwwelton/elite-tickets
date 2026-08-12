@@ -33,7 +33,7 @@ export default async function EventDetailPage({
 
   return (
     <main className="page-grid">
-      <div className="hero-shell" style={{ gridColumn: "1 / -1" }}>
+      <div className="hero-shell event-detail-shell" style={{ gridColumn: "1 / -1" }}>
         <Ticket
           emphasized
           header={
