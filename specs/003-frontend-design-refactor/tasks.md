@@ -8,12 +8,12 @@
 
 - [ ] T001 Create a route/component/design inventory covering all 23 `docs/design/*/code.html` and `screen.png` references, their 15 flows, and eight responsive pairs in `specs/003-frontend-design-refactor/research.md` (FR-001, FR-002)
 - [ ] T002 Record screenshot-versus-product-requirement discrepancies and placeholder-data rules in `specs/003-frontend-design-refactor/research.md` after T001, without editing `docs/design/` (FR-002, FR-003, FR-013)
-- [ ] T003 Run the existing frontend lint, typecheck, unit tests, production build, and Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/package.json` and record the baseline in `specs/003-frontend-design-refactor/quickstart.md` (SC-005)
+- [ ] T003 Run the existing backend contract/regression suite from `apps/api` plus frontend lint, typecheck, unit tests, production build, and Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/package.json`; record the baseline in `specs/003-frontend-design-refactor/quickstart.md` (FR-004, FR-014, SC-005)
 
 ## Phase 2: Shared UI foundation
 
 - [ ] T004 Refine design tokens, typography, spacing, grid, responsive breakpoints, focus styling, and overflow-safe primitives in `apps/web/app/globals.css` using `DESIGN.md` and screenshots (FR-001, FR-009, FR-010, FR-011)
-- [ ] T005 [P] Refine reusable `Button`, `Ticket`, `Status`, `LedgerRow`, and `Perforation` primitives in `apps/web/components/ui/{button,ticket,status,ledger,perforation}.tsx` and `apps/web/components/ui/index.ts` (FR-009, FR-010)
+- [ ] T005 [P] After T004, refine reusable `Button`, `Ticket`, `Status`, `LedgerRow`, and `Perforation` primitives in `apps/web/components/ui/{button,ticket,status,ledger,perforation}.tsx` and `apps/web/components/ui/index.ts` (FR-009, FR-010, FR-016)
 - [ ] T006 Create/refine shared poster, page-shell, field, loading, empty, error, and result-state patterns in `apps/web/components/events/poster.tsx`, `apps/web/components/ui/`, and `apps/web/app/globals.css` after T004–T005 (FR-008, FR-009, FR-010, FR-016)
 - [ ] T007 Add unit coverage for shared primitives, state semantics, focus-visible behavior, and missing-image fallback in `apps/web/tests/unit/ui-primitives.test.tsx`, `apps/web/tests/unit/design-tokens.test.tsx`, and `apps/web/tests/unit/image-config.test.ts` (FR-008, FR-010, SC-007)
 
@@ -58,7 +58,7 @@
 
 ## Phase 7: Cross-cutting validation and polish
 
-- [ ] T027 [P] Run a viewport matrix for every responsive pair at reference mobile, intermediate, and desktop widths and document intentional discrepancies in `specs/003-frontend-design-refactor/quickstart.md` (FR-001, FR-011, SC-001, SC-002)
+- [ ] T027 [P] Run a viewport matrix for the eight responsive pairs (`01_home`, `02_event_detail`, `03_checkout`, `06_my_tickets`, `07_ticket_detail`, `09_organizer_events`, `10_create_event`, `11_gate_scanner`) at reference mobile, intermediate, and desktop widths; document intentional discrepancies and the nominal state matrix (loading, empty, API/network error, validation error, authorization, success, approved, declined, expired, VALID, INVALID, ALREADY_USED, WRONG_EVENT, camera failure/manual fallback) in `specs/003-frontend-design-refactor/quickstart.md` (FR-001, FR-008, FR-011, FR-014, SC-001, SC-002, SC-007)
 - [ ] T028 [P] Audit keyboard order, visible focus, semantic landmarks, labels, live regions, image alternatives, and non-color state feedback across `apps/web/app/**` and `apps/web/components/**`; add assertions in `apps/web/tests/e2e/accessibility.spec.ts` (FR-010, FR-014, SC-006, SC-007)
 - [ ] T029 Remove only obsolete CSS/component code proven unused after migration from `apps/web/app/globals.css` and `apps/web/components/**`, preserving shared primitives and dynamic behavior (FR-009, scope constraint)
 - [ ] T030 Run final `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, and all Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/`; record results in `specs/003-frontend-design-refactor/quickstart.md` (SC-005, SC-007)
