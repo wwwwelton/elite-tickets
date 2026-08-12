@@ -20,6 +20,8 @@ export type NavigationItem = {
   label: string;
 };
 
+export type { Role };
+
 type RoleNavigation = readonly [NavigationItem, ...NavigationItem[]];
 
 export const PUBLIC_NAVIGATION: readonly NavigationItem[] = [
