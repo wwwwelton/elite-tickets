@@ -28,6 +28,7 @@ test("public UI follows the responsive high-contrast keyboard design system", as
   await page.keyboard.press("Tab");
   await expect(cta).toBeFocused();
   await expect(cta).toHaveCSS("outline-color", "rgb(230, 25, 25)");
+  await expect(page.locator("main").first()).toBeVisible();
   await expect(cta).toHaveCSS("background-color", "rgb(230, 25, 25)");
   await expect(cta).toHaveCSS("color", "rgb(255, 255, 255)");
   expect(contrastRatio("#ffffff", "#e61919")).toBeGreaterThanOrEqual(4.5);
