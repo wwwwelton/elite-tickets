@@ -2,7 +2,7 @@
 
 import QRCode from "qrcode";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { LedgerRow, Status, Ticket as TicketFrame } from "@/components/ui";
 import { ShareAction } from "@/components/tickets/share-action";
@@ -27,6 +27,7 @@ const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
 
 export function CustomerTicketView({ allowShare = true, compact = false, ticket }: { allowShare?: boolean; compact?: boolean; ticket: CustomerTicket }) {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const headingId = useId();
   const [event, setEvent] = useState<EventSummary | null>(null);
   const [eventUnavailable, setEventUnavailable] = useState(false);
 
@@ -57,13 +58,17 @@ export function CustomerTicketView({ allowShare = true, compact = false, ticket 
   const cancelled = ticket.status === "CANCELLED" || eventUnavailable;
   return (
     <TicketFrame
-      aria-label={`Ingresso de ${event?.title ?? ticket.event_id}`}
+      aria-labelledby={headingId}
+      aria-busy={!event && !eventUnavailable}
       className={compact ? "customer-ticket customer-ticket--compact" : "customer-ticket"}
+      detailsLabel="Dados do ingresso"
       emphasized={!compact}
       header={
         <div className="ticket__header-copy">
           <p className="label-caps">Ingresso digital</p>
-          <h2 className="headline-md">{event?.title ?? (cancelled ? "Evento cancelado ou indisponível" : "Carregando evento…")}</h2>
+          <h2 className="headline-md" id={headingId}>
+            {event?.title ?? (cancelled ? "Evento cancelado ou indisponível" : "Carregando evento…")}
+          </h2>
         </div>
       }
       details={
@@ -98,15 +103,28 @@ export function CustomerTicketView({ allowShare = true, compact = false, ticket 
 }
 
 function Credential({ credential, canvas, disabled }: { credential: string; canvas: React.RefObject<HTMLCanvasElement | null>; disabled: boolean }) {
+  const labelId = useId();
   if (disabled) {
-    return <p role="status">QR indisponível para entrada. Este ingresso não pode ser utilizado.</p>;
+    return (
+      <p role="status" aria-atomic="true">
+        QR indisponível para entrada. Este ingresso não pode ser utilizado.
+      </p>
+    );
   }
   return (
-    <section className="ticket__details-stack" aria-labelledby="ticket-credential-label">
-      <canvas ref={canvas} role="img" aria-label="QR do ingresso" />
+    <section className="ticket__details-stack" aria-labelledby={labelId}>
+      <canvas ref={canvas} role="img" aria-label="QR do ingresso para validação na portaria" />
       <div className="ticket__details-stack">
-        <p className="label-caps" id="ticket-credential-label">Código para entrada manual</p>
-        <code className="code-data" data-testid="ticket-credential" style={{ overflowWrap: "anywhere" }}>{credential}</code>
+        <p className="label-caps" id={labelId}>
+          Código para entrada manual
+        </p>
+        <code
+          className="code-data"
+          data-testid="ticket-credential"
+          style={{ overflowWrap: "anywhere" }}
+        >
+          {credential}
+        </code>
       </div>
     </section>
   );

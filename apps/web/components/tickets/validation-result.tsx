@@ -1,3 +1,5 @@
+import { useEffect, useId, useRef } from "react";
+
 export type ValidationResultKind =
   | "VALID"
   | "INVALID"
@@ -52,14 +54,25 @@ const attemptedAtFormatter = new Intl.DateTimeFormat("pt-BR", {
 });
 
 export function ValidationResult({ result, attemptedAt }: ValidationResultProps) {
+  const resultRef = useRef<HTMLElement>(null);
+  const titleId = useId();
+  const descriptionId = useId();
   const message = content[result];
   const time = attemptedAt ? new Date(attemptedAt) : null;
   const formattedTime = time && !Number.isNaN(time.getTime()) ? attemptedAtFormatter.format(time) : null;
 
+  useEffect(() => {
+    resultRef.current?.focus();
+  }, [result]);
+
   return (
     <section
+      ref={resultRef}
       role="alert"
       aria-atomic="true"
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      tabIndex={-1}
       data-validation-result={result}
       className="validation-result"
     >
@@ -67,8 +80,8 @@ export function ValidationResult({ result, attemptedAt }: ValidationResultProps)
         {message.symbol}
       </p>
       <p className="label-caps">{message.eyebrow}</p>
-      <h2 className="headline-md">{message.title}</h2>
-      <p>{message.description}</p>
+      <h2 className="headline-md" id={titleId}>{message.title}</h2>
+      <p id={descriptionId}>{message.description}</p>
       {formattedTime ? <p className="code-data">Tentativa: {formattedTime}</p> : null}
     </section>
   );
