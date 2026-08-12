@@ -34,8 +34,8 @@ export function MyTickets({ ticketId }: { ticketId?: string }) {
   }
   if (tickets.length === 0) return <p role="status">Você ainda não possui ingressos.</p>;
   return (
-    <div className="page-grid" style={{ width: "100%" }}>
+    <section className="ticket__details-stack" aria-label="Ingressos emitidos">
       {tickets.map((ticket) => <CustomerTicketView compact key={ticket.id} ticket={ticket} />)}
-    </div>
+    </section>
   );
 }
