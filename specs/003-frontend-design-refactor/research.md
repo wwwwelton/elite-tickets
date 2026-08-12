@@ -1,5 +1,14 @@
 # Research: Frontend Design Refactor
 
+## Decision: preserve the current Next.js App Router frontend
+
+- **Evidence**: `apps/web/package.json` and `apps/web/app/` show Next.js 15.5
+  App Router with React 19, not a separate SPA router or alternate framework.
+- **Rationale**: the feature is a navigation and auth-shell refactor, so the
+  lowest-risk path is to keep the existing route structure and shared components.
+- **Alternatives rejected**: moving to Vite, React Router, or a different design
+  system would add migration work unrelated to the approved product behavior.
+
 ## Decision: retain npm, Next.js App Router, and React
 
 - **Evidence**: `apps/web/package.json` uses npm, Next.js 15.5.23, React 19.2.8,
@@ -45,6 +54,17 @@
 - **Alternatives rejected**: Percy/Chromatic or a new screenshot service would add
   cost and snapshot maintenance without a requirement.
 
+## Decision: use public navigation patterns for information architecture only
+
+- **Evidence**: Sympla, Eventim, and Ingresso.com all make account access and
+  ticket lookup easy to find, and at least one supports a unified login journey
+  for buyer/producer-style access.
+- **Rationale**: the feature needs clear visitor/login, purchased-ticket access,
+  organizer entry, and responsive wayfinding, but the final visual treatment must
+  remain original and follow the approved Stitch direction.
+- **Alternatives rejected**: copying benchmark CSS/branding or forcing a branded
+  hero/dashboard pattern would conflict with the approved visual language.
+
 ## Reference inventory
 
 All 23 design directories are mapped to the existing application: `01_home` and
@@ -56,6 +76,17 @@ All 23 design directories are mapped to the existing application: `01_home` and
 to `/organizer/events`; `10_create_event` pair to `/organizer/events/new`;
 `11_gate_scanner` pair to `/gate`; and `12_valid`, `13_invalid`,
 `14_already_used`, `15_wrong_event` to Gate validation result states.
+
+Navigation research conclusions:
+
+- Visitors need an obvious top-level sign-in path, not a buried account menu.
+- Customer ticket access should be easy to reach from the public site and from
+  authenticated navigation.
+- Organizer entry should be visible but clearly separate from customer browsing.
+- Gate staff benefit from a minimal, task-focused landing that goes directly to
+  event selection and validation.
+- Shared login entry with role choice is a reasonable pattern when the backend
+  still owns authorization decisions.
 
 Reference copy, dates, prices, counts, images, identities, and credentials remain
 illustrative. Product requirements and live API/state values take precedence over

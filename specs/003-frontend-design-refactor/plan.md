@@ -8,7 +8,10 @@ Refactor the existing Next.js/React frontend across 15 approved flows and 23
 design directories. `screen.png` is the visual target, `code.html` is structural
 reference only, and product behavior/API contracts remain authoritative. The
 implementation uses one responsive flow for each of eight responsive pairs and
-keeps payment and Gate result references as states of existing routes.
+keeps payment and Gate result references as states of existing routes. The main
+new work is an original, role-aware application shell that makes login, logout,
+My Tickets, Organizer entry, and Gate entry visible without changing backend
+authentication or authorization decisions.
 
 ## Technical Context
 
@@ -71,10 +74,13 @@ The eight pairs are Home, Event Detail, Checkout, My Tickets, Ticket Detail,
 Organizer Events, Create Event, and Gate Scanner. Payment and Gate outcomes remain
 state transitions in existing routes, not new routes. Reference text, images,
 prices, dates, counts, identities, and credentials are illustrative; view models
-and API responses remain dynamic. Conflicts are resolved in this order:
-approved product requirements/specification, `DESIGN.md`, `screen.png`, then
-`code.html`; any unresolved conflict returns to clarification rather than being
-resolved silently in code.
+and API responses remain dynamic. The shell must expose:
+signed-out visitor navigation with Login always visible, customer navigation with
+My Tickets and Logout, organizer navigation with Events/Create Event/Logout, and
+gate navigation that lands directly on event selection after sign-in. Conflicts
+are resolved in this order: approved product requirements/specification,
+`DESIGN.md`, `screen.png`, then `code.html`; any unresolved conflict returns to
+clarification rather than being resolved silently in code.
 
 ## Reuse and responsive strategy
 
@@ -102,9 +108,10 @@ changes contracts, JWT/session behavior, role authorization, or backend decision
 1. Baseline existing lint, typecheck, unit, build, and Customer/Organizer/Gate/Sharing E2E suites.
 2. Add focused unit coverage at the concrete paths `apps/web/tests/unit/checkout-flow.test.tsx` and `apps/web/tests/unit/gate-validation.test.tsx`.
 3. Validate every responsive pair at reference mobile, intermediate, and desktop widths; use a matrix for all 15 flows.
-4. Run Customer purchase, Organizer create/publish, Gate/manual fallback/results, sharing, and accessibility E2E journeys.
-5. Define a blocking visual mismatch as missing flow/state, broken primary interaction, wrong product behavior, unreadable content, or primary-content overflow.
-6. Verify `git diff -- docs/design` is empty and run final lint/typecheck/unit/build/E2E checks.
+4. Run Customer purchase, Organizer create/publish, Gate/manual fallback/results, shared-login/role-navigation, logout, and accessibility E2E journeys.
+5. Verify visitor login visibility, protected-route behavior, role-aware navigation, and denial states with existing auth/session helpers.
+6. Define a blocking visual mismatch as missing flow/state, broken primary interaction, wrong product behavior, unreadable content, or primary-content overflow.
+7. Verify `git diff -- docs/design` is empty and run final lint/typecheck/unit/build/E2E checks.
 
 ## Project Structure
 
@@ -124,9 +131,10 @@ no backend, route, persistent data model, or new interface contract is required.
 1. Inventory and baseline.
 2. Shared foundation.
 3. Customer discovery/purchase and ticket/share flows.
-4. Organizer flow.
-5. Gate flow.
-6. Responsive/accessibility audit, E2E, cleanup, and immutable-reference check.
+4. Authentication entry, logout, and role-aware shell/navigation.
+5. Organizer flow.
+6. Gate flow.
+7. Responsive/accessibility audit, E2E, cleanup, and immutable-reference check.
 
 ## Complexity Tracking
 
