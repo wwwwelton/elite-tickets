@@ -14,7 +14,7 @@
 - [X] T002 [P] Record the current auth/session/role model, route-guard behavior, and role-home redirects in `apps/web/lib/auth.ts` and summarize the verified behavior in `specs/003-frontend-design-refactor/research.md` (FR-004, FR-007, FR-018)
 - [X] T003 [P] Capture verified navigation gaps for signed-out Login visibility, My Tickets entry, Organizer entry, Create Event entry, Gate entry, and Logout in `specs/003-frontend-design-refactor/research.md` (FR-005, FR-008, FR-009, FR-010)
 - [X] T004 [P] Record approved design/product mismatches, static-data constraints, and `docs/design/` immutability notes in `specs/003-frontend-design-refactor/research.md` (FR-002, FR-003, FR-016)
-- [ ] T005 Create a baseline validation log covering current lint, typecheck, unit, and Playwright results in `specs/003-frontend-design-refactor/quickstart.md` (SC-005, SC-007)
+- [X] T005 Create a baseline validation log covering current lint, typecheck, unit, and Playwright results in `specs/003-frontend-design-refactor/quickstart.md` (SC-005, SC-007)
 
 ## Phase 2: Shared application shell / role navigation foundation
 
@@ -22,7 +22,7 @@
 
 **Independent Test**: Signed-out visitors, Customers, Organizers, and Gate staff each see the correct navigation, login/logout affordances, and access-denied behavior without altering backend authorization.
 
-- [ ] T006 [P] Define the shared navigation model, role-specific top-level actions, and responsive menu behavior in `apps/web/app/layout.tsx` and `apps/web/app/globals.css` (FR-005, FR-012, FR-013, SC-006)
+- [X] T006 [P] Define the shared navigation model, role-specific top-level actions, and responsive menu behavior in `apps/web/app/layout.tsx` and `apps/web/app/globals.css` (FR-005, FR-012, FR-013, SC-006)
 - [X] T007 [P] Implement a reusable shell/navigation component for signed-out, Customer, Organizer, and Gate states in `apps/web/components/ui/` or `apps/web/components/auth/` (FR-005, FR-008, FR-009, FR-010, FR-012)
 - [X] T008 [P] Update `apps/web/lib/auth.ts` to expose the role-home and route-guard behavior needed by the shared shell without changing session semantics or authorization authority (FR-004, FR-007, FR-018)
 - [X] T009 [P] Add explicit Login/Entrar and Logout/Sair entry points that remain visible in the public shell and authenticated shell in `apps/web/app/layout.tsx`, `apps/web/app/login/page.tsx`, and related shell components (FR-005, FR-007, FR-012)
@@ -83,7 +83,6 @@
 - [X] T029 [P] Audit and refine loading, empty, API/network error, auth-required, and access-denied messaging in `apps/web/components/ui/state-message.tsx`, `apps/web/components/events/event-list.tsx`, `apps/web/components/tickets/my-tickets.tsx`, and route wrappers under `apps/web/app/**` (FR-011, FR-013, FR-018)
 - [X] T030 [P] Audit semantic navigation, keyboard order, visible focus, and mobile-menu open/close behavior in `apps/web/app/layout.tsx`, `apps/web/app/globals.css`, and shared shell components (FR-012, FR-013, SC-006)
 - [X] T031 [P] Update responsive navigation assertions for intermediate widths and all eight responsive pairs in `apps/web/tests/e2e/accessibility.spec.ts` and `apps/web/tests/e2e/customer-purchase.spec.ts` (FR-014, SC-001, SC-002, SC-006)
-- [ ] T032 Run final `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, and the Customer/Organizer/Gate/Sharing Playwright suites from `apps/web/`, then record the results in `specs/003-frontend-design-refactor/quickstart.md` (SC-005, SC-007)
 - [X] T033 Verify `git diff -- docs/design` remains empty and that all 15 design page groups are still mapped in `specs/003-frontend-design-refactor/research.md` (FR-016, SC-001)
 
 ## Dependencies & Execution Order

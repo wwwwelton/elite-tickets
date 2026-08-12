@@ -95,7 +95,7 @@ describe("LoginForm", () => {
   });
 
   it("marks the submit action busy while the login request is pending", async () => {
-    let resolveRequest: (value: unknown) => void;
+    let resolveRequest: (value: unknown) => void = () => undefined;
     const pendingRequest = new Promise((resolve) => {
       resolveRequest = resolve;
     });
