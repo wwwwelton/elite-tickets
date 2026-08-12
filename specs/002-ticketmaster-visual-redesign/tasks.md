@@ -193,7 +193,7 @@
 **Independent Test**: Customer, organizer, and gate E2E flows still pass end to end on the new implementation.
 
 - [ ] T061 [P] [US5] Update customer purchase E2E expectations in `apps/web/tests/e2e/customer-purchase.spec.ts`
-- [ ] T062 [P] [US5] Update organizer E2E expectations in `apps/web/tests/e2e/organizer-events.spec.ts`
+- [X] T062 [P] [US5] Update organizer E2E expectations in `apps/web/tests/e2e/organizer-events.spec.ts`
 - [ ] T063 [P] [US5] Update gate E2E expectations in `apps/web/tests/e2e/gate-validation.spec.ts`
 - [ ] T064 [P] [US5] Update ticket sharing E2E expectations in `apps/web/tests/e2e/ticket-sharing.spec.ts`
 
