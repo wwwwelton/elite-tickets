@@ -77,6 +77,7 @@ describe("ticket visual fallbacks and accessibility", () => {
     await waitFor(() => {
       expect(screen.getByRole("article", { name: "Sessão" })).toBeVisible();
     });
+    expect(screen.getByRole("article", { name: "Sessão" })).toHaveClass("ticket-detail-card");
   });
 
   it("removes entry and sharing actions from a cancelled ticket", async () => {
