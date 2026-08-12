@@ -306,6 +306,10 @@ textarea:focus {
   align-items: start;
 }
 
+.hero-shell {
+  margin-block: var(--space-stack-xl);
+}
+
 .perforation {
   position: relative;
   height: 1px;

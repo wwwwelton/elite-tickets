@@ -1,5 +1,6 @@
 import { EventList } from "@/components/events/event-list";
 import type { PublicEventPage } from "@/components/events/types";
+import { Ticket } from "@/components/ui";
 import { ApiError, apiRequest } from "@/lib/api";
 
 type HomeProps = {
@@ -20,23 +21,30 @@ export default async function Home({ searchParams }: HomeProps) {
     });
     return (
       <main>
-        <section className="page-grid">
-          <div style={{ gridColumn: "1 / -1" }}>
-            <p className="label-caps">EliteTickets</p>
-            <h1 className="display-lg">Sessões em cartaz</h1>
-            <form action="/" method="get" className="field">
-              <label htmlFor="event-search">Filme ou local</label>
-              <input
-                id="event-search"
-                name="query"
-                type="search"
-                defaultValue={query}
-                maxLength={200}
-              />
-              <button type="submit">Pesquisar</button>
-            </form>
-            <p className="code-data">{events.total} evento(s)</p>
-          </div>
+        <section className="page-grid hero-shell">
+          <Ticket
+            emphasized
+            header={
+              <>
+                <p className="label-caps">EliteTickets</p>
+                <h1 className="display-lg">Sessões em cartaz</h1>
+              </>
+            }
+            details={
+              <form action="/" method="get" className="field">
+                <label htmlFor="event-search">Filme ou local</label>
+                <input
+                  id="event-search"
+                  name="query"
+                  type="search"
+                  defaultValue={query}
+                  maxLength={200}
+                />
+                <button type="submit">Pesquisar</button>
+              </form>
+            }
+            footer={<p className="code-data">{events.total} evento(s)</p>}
+          />
         </section>
         <EventList events={events.items} />
       </main>
@@ -46,10 +54,16 @@ export default async function Home({ searchParams }: HomeProps) {
       error instanceof ApiError ? error.message : "Não foi possível carregar os eventos.";
     return (
       <main className="page-grid">
-        <div role="alert" style={{ gridColumn: "1 / -1" }}>
-          <h1 className="headline-md">Eventos indisponíveis</h1>
-          <p>{message}</p>
-        </div>
+        <Ticket
+          emphasized
+          header={
+            <>
+              <p className="label-caps">EliteTickets</p>
+              <h1 className="headline-md">Eventos indisponíveis</h1>
+            </>
+          }
+          details={<p role="alert">{message}</p>}
+        />
       </main>
     );
   }
