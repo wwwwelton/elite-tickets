@@ -59,5 +59,9 @@ describe("role navigation", () => {
       ...NAVIGATION_BY_ROLE.ORGANIZER,
     ]);
     expect(authenticatedActionForSession(session)).toBe("Meus eventos");
+    expect(guardRoute(["ORGANIZER"])).toEqual({
+      allowed: true,
+      session,
+    });
   });
 });
