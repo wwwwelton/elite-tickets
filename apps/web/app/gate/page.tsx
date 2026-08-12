@@ -1,5 +1,6 @@
 import { Scanner } from "@/components/tickets/scanner";
 import { Ticket } from "@/components/ui";
+import Link from "next/link";
 
 export default function GatePage() {
   return (
@@ -14,6 +15,13 @@ export default function GatePage() {
           </>
         }
         details={<Scanner />}
+        footer={
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href="/">
+              Voltar aos eventos públicos
+            </Link>
+          </div>
+        }
       />
     </main>
   );
