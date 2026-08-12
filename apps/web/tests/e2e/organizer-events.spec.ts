@@ -40,7 +40,7 @@ test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async 
       body: JSON.stringify({
         items: [
           {
-            external_id: "42",
+          external_id: "G5diZf-test-42",
             title: "Filme de Teste",
             description: null,
             image_url: null,
@@ -66,7 +66,7 @@ test("ORGANIZER retries Ticketmaster, creates a draft, and publishes it", async 
     if (route.request().method() !== "POST") return route.fallback();
     const payload = route.request().postDataJSON();
     expect(payload).toMatchObject({
-      tmdb_id: 42,
+      external_id: "G5diZf-test-42",
       venue_name: "Cinema Central",
       capacity: 50,
       price: "25.00",

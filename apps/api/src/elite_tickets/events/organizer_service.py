@@ -5,6 +5,10 @@ from datetime import datetime
 from decimal import Decimal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.catalog.interfaces import CatalogProvider
 from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.db.base import utc_now
@@ -18,9 +22,6 @@ from elite_tickets.shared.errors import (
     ResourceNotFoundError,
 )
 from elite_tickets.tickets.models import Ticket, TicketStatus
-from pydantic import BaseModel, ConfigDict
-from sqlalchemy import select, update
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class OrganizerEvent(BaseModel):
@@ -42,11 +43,11 @@ class OrganizerEvent(BaseModel):
     price: Decimal
 
 
-async def create_event_from_tmdb(
+async def create_event_from_catalog(
     session: AsyncSession,
     *,
     organizer_id: uuid.UUID,
-    tmdb_id: int,
+    external_id: str,
     venue_name: str,
     venue_address: str,
     starts_at: datetime,
@@ -65,8 +66,10 @@ async def create_event_from_tmdb(
         capacity=capacity,
         price=price,
     )
-    external_id = str(tmdb_id)
-    movie = await catalog.event_details(external_id)
+    normalized_external_id = external_id.strip()
+    if not normalized_external_id:
+        raise DomainValidationError("invalid external event id")
+    movie = await catalog.event_details(normalized_external_id)
     event = Event(
         organizer_id=organizer_id,
         state=EventState.DRAFT,
@@ -80,7 +83,7 @@ async def create_event_from_tmdb(
         sold_quantity=0,
         price=price,
         currency="BRL",
-        movie_snapshot=_snapshot(movie, external_id=external_id),
+        movie_snapshot=_snapshot(movie, external_id=normalized_external_id),
     )
     session.add(event)
     await session.flush()

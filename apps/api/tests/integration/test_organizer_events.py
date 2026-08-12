@@ -12,15 +12,17 @@ os.environ.setdefault("QR_SECRET", "different-test-qr-secret-at-least-32-bytes")
 os.environ.setdefault("TICKETMASTER_API_KEY", "test-key")
 os.environ.setdefault("CORS_ORIGINS", "http://localhost:3000")
 
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+
 from elite_tickets.auth.models import Role, User
-from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.catalog.errors import CatalogUpstreamUnavailableError
+from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.db.base import utc_now, uuid7
 from elite_tickets.events.models import EventState, MovieSnapshot
 from elite_tickets.events.organizer_service import (
     OrganizerEvent,
     cancel_owned_event,
-    create_event_from_tmdb,
+    create_event_from_catalog,
     list_owned_events,
     publish_owned_event,
 )
@@ -32,7 +34,6 @@ from elite_tickets.shared.errors import (
     PermissionDeniedError,
 )
 from elite_tickets.tickets.models import TicketStatus
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 
 pytestmark = pytest.mark.integration
 
@@ -43,9 +44,9 @@ class FakeCatalog:
 
     async def event_details(self, external_id: str) -> CatalogEventDetail:
         self.calls += 1
-        assert external_id == "100"
+        assert external_id == "G5diZf-test-100"
         return CatalogEventDetail(
-            external_id="100",
+            external_id="G5diZf-test-100",
             title="Immutable Event",
             description="Saved overview",
             image_url="https://cdn.example.com/poster.jpg",
@@ -103,10 +104,10 @@ async def draft(
     now: datetime,
 ) -> tuple[OrganizerEvent, FakeCatalog]:
     catalog = FakeCatalog()
-    created = await create_event_from_tmdb(
+    created = await create_event_from_catalog(
         session,
         organizer_id=organizer.id,
-        tmdb_id=100,
+        external_id="G5diZf-test-100",
         venue_name=" Cinema ",
         venue_address=" Address ",
         starts_at=now + timedelta(days=1),
@@ -133,10 +134,10 @@ async def test_creation_validates_timezone_money_and_time_before_catalog(
     catalog = FakeCatalog()
     now = utc_now()
     with pytest.raises(DomainValidationError):
-        await create_event_from_tmdb(
+        await create_event_from_catalog(
             session,
             organizer_id=organizer.id,
-            tmdb_id=100,
+            external_id="G5diZf-test-100",
             venue_name="Cinema",
             venue_address="Address",
             starts_at=now,
@@ -159,7 +160,7 @@ async def test_snapshot_is_saved_as_draft_and_owned_publication_is_enforced(sess
     snapshot = await session.get(MovieSnapshot, created.id)
     assert snapshot is not None
     assert snapshot.external_source == "ticketmaster"
-    assert snapshot.external_id == "100"
+    assert snapshot.external_id == "G5diZf-test-100"
     assert snapshot.overview == "Saved overview"
     assert snapshot.image_url == "https://cdn.example.com/poster.jpg"
     assert snapshot.event_date == date(2025, 1, 2)
@@ -227,10 +228,10 @@ async def test_catalog_outage_blocks_event_creation_before_persisting() -> None:
     now = utc_now()
 
     with pytest.raises(CatalogUpstreamUnavailableError):
-        await create_event_from_tmdb(
+        await create_event_from_catalog(
             session,  # type: ignore[arg-type]
             organizer_id=organizer.id,
-            tmdb_id=100,
+            external_id="G5diZf-test-100",
             venue_name="Cinema",
             venue_address="Address",
             starts_at=now + timedelta(days=1),

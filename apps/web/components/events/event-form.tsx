@@ -31,7 +31,7 @@ type CatalogPage = {
 type CatalogErrorCode = "catalog_auth_error" | "catalog_rate_limited" | "dependency_unavailable";
 
 type CreateEventPayload = {
-  tmdb_id: number;
+  external_id: string;
   venue_name: string;
   venue_address: string;
   starts_at: string;
@@ -111,7 +111,7 @@ export function EventForm() {
       await apiMutation<unknown, CreateEventPayload>("/events", {
         accessToken,
         body: {
-          tmdb_id: externalIdAsNumber(selected.external_id),
+          external_id: selected.external_id,
           venue_name: String(data.get("venue_name")),
           venue_address: String(data.get("venue_address")),
           starts_at: localDateTime(String(data.get("starts_at"))),
@@ -230,20 +230,6 @@ function localDateTime(value: string): string {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) throw new Error("invalid local date time");
   return date.toISOString();
-}
-
-function externalIdAsNumber(externalId: string): number {
-  const parsed = Number(externalId);
-  if (Number.isInteger(parsed) && parsed > 0) return parsed;
-  return Math.abs(hashCode(externalId)) % 1_000_000_000;
-}
-
-function hashCode(value: string): number {
-  let hash = 0;
-  for (const char of value) {
-    hash = (hash * 31 + char.charCodeAt(0)) | 0;
-  }
-  return hash;
 }
 
 function statusForError(code: CatalogErrorCode | null) {
