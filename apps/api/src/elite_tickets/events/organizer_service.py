@@ -5,15 +5,11 @@ from datetime import datetime
 from decimal import Decimal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from pydantic import BaseModel, ConfigDict
-from sqlalchemy import select, update
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from elite_tickets.catalog.interfaces import CatalogProvider
 from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.db.base import utc_now
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
-from elite_tickets.events.service import _poster_url, finalize_ended_events
+from elite_tickets.events.service import _snapshot_poster_url, finalize_ended_events
 from elite_tickets.reservations.models import Reservation, ReservationStatus
 from elite_tickets.shared.errors import (
     ConflictError,
@@ -22,6 +18,9 @@ from elite_tickets.shared.errors import (
     ResourceNotFoundError,
 )
 from elite_tickets.tickets.models import Ticket, TicketStatus
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class OrganizerEvent(BaseModel):
@@ -251,7 +250,7 @@ def _projection(event: Event, snapshot: MovieSnapshot) -> OrganizerEvent:
         id=event.id,
         state=event.state,
         title=snapshot.title,
-        poster_url=_poster_url(snapshot.poster_path),
+        poster_url=_snapshot_poster_url(snapshot),
         starts_at=event.starts_at,
         ends_at=event.ends_at,
         timezone=event.timezone,
