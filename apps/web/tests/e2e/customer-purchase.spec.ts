@@ -20,8 +20,10 @@ test("CUSTOMER discovers, buys two tickets, and sees an immutable decline", asyn
   const initialTickets = await page.locator("article.ticket").count();
 
   await page.goto(eventUrl);
+  await page.getByRole("heading", { name: "Confirmar reserva" }).toBeVisible();
   await page.getByRole("button", { name: "Aumentar quantidade" }).click();
   await page.getByRole("link", { name: "Reservar ingressos" }).click();
+  await expect(page.locator("article.ticket").filter({ hasText: "Checkout" })).toBeVisible();
   await expect(page.getByText("Quantidade").locator("..")).toContainText("2");
   await page.getByRole("button", { name: "Criar reserva" }).click();
   await page.getByRole("button", { name: "Simular aprovação" }).click();
