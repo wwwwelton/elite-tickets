@@ -25,7 +25,8 @@ class Settings(BaseSettings):
     database_url: PostgresDsn
     jwt_secret: SecretStr = Field(min_length=32)
     qr_secret: SecretStr = Field(min_length=32)
-    tmdb_api_key: SecretStr = Field(min_length=1)
+    ticketmaster_api_key: SecretStr = Field(min_length=1)
+    ticketmaster_base_url: str = "https://app.ticketmaster.com/discovery/v2/"
     cors_origins: Annotated[list[AnyHttpUrl], NoDecode]
 
     @field_validator("cors_origins", mode="before")
@@ -43,6 +44,11 @@ class Settings(BaseSettings):
         if self.jwt_secret.get_secret_value() == self.qr_secret.get_secret_value():
             raise ValueError("JWT_SECRET and QR_SECRET must be different")
         return self
+
+    @property
+    def tmdb_api_key(self) -> SecretStr:
+        """Backward-compatible alias while catalog code is migrated."""
+        return self.ticketmaster_api_key
 
 
 @lru_cache
