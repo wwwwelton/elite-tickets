@@ -23,7 +23,7 @@ export function Ticket({
     .filter(Boolean)
     .join(" ");
   return (
-    <article className={classes} {...props}>
+    <article className={classes} data-emphasized={emphasized ? "true" : undefined} {...props}>
       <header className="ticket__section ticket__header">{header}</header>
       <Perforation />
       <section className="ticket__section ticket__details code-data" aria-label={detailsLabel}>
