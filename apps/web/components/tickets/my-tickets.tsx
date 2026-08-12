@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { CustomerTicketView, ticketError, type CustomerTicket } from "@/components/tickets/ticket";
 import { RouteAccessState } from "@/components/auth/route-access-state";
+import { StateMessage } from "@/components/ui";
 import { apiRequest } from "@/lib/api";
 import { guardRoute } from "@/lib/auth";
 
@@ -47,9 +48,11 @@ export function MyTickets({ ticketId }: { ticketId?: string }) {
       />
     );
   }
-  if (error) return <p role="alert" aria-atomic="true">{error}</p>;
+  if (error) {
+    return <StateMessage tone="error">{error}</StateMessage>;
+  }
   if (!tickets) {
-    return <p role="status" aria-atomic="true" aria-busy="true">Carregando ingressos…</p>;
+    return <StateMessage aria-busy="true">Carregando ingressos…</StateMessage>;
   }
   const sessionActions = (
     <nav className="ticket__actions" aria-label="Atalhos da conta">
@@ -69,14 +72,14 @@ export function MyTickets({ ticketId }: { ticketId?: string }) {
         <CustomerTicketView ticket={ticket} />
       </>
     ) : (
-      <p role="alert" aria-atomic="true">Ingresso não encontrado.</p>
+      <StateMessage tone="error">Ingresso não encontrado.</StateMessage>
     );
   }
   if (tickets.length === 0) {
     return (
       <div className="ticket__details-stack">
         {sessionActions}
-        <p role="status" aria-atomic="true">Você ainda não possui ingressos.</p>
+        <StateMessage>Você ainda não possui ingressos.</StateMessage>
       </div>
     );
   }
