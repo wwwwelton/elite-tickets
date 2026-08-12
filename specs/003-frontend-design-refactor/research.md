@@ -163,3 +163,23 @@ Before the refactor, the usable shell was missing or unclear in these areas:
 Those gaps are the reason the current shell and role-aware links were added.
 They are now addressed in the application, but the verification remains relevant
 for future regressions.
+
+## Mismatches and constraints
+
+Verified design-to-product constraints:
+
+- Reference screenshots and HTML include illustrative copy, names, prices,
+  times, inventory values, and credentials. Those values must not replace live
+  app state.
+- `docs/design/` is immutable for this feature and was not modified.
+- `screen.png` is the primary visual reference; `code.html` is structural only.
+- Approved product behavior takes precedence if a visual reference appears to
+  conflict with the PRD, constitution, or backend behavior.
+
+Verified mismatch handling:
+
+- The approved reference set does not provide dedicated mockups for every error
+  or loading state. The existing application states remain required and must be
+  preserved, even when no Stitch art exists for them.
+- Shared ticketing must remain read-only and security-bound by the existing
+  backend model; the visual treatment cannot make it public or editable.
