@@ -53,7 +53,7 @@
 
 - [X] T023 [US4] Recompose Gate Scanner for `11_gate_scanner` + `11_gate_scanner_desktop` in `apps/web/app/gate/page.tsx` and `apps/web/components/tickets/scanner.tsx`, preserving event selection, camera permissions, manual fallback, loading, empty, and API errors (FR-001, FR-007, FR-008, FR-010)
 - [X] T024 [P] [US4] Recompose VALID, INVALID, ALREADY_USED, and WRONG_EVENT states in `apps/web/components/tickets/validation-result.tsx` for references `12_valid`, `13_invalid`, `14_already_used`, and `15_wrong_event`, without color-only meaning (FR-007, FR-010)
-- [ ] T025 [US4] Add/update Gate result and camera-fallback unit coverage in `apps/web/tests/unit/ticket-accessibility.test.tsx` and `apps/web/tests/unit/gate-validation.test.tsx` (FR-007, FR-008, FR-010, FR-017, SC-007)
+- [X] T025 [US4] Add/update Gate result and camera-fallback unit coverage in `apps/web/tests/unit/ticket-accessibility.test.tsx` and `apps/web/tests/unit/gate-validation.test.tsx` (FR-007, FR-008, FR-010, FR-017, SC-007)
 - [ ] T026 [US4] Update Gate E2E expectations for scanner/manual fallback, keyboard operation, and all four result states in `apps/web/tests/e2e/gate-validation.spec.ts` and `apps/web/tests/e2e/accessibility.spec.ts` (FR-014, SC-004, SC-006, SC-007)
 
 ## Phase 7: Cross-cutting validation and polish
