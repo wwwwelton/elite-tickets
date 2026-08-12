@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { ApiError, apiMutation } from "@/lib/api";
 import { guardRoute } from "@/lib/auth";
@@ -8,10 +8,19 @@ import { guardRoute } from "@/lib/auth";
 type ShareResponse = { share_url: string };
 
 export function ShareAction({ ticketId }: { ticketId: string }) {
+  const shareFieldId = useId();
+  const feedbackId = useId();
+  const shareInput = useRef<HTMLInputElement>(null);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    if (!shareUrl) return;
+    shareInput.current?.focus();
+    shareInput.current?.select();
+  }, [shareUrl]);
 
   async function createShare() {
     const guard = guardRoute(["CUSTOMER"]);
@@ -41,21 +50,44 @@ export function ShareAction({ ticketId }: { ticketId: string }) {
   }
 
   return (
-    <section className="ticket__actions" aria-label="Compartilhamento do ingresso">
-      <button type="button" className="button button--primary" disabled={pending} onClick={() => void createShare()}>
+    <section
+      className="ticket__actions"
+      aria-label="Compartilhamento do ingresso"
+      aria-busy={pending}
+    >
+      <button
+        type="button"
+        className="button button--primary"
+        disabled={pending}
+        aria-controls={shareUrl ? shareFieldId : undefined}
+        aria-expanded={shareUrl !== null}
+        onClick={() => void createShare()}
+      >
         {pending ? "Criando link…" : shareUrl ? "Recuperar link" : "Compartilhar ingresso"}
       </button>
       {shareUrl ? (
-        <div className="field">
+        <div className="field" id={shareFieldId}>
           <label htmlFor={`share-${ticketId}`}>Link público somente leitura</label>
-          <input id={`share-${ticketId}`} value={shareUrl} readOnly onFocus={(event) => event.currentTarget.select()} />
-          <button type="button" className="button button--secondary" onClick={() => void copyLink(shareUrl, setFeedback)}>
+          <input
+            ref={shareInput}
+            id={`share-${ticketId}`}
+            value={shareUrl}
+            readOnly
+            aria-describedby={feedback ? feedbackId : undefined}
+            onFocus={(event) => event.currentTarget.select()}
+          />
+          <button
+            type="button"
+            className="button button--secondary"
+            aria-describedby={feedback ? feedbackId : undefined}
+            onClick={() => void copyLink(shareUrl, setFeedback)}
+          >
             Copiar link
           </button>
         </div>
       ) : null}
-      {feedback ? <p role="status">{feedback}</p> : null}
-      {error ? <p role="alert">{error}</p> : null}
+      {feedback ? <p id={feedbackId} role="status" aria-atomic="true">{feedback}</p> : null}
+      {error ? <p role="alert" aria-atomic="true">{error}</p> : null}
     </section>
   );
 }
