@@ -46,6 +46,15 @@ test("public UI follows the responsive high-contrast keyboard design system", as
     "44px",
   );
 
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await expect(page.getByRole("button", { name: "Abrir menu" })).toHaveCount(0);
+  await expect(page.getByRole("navigation", { name: "Navegação principal" })).toBeVisible();
+
+  await page.setViewportSize({ width: 768, height: 900 });
+  await expect(page.getByRole("button", { name: "Abrir menu" })).toBeVisible();
+  await page.getByRole("button", { name: "Abrir menu" }).click();
+  await expect(page.getByRole("link", { name: "Entrar" })).toBeVisible();
+
   await page.emulateMedia({ reducedMotion: "reduce" });
   const reducedDurations = await ticket.evaluate((element) => {
     const style = getComputedStyle(element);
