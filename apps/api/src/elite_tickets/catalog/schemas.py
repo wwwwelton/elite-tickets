@@ -1,6 +1,6 @@
 """Normalized catalog DTOs for EliteTickets catalog responses and error state."""
 
-from datetime import date
+from datetime import date as date_type
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -24,7 +24,7 @@ class CatalogSearchResult(BaseModel):
     description: str | None = Field(default=None, max_length=1000)
     image_url: str | None = Field(default=None, max_length=2048)
     category: str | None = Field(default=None, max_length=120)
-    date: date | None = None
+    date: date_type | None = None
     venue_name: str | None = Field(default=None, max_length=200)
     city: str | None = Field(default=None, max_length=120)
     country_code: str | None = Field(default=None, min_length=2, max_length=2)
@@ -52,4 +52,3 @@ class CatalogErrorMetadata(BaseModel):
     code: str = Field(min_length=1, max_length=64)
     user_facing_state: CatalogUserFacingState
     guidance: str = Field(min_length=1, max_length=240)
-

@@ -23,7 +23,7 @@ def search_result_from_ticketmaster(payload: dict[str, Any]) -> CatalogSearchRes
 
 
 def detail_from_ticketmaster(payload: dict[str, Any]) -> CatalogEventDetail:
-    return CatalogEventDetail.model_validate(search_result_from_ticketmaster(payload))
+    return CatalogEventDetail.model_validate(search_result_from_ticketmaster(payload).model_dump())
 
 
 def page_from_ticketmaster(
