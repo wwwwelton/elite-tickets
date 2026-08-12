@@ -27,6 +27,17 @@
 - **Alternatives rejected**: introducing a new API client, cache, auth provider, or
   state library would expand scope and risk.
 
+## Decision: keep role navigation derived from session state
+
+- **Evidence**: `apps/web/lib/auth.ts` already persists the JWT session, resolves
+  the authenticated role home, and blocks disallowed routes by redirecting to the
+  current session role home rather than inventing a second auth state.
+- **Rationale**: the shared shell can render visitor, customer, organizer, and
+  gate navigation by reading the existing session helper without altering session
+  storage or backend authority.
+- **Alternatives rejected**: duplicating session logic in the shell or changing
+  guard destinations would make the frontend a second source of truth.
+
 ## Decision: eight responsive pairs, 15 flows
 
 - **Evidence**: 23 design directories contain eight mobile/desktop pairs plus
