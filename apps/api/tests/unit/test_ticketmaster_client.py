@@ -69,6 +69,7 @@ async def test_search_events_injects_api_key_and_normalizes_page(monkeypatch: py
                             ]
                         },
                         "images": [{"url": "https://cdn.example.com/event.jpg"}],
+                        "url": "https://www.ticketmaster.com/event/evt-1",
                     }
                 ]
             },
@@ -102,6 +103,7 @@ async def test_search_events_injects_api_key_and_normalizes_page(monkeypatch: py
     assert page.items[0].external_id == "evt-1"
     assert page.items[0].title == "Festa de teste"
     assert page.items[0].image_url == "https://cdn.example.com/event.jpg"
+    assert page.items[0].external_url == "https://www.ticketmaster.com/event/evt-1"
     assert page.items[0].category == "Music"
     assert page.items[0].date.isoformat() == "2026-08-12"
     assert page.items[0].venue_name == "Arena Elite"

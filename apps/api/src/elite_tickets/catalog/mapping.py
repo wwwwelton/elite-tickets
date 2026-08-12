@@ -5,7 +5,11 @@ from __future__ import annotations
 from datetime import date
 from typing import Any
 
-from elite_tickets.catalog.schemas import CatalogEventDetail, CatalogPage, CatalogSearchResult
+from elite_tickets.catalog.schemas import (
+    CatalogEventDetail,
+    CatalogPage,
+    CatalogSearchResult,
+)
 
 
 def search_result_from_ticketmaster(payload: dict[str, Any]) -> CatalogSearchResult:
@@ -14,6 +18,7 @@ def search_result_from_ticketmaster(payload: dict[str, Any]) -> CatalogSearchRes
         title=str(_first_non_empty(payload, "name", "title")),
         description=_string_or_none(payload.get("description")),
         image_url=_image_url(payload),
+        external_url=_string_or_none(payload.get("url")),
         category=_category(payload),
         date=_date(payload),
         venue_name=_venue_name(payload),

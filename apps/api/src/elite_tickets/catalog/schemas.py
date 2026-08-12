@@ -5,7 +5,6 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-
 CatalogSource = Literal["ticketmaster"]
 CatalogUserFacingState = Literal[
     "empty",
@@ -23,6 +22,7 @@ class CatalogSearchResult(BaseModel):
     title: str = Field(min_length=1, max_length=300)
     description: str | None = Field(default=None, max_length=1000)
     image_url: str | None = Field(default=None, max_length=2048)
+    external_url: str | None = Field(default=None, max_length=2048)
     category: str | None = Field(default=None, max_length=120)
     date: date_type | None = None
     venue_name: str | None = Field(default=None, max_length=200)

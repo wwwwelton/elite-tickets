@@ -221,6 +221,7 @@ def _snapshot(movie: CatalogEventDetail, *, external_id: str) -> MovieSnapshot:
     return MovieSnapshot(
         external_source="ticketmaster",
         external_id=movie.external_id,
+        external_url=movie.external_url,
         tmdb_id=tmdb_id,
         title=movie.title,
         overview=movie.description,
