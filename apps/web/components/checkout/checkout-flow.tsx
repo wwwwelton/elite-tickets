@@ -135,7 +135,14 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
           <Status status="APPROVED" />
           <h2 id="checkout-approved-title" className="headline-md">Pagamento aprovado</h2>
           <p>{tickets.length} ingresso(s) emitido(s).</p>
-          <Link className="button button--primary" href="/customer/tickets">Ver meus ingressos</Link>
+          <div className="ticket__actions">
+            <Link className="button button--primary" href="/customer/tickets">
+              Ver meus ingressos
+            </Link>
+            <Link className="button button--ghost" href={`/events/${eventId}`}>
+              Voltar ao evento
+            </Link>
+          </div>
         </div>
       ) : null}
       {state === "DECLINED" ? (
@@ -143,7 +150,14 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
           <Status status="DECLINED" />
           <h2 id="checkout-declined-title" className="headline-md">Pagamento recusado</h2>
           <p>Pagamento recusado. Nenhum ingresso foi emitido e a disponibilidade foi restaurada.</p>
-          <Link className="button button--ghost" href={`/events/${eventId}`}>Voltar ao evento</Link>
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href={`/events/${eventId}`}>
+              Voltar ao evento
+            </Link>
+            <Link className="button button--ghost" href="/customer/tickets">
+              Meus ingressos
+            </Link>
+          </div>
         </div>
       ) : null}
       {state === "EXPIRED" ? (
@@ -151,7 +165,14 @@ export function CheckoutFlow({ eventId, quantity }: { eventId: string; quantity:
           <Status status="EXPIRED" />
           <h2 id="checkout-expired-title" className="headline-md">Reserva expirada</h2>
           <p>O prazo terminou. Crie uma nova reserva a partir do evento.</p>
-          <Link className="button button--ghost" href={`/events/${eventId}`}>Voltar ao evento</Link>
+          <div className="ticket__actions">
+            <Link className="button button--ghost" href={`/events/${eventId}`}>
+              Voltar ao evento
+            </Link>
+            <Link className="button button--ghost" href="/customer/tickets">
+              Meus ingressos
+            </Link>
+          </div>
         </div>
       ) : null}
       {error ? <p role="alert">{error}</p> : null}
