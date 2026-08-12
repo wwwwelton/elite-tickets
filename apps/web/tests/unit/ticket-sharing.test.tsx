@@ -74,6 +74,24 @@ describe("ticket sharing action", () => {
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(2));
   });
 
+  it("keeps the shared link field read-only once created", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ share_url: shareUrl }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<ShareAction ticketId="ticket-2" />);
+    fireEvent.click(screen.getByRole("button", { name: "Compartilhar ingresso" }));
+
+    const link = await screen.findByLabelText("Link público somente leitura");
+    expect(link).toHaveAttribute("readonly");
+    expect(link).toHaveValue(shareUrl);
+    expect(screen.getByRole("status")).toHaveTextContent("Link copiado. O ingresso continua pertencendo a você.");
+  });
+
   it("announces an expired session without calling the share endpoint", async () => {
     window.sessionStorage.clear();
     const fetchMock = vi.fn();

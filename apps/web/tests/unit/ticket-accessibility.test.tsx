@@ -103,4 +103,25 @@ describe("ticket visual fallbacks and accessibility", () => {
     expect(screen.queryByRole("button", { name: "Compartilhar ingresso" })).not.toBeInTheDocument();
     expect(toCanvas).not.toHaveBeenCalled();
   });
+
+  it("can suppress sharing while keeping the QR and navigation affordances for an active ticket", async () => {
+    render(
+      <CustomerTicketView
+        allowShare={false}
+        ticket={{
+          id: "ticket-active",
+          event_id: "event-1",
+          owner_name: "Cliente",
+          status: "ACTIVE",
+          issued_at: "2026-08-11T12:00:00Z",
+          used_at: null,
+          qr_credential: "active.credential",
+        }}
+      />,
+    );
+
+    await waitFor(() => expect(toCanvas).toHaveBeenCalled());
+    expect(screen.queryByRole("button", { name: "Compartilhar ingresso" })).not.toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "QR do ingresso para validação na portaria" })).toBeVisible();
+  });
 });
