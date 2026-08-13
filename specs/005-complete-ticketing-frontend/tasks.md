@@ -52,7 +52,7 @@
 - [X] T015 [P] [US1] Implement the event card presentation component in `apps/web/components/events/event-card.tsx`
 - [X] T016 [US1] Implement the event detail presentation component in `apps/web/components/events/event-detail.tsx`
 - [X] T017 [US1] Wire the public event page to the verified `GET /api/v1/events` and `GET /api/v1/events/{eventId}` contracts in `apps/web/lib/api.ts`
-- [ ] T018 [US1] Add the signed-out purchase entry behavior and prompt to log in or create an account in `apps/web/app/events/[eventId]/page.tsx`
+- [X] T018 [US1] Add the signed-out purchase entry behavior and prompt to log in or create an account in `apps/web/app/events/[eventId]/page.tsx`
 
 **Checkpoint**: User Story 1 should now be fully functional and testable independently
 
