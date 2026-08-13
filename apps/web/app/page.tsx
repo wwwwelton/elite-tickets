@@ -1,6 +1,7 @@
 import { SiteShell } from "@/components/shell/site-shell";
 import { LoadingState } from "@/components/states/loading-state";
 import { EventList } from "@/components/events/event-list";
+import { EventSearch } from "@/components/events/event-search";
 
 const featuredEvents = [
   {
@@ -60,6 +61,8 @@ export default function HomePage() {
             Search, login, and register flows coming next
           </div>
         </div>
+
+        <EventSearch />
 
         <LoadingState label="Loading events" />
 
