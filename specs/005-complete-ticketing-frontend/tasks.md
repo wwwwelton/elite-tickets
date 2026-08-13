@@ -112,7 +112,7 @@
 
 ### Tests for User Story 4
 
-- [ ] T033 [P] [US4] Add My Tickets, ticket detail, and share-link rendering tests in `apps/web/tests/tickets-and-sharing.test.tsx`
+- [X] T033 [P] [US4] Add My Tickets, ticket detail, and share-link rendering tests in `apps/web/tests/tickets-and-sharing.test.tsx`
 - [ ] T034 [US4] Add secure QR and read-only shared ticket state coverage in `apps/web/tests/tickets-and-sharing.test.tsx`
 
 ### Implementation for User Story 4
