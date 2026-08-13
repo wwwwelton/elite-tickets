@@ -48,22 +48,22 @@ function sectorLayout(): SectorLayout {
       {
         id: "floor",
         name: "Floor",
-        description: "Standing area in front of the stage",
+        description: "Área em pé em frente ao palco",
       },
       {
         id: "front-stage",
         name: "Front stage",
-        description: "Standing area closest to the stage",
+        description: "Área em pé mais próxima do palco",
       },
       {
         id: "grandstand-a",
         name: "Grandstand A",
-        description: "Seated grandstand, stage left",
+        description: "Arquibancada com assentos, lado esquerdo do palco",
       },
       {
         id: "grandstand-b",
         name: "Grandstand B",
-        description: "Seated grandstand, stage right",
+        description: "Arquibancada com assentos, lado direito do palco",
       },
     ],
   };

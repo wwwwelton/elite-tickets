@@ -44,7 +44,7 @@ class PermissionDeniedError(DomainError):
 class ConflictError(DomainError):
     status_code = 409
     code = "conflict"
-    public_message = "The operation conflicts with the current resource state"
+    public_message = "A operação conflita com o estado atual do recurso"
 
 
 class DependencyUnavailableError(DomainError):

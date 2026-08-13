@@ -30,8 +30,8 @@ export function HoldCountdown({
   return (
     <p className="eyebrow mb-0" aria-live="polite">
       {remaining === 0
-        ? "Reservation hold expired"
-        : `Simulated checkout // ${formatCountdown(remaining)} remaining`}
+        ? "Bloqueio da reserva expirado"
+        : `Checkout simulado // ${formatCountdown(remaining)} restantes`}
     </p>
   );
 }

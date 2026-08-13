@@ -189,7 +189,7 @@ function CheckoutFlow() {
         >
           {pending
             ? "Enviando pagamento…"
-            : `Pay ${formatMoney(snapshot.reservation.total_amount)}`}
+            : `Pagar ${formatMoney(snapshot.reservation.total_amount)}`}
         </button>
 
         <Link className="btn btn-outline-light" href={`/events/${snapshot.event.id}`}>

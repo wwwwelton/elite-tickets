@@ -4,15 +4,15 @@ import { describe, expect, it, vi } from "vitest";
 import { GateStatus } from "@/components/gate/gate-status";
 import type { GateValidationApi } from "@/lib/api";
 
-const results: Array<[GateValidationApi["result"], RegExp]> = [
-  ["VALID", /entry approved/i],
-  ["INVALID", /credential not recognized/i],
-  ["ALREADY_USED", /already admitted/i],
-  ["WRONG_EVENT", /another event/i],
+const results: Array<[GateValidationApi["result"], RegExp, RegExp]> = [
+  ["VALID", /entrada aprovada/i, /^válido$/i],
+  ["INVALID", /credencial não reconhecida/i, /^inválido$/i],
+  ["ALREADY_USED", /já foi admitido/i, /^já utilizado$/i],
+  ["WRONG_EVENT", /pertence a outro evento/i, /^evento incorreto$/i],
 ];
 
 describe("gate validation outcomes", () => {
-  it.each(results)("renders %s with text, not colour alone", (result, note) => {
+  it.each(results)("renders %s with text, not colour alone", (result, note, title) => {
     render(
       <GateStatus
         validation={{ result, attempted_at: "2026-08-13T18:00:00Z" }}
@@ -22,9 +22,7 @@ describe("gate validation outcomes", () => {
 
     expect(screen.getByRole("status")).toBeInTheDocument();
     expect(screen.getByText(note)).toBeInTheDocument();
-    expect(
-      screen.getByText(new RegExp(`^${result.replace("_", " ")}$`, "i")),
-    ).toBeInTheDocument();
+    expect(screen.getByText(title)).toBeInTheDocument();
   });
 
   it("always offers a way back to scanning", () => {
@@ -36,7 +34,7 @@ describe("gate validation outcomes", () => {
       />,
     );
 
-    screen.getByRole("button", { name: /scan next ticket/i }).click();
+    screen.getByRole("button", { name: /escanear próximo ingresso/i }).click();
     expect(onDismiss).toHaveBeenCalledOnce();
   });
 });

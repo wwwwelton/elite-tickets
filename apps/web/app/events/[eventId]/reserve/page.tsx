@@ -218,7 +218,7 @@ function ReserveFlow() {
               disabled={quantity === 0 || submitting}
               onClick={handleReserve}
             >
-              {submitting ? "Holding your tickets…" : "Continue to checkout"}
+              {submitting ? "Reservando seus ingressos…" : "Continuar para o checkout"}
             </button>
           </div>
         </div>

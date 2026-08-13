@@ -8,7 +8,7 @@ import {
 
 describe("formatting helpers", () => {
   it("formats backend decimal strings as money", () => {
-    expect(formatMoney("18.00")).toBe("$18.00");
+    expect(formatMoney("18.00")).toBe("R$ 18,00");
     expect(formatMoney(undefined)).toBe("—");
     expect(formatMoney("not-a-number")).toBe("—");
   });
@@ -19,8 +19,8 @@ describe("formatting helpers", () => {
   });
 
   it("degrades gracefully when a date is missing or invalid", () => {
-    expect(formatShortDate(undefined)).toBe("TBD");
-    expect(formatShortDate("not-a-date")).toBe("TBD");
+    expect(formatShortDate(undefined)).toBe("A definir");
+    expect(formatShortDate("not-a-date")).toBe("A definir");
   });
 
   it("counts a hold down in minutes and seconds", () => {
