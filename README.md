@@ -183,6 +183,24 @@ inventário não negativo, pagamento versus expiração/cancelamento e consumo �
 do ingresso. O relatório da validação local está em
 [`specs/001-event-ticket-mvp/validation/deployment.md`](specs/001-event-ticket-mvp/validation/deployment.md).
 
+### Integração contínua
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) roda em todo push e
+pull request e reproduz exatamente os comandos acima, para que "passou local"
+e "passou no CI" signifiquem a mesma coisa:
+
+- **backend**: sobe um Postgres 17 como serviço do job, aplica as migrations
+  com Alembic e roda `pytest` (as 84 asserções de unit/integration/concurrency)
+  contra um banco real — não contra mocks;
+- **frontend**: `npm test -- --run` (Vitest + Testing Library) e depois
+  `npm run build`, então uma regressão de tipos ou de build quebra o CI antes
+  de chegar a um deploy.
+
+Um job final (`ci`) agrega os dois anteriores e falha se qualquer um não for
+`success`, dando um único status check para proteger a branch principal — sem
+ele, um PR poderia ficar verde mesmo com o job de frontend vermelho, já que
+GitHub Actions não bloqueia por padrão em jobs paralelos sem essa agregação.
+
 ## Implantação
 
 `infra/render.yaml` descreve PostgreSQL, API, migration pre-deploy e o cron de
