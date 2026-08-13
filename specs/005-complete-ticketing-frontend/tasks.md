@@ -135,7 +135,7 @@
 
 ### Tests for User Story 5
 
-- [ ] T040 [P] [US5] Add organizer events and gate validation tests in `apps/web/tests/organizer-and-gate.test.tsx`
+- [X] T040 [P] [US5] Add organizer events and gate validation tests in `apps/web/tests/organizer-and-gate.test.tsx`
 - [ ] T041 [US5] Add catalog search, publish/cancel, and validation state coverage in `apps/web/tests/organizer-and-gate.test.tsx`
 
 ### Implementation for User Story 5
