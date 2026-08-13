@@ -10,6 +10,7 @@ export default function RegisterPage() {
       subtitle={registrationDependencyNotice}
     >
       <section aria-label="registration dependency state">
+        <h2>Registration dependency</h2>
         <p>{registrationDependencyNotice}</p>
       </section>
     </SiteShell>

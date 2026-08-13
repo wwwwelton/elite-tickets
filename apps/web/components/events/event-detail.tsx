@@ -7,6 +7,7 @@ type EventDetailProps = {
 export function EventDetail({ event }: EventDetailProps) {
   return (
     <section
+      aria-label="Event details"
       style={{
         display: "grid",
         gap: "20px",

@@ -13,7 +13,10 @@ export default function CustomerTicketsPage() {
           title="No tickets loaded yet"
           description="The My Tickets experience is wired to the verified backend contract in the next task."
         />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+        <div
+          aria-label="Customer ticket shortcuts"
+          style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}
+        >
           <Link href="/customer">Back to customer home</Link>
           <Link href="/events/event-1">Browse events</Link>
         </div>

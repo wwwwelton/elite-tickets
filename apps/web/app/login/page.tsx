@@ -23,6 +23,7 @@ export default function LoginPage() {
           <a
             key={choice.label}
             href={choice.href}
+            aria-label={`Continue as ${choice.label}`}
             style={{
               alignItems: "center",
               border: "1px solid rgba(78, 70, 51, 0.8)",
@@ -33,7 +34,9 @@ export default function LoginPage() {
             }}
           >
             <span>{choice.label}</span>
-            <span style={{ color: "var(--muted)" }}>Continue</span>
+            <span aria-hidden="true" style={{ color: "var(--muted)" }}>
+              Continue
+            </span>
           </a>
         ))}
       </section>

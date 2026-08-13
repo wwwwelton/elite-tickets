@@ -5,6 +5,7 @@ type EventSearchProps = {
 export function EventSearch({ value = "" }: EventSearchProps) {
   return (
     <label
+      aria-label="Search public events"
       style={{
         alignItems: "center",
         background: "var(--surface)",
@@ -35,7 +36,6 @@ export function EventSearch({ value = "" }: EventSearchProps) {
           color: "var(--text)",
           flex: 1,
           minWidth: 0,
-          outline: "none",
         }}
       />
     </label>

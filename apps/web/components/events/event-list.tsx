@@ -7,16 +7,22 @@ type EventListProps = {
 
 export function EventList({ events }: EventListProps) {
   return (
-    <div
+    <ul
+      aria-label="Event results"
       style={{
         display: "grid",
         gap: "16px",
         gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+        listStyle: "none",
+        padding: 0,
+        margin: 0,
       }}
     >
       {events.map((event) => (
-        <EventCard key={event.id} event={event} />
+        <li key={event.id}>
+          <EventCard event={event} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
