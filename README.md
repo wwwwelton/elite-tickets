@@ -96,14 +96,6 @@ Com o Compose saudável e o seed aplicado:
 ```bash
 docker compose run --rm api pytest
 docker compose run --rm api pytest -m concurrency -v
-docker compose run --rm web npm test
-docker compose run --rm web npm run lint
-docker compose run --rm web npm run typecheck
-
-cd apps/web
-E2E_WEB_URL=http://localhost:3000 \
-E2E_API_URL=http://localhost:8000/api/v1 \
-./node_modules/.bin/playwright test --project=chromium
 ```
 
 Os testes concorrentes usam PostgreSQL e conexões independentes para provar
@@ -116,29 +108,16 @@ do ingresso. O relatório da validação local está em
 `infra/render.yaml` descreve PostgreSQL, API, migration pre-deploy e o cron de
 expiração no Render. Configure na plataforma `DATABASE_URL`, `JWT_SECRET`,
 `QR_SECRET`, `TICKETMASTER_API_KEY` e `CORS_ORIGINS`; JWT e QR devem ser secretos e
-distintos. O frontend pode ser implantado na Vercel com:
-
-- `NEXT_PUBLIC_API_BASE_URL`: URL HTTPS pública da API terminada em `/api/v1`;
-- `API_INTERNAL_BASE_URL`: URL alcançável pelos Server Components, também
-  terminada em `/api/v1`.
-
-Recompile o frontend sempre que `NEXT_PUBLIC_API_BASE_URL` mudar, pois variáveis
-`NEXT_PUBLIC_*` são incorporadas ao bundle. Em produção, limite `CORS_ORIGINS` às
-origens HTTPS esperadas e confirme os smoke checks descritos em
+distintos. Em produção, limite `CORS_ORIGINS` às origens HTTPS esperadas e
+confirme os smoke checks descritos em
 [`quickstart.md`](specs/001-event-ticket-mvp/quickstart.md).
 
 ## Troubleshooting
 
-- **Porta ocupada:** altere `POSTGRES_PORT`, `API_PORT` ou `WEB_PORT` no `.env` e
+- **Porta ocupada:** altere `POSTGRES_PORT` ou `API_PORT` no `.env` e
   recrie os serviços.
 - **API não inicia:** confirme que JWT/QR têm pelo menos 32 bytes, são diferentes
   e que `TICKETMASTER_API_KEY` não está vazio; depois consulte `docker compose logs api migrate`.
-- **Frontend mostra eventos indisponíveis:** dentro do Compose,
-  `API_INTERNAL_BASE_URL` deve apontar para `http://api:8000/api/v1`. No navegador,
-  `NEXT_PUBLIC_API_BASE_URL` deve ser acessível pela máquina do usuário.
-- **Login bloqueado por CORS:** use a mesma origem configurada em `CORS_ORIGINS`.
-  A configuração local padrão permite `http://localhost:3000`, não
-  `http://127.0.0.1:3000`.
 - **Ticketmaster falha:** valide `TICKETMASTER_API_KEY` e a conectividade. O
   catálogo do ORGANIZER sinaliza indisponibilidade, mas a vitrine e eventos já
   salvos usam snapshots locais.
