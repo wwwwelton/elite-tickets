@@ -94,7 +94,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T028 [US3] Implement the ticket selection and reservation flow in `apps/web/app/events/[eventId]/reserve/page.tsx`
+- [X] T028 [US3] Implement the ticket selection and reservation flow in `apps/web/app/events/[eventId]/reserve/page.tsx`
 - [ ] T029 [P] [US3] Implement the order review and simulated payment UI in `apps/web/app/customer/checkout/[reservationId]/page.tsx`
 - [ ] T030 [P] [US3] Implement the checkout and reservation state components in `apps/web/components/checkout/checkout-summary.tsx` and `apps/web/components/checkout/payment-state.tsx`
 - [ ] T031 [US3] Wire reservation creation and payment submission to `POST /api/v1/events/{eventId}/reservations` and `POST /api/v1/reservations/{reservationId}/payment` in `apps/web/lib/api.ts`
