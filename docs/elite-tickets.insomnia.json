@@ -1,0 +1,512 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-08-13T03:51:12.646918Z",
+  "__export_source": "insomnia.desktop.app:v2024.5.0",
+  "resources": [
+    {
+      "_id": "6528d547-c95b-4d32-9a77-e45eae0c979c",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Elite Tickets API",
+      "description": "Verified Elite Tickets backend routes for local development and manual API testing.",
+      "scope": "collection",
+      "created": 0,
+      "modified": 0
+    },
+    {
+      "_id": "1120149d-552d-41e7-b658-216a9687b886",
+      "_type": "request_group",
+      "parentId": "6528d547-c95b-4d32-9a77-e45eae0c979c",
+      "name": "Elite Tickets API",
+      "description": "",
+      "created": 0,
+      "modified": 0,
+      "metaSortKey": -1
+    },
+    {
+      "_id": "env_060d505f579045b9893ae16e169a1843",
+      "_type": "environment",
+      "parentId": "6528d547-c95b-4d32-9a77-e45eae0c979c",
+      "name": "Base Environment",
+      "data": {
+        "baseUrl": "http://localhost:8000/api/v1",
+        "baseUrlNoVersion": "http://localhost:8000",
+        "accessToken": "",
+        "eventId": "",
+        "reservationId": "",
+        "ticketId": "",
+        "shareToken": "",
+        "externalId": "",
+        "validationKey": "gate-validation-key"
+      },
+      "created": 0,
+      "modified": 0
+    },
+    {
+      "_id": "req_0c3d3e51bb3747f5a7510151fd87066b",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/auth/token",
+      "name": "Login",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"customer@example.com\",\n  \"password\": \"password123\"\n}"
+      }
+    },
+    {
+      "_id": "req_330d42f5da5e4a4f9fbaa0a855fd9468",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/events",
+      "name": "List Events",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [],
+      "parameters": [
+        {
+          "name": "query",
+          "value": ""
+        },
+        {
+          "name": "page",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "_id": "req_93d08dffcf6d457ba11ba34c7b15c84b",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/events/{{ _.eventId }}",
+      "name": "Event Detail",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": []
+    },
+    {
+      "_id": "req_94d197899467410ab9aa3eb8f5ea18a2",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/events/{{ _.eventId }}/reservations",
+      "name": "Create Reservation",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"quantity\": 2\n}"
+      }
+    },
+    {
+      "_id": "req_f3b6b586d8d84f1b98ccb3cd06248c29",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/reservations/{{ _.reservationId }}/payment",
+      "name": "Simulated Payment",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        },
+        {
+          "name": "Idempotency-Key",
+          "value": "{{ _.reservationId }}:tok_approved"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"payment_token\": \"tok_approved\"\n}"
+      }
+    },
+    {
+      "_id": "req_085e30a260af4210974f900c480684a1",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/me/tickets",
+      "name": "My Tickets",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_ec2e4188004345c4add22b4c5a00ebd6",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/me/tickets/{{ _.ticketId }}/share",
+      "name": "Create Share Link",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      }
+    },
+    {
+      "_id": "req_729afb9eb26d406d88d0fb0671b848c0",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/shared/tickets/{{ _.shareToken }}",
+      "name": "Shared Ticket",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": []
+    },
+    {
+      "_id": "req_6d882b84e7584f8fb370d61be4c3b37b",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/organizer/events",
+      "name": "List Organizer Events",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_e45753dcce5f440c9a5f464f27a63687",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/catalog/events",
+      "name": "Catalog Search",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [],
+      "parameters": [
+        {
+          "name": "keyword",
+          "value": "movie"
+        }
+      ]
+    },
+    {
+      "_id": "req_a5ab9092f8a54ad69257324d976b5adb",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/catalog/events/{{ _.externalId }}",
+      "name": "Catalog Detail",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": []
+    },
+    {
+      "_id": "req_5bc6688058634b37ad4c05d401a24ce2",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/events",
+      "name": "Create Event",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"external_id\": \"tmdb-or-ticketmaster-id\",\n  \"venue_name\": \"Elite Arena\",\n  \"venue_address\": \"Main St 123\",\n  \"starts_at\": \"2026-08-20T19:30:00Z\",\n  \"ends_at\": \"2026-08-20T22:00:00Z\",\n  \"timezone\": \"America/Sao_Paulo\",\n  \"capacity\": 500,\n  \"price\": \"45.00\"\n}"
+      }
+    },
+    {
+      "_id": "req_064c581838d64a838f85ca4ec51c3477",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/events/{{ _.eventId }}/publish",
+      "name": "Publish Event",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_1abd3b02567c40c799b313692ff5842c",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/events/{{ _.eventId }}/cancel",
+      "name": "Cancel Event",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_f58506a308674f218e29c64325175321",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/gate/events",
+      "name": "Gate Events",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_f0236a71ac054a8da3b453e867adaf8f",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrl }}/gate/events/{{ _.eventId }}/validate",
+      "name": "Validate Ticket",
+      "method": "POST",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.accessToken }}"
+        },
+        {
+          "name": "Idempotency-Key",
+          "value": "{{ _.validationKey }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"credential\": \"signed-ticket-credential\"\n}"
+      }
+    },
+    {
+      "_id": "req_4fa77124b30147028a25c9b369192377",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrlNoVersion }}/health/live",
+      "name": "Live",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": []
+    },
+    {
+      "_id": "req_5c336abc62bc438ba17fc4dd5f03fbd7",
+      "parentId": "1120149d-552d-41e7-b658-216a9687b886",
+      "modified": 0,
+      "created": 0,
+      "url": "{{ _.baseUrlNoVersion }}/health/ready",
+      "name": "Ready",
+      "method": "GET",
+      "authentication": {},
+      "metaSortKey": -1,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "headers": []
+    }
+  ]
+}
