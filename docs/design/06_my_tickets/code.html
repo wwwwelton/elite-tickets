@@ -1,64 +1,70 @@
-<!DOCTYPE html><html class="dark" lang="en" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title class="">06 My Tickets_Mobile</title>
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - My Tickets</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Libre+Franklin:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "primary": "#ffb4aa",
-                        "on-secondary-fixed": "#1a1c1c",
-                        "on-tertiary-fixed": "#001c38",
-                        "inverse-surface": "#e2e2e2",
-                        "secondary-container": "#454747",
-                        "on-secondary-container": "#b4b5b5",
-                        "on-secondary-fixed-variant": "#454747",
-                        "primary-fixed-dim": "#ffb4aa",
-                        "surface-container-highest": "#353535",
-                        "tertiary-fixed-dim": "#a1c9ff",
-                        "on-error-container": "#ffdad6",
-                        "tertiary-fixed": "#d2e4ff",
-                        "surface-variant": "#353535",
-                        "on-surface": "#e2e2e2",
-                        "inverse-primary": "#c0000b",
-                        "on-tertiary-container": "#fdfcff",
-                        "surface-bright": "#393939",
-                        "surface-tint": "#ffb4aa",
-                        "surface-container-low": "#1b1b1b",
-                        "on-background": "#e2e2e2",
-                        "on-primary-fixed": "#410001",
-                        "error-container": "#93000a",
-                        "on-primary-container": "#fffbff",
-                        "on-surface-variant": "#e8bcb6",
-                        "tertiary-container": "#0077cd",
-                        "primary-fixed": "#ffdad5",
-                        "surface-container-high": "#2a2a2a",
-                        "on-primary": "#690003",
-                        "outline": "#ae8782",
-                        "on-primary-fixed-variant": "#930006",
-                        "surface": "#131313",
-                        "on-tertiary": "#00325a",
-                        "surface-dim": "#131313",
-                        "on-secondary": "#2f3131",
-                        "primary-container": "#e61919",
-                        "background": "#131313",
-                        "on-tertiary-fixed-variant": "#004880",
-                        "secondary-fixed-dim": "#c6c6c7",
-                        "tertiary": "#a1c9ff",
-                        "secondary": "#c6c6c7",
-                        "outline-variant": "#5e3f3b",
-                        "secondary-fixed": "#e2e2e2",
+                        "outline-variant": "#4e4633",
+                        "on-secondary-container": "#b7b5b1",
+                        "on-secondary-fixed-variant": "#474744",
+                        "on-tertiary-fixed": "#001f24",
+                        "on-secondary-fixed": "#1c1c1a",
+                        "surface-container": "#1e2020",
+                        "primary": "#ffebc0",
                         "error": "#ffb4ab",
-                        "surface-container-lowest": "#0e0e0e",
-                        "inverse-on-surface": "#303030",
-                        "surface-container": "#1f1f1f",
-                        "on-error": "#690005"
+                        "surface": "#121414",
+                        "surface-bright": "#37393a",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "primary-fixed": "#ffdf92",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#121414",
+                        "on-surface-variant": "#d2c5ac",
+                        "surface-container-lowest": "#0c0f0f",
+                        "ticket-paper": "#F5F7F8",
+                        "on-primary-container": "#6f5600",
+                        "primary-container": "#feca27",
+                        "inverse-on-surface": "#2f3131",
+                        "secondary-container": "#474744",
+                        "surface-container-highest": "#333535",
+                        "primary-fixed-dim": "#f3c019",
+                        "tertiary-fixed-dim": "#00daf2",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "error-container": "#93000a",
+                        "tertiary": "#c2f5ff",
+                        "background": "#121414",
+                        "surface-container-low": "#1a1c1c",
+                        "on-tertiary-container": "#00626e",
+                        "on-primary": "#3e2e00",
+                        "deep-navy": "#1A2337",
+                        "secondary": "#c8c6c3",
+                        "inverse-primary": "#755b00",
+                        "on-surface": "#e2e2e2",
+                        "outline": "#9b9079",
+                        "on-secondary": "#31302e",
+                        "ticket-void": "#FF3B30",
+                        "surface-container-high": "#282a2b",
+                        "on-tertiary": "#00363d",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary-fixed-variant": "#594400",
+                        "surface-variant": "#333535",
+                        "ticket-valid": "#34C759",
+                        "on-background": "#e2e2e2",
+                        "on-error": "#690005",
+                        "surface-tint": "#f3c019",
+                        "tertiary-container": "#00e5fe",
+                        "secondary-fixed": "#e5e2de",
+                        "inverse-surface": "#e2e2e2",
+                        "tertiary-fixed": "#9af0ff"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -68,59 +74,45 @@
                     },
                     "spacing": {
                         "margin-mobile": "20px",
+                        "unit": "4px",
                         "margin-desktop": "64px",
-                        "stack-xl": "64px",
-                        "stack-md": "16px",
-                        "gutter": "24px",
-                        "stack-sm": "8px",
-                        "stack-lg": "32px",
-                        "unit": "4px"
+                        "ticket-perforation": "12px",
+                        "gutter": "16px"
                     },
                     "fontFamily": {
-                        "code-data": ["JetBrains Mono"],
-                        "display-lg-mobile": ["Bodoni Moda"],
-                        "headline-md": ["Bodoni Moda"],
-                        "display-lg": ["Bodoni Moda"],
-                        "label-caps": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-sm": ["Bodoni Moda"]
+                        "subheading": ["Libre Franklin"],
+                        "body-md": ["Libre Franklin"],
+                        "headline-lg": ["Anton"],
+                        "label-caps": ["Space Mono"],
+                        "headline-lg-mobile": ["Anton"],
+                        "data-mono": ["Space Mono"],
+                        "display-xl": ["Anton"]
                     },
                     "fontSize": {
-                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
-                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
-                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                        "subheading": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "52px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "40px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "display-xl": ["84px", { "lineHeight": "84px", "letterSpacing": "-0.02em", "fontWeight": "400" }]
                     }
-                },
-            },
+                }
+            }
         }
     </script>
 <style>
-        .perforation-divider {
-            border-top: 2px dashed theme('colors.on-surface');
-            position: relative;
+        .perforated-edge {
+            background-image: radial-gradient(circle at 100% 50%, transparent 4px, #1A2337 5px);
+            background-size: 10px 10px;
+            background-repeat: repeat-y;
+            background-position: right top;
         }
-        .perforation-divider::before,
-        .perforation-divider::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            width: 20px;
-            height: 20px;
-            background-color: theme('colors.background');
-            border-radius: 50%;
+        .stub-dashed-line {
+            border-left: 2px dashed #9b9079;
         }
-        .perforation-divider::before { left: -10px; }
-        .perforation-divider::after { right: -10px; }
-        
-        .ticket-card {
-            border: 2px solid theme('colors.on-surface');
-            background-color: theme('colors.surface-container-low');
+        .ticket-shape {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
         }
     </style>
 <style>
@@ -129,155 +121,130 @@
     }
   </style>
   </head>
-<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col pb-20 md:pb-0 md:pl-64">
-<!-- TopAppBar (Mobile) -->
-<header class="flex justify-between items-center w-full px-margin-mobile py-4 sticky top-0 z-50 bg-background md:hidden border-b-2 border-primary dark:border-primary">
-<h1 class="font-display-lg-mobile text-display-lg-mobile uppercase tracking-tighter text-primary dark:text-primary">ELITE TICKETS</h1>
-<div class="flex gap-4">
-<span class="material-symbols-outlined text-primary text-2xl" data-icon="account_circle">account_circle</span>
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen flex flex-col pb-24 md:pb-0 pt-16">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background text-primary flex justify-between items-center px-margin-mobile h-16 w-full fixed top-0 z-50 border-b-2 border-outline-variant flat no shadows">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined hover:bg-surface-container-high transition-colors active:scale-95 duration-100 p-2 rounded cursor-pointer" data-icon="confirmation_number">confirmation_number</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tighter">EliteTickets</h1>
+</div>
+<div>
+<img alt="profile_photo" class="w-10 h-10 rounded-full object-cover border-2 border-outline-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-100 cursor-pointer" data-alt="A close-up portrait of a sophisticated individual with a sharp, high-contrast lighting setup, matching a brutalist and dark-mode aesthetic with deep blacks and stark whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHr2kly6y67jr1WyD7k8Jb8N_XspejKPDQdAr0zzU_d0ndAXoP6cbyeZeI1cI75Pz5SiHqsPnNVkNfTT4vKTFBIOjA4B8ioY6croHeNcK842J1TR6ou_fR8CPxoBaHvQ3M4w5Relf3L-s83l01zdecCEPAjiaK8zR368MYKyBiHAbfiaDh1NOxEsehMOZZp0q0zIc-HDBw3MCAJltM8o22V0CIWqoq_RFyawEjO784ieKEbRQN"/>
 </div>
 </header>
-<!-- SideNavBar (Desktop) -->
-<nav class="hidden md:flex flex-col h-screen p-6 fixed left-0 top-0 overflow-y-auto bg-background dark:bg-background border-r-2 border-primary dark:border-primary w-64 z-50">
-<div class="font-display-lg text-display-lg text-primary dark:text-primary leading-none mb-8">ELITE TICKETS</div>
-<div class="font-label-caps text-label-caps text-on-surface mb-8">ORGANIZER PORTAL</div>
-<ul class="flex flex-col gap-2 flex-grow">
-<li class="">
-<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="font-label-caps text-label-caps">Dashboard</span>
-</a>
-</li>
-<li class="">
-<a class="text-on-primary bg-primary font-bold px-4 py-3 flex items-center gap-3 active:translate-x-1" href="#">
-<span class="material-symbols-outlined" data-icon="event">event</span>
-<span class="font-label-caps text-label-caps">My Events</span>
-</a>
-</li>
-<li class="">
-<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
-<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
-<span class="font-label-caps text-label-caps">Scan Tickets</span>
-</a>
-</li>
-<li class="">
-<a class="text-on-surface dark:text-on-surface px-4 py-3 flex items-center gap-3 hover:bg-white hover:text-black transition-all duration-75" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="font-label-caps text-label-caps">Settings</span>
-</a>
-</li>
-</ul>
-<button class="bg-primary text-white font-label-caps text-label-caps py-3 px-4 w-full mt-auto hover:bg-primary-container transition-colors">
-            Create Event
-        </button>
-</nav>
-<!-- Main Content -->
-<main class="flex-grow px-margin-mobile md:px-margin-desktop py-stack-lg max-w-4xl mx-auto w-full">
-<div class="mb-stack-lg">
-<h2 class="font-headline-md text-headline-md mb-2">MY TICKETS</h2>
-<div class="h-px bg-on-surface w-full"></div>
-</div>
-<div class="flex flex-col gap-stack-md">
-<!-- Ticket Item 1 -->
-<div class="ticket-card p-4 relative overflow-hidden group hover:bg-surface-container transition-colors">
-<div class="flex justify-between items-start mb-4">
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col px-margin-mobile py-6 max-w-3xl mx-auto w-full gap-ticket-perforation">
+<h2 class="font-subheading text-subheading text-primary mb-2">My Tickets</h2>
+<!-- Valid Ticket 1 -->
+<article class="bg-deep-navy border-2 border-primary rounded relative flex flex-row w-full ticket-shape">
+<div class="flex-grow p-4 flex flex-col justify-between">
 <div>
-<h3 class="font-headline-sm text-headline-sm uppercase tracking-tight mb-1">DUNE: PART TWO</h3>
-<p class="font-label-caps text-label-caps text-on-surface-variant">IMAX 70MM</p>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase leading-none">DUNE: PART TWO</h3>
+<span class="bg-primary-container text-on-primary-container font-label-caps text-label-caps px-2 py-1 border-2 border-primary-container">VIP</span>
 </div>
-<div class="text-right">
-<p class="font-code-data text-code-data text-primary">OCT 24</p>
-<p class="font-code-data text-code-data">19:30</p>
+<p class="font-subheading text-subheading text-on-surface-variant">IMAX Dome Theatre</p>
 </div>
-</div>
-<div class="perforation-divider mt-2 pt-4">
-<div class="flex justify-between items-center">
-<div class="flex gap-4">
+<div class="mt-4 flex gap-4 font-data-mono text-data-mono text-secondary">
 <div>
-<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">ROW</span>
-<span class="font-code-data text-code-data">G</span>
+<span class="block text-outline font-label-caps text-label-caps">DATE</span>
+<span>OCT 24</span>
 </div>
 <div>
-<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">SEAT</span>
-<span class="font-code-data text-code-data">12-14</span>
-</div>
-</div>
-<div>
-<span class="material-symbols-outlined text-primary text-3xl" data-icon="qr_code_2">qr_code_2</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Ticket Item 2 -->
-<div class="ticket-card p-4 relative overflow-hidden group hover:bg-surface-container transition-colors">
-<div class="flex justify-between items-start mb-4">
-<div>
-<h3 class="font-headline-sm text-headline-sm uppercase tracking-tight mb-1">OPPENHEIMER</h3>
-<p class="font-label-caps text-label-caps text-on-surface-variant">STANDARD</p>
-</div>
-<div class="text-right">
-<p class="font-code-data text-code-data text-primary">NOV 02</p>
-<p class="font-code-data text-code-data">21:00</p>
-</div>
-</div>
-<div class="perforation-divider mt-2 pt-4">
-<div class="flex justify-between items-center">
-<div class="flex gap-4">
-<div>
-<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">ROW</span>
-<span class="font-code-data text-code-data">M</span>
+<span class="block text-outline font-label-caps text-label-caps">TIME</span>
+<span>20:00</span>
 </div>
 <div>
-<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">SEAT</span>
-<span class="font-code-data text-code-data">04</span>
+<span class="block text-outline font-label-caps text-label-caps">SEAT</span>
+<span>G-14</span>
 </div>
+</div>
+</div>
+<!-- Perforated Divider & Stub -->
+<div class="stub-dashed-line w-24 flex-shrink-0 flex flex-col items-center justify-center p-2 relative bg-surface-container-highest">
+<span class="material-symbols-outlined text-4xl text-primary mb-2" data-icon="qr_code_2">qr_code_2</span>
+<span class="font-label-caps text-label-caps text-outline rotate-90 transform origin-center whitespace-nowrap mt-4">ADMIT ONE</span>
+<!-- Stencil Cutouts to simulate perforations on the edge -->
+<div class="absolute top-0 right-0 w-2 h-full perforated-edge"></div>
+</div>
+</article>
+<!-- Valid Ticket 2 -->
+<article class="bg-deep-navy border-2 border-outline-variant rounded relative flex flex-row w-full ticket-shape mt-4">
+<div class="flex-grow p-4 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase leading-none">THE BATMAN II</h3>
+<span class="bg-surface text-on-surface font-label-caps text-label-caps px-2 py-1 border-2 border-outline-variant">PREMIERE</span>
+</div>
+<p class="font-subheading text-subheading text-on-surface-variant">Grand Cinema Central</p>
+</div>
+<div class="mt-4 flex gap-4 font-data-mono text-data-mono text-secondary">
+<div>
+<span class="block text-outline font-label-caps text-label-caps">DATE</span>
+<span>NOV 02</span>
 </div>
 <div>
-<span class="material-symbols-outlined text-primary text-3xl opacity-50" data-icon="qr_code_2">qr_code_2</span>
+<span class="block text-outline font-label-caps text-label-caps">TIME</span>
+<span>19:30</span>
 </div>
-</div>
-</div>
-</div>
-<!-- Past Ticket Item -->
-<div class="ticket-card p-4 relative overflow-hidden opacity-60">
-<div class="flex justify-between items-start mb-4">
 <div>
-<h3 class="font-headline-sm text-headline-sm uppercase tracking-tight mb-1 line-through">POOR THINGS</h3>
-<p class="font-label-caps text-label-caps text-on-surface-variant">INDIE SCREENING</p>
-</div>
-<div class="text-right">
-<p class="font-code-data text-code-data text-on-surface-variant">SEP 15</p>
-<p class="font-code-data text-code-data text-on-surface-variant">14:00</p>
+<span class="block text-outline font-label-caps text-label-caps">SEAT</span>
+<span>J-21</span>
 </div>
 </div>
-<div class="perforation-divider mt-2 pt-4">
-<div class="flex justify-between items-center">
-<div class="flex gap-4">
+</div>
+<div class="stub-dashed-line w-24 flex-shrink-0 flex flex-col items-center justify-center p-2 relative bg-surface-container-highest">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2" data-icon="qr_code_2">qr_code_2</span>
+<span class="font-label-caps text-label-caps text-outline rotate-90 transform origin-center whitespace-nowrap mt-4">ADMIT ONE</span>
+<div class="absolute top-0 right-0 w-2 h-full perforated-edge"></div>
+</div>
+</article>
+<!-- Used/Void Ticket -->
+<article class="bg-deep-navy border-2 border-outline-variant rounded relative flex flex-row w-full ticket-shape mt-4 opacity-60">
+<!-- Void Strike-through overlay -->
+<div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none overflow-hidden">
+<span class="font-headline-lg text-headline-lg text-ticket-void opacity-80 transform -rotate-12 border-4 border-ticket-void px-4 py-2">USED</span>
+</div>
+<div class="flex-grow p-4 flex flex-col justify-between relative z-0">
 <div>
-<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">STATUS</span>
-<span class="font-code-data text-code-data">ATTENDED</span>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase leading-none">OPPENHEIMER</h3>
+</div>
+<p class="font-subheading text-subheading text-on-surface-variant">Historic Plaza Theater</p>
+</div>
+<div class="mt-4 flex gap-4 font-data-mono text-data-mono text-secondary">
+<div>
+<span class="block text-outline font-label-caps text-label-caps">DATE</span>
+<span>SEP 15</span>
+</div>
+<div>
+<span class="block text-outline font-label-caps text-label-caps">SEAT</span>
+<span>A-01</span>
 </div>
 </div>
 </div>
+<div class="stub-dashed-line w-24 flex-shrink-0 flex flex-col items-center justify-center p-2 relative bg-surface-container-highest z-0">
+<span class="material-symbols-outlined text-4xl text-outline mb-2" data-icon="qr_code_2">qr_code_2</span>
+<div class="absolute top-0 right-0 w-2 h-full perforated-edge"></div>
 </div>
-</div>
-</div>
+</article>
 </main>
-<!-- BottomNavBar (Mobile) -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-background dark:bg-background border-t-2 border-primary dark:border-primary md:hidden">
-<a class="flex flex-col items-center justify-center text-on-surface dark:text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container" href="#">
-<span class="material-symbols-outlined" data-icon="search">search</span>
-<span class="font-label-caps text-label-caps mt-1">Browse</span>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-surface dark:bg-surface fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-4 border-t-2 border-outline-variant flat no shadows font-label-caps text-label-caps font-headline-lg text-primary">
+<!-- Explore: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-all active:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span>Explore</span>
 </a>
-<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 w-full h-full transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
-<span class="font-label-caps text-label-caps mt-1">Tickets</span>
+<!-- Search: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-all active:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="search">search</span>
+<span>Search</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface dark:text-on-surface p-2 w-full h-full hover:bg-primary-container hover:text-on-primary-container" href="#">
-<span class="material-symbols-outlined" data-icon="person">person</span>
-<span class="font-label-caps text-label-caps mt-1">Profile</span>
+<!-- My Tickets: Active -->
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary p-2 hover:text-primary transition-all active:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="confirmation_number" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+<span>My Tickets</span>
 </a>
 </nav>
-
-
 </body></html>

@@ -1,66 +1,72 @@
-<!DOCTYPE html><html class="dark" lang="en"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>03 Checkout_Mobile</title>
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Checkout</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Libre+Franklin:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "primary": "#ffb4aa",
-                        "on-secondary-fixed": "#1a1c1c",
-                        "on-tertiary-fixed": "#001c38",
-                        "inverse-surface": "#e2e2e2",
-                        "secondary-container": "#454747",
-                        "on-secondary-container": "#b4b5b5",
-                        "on-secondary-fixed-variant": "#454747",
-                        "primary-fixed-dim": "#ffb4aa",
-                        "surface-container-highest": "#353535",
-                        "tertiary-fixed-dim": "#a1c9ff",
-                        "on-error-container": "#ffdad6",
-                        "tertiary-fixed": "#d2e4ff",
-                        "surface-variant": "#353535",
-                        "on-surface": "#e2e2e2",
-                        "inverse-primary": "#c0000b",
-                        "on-tertiary-container": "#fdfcff",
-                        "surface-bright": "#393939",
-                        "surface-tint": "#ffb4aa",
-                        "surface-container-low": "#1b1b1b",
-                        "on-background": "#e2e2e2",
-                        "on-primary-fixed": "#410001",
-                        "error-container": "#93000a",
-                        "on-primary-container": "#fffbff",
-                        "on-surface-variant": "#e8bcb6",
-                        "tertiary-container": "#0077cd",
-                        "primary-fixed": "#ffdad5",
-                        "surface-container-high": "#2a2a2a",
-                        "on-primary": "#690003",
-                        "outline": "#ae8782",
-                        "on-primary-fixed-variant": "#930006",
-                        "surface": "#131313",
-                        "on-tertiary": "#00325a",
-                        "surface-dim": "#131313",
-                        "on-secondary": "#2f3131",
-                        "primary-container": "#e61919",
-                        "background": "#131313",
-                        "on-tertiary-fixed-variant": "#004880",
-                        "secondary-fixed-dim": "#c6c6c7",
-                        "tertiary": "#a1c9ff",
-                        "secondary": "#c6c6c7",
-                        "outline-variant": "#5e3f3b",
-                        "secondary-fixed": "#e2e2e2",
+                        "outline-variant": "#4e4633",
+                        "on-secondary-container": "#b7b5b1",
+                        "on-secondary-fixed-variant": "#474744",
+                        "on-tertiary-fixed": "#001f24",
+                        "on-secondary-fixed": "#1c1c1a",
+                        "surface-container": "#1e2020",
+                        "primary": "#ffebc0",
                         "error": "#ffb4ab",
-                        "surface-container-lowest": "#0e0e0e",
-                        "inverse-on-surface": "#303030",
-                        "surface-container": "#1f1f1f",
-                        "on-error": "#690005"
+                        "surface": "#121414",
+                        "surface-bright": "#37393a",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "primary-fixed": "#ffdf92",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#121414",
+                        "on-surface-variant": "#d2c5ac",
+                        "surface-container-lowest": "#0c0f0f",
+                        "ticket-paper": "#F5F7F8",
+                        "on-primary-container": "#6f5600",
+                        "primary-container": "#feca27",
+                        "inverse-on-surface": "#2f3131",
+                        "secondary-container": "#474744",
+                        "surface-container-highest": "#333535",
+                        "primary-fixed-dim": "#f3c019",
+                        "tertiary-fixed-dim": "#00daf2",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "error-container": "#93000a",
+                        "tertiary": "#c2f5ff",
+                        "background": "#121414",
+                        "surface-container-low": "#1a1c1c",
+                        "on-tertiary-container": "#00626e",
+                        "on-primary": "#3e2e00",
+                        "deep-navy": "#1A2337",
+                        "secondary": "#c8c6c3",
+                        "inverse-primary": "#755b00",
+                        "on-surface": "#e2e2e2",
+                        "outline": "#9b9079",
+                        "on-secondary": "#31302e",
+                        "ticket-void": "#FF3B30",
+                        "surface-container-high": "#282a2b",
+                        "on-tertiary": "#00363d",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary-fixed-variant": "#594400",
+                        "surface-variant": "#333535",
+                        "ticket-valid": "#34C759",
+                        "on-background": "#e2e2e2",
+                        "on-error": "#690005",
+                        "surface-tint": "#f3c019",
+                        "tertiary-container": "#00e5fe",
+                        "secondary-fixed": "#e5e2de",
+                        "inverse-surface": "#e2e2e2",
+                        "tertiary-fixed": "#9af0ff"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -70,85 +76,61 @@
                     },
                     "spacing": {
                         "margin-mobile": "20px",
+                        "unit": "4px",
                         "margin-desktop": "64px",
-                        "stack-xl": "64px",
-                        "stack-md": "16px",
-                        "gutter": "24px",
-                        "stack-sm": "8px",
-                        "stack-lg": "32px",
-                        "unit": "4px"
+                        "ticket-perforation": "12px",
+                        "gutter": "16px"
                     },
                     "fontFamily": {
-                        "code-data": ["JetBrains Mono"],
-                        "display-lg-mobile": ["Bodoni Moda"],
-                        "headline-md": ["Bodoni Moda"],
-                        "display-lg": ["Bodoni Moda"],
-                        "label-caps": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-sm": ["Bodoni Moda"]
+                        "subheading": ["Libre Franklin"],
+                        "body-md": ["Libre Franklin"],
+                        "headline-lg": ["Anton"],
+                        "label-caps": ["Space Mono"],
+                        "headline-lg-mobile": ["Anton"],
+                        "data-mono": ["Space Mono"],
+                        "display-xl": ["Anton"]
                     },
                     "fontSize": {
-                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
-                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
-                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                        "subheading": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "52px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "40px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "display-xl": ["84px", { "lineHeight": "84px", "letterSpacing": "-0.02em", "fontWeight": "400" }]
                     }
                 }
             }
         }
     </script>
 <style>
-        .perforated-border {
-            border-bottom: 2px dashed #e2e2e2;
+        /* Brutalist / High-Contrast Ticket Styles */
+        .ticket-edge {
+            background-image: radial-gradient(circle at 0 50%, transparent 6px, #1A2337 7px);
+            background-size: 100% 24px;
+            background-repeat: repeat-y;
+            border-left: 2px dashed #ffffff;
         }
-        .punch-hole-left {
-            position: absolute;
-            left: -12px;
-            bottom: -12px;
-            width: 24px;
-            height: 24px;
-            background-color: #131313;
-            border-radius: 50%;
-            border-right: 2px solid #e2e2e2;
+        .stub-separator {
+            border-bottom: 2px dashed #9b9079;
         }
-        .punch-hole-right {
-            position: absolute;
-            right: -12px;
-            bottom: -12px;
-            width: 24px;
-            height: 24px;
-            background-color: #131313;
-            border-radius: 50%;
-            border-left: 2px solid #e2e2e2;
-        }
-        
-        /* Input styles */
-        input[type="text"], input[type="number"] {
+        .input-brutalist {
             background: transparent;
             border: none;
-            border-bottom: 1px solid #e2e2e2;
-            color: #e2e2e2;
-            border-radius: 0;
-            padding: 8px 0;
+            border-bottom: 2px solid #ffffff;
+            color: #ffffff;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .input-brutalist:focus {
             outline: none;
-            box-shadow: none !important;
-            transition: border-bottom-color 0.2s, border-bottom-width 0.2s;
+            border-bottom-color: #feca27;
+            box-shadow: none;
         }
-        input[type="text"]:focus, input[type="number"]:focus {
-            border-bottom: 2px solid #c0000b; /* Cinema Red */
-            outline: none;
+        .input-brutalist::placeholder {
+            color: rgba(255, 255, 255, 0.4);
         }
-        
-        .ticket-cutout {
-            position: relative;
-            background-color: transparent;
-            border: 2px solid #e2e2e2;
-        }
+        /* Hide nav shell on checkout (transactional) */
     </style>
 <style>
     body {
@@ -156,96 +138,123 @@
     }
   </style>
   </head>
-<body class="bg-background text-on-background antialiased min-h-screen flex flex-col">
-<!-- TopAppBar (Transactional - Hidden or Simplified) -->
-<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-50 bg-background border-b-2 border-primary">
-<a class="font-display-lg-mobile md:font-display-lg text-primary uppercase tracking-tighter leading-none" href="#">ELITE TICKETS</a>
-<div class="flex items-center gap-4">
-<span class="font-label-caps text-label-caps text-on-surface">SECURE CHECKOUT</span>
-<span class="material-symbols-outlined text-primary">lock</span>
-</div>
-</header>
-<main class="flex-grow w-full px-margin-mobile md:px-margin-desktop py-stack-xl flex justify-center">
-<div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-<!-- Payment Module (Left Column) -->
-<section class="lg:col-span-7 flex flex-col gap-stack-lg">
-<div>
-<h1 class="font-headline-md text-headline-md mb-stack-md uppercase">Payment Details</h1>
-<div class="h-px bg-on-background w-full mb-stack-lg"></div>
-</div>
-<form class="flex flex-col gap-stack-lg w-full max-w-md">
-<!-- Cardholder Name -->
-<div class="flex flex-col gap-unit">
-<label class="font-label-caps text-label-caps uppercase text-on-surface-variant" for="cardName">Cardholder Name</label>
-<input class="font-code-data text-code-data uppercase w-full" id="cardName" placeholder="AS IT APPEARS ON CARD" type="text">
-</div>
-<!-- Card Number -->
-<div class="flex flex-col gap-unit">
-<label class="font-label-caps text-label-caps uppercase text-on-surface-variant" for="cardNumber">Card Number</label>
-<input class="font-code-data text-code-data w-full tracking-widest" id="cardNumber" placeholder="0000 0000 0000 0000" type="text">
-</div>
-<!-- Expiry & CVV -->
-<div class="flex gap-gutter w-full">
-<div class="flex flex-col gap-unit flex-1">
-<label class="font-label-caps text-label-caps uppercase text-on-surface-variant" for="expiry">Expiry Date</label>
-<input class="font-code-data text-code-data w-full text-center" id="expiry" placeholder="MM/YY" type="text">
-</div>
-<div class="flex flex-col gap-unit flex-1">
-<label class="font-label-caps text-label-caps uppercase text-on-surface-variant" for="cvv">Security Code</label>
-<input class="font-code-data text-code-data w-full text-center" id="cvv" placeholder="CVV" type="text">
-</div>
-</div>
-<button class="mt-stack-lg bg-primary text-on-primary font-label-caps text-label-caps uppercase py-4 px-8 w-full border-2 border-primary hover:bg-background hover:text-primary transition-colors duration-200" type="button">
-                        Confirm Payment
-                    </button>
-<p class="font-body-md text-body-md text-on-secondary-container mt-stack-sm text-center">
-                        By clicking "Confirm Payment", you agree to our Terms of Service and Privacy Policy.
-                    </p>
-</form>
-</section>
-<!-- Ticket Summary (Right Column - The Stub) -->
-<aside class="lg:col-span-5 flex justify-center lg:justify-end items-start mt-stack-xl lg:mt-0">
-<div class="ticket-cutout w-full max-w-sm flex flex-col">
-<!-- Ticket Header / Event Info -->
-<div class="p-stack-md flex flex-col gap-stack-sm relative">
-<img class="w-full h-48 object-cover filter grayscale mb-stack-sm" data-alt="A moody, high-contrast black and white photograph of an empty, elegant theater stage with a single bright spotlight shining down on the center. The surrounding seats are lost in deep shadows. Editorial brutualist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKRd8yeqSopymWacB5m78mKJGJ3OIX1Ms9bOwqSUlX-PuuA8BXkprLtBzQJuf6Pu-I36r0uM6PTKd5AQ1orfobWEn99M_iCEjLVRIkYD7YLfc9i_x0touvqQ8UMDXtlBT1XXfe6SIq-_-gbhjx8JSjPPf0g4iIKLYnRZdtA1s9luLMhEzfxV4uWOdRSPnrBzTcJssAMMyPq61Jni2p-dk3pvAJNdHX2WbrrObNVhe_bDh8YN0i2iZ0_A">
-<h2 class="font-headline-sm text-headline-sm uppercase">Macbeth: The immersive Experience</h2>
-<div class="flex justify-between items-end">
-<span class="font-label-caps text-label-caps text-on-surface-variant">FRI OCT 27, 8:00 PM</span>
-<span class="font-code-data text-code-data">SECTION A</span>
-</div>
-<!-- Perforation Line -->
-<div class="absolute bottom-0 left-0 w-full perforated-border"></div>
-<div class="punch-hole-left"></div>
-<div class="punch-hole-right"></div>
-</div>
-<!-- Receipt / Order Summary -->
-<div class="p-stack-md bg-inverse-surface text-background flex flex-col gap-stack-md">
-<h3 class="font-label-caps text-label-caps uppercase border-b border-background pb-unit mb-unit">Order Summary</h3>
-<div class="flex justify-between items-center py-2 border-b border-background border-dashed">
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen selection:bg-primary selection:text-on-primary-container">
+<!-- TopAppBar (Transactional Override - No Navigation, Just Branding & Back) -->
+<header class="bg-background dark:bg-background flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 w-full fixed top-0 z-50 border-b-2 border-outline-variant flat no shadows">
+<a class="flex items-center gap-2 hover:bg-surface-container-high transition-colors active:scale-95 duration-100 p-2 rounded" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">arrow_back</span>
+<span class="font-label-caps text-label-caps text-primary uppercase">Back to Event</span>
+</a>
 <div class="flex items-center gap-2">
-<span class="font-code-data text-code-data">2x</span>
-<span class="font-body-md text-body-md uppercase">VIP Admission</span>
+<span class="material-symbols-outlined text-primary font-headline-lg-mobile text-headline-lg-mobile">confirmation_number</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tighter hidden md:block">EliteTickets</h1>
 </div>
-<span class="font-code-data text-code-data">$350.00</span>
+<div class="w-24"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Checkout Canvas -->
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto min-h-screen flex flex-col lg:flex-row gap-gutter md:gap-8">
+<!-- Left Column: Checkout Form (Bento Style) -->
+<div class="w-full lg:w-2/3 flex flex-col gap-6">
+<div class="mb-4">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary uppercase tracking-tighter">Checkout</h2>
+<p class="text-on-surface-variant mt-2 font-data-mono text-data-mono">SECURE ENCRYPTED TRANSACTION // 02:45 REMAINING</p>
 </div>
-<div class="flex justify-between items-center py-2 border-b border-background border-dashed">
-<span class="font-body-md text-body-md uppercase text-secondary-container">Service Fee</span>
-<span class="font-code-data text-code-data text-secondary-container">$45.00</span>
+<!-- Customer Info Block -->
+<section class="bg-deep-navy border-2 border-outline-variant p-6 md:p-8 flex flex-col gap-6">
+<h3 class="font-subheading text-subheading text-on-surface uppercase border-b-2 border-outline-variant pb-2">Customer Information</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="firstName">First Name</label>
+<input class="input-brutalist font-data-mono text-data-mono" id="firstName" placeholder="Enter first name" type="text"/>
 </div>
-<div class="flex justify-between items-center py-2 border-b border-background border-dashed">
-<span class="font-body-md text-body-md uppercase text-secondary-container">Facility Charge</span>
-<span class="font-code-data text-code-data text-secondary-container">$10.00</span>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="lastName">Last Name</label>
+<input class="input-brutalist font-data-mono text-data-mono" id="lastName" placeholder="Enter last name" type="text"/>
 </div>
-<div class="flex justify-between items-end mt-stack-md pt-unit border-t-2 border-background">
-<span class="font-headline-sm text-headline-sm uppercase">Total</span>
-<span class="font-code-data text-code-data font-bold text-[24px]">$405.00</span>
 </div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="email">Email Address (For E-Tickets)</label>
+<input class="input-brutalist font-data-mono text-data-mono" id="email" placeholder="you@example.com" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="phone">Phone Number</label>
+<input class="input-brutalist font-data-mono text-data-mono" id="phone" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</section>
+<!-- Payment Method Block (Abstracted) -->
+<section class="bg-deep-navy border-2 border-outline-variant p-6 md:p-8 flex flex-col gap-6 opacity-50 grayscale pointer-events-none">
+<h3 class="font-subheading text-subheading text-on-surface uppercase border-b-2 border-outline-variant pb-2 flex justify-between items-center">
+                    Payment Method
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">STEP 2</span>
+</h3>
+<p class="font-data-mono text-data-mono">Complete Customer Information to proceed to payment.</p>
+</section>
+</div>
+<!-- Right Column: Order Summary (Ticket Stub Design) -->
+<aside class="w-full lg:w-1/3">
+<div class="bg-surface-container border-2 border-primary flex flex-col sticky top-24 shadow-2xl">
+<!-- Ticket Header -->
+<div class="bg-primary text-on-primary p-6 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 opacity-10 transform rotate-12">
+<span class="material-symbols-outlined text-9xl font-headline-lg">confirmation_number</span>
+</div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<span class="font-label-caps text-label-caps uppercase bg-on-primary text-primary px-2 py-1">General Admission</span>
+<span class="font-data-mono text-data-mono">QTY: 2</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile uppercase tracking-tighter leading-none relative z-10">Neon Knights Tour</h3>
+</div>
+<!-- Ticket Details (Stub) -->
+<div class="p-6 flex flex-col gap-4 stub-separator bg-deep-navy relative">
+<!-- Faux Perforations left/right -->
+<div class="absolute left-[-10px] top-[-10px] w-[20px] h-[20px] bg-background rounded-full border-r-2 border-b-2 border-primary"></div>
+<div class="absolute right-[-10px] top-[-10px] w-[20px] h-[20px] bg-background rounded-full border-l-2 border-b-2 border-primary"></div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Date</p>
+<p class="font-data-mono text-data-mono text-on-surface">OCT 24, 2024</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Time</p>
+<p class="font-data-mono text-data-mono text-on-surface">21:00 EST</p>
+</div>
+<div class="col-span-2">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Venue</p>
+<p class="font-data-mono text-data-mono text-on-surface">The Grand Hall, Metropolis</p>
+</div>
+</div>
+</div>
+<!-- Cost Breakdown -->
+<div class="p-6 bg-deep-navy flex flex-col gap-3">
+<div class="flex justify-between items-center font-data-mono text-data-mono text-on-surface-variant">
+<span>Ticket (x2)</span>
+<span>$150.00</span>
+</div>
+<div class="flex justify-between items-center font-data-mono text-data-mono text-on-surface-variant">
+<span>Service Fee</span>
+<span>$18.50</span>
+</div>
+<div class="flex justify-between items-center font-data-mono text-data-mono text-on-surface-variant">
+<span>Facility Charge</span>
+<span>$5.00</span>
+</div>
+<div class="border-t-2 border-outline-variant pt-3 mt-2 flex justify-between items-end">
+<span class="font-label-caps text-label-caps uppercase text-on-surface">Total</span>
+<span class="font-subheading text-subheading text-primary">$173.50</span>
+</div>
+</div>
+<!-- Action -->
+<div class="p-6 bg-surface-container-high border-t-2 border-outline-variant">
+<button class="w-full bg-primary-container text-black font-subheading text-subheading uppercase tracking-tighter py-4 px-6 flex justify-center items-center gap-2 hover:bg-[#d6a512] transition-colors active:scale-95 duration-100">
+                        Proceed to Payment
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<p class="text-center font-label-caps text-label-caps text-on-surface-variant mt-4 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                        Secure Checkout
+                    </p>
 </div>
 </div>
 </aside>
-</div>
 </main>
-
-
 </body></html>

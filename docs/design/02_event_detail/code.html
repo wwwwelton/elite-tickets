@@ -1,131 +1,217 @@
-<!DOCTYPE html><html class="dark" lang="en"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>02 Event Detail_Mobile</title>
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EliteTickets - Event Detail</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary": "#ffb4aa",
-                        "on-secondary-fixed": "#1a1c1c",
-                        "on-tertiary-fixed": "#001c38",
-                        "inverse-surface": "#e2e2e2",
-                        "secondary-container": "#454747",
-                        "on-secondary-container": "#b4b5b5",
-                        "on-secondary-fixed-variant": "#454747",
-                        "primary-fixed-dim": "#ffb4aa",
-                        "surface-container-highest": "#353535",
-                        "tertiary-fixed-dim": "#a1c9ff",
-                        "on-error-container": "#ffdad6",
-                        "tertiary-fixed": "#d2e4ff",
-                        "surface-variant": "#353535",
-                        "on-surface": "#e2e2e2",
-                        "inverse-primary": "#c0000b",
-                        "on-tertiary-container": "#fdfcff",
-                        "surface-bright": "#393939",
-                        "surface-tint": "#ffb4aa",
-                        "surface-container-low": "#1b1b1b",
-                        "on-background": "#e2e2e2",
-                        "on-primary-fixed": "#410001",
-                        "error-container": "#93000a",
-                        "on-primary-container": "#fffbff",
-                        "on-surface-variant": "#e8bcb6",
-                        "tertiary-container": "#0077cd",
-                        "primary-fixed": "#ffdad5",
-                        "surface-container-high": "#2a2a2a",
-                        "on-primary": "#690003",
-                        "outline": "#ae8782",
-                        "on-primary-fixed-variant": "#930006",
-                        "surface": "#131313",
-                        "on-tertiary": "#00325a",
-                        "surface-dim": "#131313",
-                        "on-secondary": "#2f3131",
-                        "primary-container": "#e61919",
-                        "background": "#131313",
-                        "on-tertiary-fixed-variant": "#004880",
-                        "secondary-fixed-dim": "#c6c6c7",
-                        "tertiary": "#a1c9ff",
-                        "secondary": "#c6c6c7",
-                        "outline-variant": "#5e3f3b",
-                        "secondary-fixed": "#e2e2e2",
-                        "error": "#ffb4ab",
-                        "surface-container-lowest": "#0e0e0e",
-                        "inverse-on-surface": "#303030",
-                        "surface-container": "#1f1f1f",
-                        "on-error": "#690005",
-                        
-                        "cinema-red": "#e61919", 
-                        "ticket-black": "#0e0e0e",
-                        "ticket-white": "#e2e2e2"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px",
-                        "none": "0px"
-                    },
-                    "spacing": {
-                        "margin-mobile": "20px",
-                        "margin-desktop": "64px",
-                        "stack-xl": "64px",
-                        "stack-md": "16px",
-                        "gutter": "24px",
-                        "stack-sm": "8px",
-                        "stack-lg": "32px",
-                        "unit": "4px"
-                    },
-                    "fontFamily": {
-                        "code-data": ["JetBrains Mono"],
-                        "display-lg-mobile": ["Bodoni Moda"],
-                        "headline-md": ["Bodoni Moda"],
-                        "display-lg": ["Bodoni Moda"],
-                        "label-caps": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-sm": ["Bodoni Moda"]
-                    },
-                    "fontSize": {
-                        "code-data": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
-                        "display-lg-mobile": ["48px", { "lineHeight": "1.1", "fontWeight": "800" }],
-                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "headline-sm": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
-                    }
-                }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#4e4633",
+                    "on-secondary-container": "#b7b5b1",
+                    "on-secondary-fixed-variant": "#474744",
+                    "on-tertiary-fixed": "#001f24",
+                    "on-secondary-fixed": "#1c1c1a",
+                    "surface-container": "#1e2020",
+                    "primary": "#ffebc0",
+                    "error": "#ffb4ab",
+                    "surface": "#121414",
+                    "surface-bright": "#37393a",
+                    "secondary-fixed-dim": "#c8c6c3",
+                    "primary-fixed": "#ffdf92",
+                    "on-error-container": "#ffdad6",
+                    "surface-dim": "#121414",
+                    "on-surface-variant": "#d2c5ac",
+                    "surface-container-lowest": "#0c0f0f",
+                    "ticket-paper": "#F5F7F8",
+                    "on-primary-container": "#6f5600",
+                    "primary-container": "#feca27",
+                    "inverse-on-surface": "#2f3131",
+                    "secondary-container": "#474744",
+                    "surface-container-highest": "#333535",
+                    "primary-fixed-dim": "#f3c019",
+                    "tertiary-fixed-dim": "#00daf2",
+                    "on-tertiary-fixed-variant": "#004f58",
+                    "error-container": "#93000a",
+                    "tertiary": "#c2f5ff",
+                    "background": "#121414",
+                    "surface-container-low": "#1a1c1c",
+                    "on-tertiary-container": "#00626e",
+                    "on-primary": "#3e2e00",
+                    "deep-navy": "#1A2337",
+                    "secondary": "#c8c6c3",
+                    "inverse-primary": "#755b00",
+                    "on-surface": "#e2e2e2",
+                    "outline": "#9b9079",
+                    "on-secondary": "#31302e",
+                    "ticket-void": "#FF3B30",
+                    "surface-container-high": "#282a2b",
+                    "on-tertiary": "#00363d",
+                    "on-primary-fixed": "#241a00",
+                    "on-primary-fixed-variant": "#594400",
+                    "surface-variant": "#333535",
+                    "ticket-valid": "#34C759",
+                    "on-background": "#e2e2e2",
+                    "on-error": "#690005",
+                    "surface-tint": "#f3c019",
+                    "tertiary-container": "#00e5fe",
+                    "secondary-fixed": "#e5e2de",
+                    "inverse-surface": "#e2e2e2",
+                    "tertiary-fixed": "#9af0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "unit": "4px",
+                    "margin-desktop": "64px",
+                    "ticket-perforation": "12px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "subheading": [
+                            "Libre Franklin"
+                    ],
+                    "body-md": [
+                            "Libre Franklin"
+                    ],
+                    "headline-lg": [
+                            "Anton"
+                    ],
+                    "label-caps": [
+                            "Space Mono"
+                    ],
+                    "headline-lg-mobile": [
+                            "Anton"
+                    ],
+                    "data-mono": [
+                            "Space Mono"
+                    ],
+                    "display-xl": [
+                            "Anton"
+                    ]
+            },
+            "fontSize": {
+                    "subheading": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "52px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "36px",
+                            {
+                                    "lineHeight": "40px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "data-mono": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-xl": [
+                            "84px",
+                            {
+                                    "lineHeight": "84px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "400"
+                            }
+                    ]
             }
+          }
         }
+      }
     </script>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Libre+Franklin:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
-        .perforation-top {
-            position: relative;
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
         }
-        .perforation-top::before, .perforation-top::after {
-            content: '';
+        
+        /* Brutalist Ticket Styles */
+        .ticket-border {
+            border: 2px solid theme('colors.on-surface');
+        }
+        
+        .ticket-dashed-divider {
+            border-bottom: 2px dashed theme('colors.outline-variant');
+        }
+        
+        .stencil-cutout-left {
             position: absolute;
-            top: -12px;
-            width: 24px;
-            height: 24px;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
             background-color: theme('colors.background');
             border-radius: 50%;
-            z-index: 10;
+            border-right: 2px solid theme('colors.on-surface');
+            border-top: 2px solid theme('colors.on-surface');
+            border-bottom: 2px solid theme('colors.on-surface');
         }
-        .perforation-top::before { left: -12px; }
-        .perforation-top::after { right: -12px; }
-        
-        .dashed-border-top {
-            border-top: 2px dashed theme('colors.on-background');
+
+        .stencil-cutout-right {
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-color: theme('colors.background');
+            border-radius: 50%;
+            border-left: 2px solid theme('colors.on-surface');
+            border-top: 2px solid theme('colors.on-surface');
+            border-bottom: 2px solid theme('colors.on-surface');
         }
     </style>
 <style>
@@ -134,86 +220,122 @@
     }
   </style>
   </head>
-<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-cinema-red selection:text-white">
-<!-- TopAppBar -->
-<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 sticky top-0 z-50 bg-background border-b-2 border-primary flat no shadows">
-<button class="text-primary hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2 transform active:scale-95 flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Top App Bar - Simplified for linear flow (BackButton) -->
+<header class="flex justify-between items-center px-margin-mobile h-16 w-full fixed top-0 z-50 bg-background/90 backdrop-blur-md border-b-2 border-outline-variant flat no shadows">
+<button class="text-primary hover:bg-surface-container-high transition-colors active:scale-95 duration-100 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
 </button>
-<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg uppercase tracking-tighter text-primary">ELITE TICKETS</h1>
-<div class="flex items-center">
-<button class="text-primary hover:bg-primary hover:text-on-primary transition-colors duration-100 p-2 transform active:scale-95 flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-</button>
-</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase tracking-tighter">EliteTickets</span>
+<div class="w-10"></div> <!-- Spacer for centering -->
 </header>
-<main class="flex-grow flex flex-col items-center">
-<!-- Hero Poster -->
-<div class="w-full h-[530px] md:h-[618px] relative border-b-2 border-on-background">
-<div class="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full" data-alt="A highly dramatic, cinematic movie poster featuring a solitary figure silhouetted against a stark, high-contrast urban skyline at twilight. The scene is illuminated by striking crimson neon lights piercing through deep shadows, perfectly embodying an editorial brutalist aesthetic. The composition is intense, moody, and highly structured, emphasizing harsh vertical lines and stark typography placements. Shot on 35mm film with profound depth and atmospheric grain." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcBIYnbOwlJxm39KVCoyql9LtRyb0mmdhREwqLaqfkR_b7qNSwwNHo8Dz7TYqBJj28TtSwGZuf01NnM_wfhuf6r4zwrUIFBEqHUgDQHPWcPm0LAK0hIGLj_c19RY5z2STCBzb-bzbuQ98BgqzJOqw5HppBCncE4RIodlUxm1MK0GzEE9fnn-ICXT0wiXy5C8gsHlvPlOlAw6AwIuByl29d8hPMRSoB53jU4eSQ88mrsNsY56qNIxVEJQ')"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<main class="pt-16">
+<!-- Hero Image Section -->
+<div class="relative w-full h-[530px] border-b-2 border-on-surface">
+<div class="absolute inset-0 bg-cover bg-center w-full h-full" data-alt="A striking, high-contrast cinematic poster for a sci-fi thriller movie. The image features a solitary astronaut silhouetted against a massive, glowing ring structure in deep space. The lighting is dramatic, with intense neon blues and stark whites piercing through the deep black of space. The aesthetic is gritty, futuristic, and premium, evoking a sense of high-stakes tension and brutalist scale." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDtqezmaGippCFsif_JG6sWq8IYI-8c59V9UC_PoYptvNP8gcVjYhE4yAR5H7mWgNvxjtA0eDk1qbqCTityKkafFoTJmMFTP_JdNpiwLjXZfhfCxv38M2j7O7pBEmVssj9Zkmn71_6hTUPi-_1MHzV1uzrzMxr6aNUJphPrr1BSNYqa-fqtJXeOA36nzqUqLcDnRZASyeZiReklUBssyb7yWtPKc0WZdmIMdrvB_ocdyKiIyJpF')"></div>
+<!-- Gradient Overlay for text readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+<!-- Tags -->
+<div class="absolute top-4 right-4 flex gap-2">
+<div class="px-2 py-1 bg-surface-container-high border-2 border-primary text-primary font-label-caps text-label-caps uppercase">
+                    IMAX
+                </div>
+<div class="px-2 py-1 bg-ticket-void border-2 border-ticket-void text-on-primary font-label-caps text-label-caps uppercase">
+                    SELLING FAST
+                </div>
 </div>
-<!-- Ticket Detail Container -->
-<div class="w-full max-w-4xl px-margin-mobile md:px-0 -mt-stack-xl relative z-10 mb-stack-xl">
-<div class="bg-surface-container-lowest border-2 border-on-background p-6 md:p-gutter flex flex-col gap-stack-lg">
-<!-- Event Header -->
-<div class="flex flex-col gap-unit">
-<span class="font-label-caps text-label-caps uppercase text-primary tracking-widest">PREMIERE SCREENING</span>
-<h2 class="font-headline-md md:font-display-lg-mobile text-headline-md md:text-display-lg-mobile uppercase text-on-background">THE SILENT ECHO</h2>
-</div>
-<!-- Perforation Divider -->
-<div class="dashed-border-top pt-stack-md perforation-top relative">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter mb-stack-md">
-<!-- Date -->
-<div class="flex flex-col border-b border-on-background pb-stack-sm">
-<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">DATE</span>
-<span class="font-code-data text-code-data text-on-background">OCT 24, 2024</span>
-</div>
-<!-- Time -->
-<div class="flex flex-col border-b border-on-background pb-stack-sm">
-<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">TIME</span>
-<span class="font-code-data text-code-data text-on-background">20:30 HRS</span>
-</div>
-<!-- Venue -->
-<div class="flex flex-col border-b border-on-background pb-stack-sm col-span-2 md:col-span-2">
-<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">VENUE</span>
-<span class="font-body-md text-body-md text-on-background uppercase">METROPOLIS CINEMA, HALL A</span>
+<!-- Title Overlay -->
+<div class="absolute bottom-0 left-0 w-full p-margin-mobile flex flex-col gap-unit">
+<h1 class="font-display-xl text-display-xl text-on-surface uppercase tracking-tighter leading-none">THE VOID</h1>
+<h2 class="font-subheading text-subheading text-primary uppercase">PREMIERE SCREENING</h2>
 </div>
 </div>
-<div class="flex flex-col md:flex-row justify-between items-end gap-stack-md pt-stack-sm">
-<!-- Price & Quantity -->
-<div class="flex flex-col gap-stack-sm w-full md:w-auto">
-<div class="flex justify-between md:justify-start items-center gap-gutter border-b border-on-background pb-stack-sm">
+<!-- Event Details Grid -->
+<div class="px-margin-mobile py-8 flex flex-col gap-8">
+<!-- Quick Info Bar -->
+<div class="grid grid-cols-2 gap-4 border-b-2 border-outline-variant pb-6">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
 <div class="flex flex-col">
-<span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-unit">PRICE / TICKET</span>
-<span class="font-code-data text-code-data text-on-background">$45.00</span>
-</div>
-<div class="flex items-center border border-on-background">
-<button aria-label="Decrease quantity" class="w-10 h-10 flex items-center justify-center hover:bg-on-background hover:text-background transition-colors">
-<span class="material-symbols-outlined" data-icon="remove">remove</span>
-</button>
-<div class="w-12 h-10 flex items-center justify-center font-code-data text-code-data border-l border-r border-on-background">
-                                        2
-                                    </div>
-<button aria-label="Increase quantity" class="w-10 h-10 flex items-center justify-center hover:bg-on-background hover:text-background transition-colors">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-</button>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Date</span>
+<span class="font-data-mono text-data-mono text-on-surface">OCT 24, 2024</span>
 </div>
 </div>
-<div class="flex justify-between items-center w-full">
-<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">TOTAL</span>
-<span class="font-code-data text-code-data text-on-background text-lg">$90.00</span>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Time</span>
+<span class="font-data-mono text-data-mono text-on-surface">20:00 EST</span>
 </div>
 </div>
-<!-- Buy Action -->
-<button class="w-full md:w-auto bg-cinema-red text-ticket-white font-label-caps text-label-caps uppercase px-margin-desktop py-4 hover:bg-on-background hover:text-background transition-colors duration-200 tracking-widest border-2 border-cinema-red hover:border-on-background">
-                            BUY TICKETS
-                        </button>
+<div class="flex items-start gap-3 col-span-2 mt-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Venue</span>
+<span class="font-data-mono text-data-mono text-on-surface">NEON CINEMA, SECTOR 4</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">124 BRUTALIST AVE, NY</span>
+</div>
+</div>
+</div>
+<!-- Synopsis -->
+<div class="flex flex-col gap-4">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase border-l-4 border-primary pl-4">SYNOPSIS</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    When a routine maintenance mission on the edge of known space uncovers an ancient, artificial structure, a solitary astronaut must navigate the mind-bending reality of "The Void." A visceral, high-tension cinematic experience that challenges the limits of human perception. Directed by critically acclaimed visionary A. Tarkovsky.
+                </p>
+<div class="flex gap-4 mt-2">
+<div class="px-3 py-1 border border-outline-variant font-label-caps text-label-caps text-on-surface-variant">SCI-FI</div>
+<div class="px-3 py-1 border border-outline-variant font-label-caps text-label-caps text-on-surface-variant">124 MIN</div>
+<div class="px-3 py-1 border border-outline-variant font-label-caps text-label-caps text-on-surface-variant">R-RATED</div>
+</div>
+</div>
+<!-- Ticket Selection Area -->
+<div class="flex flex-col gap-6 mt-8">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase border-l-4 border-primary pl-4">ADMISSION</h3>
+<!-- Ticket Tier Option 1 -->
+<div class="relative bg-deep-navy ticket-border p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase">STANDARD</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">SEC A - ROW G-M</span>
+</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">$24</span>
+</div>
+<div class="ticket-dashed-divider w-full"></div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">QUANTITY</span>
+<div class="flex items-center gap-4 border border-outline-variant px-2 py-1 bg-surface-container-low">
+<button class="text-primary hover:text-white"><span class="material-symbols-outlined">remove</span></button>
+<span class="font-data-mono text-data-mono text-on-surface w-4 text-center">2</span>
+<button class="text-primary hover:text-white"><span class="material-symbols-outlined">add</span></button>
+</div>
+</div>
+</div>
+<!-- Ticket Tier Option 2 -->
+<div class="relative bg-surface-container ticket-border p-4 flex flex-col gap-4 opacity-50 grayscale pointer-events-none">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase">VIP LOUNGE</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">BALCONY SEATING</span>
+</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">$55</span>
+</div>
+<div class="ticket-dashed-divider w-full"></div>
+<div class="flex justify-between items-center pt-2">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-ticket-void uppercase tracking-widest">SOLD OUT</span>
 </div>
 </div>
 </div>
 </div>
 </main>
-
-
+<!-- Sticky Bottom Action Bar -->
+<div class="fixed bottom-0 w-full z-50 bg-background border-t-2 border-outline-variant p-margin-mobile flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total (2 Tickets)</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary leading-none">$48.00</span>
+</div>
+<button class="bg-primary-container text-on-primary font-headline-lg-mobile text-headline-lg-mobile uppercase px-8 py-3 border-2 border-transparent hover:bg-primary-fixed-dim transition-colors active:scale-95">
+            CHECKOUT
+        </button>
+</div>
 </body></html>
