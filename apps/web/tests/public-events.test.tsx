@@ -18,4 +18,13 @@ describe("public events", () => {
 
     expect(ordered[0].id).toBe("event-1");
   });
+
+  it("filters matching events without changing the expected ordering rule", () => {
+    const filtered = eventsFixture.filter((event) =>
+      event.title.toLowerCase().includes("neon"),
+    );
+
+    expect(filtered).toHaveLength(1);
+    expect(filtered[0].title).toBe("Neon Horizon");
+  });
 });
