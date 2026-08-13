@@ -3,5 +3,9 @@ type LoadingStateProps = {
 };
 
 export function LoadingState({ label = "Loading" }: LoadingStateProps) {
-  return <p aria-live="polite">{label}...</p>;
+  return (
+    <p aria-live="polite" role="status">
+      {label}...
+    </p>
+  );
 }

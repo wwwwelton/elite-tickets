@@ -5,8 +5,8 @@ type EmptyStateProps = {
 
 export function EmptyState({ title, description }: EmptyStateProps) {
   return (
-    <section aria-label={title}>
-      <h2>{title}</h2>
+    <section aria-labelledby={`${title}-title`}>
+      <h2 id={`${title}-title`}>{title}</h2>
       <p>{description}</p>
     </section>
   );

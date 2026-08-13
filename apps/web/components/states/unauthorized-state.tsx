@@ -8,8 +8,8 @@ export function UnauthorizedState({
   description = "You do not have permission to open this area.",
 }: UnauthorizedStateProps) {
   return (
-    <section role="alert">
-      <h2>{title}</h2>
+    <section aria-labelledby={`${title}-title`} role="alert">
+      <h2 id={`${title}-title`}>{title}</h2>
       <p>{description}</p>
     </section>
   );
