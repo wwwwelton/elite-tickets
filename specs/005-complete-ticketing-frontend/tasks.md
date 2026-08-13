@@ -74,8 +74,8 @@
 - [X] T021 [US2] Implement the shared login page with role-specific entry choices in `apps/web/app/login/page.tsx`
 - [X] T022 [US2] Implement the customer registration page or dependency state in `apps/web/app/register/page.tsx`
 - [X] T023 [P] [US2] Implement post-login role redirects and logout handling in `apps/web/lib/auth.ts`
-- [ ] T024 [P] [US2] Add authenticated navigation and header actions for logout and role entry in `apps/web/components/navigation/site-nav.tsx`
-- [ ] T025 [US2] Implement unauthorized and wrong-role state handling for protected routes in `apps/web/app/(protected)/unauthorized/page.tsx`
+- [X] T024 [P] [US2] Add authenticated navigation and header actions for logout and role entry in `apps/web/components/navigation/site-nav.tsx`
+- [X] T025 [US2] Implement unauthorized and wrong-role state handling for protected routes in `apps/web/app/(protected)/unauthorized/page.tsx`
 
 **Checkpoint**: User Story 2 should now be fully functional and testable independently
 
