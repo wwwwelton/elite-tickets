@@ -80,3 +80,11 @@ export function deserializeSession(raw: string): SessionState | null {
     return null;
   }
 }
+
+export function getPostLoginRedirect(role: SessionRole) {
+  return roleHomePath(role);
+}
+
+export function signOut() {
+  clearSession();
+}
