@@ -140,7 +140,7 @@
 
 ### Implementation for User Story 5
 
-- [ ] T042 [US5] Implement the organizer events dashboard in `apps/web/app/organizer/events/page.tsx`
+- [X] T042 [US5] Implement the organizer events dashboard in `apps/web/app/organizer/events/page.tsx`
 - [ ] T043 [P] [US5] Implement the external catalog search and selection flow in `apps/web/app/organizer/catalog/page.tsx`
 - [ ] T044 [P] [US5] Implement the organizer create and review flow in `apps/web/app/organizer/events/new/page.tsx`
 - [ ] T045 [US5] Implement organizer publish and cancel actions in `apps/web/app/organizer/events/page.tsx`
