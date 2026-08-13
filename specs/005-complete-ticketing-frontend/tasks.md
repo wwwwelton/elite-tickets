@@ -119,7 +119,7 @@
 
 - [X] T035 [US4] Implement the My Tickets route in `apps/web/app/customer/tickets/page.tsx`
 - [X] T036 [P] [US4] Implement the ticket detail route and QR presentation in `apps/web/app/customer/tickets/[ticketId]/page.tsx`
-- [ ] T037 [P] [US4] Implement the shared ticket route in `apps/web/app/shared/tickets/[shareToken]/page.tsx`
+- [X] T037 [P] [US4] Implement the shared ticket route in `apps/web/app/shared/tickets/[shareToken]/page.tsx`
 - [ ] T038 [US4] Implement ticket, share, and QR data rendering components in `apps/web/components/tickets/ticket-card.tsx`, `apps/web/components/tickets/ticket-detail.tsx`, `apps/web/components/tickets/share-link.tsx`, and `apps/web/components/tickets/qr-code.tsx`
 - [ ] T039 [US4] Wire My Tickets, ticket share creation, and shared ticket retrieval to `GET /api/v1/me/tickets`, `POST /api/v1/me/tickets/{ticketId}/share`, and `GET /api/v1/shared/tickets/{shareToken}` in `apps/web/lib/api.ts`
 
