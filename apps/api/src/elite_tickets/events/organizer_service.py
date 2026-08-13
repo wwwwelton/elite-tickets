@@ -142,8 +142,26 @@ async def publish_owned_event(
 ) -> OrganizerEvent:
     now = at or utc_now()
     event = await _owned_event_for_update(session, event_id, organizer_id)
-    if event.state is not EventState.DRAFT or event.ends_at <= now:
-        raise ConflictError("only an active draft can be published")
+    if event.state is EventState.PUBLISHED:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento já está publicado no catálogo.",
+        )
+    if event.state is EventState.CANCELLED:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento foi cancelado e não pode mais ser publicado.",
+        )
+    if event.state is EventState.FINISHED:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento já foi encerrado e não pode mais ser publicado.",
+        )
+    if event.ends_at <= now:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento já terminou e não pode mais ser publicado.",
+        )
     event.state = EventState.PUBLISHED
     event.published_at = now
     event.updated_at = now
