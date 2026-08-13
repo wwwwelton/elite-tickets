@@ -89,8 +89,8 @@
 
 ### Tests for User Story 3
 
-- [ ] T026 [P] [US3] Add reservation and checkout flow tests in `apps/web/tests/checkout-flow.test.tsx`
-- [ ] T027 [US3] Add ticket-selection state coverage for quantity-based and supported allocation-mode rendering in `apps/web/tests/checkout-flow.test.tsx`
+- [X] T026 [P] [US3] Add reservation and checkout flow tests in `apps/web/tests/checkout-flow.test.tsx`
+- [X] T027 [US3] Add ticket-selection state coverage for quantity-based and supported allocation-mode rendering in `apps/web/tests/checkout-flow.test.tsx`
 
 ### Implementation for User Story 3
 
