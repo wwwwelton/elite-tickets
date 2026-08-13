@@ -66,7 +66,7 @@
 
 ### Tests for User Story 2
 
-- [ ] T019 [P] [US2] Add authentication and role-routing tests in `apps/web/tests/auth-routing.test.tsx`
+- [X] T019 [P] [US2] Add authentication and role-routing tests in `apps/web/tests/auth-routing.test.tsx`
 - [ ] T020 [US2] Add customer registration dependency-state coverage in `apps/web/tests/auth-routing.test.tsx`
 
 ### Implementation for User Story 2
