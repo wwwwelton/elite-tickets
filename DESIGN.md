@@ -209,3 +209,136 @@ Kinetic Admission is designed to bridge the gap between digital convenience and 
 - **Customer:** Mobile-first, focused on discovery and the "Moment of Entry."
 - **Organizer:** Desktop-optimized, high data density for inventory management.
 - **Gate:** Maximum contrast, oversized status indicators, and large touch targets.
+
+---
+
+# System Design (Frontend)
+
+This section documents the actual architecture of `apps/web`, as implemented — not the visual/brand system above. Stack: **Next.js 16 (App Router)**, **React 19**, **TypeScript 7** (`strict: true`), **Bootstrap 5**, **Vitest 4** + Testing Library.
+
+## Folder Structure
+
+Flat App Router layout, no `src/` directory:
+
+- **`app/`** — routes only, one segment per user-facing area:
+  - `app/page.tsx`, `app/search/page.tsx` — public discovery/search
+  - `app/events/[eventId]/page.tsx` (+ `not-found.tsx`), `app/events/[eventId]/reserve/page.tsx` — event detail and seat/sector picker
+  - `app/login/page.tsx`, `app/register/page.tsx` — auth forms
+  - `app/customer/tickets/page.tsx`, `app/customer/tickets/[ticketId]/page.tsx`, `app/customer/checkout/[reservationId]/page.tsx` — customer area
+  - `app/organizer/events/page.tsx`, `app/organizer/events/new/page.tsx`, `app/organizer/catalog/page.tsx` — organizer studio
+  - `app/gate/page.tsx` — gate/door-staff scanner
+  - `app/shared/tickets/[shareToken]/page.tsx` — public, unauthenticated read-only ticket view
+  - `app/layout.tsx` / `app/globals.css` — single root layout and theme layer
+  - No route groups, no `app/api/*` route handlers, no nested layouts, no `middleware.ts`.
+- **`components/`** — organized by feature/domain: `shell/`, `events/`, `booking/`, `checkout/`, `tickets/`, `gate/`, `states/`.
+- **`lib/`** — one concern per file: `api.ts` (backend client), `auth.ts` (session types + `localStorage` helpers), `session.tsx` (React Context provider), `reservation-store.ts` (`sessionStorage` checkout handoff), `availability.ts`, `seating.ts` (seat/sector layout heuristic), `format.ts` (pt-BR date/money formatting), `qr.ts` (from-scratch QR matrix encoder).
+
+## Rendering Strategy
+
+Split by data sensitivity: routes that only need public/shareable data are **async Server Components**; anything requiring session state, forms, or interactivity is `"use client"`.
+
+- Server Components: `app/page.tsx`, `app/search/page.tsx`, `app/events/[eventId]/page.tsx`, `app/shared/tickets/[shareToken]/page.tsx`. Each sets `export const dynamic = "force-dynamic"` — no static caching of event/ticket data.
+- Client Components: `login`, `register`, `customer/*`, `organizer/*`, `gate`, `events/[eventId]/reserve` — anywhere `useSession`, forms, or role-gating is needed. The root `app/layout.tsx` stays a Server Component and wraps children in the client `SessionProvider`.
+- No Server Actions (`"use server"`) — mutations go through the client-side `lib/api.ts` `fetch` wrapper called from event handlers.
+- No `app/api/*` route handlers — the Next app never proxies the backend itself; it calls the FastAPI service directly from server or client code.
+
+## Data Fetching / API Layer
+
+A single hand-rolled client in `lib/api.ts`, no React Query/SWR:
+
+- Base URL resolution is environment-aware:
+  ```ts
+  const PUBLIC_API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api/v1";
+  const SERVER_API_BASE = process.env.API_INTERNAL_BASE_URL ?? "http://api:8000/api/v1";
+  function getApiBase() {
+    return typeof window === "undefined" ? SERVER_API_BASE : PUBLIC_API_BASE;
+  }
+  ```
+  Server Components hit the Docker-internal `api:8000` host; the browser hits `localhost:8000` (or `NEXT_PUBLIC_API_BASE_URL`). Both env vars are wired in `compose.yaml`.
+- A single `request<T>()` helper drives every call with `cache: "no-store"`, JSON headers, and a typed `ApiError` (status/code/message) built from the backend's `{error:{code,message}}` envelope, with Portuguese fallback messages per HTTP status.
+- Auth is opt-in per call via `{ auth: true }`, which reads the token from `readStoredSession()` and sets `Authorization: Bearer <token>`. No cookies are used anywhere.
+- Retry-sensitive mutations (`submitPayment`, `validateGateTicket`) pass an explicit `Idempotency-Key` — the gate scanner mints a fresh UUID per attempt so retries don't mask an `ALREADY_USED` result.
+- All API surface (events, reservations, payments, tickets/share, organizer CRUD, external catalog, gate validation) lives in this one file as typed functions returning typed `*Api` DTOs.
+
+> Note: `docs/api-reference.md` is known to drift from the running backend's actual schema in places (event shape, declined reservations, gate idempotency) — verify against `apps/api` directly rather than trusting the doc when in doubt.
+
+## State Management
+
+No global state library (no Redux/Zustand/Jotai). Two mechanisms only:
+
+- **`lib/session.tsx`** — a `"use client"` React Context (`SessionProvider` / `useSession`) holding `{accessToken, expiresAt, role, email, displayName}`, hydrated from `localStorage` inside a `useEffect` (SSR renders logged-out, then hydrates) with a `ready` flag to avoid a flash of the wrong state. `useSession()` degrades to a safe no-op outside the provider.
+- Everything else is local `useState`/`useCallback` per component.
+- Two persistence helpers sit outside React: `lib/auth.ts` (session read/write/clear in `localStorage`, key `elite-tickets.session`) and `lib/reservation-store.ts` (reservation snapshot in `sessionStorage`, handing off from the seat picker to checkout without a re-fetch).
+
+## Auth & Access Control
+
+- **No `middleware.ts`** — there is no route-level/edge auth gating. All access control is client-side, via `RequireRole` (`components/shell/require-role.tsx`):
+  ```tsx
+  export function RequireRole({ role, children }) {
+    const { session, ready } = useSession();
+    if (!ready) return <LoadingState .../>;
+    if (!session) return <UnauthorizedState />;
+    if (session.role !== role) return <UnauthorizedState title="Perfil incorreto..." />;
+    return <>{children}</>;
+  }
+  ```
+  This is presentation-only gating; the backend remains the real authority for every action.
+- Three roles: `CUSTOMER`, `ORGANIZER`, `GATE`, each with a home path (`roleHomePath()`) and display label (`ROLE_LABELS`).
+- Login/register convert the backend token response into a `SessionState`, call `signIn()` to persist it and redirect to the role's home. Login supports `?next=`, used by `PurchaseCta` to return unauthenticated buyers to checkout post-login (customer role only).
+- Session expiry is checked client-side (`isExpired` vs `expiresAt`); an expired session is silently dropped on read.
+- **Token storage is `localStorage` only** — no cookies, no HttpOnly storage. This is an accepted XSS-exposure tradeoff for this project's stage, not an oversight — flag it before hardening for production.
+
+## Component Architecture
+
+Feature/domain-organized, not atomic-design tiers:
+
+- `components/shell/` — `AppShell` (customer/public: `TopBar` + content + `BottomNav`), `StudioShell` (organizer: sidebar + header), `RequireRole`.
+- `components/events/` — `EventCard`, `EventList`, `EventHero`, `EventDetail`, `EventSearch`, `PurchaseCta` (role/session-aware CTA).
+- `components/booking/` — `SeatMap` and `SectorPicker`, chosen by `lib/seating.ts`'s `venueLayout()` keyword heuristic (e.g. "cinema"/"theat"/"imax" → seats, else sectors).
+- `components/checkout/` — `HoldCountdown` (live countdown to reservation expiry), `OrderStub` (ticket-stub order summary).
+- `components/tickets/` — `TicketCard`, `QrCode` (renders the `lib/qr.ts` matrix as inline SVG).
+- `components/gate/` — `CameraScanner` (wraps the `qr-scanner` package against a `<video>` ref, starts/stops on an `active` prop, decode callback via a stable ref to avoid re-instantiating the scanner) and `GateStatus`. Used only in `app/gate/page.tsx`, feeding into the same `validateGateTicket` path as a manual-paste textarea fallback.
+- `components/states/states.tsx` — shared async/error primitives (`LoadingState`, `EmptyState`, `ErrorState`, `UnauthorizedState`, `SkeletonCard`) reused across nearly every page.
+
+## Styling
+
+Bootstrap-only, per the standing project rule — no Tailwind, no CSS-in-JS, no CSS Modules:
+
+- `bootstrap/dist/css/bootstrap.min.css` is imported once in `app/layout.tsx`, followed by `app/globals.css`.
+- Theming is entirely via CSS custom properties: brand tokens (`--et-surface`, `--et-accent`, etc.) map onto Bootstrap variables (`--bs-body-bg`, `--bs-border-radius: 0`, `--bs-warning`, `--bs-danger`, …) under `:root, [data-bs-theme="dark"]`; `data-bs-theme="dark"` is set on `<html>` in the root layout.
+- Component overrides (`.btn`, `.card`, `.form-control`, `.badge`, `.navbar`, `.table`) use Bootstrap's own per-component CSS variable API (`--bs-btn-*`, `--bs-card-*`) rather than raw property overrides.
+- A small set of bespoke, non-Bootstrap classes (`.rail`, `.bottom-nav`, `.seat`, `.stub`/`.perf`, `.scanner-frame`, `.gate-result`, `.poster`, `.qr`) cover product-specific UI (seat grid, ticket-stub perforation, scanner frame) — additive, not overrides of existing Bootstrap components. Mostly variable-driven, though a few literal hex values remain (e.g. `.seat { background-color: #282a2b; }`) and should be migrated to `--et-*`/`--bs-*` tokens when touched.
+- Bootstrap utility classes (`d-grid`, `d-flex`, `container`, `row`/`col-*`) are used directly in JSX for layout.
+
+## Testing
+
+Vitest + `jsdom` + Testing Library (`vitest.config.mjs`: `jsdom` environment, `@/` alias mirroring `tsconfig.json`, setup file `tests/setup.ts` which polyfills `localStorage`/`sessionStorage` and auto-cleans after each test).
+
+- `api.test.ts` — mocks global `fetch`, asserts query-string building, auth header injection, idempotency headers, error mapping.
+- `auth.test.ts` — session serialize/parse/expiry logic.
+- `format.test.ts` — date/money formatting.
+- `qr.test.ts` — QR encoder correctness.
+- `booking.test.tsx` — renders `SeatMap`/`SectorPicker` with Testing Library + `userEvent`, driven by fixtures (`tests/fixtures/events.ts`) exercising `venueLayout()` branching.
+- `gate.test.tsx`, `gate-camera.test.tsx` — gate flow and camera scanner behavior.
+- Unit/component-level only — no Playwright/Cypress, no e2e runner.
+
+## Build & Deploy
+
+- **`Dockerfile`**: `node:22-alpine`, `npm ci`, then `npm run dev -- --hostname 0.0.0.0 --port 3000` as `CMD` — the container currently runs the **Next.js dev server**, not a production build. Fine for local/demo compose, but flagged here as a gap before any real deploy (`next build && next start`, or standalone output).
+- **`compose.yaml`**: `web` depends on a healthy `api` service; sets `API_INTERNAL_BASE_URL` (container-to-container) and `NEXT_PUBLIC_API_BASE_URL` (browser-facing); healthcheck does a plain `fetch('http://localhost:3000')`.
+- **No `next.config.*`** — default Next config, no rewrites/proxies, no `next/image` (plain `<img>` with `eslint-disable @next/next/no-img-element`).
+- **`tsconfig.json`**: `strict: true`, `moduleResolution: "bundler"`, single alias `"@/*": ["./*"]` used everywhere (`@/lib/...`, `@/components/...`).
+
+## Cross-Cutting Concerns
+
+- **Errors**: no `error.tsx` boundaries anywhere; `lib/api.ts` failures are caught per-page/component and rendered via `ErrorState` (with optional `onRetry`). Server Component pages catch fetch failures inline and render `ErrorState` rather than throwing.
+- **Loading**: no `loading.tsx` Suspense boundaries; `LoadingState` is rendered manually while `useState`-tracked data is pending. `useSearchParams()` usages (`login`, `organizer/events/new`) are wrapped in `<Suspense>` per Next's requirement.
+- **Not found**: only one `not-found.tsx`, scoped to `app/events/[eventId]/`, triggered via `notFound()` when the event fetch fails. No global `app/not-found.tsx`.
+- **Role mismatch**: reuses `UnauthorizedState` with login/register CTAs in-place, rather than redirecting away.
+
+## Known Gaps / Follow-ups
+
+- No edge/route-level auth (`middleware.ts`) — role gating is fully client-side and trusts the backend as final authority.
+- Token storage in `localStorage` (no HttpOnly cookie) — acceptable for now, revisit before hardening.
+- Container runs `next dev`, not a production build — revisit `Dockerfile` before any real deploy.
+- `docs/api-reference.md` drifts from the actual backend schema in places — see project memory `project-api-doc-drift`.
