@@ -2,17 +2,15 @@ import { SiteShell } from "@/components/shell/site-shell";
 import { LoadingState } from "@/components/states/loading-state";
 import { EventList } from "@/components/events/event-list";
 import { EventSearch } from "@/components/events/event-search";
+import { fetchPublicEvents } from "@/lib/api";
+import { mapEventSummary } from "@/lib/mappers";
 
-const featuredEvents = [
-  {
-    id: "event-1",
-    title: "Neon Horizon",
-    startsAt: "2026-09-10T20:00:00Z",
-    venueName: "Grand Cinema",
-  },
-];
-
-export default function HomePage() {
+export default async function HomePage() {
+  const featuredEvents = (await fetchPublicEvents())
+    .map(mapEventSummary)
+    .sort((left, right) =>
+      (left.startsAt ?? "").localeCompare(right.startsAt ?? ""),
+    );
 
   return (
     <SiteShell

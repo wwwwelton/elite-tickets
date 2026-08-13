@@ -37,3 +37,21 @@ export function postJson<T>(path: string, body: unknown, headers?: HeadersInit) 
     body: JSON.stringify(body),
   });
 }
+
+export type PublicEventApi = {
+  id: string;
+  title: string;
+  starts_at?: string;
+  venue_name?: string;
+  price?: string;
+  poster_url?: string;
+  overview?: string;
+};
+
+export async function fetchPublicEvents() {
+  return getJson<PublicEventApi[]>("/events");
+}
+
+export async function fetchPublicEvent(eventId: string) {
+  return getJson<PublicEventApi>(`/events/${eventId}`);
+}
