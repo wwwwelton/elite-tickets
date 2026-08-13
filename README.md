@@ -210,6 +210,37 @@ distintos. Em produção, limite `CORS_ORIGINS` às origens HTTPS esperadas e
 confirme os smoke checks descritos em
 [`quickstart.md`](specs/001-event-ticket-mvp/quickstart.md).
 
+### AWS (São Paulo — `sa-east-1`)
+
+[`infra/terraform`](infra/terraform) descreve a mesma topologia em Terraform
+para quem precisa rodar em AWS, na região sa-east-1 (a única região da AWS na
+América do Sul), em vez de depender de um PaaS:
+
+- **Rede:** VPC dedicada, sub-redes públicas (ALB, NAT) e privadas (ECS, RDS)
+  em duas zonas de disponibilidade;
+- **API e web:** dois serviços ECS Fargate atrás de um único Application Load
+  Balancer — `/` roteia para o `web`, e `/api/v1/*`, `/docs*` e `/health/*`
+  roteiam para a `api`, então o frontend e a API expõem uma origem só, sem
+  precisar de domínio/certificado adicional para funcionar;
+- **`web` → `api` interno:** um namespace privado do Cloud Map resolve
+  `api.elite-tickets.internal`, reproduzindo o `http://api:8000` que já existe
+  na rede do Compose;
+- **Banco:** RDS PostgreSQL 17 em sub-rede privada, acessível somente a partir
+  das tasks da família `api`;
+- **Segredos:** `JWT_SECRET`, `QR_SECRET`, `TICKETMASTER_API_KEY` e a
+  `DATABASE_URL` completa ficam no Secrets Manager e são injetados nas tasks
+  pelo ECS — nunca em variável de ambiente em texto plano nem na imagem;
+  `migrate` e `seed` continuam sendo tasks avulsas, disparadas manualmente
+  como no Compose, agora via `aws ecs run-task`;
+- **Expiração:** uma regra do EventBridge (`rate(1 minute)`) dispara a task de
+  expiração uma vez por minuto — o mesmo cron do `render.yaml`, mas sem manter
+  um container rodando o dia inteiro só para dormir entre execuções.
+
+O guia completo (pré-requisitos, `terraform apply`, build/push das imagens
+para o ECR, execução de `migrate`/`seed` e o que ainda falta — TLS, domínio
+próprio, autoscaling) está em
+[`infra/terraform/README.md`](infra/terraform/README.md).
+
 ## Troubleshooting
 
 - **Porta ocupada:** altere `POSTGRES_PORT` ou `API_PORT` no `.env` e
