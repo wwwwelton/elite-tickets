@@ -97,3 +97,40 @@ export function submitPayment(
     },
   );
 }
+
+export type TicketApi = {
+  id: string;
+  event_id: string;
+  owner_name: string;
+  status: "ACTIVE" | "USED" | "CANCELLED";
+  issued_at: string;
+  used_at?: string | null;
+  qr_credential: string;
+};
+
+export type TicketShareApi = {
+  share_url: string;
+};
+
+export type SharedTicketApi = {
+  id: string;
+  event_id: string;
+  event_title: string;
+  owner_name: string;
+  status: "ACTIVE" | "USED" | "CANCELLED";
+  issued_at: string;
+  used_at?: string | null;
+  qr_credential: string;
+};
+
+export function fetchMyTickets() {
+  return getJson<TicketApi[]>("/me/tickets");
+}
+
+export function createTicketShare(ticketId: string) {
+  return postJson<TicketShareApi>(`/me/tickets/${ticketId}/share`, {});
+}
+
+export function fetchSharedTicket(shareToken: string) {
+  return getJson<SharedTicketApi>(`/shared/tickets/${shareToken}`);
+}
