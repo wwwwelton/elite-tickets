@@ -3,12 +3,14 @@ from datetime import datetime
 from decimal import Decimal
 from urllib.parse import urlsplit
 
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import ColumnExpressionArgument, Text, func, or_, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.functions import Function
+
 from elite_tickets.db.base import utc_now
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
 from elite_tickets.shared.errors import DomainValidationError
-from pydantic import BaseModel, ConfigDict
-from sqlalchemy import func, or_, select, update
-from sqlalchemy.ext.asyncio import AsyncSession
 
 LEGACY_TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 DEFAULT_PAGE_SIZE = 20
@@ -74,6 +76,17 @@ def _escaped_search(value: str) -> str:
     return value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
 
 
+def _unaccent(value: ColumnExpressionArgument[str] | str) -> Function[str]:
+    """Fold diacritics so "sao paulo" matches "São Paulo".
+
+    ILIKE lowercases but keeps accents, and the catalog spans venues from any
+    country, many with accented titles and addresses that readers type
+    unaccented. unaccent() leaves the LIKE metacharacters and the backslash
+    escape untouched, so it composes with `_escaped_search` above.
+    """
+    return func.unaccent(value, type_=Text())
+
+
 async def finalize_ended_events(
     session: AsyncSession,
     *,
@@ -106,11 +119,16 @@ async def list_published_events(
     filters = [Event.state == EventState.PUBLISHED]
     normalized_query = query.strip() if query else ""
     if normalized_query:
-        pattern = f"%{_escaped_search(normalized_query)}%"
+        pattern = _unaccent(f"%{_escaped_search(normalized_query)}%")
         filters.append(
             or_(
-                MovieSnapshot.title.ilike(pattern, escape="\\"),
-                Event.venue_name.ilike(pattern, escape="\\"),
+                _unaccent(MovieSnapshot.title).ilike(pattern, escape="\\"),
+                _unaccent(Event.venue_name).ilike(pattern, escape="\\"),
+                # The catalog spans every country and region the feed reaches,
+                # and the city, state/region, and country live only in the
+                # address, so searching by place ("curitiba", "BA", "Lisboa",
+                # "US") needs this column too.
+                _unaccent(Event.venue_address).ilike(pattern, escape="\\"),
             )
         )
 

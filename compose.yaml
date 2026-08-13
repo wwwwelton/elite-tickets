@@ -13,7 +13,17 @@ x-api-service: &api-service
     JWT_SECRET: ${JWT_SECRET:-local-demo-jwt-secret-at-least-32-bytes}
     QR_SECRET: ${QR_SECRET:-local-demo-qr-secret-different-32-bytes}
     TICKETMASTER_API_KEY: ${TICKETMASTER_API_KEY:-local-demo-ticketmaster-key-not-used-by-seed}
-    CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+    CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:3001}
+  restart: unless-stopped
+
+x-web-service: &web-service
+  image: elite-tickets-web:local
+  build:
+    context: ./apps/web
+    dockerfile: Dockerfile
+  environment:
+    API_INTERNAL_BASE_URL: ${API_INTERNAL_BASE_URL:-http://api:8000/api/v1}
+    NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000/api/v1}
   restart: unless-stopped
 
 services:
@@ -43,11 +53,23 @@ services:
         condition: service_healthy
     restart: "no"
 
+  # Demo fixtures, so `docker compose up` lands on a browsable catalog instead of
+  # an empty one. Idempotent: events are matched on external id before insert, so
+  # re-running adds nothing. It also survives Ticketmaster being down or the API
+  # key being absent, falling back to the local purchase fixture alone.
+  seed:
+    <<: *api-service
+    command: ["python", "-m", "elite_tickets.seed_demo"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: "no"
+
   api:
     <<: *api-service
     command: ["uvicorn", "elite_tickets.main:app", "--host", "0.0.0.0", "--port", "8000"]
     depends_on:
-      migrate:
+      seed:
         condition: service_completed_successfully
     healthcheck:
       test:
@@ -75,6 +97,24 @@ services:
     depends_on:
       api:
         condition: service_healthy
+
+  web:
+    <<: *web-service
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://localhost:3000').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    ports:
+      - "${WEB_PORT:-3000}:3000"
 
 volumes:
   postgres_data:

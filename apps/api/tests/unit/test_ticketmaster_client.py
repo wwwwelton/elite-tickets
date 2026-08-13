@@ -5,6 +5,7 @@ from typing import Any
 
 import httpx
 import pytest
+
 from elite_tickets.catalog.errors import (
     CatalogAuthError,
     CatalogRateLimitError,
@@ -91,7 +92,6 @@ async def test_search_events_injects_api_key_and_normalizes_page(monkeypatch: py
                 "keyword": "show",
                 "page": "0",
                 "size": "20",
-                "countryCode": "BR",
             },
         }
     ]
@@ -109,6 +109,38 @@ async def test_search_events_injects_api_key_and_normalizes_page(monkeypatch: py
     assert page.items[0].venue_name == "Arena Elite"
     assert page.items[0].city == "São Paulo"
     assert page.items[0].country_code == "BR"
+
+
+@pytest.mark.asyncio
+async def test_search_events_supports_browsing_any_country_without_a_keyword() -> None:
+    calls: list[dict[str, Any]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(dict(request.url.params))
+        return httpx.Response(
+            200,
+            json={"_embedded": {"events": []}, "page": {"number": 0, "size": 20, "totalElements": 0}},
+        )
+
+    client = _client(handler)
+    try:
+        await client.search_events(country_code="US", city="Seattle")
+        await client.search_events()
+    finally:
+        await client._client.aclose()
+
+    assert calls[0] == {
+        "apikey": "test-ticketmaster-key",
+        "page": "0",
+        "size": "20",
+        "countryCode": "US",
+        "city": "Seattle",
+    }
+    assert calls[1] == {
+        "apikey": "test-ticketmaster-key",
+        "page": "0",
+        "size": "20",
+    }
 
 
 @pytest.mark.asyncio

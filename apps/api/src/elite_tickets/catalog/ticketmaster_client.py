@@ -6,6 +6,7 @@ import asyncio
 from typing import Any
 
 import httpx
+
 from elite_tickets.catalog.errors import (
     CatalogAuthError,
     CatalogRateLimitError,
@@ -29,23 +30,25 @@ class TicketmasterClient:
 
     async def search_events(
         self,
-        query: str,
+        query: str | None = None,
         *,
         page: int = 1,
         size: int = 20,
-        country_code: str = "BR",
+        country_code: str | None = None,
         city: str | None = None,
     ) -> CatalogPage:
-        normalized_query = query.strip()
-        if not normalized_query or page < 1 or size < 1:
+        normalized_query = (query or "").strip()
+        if page < 1 or size < 1:
             raise DomainValidationError("invalid Ticketmaster search")
 
         params: dict[str, Any] = {
-            "keyword": normalized_query,
             "page": page - 1,
             "size": size,
-            "countryCode": country_code or "BR",
         }
+        if normalized_query:
+            params["keyword"] = normalized_query
+        if country_code and country_code.strip():
+            params["countryCode"] = country_code.strip()
         if city:
             params["city"] = city.strip()
         payload = await self._request("events.json", params=params)

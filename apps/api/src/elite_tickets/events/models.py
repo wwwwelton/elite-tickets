@@ -5,14 +5,6 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from elite_tickets.auth.models import User
-from elite_tickets.db.base import (
-    Base,
-    TimestampMixin,
-    UUIDPrimaryKeyMixin,
-    enum_type,
-    utc_now,
-)
 from sqlalchemy import (
     CheckConstraint,
     Date,
@@ -27,6 +19,15 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from elite_tickets.auth.models import User
+from elite_tickets.db.base import (
+    Base,
+    TimestampMixin,
+    UUIDPrimaryKeyMixin,
+    enum_type,
+    utc_now,
+)
 
 
 class EventState(StrEnum):

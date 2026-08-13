@@ -1,0 +1,20 @@
+# Copy to terraform.tfvars (already gitignored) and fill in real values.
+# Never commit terraform.tfvars — it holds secrets.
+
+aws_region = "sa-east-1" # São Paulo, the only AWS South America region
+
+# Generate independent high-entropy values for each secret; never reuse
+# either value, exactly like the local .env setup.
+db_password           = "replace-with-a-strong-random-password"
+jwt_secret             = "replace-with-a-unique-random-jwt-secret-32b+"
+qr_secret              = "replace-with-a-different-random-qr-secret-32b+"
+ticketmaster_api_key   = "replace-with-your-ticketmaster-api-key"
+
+# Leave empty to default to the ALB's own origin (the API and the web app
+# share the same ALB DNS name, so this is normally all you need).
+cors_origins = ""
+
+# Set after the first `terraform apply` creates the ECR repositories and you
+# push real images; otherwise the services will fail to pull `:latest`.
+api_image_tag = "latest"
+web_image_tag = "latest"

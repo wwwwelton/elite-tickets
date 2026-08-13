@@ -5,6 +5,10 @@ from datetime import datetime
 from decimal import Decimal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.catalog.interfaces import CatalogProvider
 from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.db.base import utc_now
@@ -18,9 +22,6 @@ from elite_tickets.shared.errors import (
     ResourceNotFoundError,
 )
 from elite_tickets.tickets.models import Ticket, TicketStatus
-from pydantic import BaseModel, ConfigDict
-from sqlalchemy import select, update
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class OrganizerEvent(BaseModel):
@@ -40,6 +41,7 @@ class OrganizerEvent(BaseModel):
     sold_quantity: int
     available_quantity: int
     price: Decimal
+    is_owner: bool
 
 
 async def create_event_from_catalog(
@@ -82,27 +84,33 @@ async def create_event_from_catalog(
         sold_quantity=0,
         price=price,
         currency="BRL",
-        movie_snapshot=_snapshot(movie, external_id=normalized_external_id),
+        movie_snapshot=snapshot_from_catalog(movie, external_id=normalized_external_id),
     )
     session.add(event)
     await session.flush()
-    return _projection(event, event.movie_snapshot)
+    return _projection(event, event.movie_snapshot, viewer_id=organizer_id)
 
 
-async def list_owned_events(
+async def list_events(
     session: AsyncSession,
     *,
-    organizer_id: uuid.UUID,
+    viewer_id: uuid.UUID,
     at: datetime | None = None,
 ) -> list[OrganizerEvent]:
+    """List every event in the system, not only the caller's own.
+
+    Any organizer can browse the full catalog of events; `is_owner` tells the
+    caller which rows they are actually allowed to publish or cancel.
+    """
     await finalize_ended_events(session, at=at)
     rows = await session.execute(
         select(Event, MovieSnapshot)
         .join(MovieSnapshot)
-        .where(Event.organizer_id == organizer_id)
         .order_by(Event.starts_at, Event.id)
     )
-    return [_projection(event, snapshot) for event, snapshot in rows.all()]
+    return [
+        _projection(event, snapshot, viewer_id=viewer_id) for event, snapshot in rows.all()
+    ]
 
 
 async def get_owned_event(
@@ -122,7 +130,7 @@ async def get_owned_event(
         raise ResourceNotFoundError("event not found")
     if row.Event.organizer_id != organizer_id:
         raise PermissionDeniedError("event belongs to another organizer")
-    return _projection(*row)
+    return _projection(*row, viewer_id=organizer_id)
 
 
 async def publish_owned_event(
@@ -134,13 +142,31 @@ async def publish_owned_event(
 ) -> OrganizerEvent:
     now = at or utc_now()
     event = await _owned_event_for_update(session, event_id, organizer_id)
-    if event.state is not EventState.DRAFT or event.ends_at <= now:
-        raise ConflictError("only an active draft can be published")
+    if event.state is EventState.PUBLISHED:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento já está publicado no catálogo.",
+        )
+    if event.state is EventState.CANCELLED:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento foi cancelado e não pode mais ser publicado.",
+        )
+    if event.state is EventState.FINISHED:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento já foi encerrado e não pode mais ser publicado.",
+        )
+    if event.ends_at <= now:
+        raise ConflictError(
+            "only an active draft can be published",
+            public_message="Este evento já terminou e não pode mais ser publicado.",
+        )
     event.state = EventState.PUBLISHED
     event.published_at = now
     event.updated_at = now
     await session.flush()
-    return _projection(event, await _snapshot_for(session, event.id))
+    return _projection(event, await _snapshot_for(session, event.id), viewer_id=organizer_id)
 
 
 async def cancel_owned_event(
@@ -191,7 +217,7 @@ async def cancel_owned_event(
         .values(status=TicketStatus.CANCELLED)
     )
     await session.flush()
-    return _projection(event, await _snapshot_for(session, event.id))
+    return _projection(event, await _snapshot_for(session, event.id), viewer_id=organizer_id)
 
 
 async def _owned_event_for_update(
@@ -216,7 +242,16 @@ async def _snapshot_for(session: AsyncSession, event_id: uuid.UUID) -> MovieSnap
     return snapshot
 
 
-def _snapshot(movie: CatalogEventDetail, *, external_id: str) -> MovieSnapshot:
+def snapshot_from_catalog(
+    movie: CatalogEventDetail,
+    *,
+    external_id: str,
+) -> MovieSnapshot:
+    """Build the persisted snapshot for a catalog item.
+
+    Shared with the demo seed so seeded events carry the same provenance as
+    events created through the organizer flow.
+    """
     tmdb_id = _stable_snapshot_id(external_id)
     return MovieSnapshot(
         external_source="ticketmaster",
@@ -246,7 +281,7 @@ def _stable_snapshot_id(external_id: str) -> int:
     return value % 1_000_000_000 + 1
 
 
-def _projection(event: Event, snapshot: MovieSnapshot) -> OrganizerEvent:
+def _projection(event: Event, snapshot: MovieSnapshot, *, viewer_id: uuid.UUID) -> OrganizerEvent:
     return OrganizerEvent(
         id=event.id,
         state=event.state,
@@ -260,6 +295,7 @@ def _projection(event: Event, snapshot: MovieSnapshot) -> OrganizerEvent:
         capacity=event.capacity,
         reserved_quantity=event.reserved_quantity,
         sold_quantity=event.sold_quantity,
+        is_owner=event.organizer_id == viewer_id,
         available_quantity=event.available_quantity,
         price=event.price,
     )

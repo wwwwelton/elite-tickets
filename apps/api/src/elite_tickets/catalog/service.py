@@ -12,11 +12,11 @@ class CatalogService:
 
     async def search_events(
         self,
-        query: str,
+        query: str | None = None,
         *,
         page: int = 1,
         size: int = 20,
-        country_code: str = "BR",
+        country_code: str | None = None,
         city: str | None = None,
     ) -> CatalogPage:
         return await self._provider.search_events(

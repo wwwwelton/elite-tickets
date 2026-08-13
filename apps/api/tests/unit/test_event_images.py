@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 from decimal import Decimal
 
 import pytest
+
 from elite_tickets.db.base import uuid7
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
 from elite_tickets.events.organizer_service import _projection as organizer_projection
@@ -47,7 +48,10 @@ def test_public_and_organizer_projections_preserve_ticketmaster_snapshot_image()
     )
 
     assert public_projection(event, snapshot).poster_url == TICKETMASTER_IMAGE_URL
-    assert organizer_projection(event, snapshot).poster_url == TICKETMASTER_IMAGE_URL
+    assert (
+        organizer_projection(event, snapshot, viewer_id=event.organizer_id).poster_url
+        == TICKETMASTER_IMAGE_URL
+    )
 
 
 def test_poster_url_keeps_relative_legacy_paths_and_rejects_unsafe_urls() -> None:

@@ -11,6 +11,9 @@ os.environ.setdefault("QR_SECRET", "different-test-qr-secret-at-least-32-bytes")
 os.environ.setdefault("TMDB_API_KEY", "test-key")
 os.environ.setdefault("CORS_ORIGINS", "http://localhost:3000")
 
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from test_purchase_flow import commerce_fixture
+
 from elite_tickets.db.base import utc_now
 from elite_tickets.reservations.models import ReservationStatus
 from elite_tickets.reservations.service import (
@@ -19,8 +22,6 @@ from elite_tickets.reservations.service import (
     expire_pending_reservation,
     expire_pending_reservations,
 )
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from test_purchase_flow import commerce_fixture
 
 pytestmark = pytest.mark.integration
 

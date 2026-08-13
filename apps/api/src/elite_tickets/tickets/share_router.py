@@ -2,6 +2,11 @@ import uuid
 from datetime import datetime
 from typing import Annotated, Literal, cast
 
+from fastapi import APIRouter, Depends, Path, Response
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import require_roles
 from elite_tickets.db.session import get_session
@@ -13,10 +18,6 @@ from elite_tickets.tickets.share_service import (
     create_or_get_ticket_share,
     get_shared_ticket,
 )
-from fastapi import APIRouter, Depends, Path, Response
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(tags=["Tickets"])
 PRIVATE_HEADERS = {

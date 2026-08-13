@@ -1,5 +1,12 @@
 from typing import Annotated
 
+from fastapi import Depends, FastAPI, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.auth.router import router as auth_router
 from elite_tickets.catalog.router import router as catalog_router
 from elite_tickets.db.session import get_session
@@ -12,12 +19,6 @@ from elite_tickets.shared.logging import RequestLoggingMiddleware, configure_log
 from elite_tickets.tickets.gate_router import router as gate_router
 from elite_tickets.tickets.router import router as tickets_router
 from elite_tickets.tickets.share_router import router as share_router
-from fastapi import Depends, FastAPI, status
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from sqlalchemy import text
-from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.ext.asyncio import AsyncSession
 
 API_PREFIX = "/api/v1"
 

@@ -1,0 +1,350 @@
+{
+  "info": {
+    "_postman_id": "8f3dd04e-4f4f-4a36-9b2f-0f4e0b5c0e11",
+    "name": "Elite Tickets API",
+    "description": "Verified Elite Tickets backend routes for local development and manual API testing.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/token",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "token"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public Events",
+      "item": [
+        {
+          "name": "List Events",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/events?query=&page=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["events"],
+              "query": [
+                { "key": "query", "value": "" },
+                { "key": "page", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Event Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/events/{{eventId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", "{{eventId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "Create Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events/{{eventId}}/reservations",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", "{{eventId}}", "reservations"]
+            }
+          }
+        },
+        {
+          "name": "Simulated Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Idempotency-Key", "value": "{{reservationId}}:tok_approved" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_token\": \"tok_approved\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reservations/{{reservationId}}/payment",
+              "host": ["{{baseUrl}}"],
+              "path": ["reservations", "{{reservationId}}", "payment"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets",
+      "item": [
+        {
+          "name": "My Tickets",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/me/tickets",
+              "host": ["{{baseUrl}}"],
+              "path": ["me", "tickets"]
+            }
+          }
+        },
+        {
+          "name": "Create Share Link",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/me/tickets/{{ticketId}}/share",
+              "host": ["{{baseUrl}}"],
+              "path": ["me", "tickets", "{{ticketId}}", "share"]
+            }
+          }
+        },
+        {
+          "name": "Shared Ticket",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/shared/tickets/{{shareToken}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["shared", "tickets", "{{shareToken}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organizer",
+      "item": [
+        {
+          "name": "List Organizer Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/organizer/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["organizer", "events"]
+            }
+          }
+        },
+        {
+          "name": "Catalog Search",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/catalog/events?keyword=movie",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "events"],
+              "query": [
+                { "key": "keyword", "value": "movie" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Catalog Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/catalog/events/{{externalId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["catalog", "events", "{{externalId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_id\": \"tmdb-or-ticketmaster-id\",\n  \"venue_name\": \"Elite Arena\",\n  \"venue_address\": \"Main St 123\",\n  \"starts_at\": \"2026-08-20T19:30:00Z\",\n  \"ends_at\": \"2026-08-20T22:00:00Z\",\n  \"timezone\": \"America/Sao_Paulo\",\n  \"capacity\": 500,\n  \"price\": \"45.00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["events"]
+            }
+          }
+        },
+        {
+          "name": "Publish Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/events/{{eventId}}/publish",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", "{{eventId}}", "publish"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/events/{{eventId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", "{{eventId}}", "cancel"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gate",
+      "item": [
+        {
+          "name": "Gate Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gate/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["gate", "events"]
+            }
+          }
+        },
+        {
+          "name": "Validate Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Idempotency-Key", "value": "{{validationKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"credential\": \"signed-ticket-credential\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/gate/events/{{eventId}}/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["gate", "events", "{{eventId}}", "validate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Live",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrlNoVersion}}/health/live",
+              "host": ["{{baseUrlNoVersion}}"],
+              "path": ["health", "live"]
+            }
+          }
+        },
+        {
+          "name": "Ready",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrlNoVersion}}/health/ready",
+              "host": ["{{baseUrlNoVersion}}"],
+              "path": ["health", "ready"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000/api/v1"
+    },
+    {
+      "key": "baseUrlNoVersion",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "eventId",
+      "value": ""
+    },
+    {
+      "key": "reservationId",
+      "value": ""
+    },
+    {
+      "key": "ticketId",
+      "value": ""
+    },
+    {
+      "key": "shareToken",
+      "value": ""
+    },
+    {
+      "key": "externalId",
+      "value": ""
+    },
+    {
+      "key": "validationKey",
+      "value": "gate-validation-key"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: elite_tickets
+          POSTGRES_USER: elite_tickets
+          POSTGRES_PASSWORD: elite_tickets
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U elite_tickets -d elite_tickets"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://elite_tickets:elite_tickets@localhost:5432/elite_tickets
+      JWT_SECRET: ci-jwt-secret-at-least-32-bytes-long
+      QR_SECRET: ci-qr-secret-different-and-32-bytes
+      TICKETMASTER_API_KEY: ci-ticketmaster-key-not-used-in-tests
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: apps/api/pyproject.toml
+
+      - name: Install dependencies
+        run: pip install ".[test]"
+
+      - name: Run database migrations
+        run: alembic upgrade head
+
+      - name: Run test suite
+        run: pytest
+
+      - name: Run concurrency test suite
+        run: pytest -m concurrency -v
+
+  frontend:
+    name: Frontend (vitest + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run test suite
+        run: npm test -- --run
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_API_BASE_URL: http://localhost:8000/api/v1
+        run: npm run build
+
+  ci:
+    name: CI
+    if: always()
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require green backend and frontend jobs
+        run: |
+          if [ "${{ needs.backend.result }}" != "success" ] || [ "${{ needs.frontend.result }}" != "success" ]; then
+            echo "backend=${{ needs.backend.result }} frontend=${{ needs.frontend.result }}"
+            exit 1
+          fi

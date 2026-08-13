@@ -55,10 +55,15 @@ def test_verification_uses_fixed_algorithm_allowlist() -> None:
 
 def test_signature_tampering_is_rejected_without_sensitive_detail() -> None:
     credential = issue_qr_credential(uuid7(), uuid7())
-    replacement = "A" if credential.token[-1] != "A" else "B"
+    header, payload, signature = credential.token.split(".")
+    # Mutate the first signature character. Every one of its six bits reaches the
+    # decoded signature, unlike the last character of a 32-byte HS256 signature,
+    # whose two trailing bits are padding that base64 decoding discards: swapping
+    # those produces a different string that still verifies.
+    replacement = "A" if signature[0] != "A" else "B"
 
     with pytest.raises(InvalidQrCredential, match="^invalid ticket credential$"):
-        verify_qr_credential(f"{credential.token[:-1]}{replacement}")
+        verify_qr_credential(f"{header}.{payload}.{replacement}{signature[1:]}")
 
 
 def test_stored_nonce_hash_matches_sha256_of_signed_nonce() -> None:

@@ -131,7 +131,7 @@ async def resources(session: AsyncSession) -> OwnershipFixture:
     )
 
 
-async def test_organizer_cannot_list_or_mutate_another_organizers_event(
+async def test_organizer_can_list_but_not_mutate_another_organizers_event(
     client: AsyncClient,
     resources: OwnershipFixture,
 ) -> None:
@@ -148,7 +148,10 @@ async def test_organizer_cannot_list_or_mutate_another_organizers_event(
     )
 
     assert listed.status_code == 200
-    assert {item["id"] for item in listed.json()} == {str(resources.organizer_event.id)}
+    by_id = {item["id"]: item for item in listed.json()}
+    assert {str(resources.organizer_event.id), str(resources.other_event.id)} <= by_id.keys()
+    assert by_id[str(resources.organizer_event.id)]["is_owner"] is True
+    assert by_id[str(resources.other_event.id)]["is_owner"] is False
     assert foreign_publish.status_code == foreign_cancel.status_code == 403
     assert resources.other_event.state is EventState.PUBLISHED
     assert resources.other_event.cancelled_at is None

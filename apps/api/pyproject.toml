@@ -31,6 +31,15 @@ test = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/elite_tickets"]
 
+[tool.mypy]
+python_version = "3.12"
+# The package uses a src layout with implicit namespace packages, so mypy needs
+# the source root to map files to modules. Without it every `router.py` collides
+# with the others and the run aborts before checking anything.
+mypy_path = "src"
+explicit_package_bases = true
+packages = ["elite_tickets"]
+
 [tool.pytest.ini_options]
 addopts = ["--strict-config", "--strict-markers"]
 asyncio_mode = "auto"

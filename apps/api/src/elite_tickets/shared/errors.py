@@ -17,9 +17,16 @@ class ErrorResponse(BaseModel):
 class DomainError(Exception):
     status_code: ClassVar[int] = 500
     code: ClassVar[str] = "internal_error"
-    public_message: ClassVar[str] = "The operation could not be completed"
+    public_message: str = "The operation could not be completed"
 
-    def __init__(self, internal_detail: str | None = None) -> None:
+    def __init__(
+        self,
+        internal_detail: str | None = None,
+        *,
+        public_message: str | None = None,
+    ) -> None:
+        if public_message is not None:
+            self.public_message = public_message
         super().__init__(internal_detail or self.public_message)
 
 
@@ -44,7 +51,7 @@ class PermissionDeniedError(DomainError):
 class ConflictError(DomainError):
     status_code = 409
     code = "conflict"
-    public_message = "The operation conflicts with the current resource state"
+    public_message = "A operação conflita com o estado atual do recurso"
 
 
 class DependencyUnavailableError(DomainError):

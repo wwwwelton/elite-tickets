@@ -3,8 +3,6 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from elite_tickets.db.base import Base, UUIDPrimaryKeyMixin, utc_now
-from elite_tickets.tickets.models import Ticket
 from sqlalchemy import (
     CheckConstraint,
     DateTime,
@@ -14,6 +12,9 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from elite_tickets.db.base import Base, UUIDPrimaryKeyMixin, utc_now
+from elite_tickets.tickets.models import Ticket
 
 
 class TicketShare(UUIDPrimaryKeyMixin, Base):
