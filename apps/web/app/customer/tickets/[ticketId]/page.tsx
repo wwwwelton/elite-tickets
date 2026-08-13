@@ -39,6 +39,7 @@ function TicketDetail() {
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [sharing, setSharing] = useState(false);
   const [shareError, setShareError] = useState<string | null>(null);
+  const [credentialCopied, setCredentialCopied] = useState(false);
 
   const load = useCallback(() => {
     setError(null);
@@ -60,6 +61,17 @@ function TicketDetail() {
   }, [ticketId]);
 
   useEffect(load, [load]);
+
+  async function handleCopyCredential() {
+    if (!ticket) return;
+    try {
+      await navigator.clipboard.writeText(ticket.qr_credential);
+      setCredentialCopied(true);
+      window.setTimeout(() => setCredentialCopied(false), 2000);
+    } catch {
+      setCredentialCopied(false);
+    }
+  }
 
   async function handleShare() {
     setSharing(true);
@@ -123,6 +135,18 @@ function TicketDetail() {
 
           <div className="d-flex justify-content-center">
             <QrCode value={ticket.qr_credential} />
+          </div>
+
+          <div className="d-grid gap-1">
+            <p className="eyebrow mb-0">Credencial escaneada</p>
+            <p className="credential mb-0 text-break">{ticket.qr_credential}</p>
+            <button
+              className="btn btn-outline-light btn-sm"
+              type="button"
+              onClick={handleCopyCredential}
+            >
+              {credentialCopied ? "Copiado!" : "Copiar credencial"}
+            </button>
           </div>
 
           <div>
