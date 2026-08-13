@@ -1,9 +1,26 @@
 # EliteTickets
 
-Plataforma completa de eventos e ingressos desenvolvida para o Desafio Elite Dev
-2026. O MVP oferece catálogo público, gestão de eventos, reserva e pagamento
-simulados, ingressos com QR assinado, validação de portaria e compartilhamento
-público temporário.
+Plataforma completa de eventos e ingressos desenvolvida como case para o
+Desafio Elite Dev 2026. É uma **POC (prova de conceito)**, construída com
+**SDD (Spec-Driven Development)**, que oferece catálogo público, gestão de
+eventos, reserva e pagamento simulados, ingressos com QR assinado, validação
+de portaria e compartilhamento público temporário.
+
+## Metodologia
+
+O projeto foi construído com **SDD (Spec-Driven Development)** usando o
+[GitHub Spec Kit](https://github.com/github/spec-kit): cada funcionalidade
+nasce como uma especificação em `specs/<feature>/spec.md`, é detalhada em
+`plan.md`/`tasks.md`/`data-model.md` e só então implementada — a pasta
+`specs/` e as extensões em `.specify/` refletem esse fluxo feature a feature,
+do MVP (`001-event-ticket-mvp`) até o frontend completo
+(`005-complete-ticketing-frontend`). O direcionamento visual (`DESIGN.md`) foi
+prototipado no **Google Stitch** antes de virar tokens e componentes.
+
+A redação das especificações foi dividida por camada: a spec do backend foi
+feita com o **Codex** e a spec do frontend com o **Claude**, cada um
+responsável por detalhar as regras de negócio e a experiência da sua própria
+camada antes da implementação.
 
 ## Stack e requisitos
 
@@ -75,17 +92,18 @@ demo:
 - **Fixture local** (`Clube da Luta — Sessão Elite`): sempre criada, sem rede.
   É a garantia de que o fluxo de compra funciona mesmo sem a Ticketmaster.
 - **Snapshots da Ticketmaster**: com `TICKETMASTER_API_KEY` válida, o seed busca
-  os próximos eventos publicados no Brasil e grava até doze deles com o mesmo
-  formato de snapshot que o fluxo do organizador produz — título, pôster,
+  os próximos eventos publicados em qualquer país e grava até doze deles com o
+  mesmo formato de snapshot que o fluxo do organizador produz — título, pôster,
   categoria, local, endereço, cidade, data e fuso reais.
 
-A agenda brasileira da Ticketmaster é dominada por São Paulo e Rio, então pegar
-os primeiros por data deixaria o catálogo quase todo em São Paulo. A seleção é
-feita em rodízio por estado: cada UF com evento disponível entra antes que
-qualquer uma receba um segundo. Na prática o seed cobre uma dúzia de estados
-(SP, RJ, MG, PR, SC, RS, BA, PE, CE, PA, DF, RN), sempre priorizando as datas
-mais próximas dentro de cada UF. Aumentar `DEMO_CATALOG_EVENT_LIMIT` amplia
-primeiro a cobertura nacional e só depois adensa os estados maiores.
+A busca não é restrita a nenhum país: a agenda global da Ticketmaster é
+dominada por um punhado de cidades grandes, então pegar os primeiros por data
+deixaria o catálogo quase todo concentrado nelas. A seleção é feita em rodízio
+por local (país + estado/região, ou país + cidade quando não há estado): cada
+local com evento disponível entra antes que qualquer um receba um segundo,
+sempre priorizando as datas mais próximas dentro de cada um. Aumentar
+`DEMO_CATALOG_EVENT_LIMIT` amplia primeiro a cobertura global e só depois
+adensa os locais mais movimentados.
 
 Capacidade e preço não são publicados pelo catálogo: o seed usa
 `DEMO_CAPACITY`/`DEMO_PRICE` e só adota o preço do upstream quando ele existe em
