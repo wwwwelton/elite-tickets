@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { roleHomePath, toSessionState } from "@/lib/auth";
+import { registrationDependencyNotice } from "@/app/register/page";
 
 describe("auth routing", () => {
   it("routes each role to its role home", () => {
@@ -20,5 +21,9 @@ describe("auth routing", () => {
       expiresIn: 900,
       role: "CUSTOMER",
     });
+  });
+
+  it("keeps the customer registration dependency explicit", () => {
+    expect(registrationDependencyNotice).toContain("verified backend contract");
   });
 });
