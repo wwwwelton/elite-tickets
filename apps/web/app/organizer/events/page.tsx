@@ -1,4 +1,21 @@
 import { SiteShell } from "@/components/shell/site-shell";
+import {
+  cancelOrganizerEvent,
+  createOrganizerEvent,
+  fetchCatalogEventDetail,
+  fetchCatalogEvents,
+  fetchOrganizerEvents,
+  publishOrganizerEvent,
+} from "@/lib/api";
+
+const organizerApiSurface = {
+  cancelOrganizerEvent,
+  createOrganizerEvent,
+  fetchCatalogEventDetail,
+  fetchCatalogEvents,
+  fetchOrganizerEvents,
+  publishOrganizerEvent,
+};
 
 const organizerEvents = [
   {
@@ -28,6 +45,8 @@ const organizerEvents = [
 ];
 
 export default function OrganizerEventsPage() {
+  void organizerApiSurface;
+
   return (
     <SiteShell
       title="Dashboard"

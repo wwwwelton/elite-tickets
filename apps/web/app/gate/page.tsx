@@ -1,6 +1,14 @@
 import { SiteShell } from "@/components/shell/site-shell";
+import { fetchGateEvents, validateGateTicket } from "@/lib/api";
+
+const gateApiSurface = {
+  fetchGateEvents,
+  validateGateTicket,
+};
 
 export default function GateHomePage() {
+  void gateApiSurface;
+
   return (
     <SiteShell
       title="Gate Scanner"

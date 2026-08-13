@@ -134,3 +134,109 @@ export function createTicketShare(ticketId: string) {
 export function fetchSharedTicket(shareToken: string) {
   return getJson<SharedTicketApi>(`/shared/tickets/${shareToken}`);
 }
+
+export type GateEventApi = {
+  id: string;
+  title: string;
+  starts_at?: string;
+  venue_name?: string;
+  price?: string;
+  poster_url?: string;
+  overview?: string;
+};
+
+export type GateValidationApi = {
+  result: "VALID" | "INVALID" | "ALREADY_USED" | "WRONG_EVENT";
+  attempted_at: string;
+};
+
+export function fetchGateEvents() {
+  return getJson<GateEventApi[]>("/gate/events");
+}
+
+export function validateGateTicket(
+  eventId: string,
+  credential: string,
+  idempotencyKey: string,
+) {
+  return postJson<GateValidationApi>(
+    `/gate/events/${eventId}/validate`,
+    { credential },
+    {
+      "Idempotency-Key": idempotencyKey,
+    },
+  );
+}
+
+export type CatalogEventApi = {
+  external_id: string;
+  title: string;
+  description?: string | null;
+  image_url?: string | null;
+  external_url?: string | null;
+  category?: string | null;
+  date?: string | null;
+  venue_name?: string | null;
+  city?: string | null;
+  country_code?: string | null;
+  source: "ticketmaster";
+};
+
+export type CatalogPageApi = {
+  items: CatalogEventApi[];
+  page: number;
+  size: number;
+  total: number;
+  has_more: boolean;
+};
+
+export type OrganizerEventApi = {
+  id: string;
+  state: string;
+  title: string;
+  poster_url?: string | null;
+  starts_at: string;
+  ends_at: string;
+  timezone: string;
+  venue_name: string;
+  venue_address: string;
+  capacity: number;
+  reserved_quantity: number;
+  sold_quantity: number;
+  available_quantity: number;
+  price: string;
+};
+
+export function fetchCatalogEvents(keyword: string) {
+  const query = new URLSearchParams({ keyword });
+  return getJson<CatalogPageApi>(`/catalog/events?${query.toString()}`);
+}
+
+export function fetchCatalogEventDetail(externalId: string) {
+  return getJson<CatalogEventApi>(`/catalog/events/${externalId}`);
+}
+
+export function fetchOrganizerEvents() {
+  return getJson<OrganizerEventApi[]>("/organizer/events");
+}
+
+export function createOrganizerEvent(payload: {
+  external_id: string;
+  venue_name: string;
+  venue_address: string;
+  starts_at: string;
+  ends_at: string;
+  timezone: string;
+  capacity: number;
+  price: string;
+}) {
+  return postJson<OrganizerEventApi>("/events", payload);
+}
+
+export function publishOrganizerEvent(eventId: string) {
+  return postJson<OrganizerEventApi>(`/events/${eventId}/publish`, {});
+}
+
+export function cancelOrganizerEvent(eventId: string) {
+  return postJson<OrganizerEventApi>(`/events/${eventId}/cancel`, {});
+}
