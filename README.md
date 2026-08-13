@@ -62,6 +62,24 @@ Também é possível criar a própria conta em `/register`, escolhendo entre
 `CUSTOMER`, `ORGANIZER` e `GATE`. O papel retornado pela API decide para onde a
 sessão é direcionada.
 
+#### Eventos do seed
+
+O seed cria dois tipos de evento, ambos publicados e pertencentes ao ORGANIZER
+demo:
+
+- **Fixture local** (`Clube da Luta — Sessão Elite`): sempre criada, sem rede.
+  É a garantia de que o fluxo de compra funciona mesmo sem a Ticketmaster.
+- **Snapshots da Ticketmaster**: com `TICKETMASTER_API_KEY` válida, o seed busca
+  os próximos eventos publicados no Brasil e grava até seis deles com o mesmo
+  formato de snapshot que o fluxo do organizador produz — título, pôster,
+  categoria, local, endereço, cidade, data e fuso reais.
+
+Capacidade e preço não são publicados pelo catálogo: o seed usa
+`DEMO_CAPACITY`/`DEMO_PRICE` e só adota o preço do upstream quando ele existe em
+BRL. Se a Ticketmaster estiver indisponível ou a chave for inválida, o seed
+avisa no console e segue apenas com a fixture local. O seed é idempotente por
+`external_id`, então repetir o comando não duplica eventos.
+
 O evento publicado do seed permite percorrer o fluxo sem consultar a Ticketmaster. Na
 tela de pagamento, escolha um dos cartões simulados, que enviam os tokens
 aceitos pela API:

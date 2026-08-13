@@ -82,7 +82,7 @@ async def create_event_from_catalog(
         sold_quantity=0,
         price=price,
         currency="BRL",
-        movie_snapshot=_snapshot(movie, external_id=normalized_external_id),
+        movie_snapshot=snapshot_from_catalog(movie, external_id=normalized_external_id),
     )
     session.add(event)
     await session.flush()
@@ -216,7 +216,16 @@ async def _snapshot_for(session: AsyncSession, event_id: uuid.UUID) -> MovieSnap
     return snapshot
 
 
-def _snapshot(movie: CatalogEventDetail, *, external_id: str) -> MovieSnapshot:
+def snapshot_from_catalog(
+    movie: CatalogEventDetail,
+    *,
+    external_id: str,
+) -> MovieSnapshot:
+    """Build the persisted snapshot for a catalog item.
+
+    Shared with the demo seed so seeded events carry the same provenance as
+    events created through the organizer flow.
+    """
     tmdb_id = _stable_snapshot_id(external_id)
     return MovieSnapshot(
         external_source="ticketmaster",
