@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TopBar } from "@/components/shell/top-bar";
 import { RequireRole } from "@/components/shell/require-role";
+import { CameraScanner } from "@/components/gate/camera-scanner";
 import { GateStatus } from "@/components/gate/gate-status";
 import { EmptyState, ErrorState, LoadingState } from "@/components/states/states";
 import {
@@ -36,6 +37,7 @@ function GateScanner() {
   const [validation, setValidation] = useState<GateValidationApi | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [scanned, setScanned] = useState(0);
+  const inFlight = useRef(false);
 
   const load = useCallback(() => {
     setLoadError(null);
@@ -49,36 +51,53 @@ function GateScanner() {
 
   useEffect(load, [load]);
 
-  async function handleValidate(event: React.FormEvent) {
+  const submitCredential = useCallback(
+    async (value: string) => {
+      if (!eventId || !value.trim() || inFlight.current) {
+        return;
+      }
+
+      inFlight.current = true;
+      setValidating(true);
+      setError(null);
+
+      try {
+        // A fresh key per attempt: idempotency guards a retried submit, and must
+        // never mask ALREADY_USED when the same ticket is presented twice.
+        const result = await validateGateTicket(
+          eventId,
+          value.trim(),
+          crypto.randomUUID(),
+        );
+        setValidation(result);
+        setScanned((current) => current + 1);
+        setCredential("");
+      } catch (caught) {
+        setError(
+          caught instanceof ApiError
+            ? caught.message
+            : "The validation request failed. Check the connection and retry.",
+        );
+      } finally {
+        inFlight.current = false;
+        setValidating(false);
+      }
+    },
+    [eventId],
+  );
+
+  function handleValidate(event: React.FormEvent) {
     event.preventDefault();
-    if (!eventId || !credential.trim()) {
-      return;
-    }
-
-    setValidating(true);
-    setError(null);
-
-    try {
-      // A fresh key per attempt: idempotency guards a retried submit, and must
-      // never mask ALREADY_USED when the same ticket is presented twice.
-      const result = await validateGateTicket(
-        eventId,
-        credential.trim(),
-        crypto.randomUUID(),
-      );
-      setValidation(result);
-      setScanned((current) => current + 1);
-      setCredential("");
-    } catch (caught) {
-      setError(
-        caught instanceof ApiError
-          ? caught.message
-          : "The validation request failed. Check the connection and retry.",
-      );
-    } finally {
-      setValidating(false);
-    }
+    submitCredential(credential);
   }
+
+  const handleDecode = useCallback(
+    (value: string) => {
+      setCredential(value);
+      submitCredential(value);
+    },
+    [submitCredential],
+  );
 
   if (loadError) {
     return <ErrorState description={loadError} onRetry={load} />;
@@ -133,7 +152,7 @@ function GateScanner() {
       </section>
 
       <section className="bg-black border p-4 d-grid gap-3 justify-content-center text-center">
-        <div className="scanner-frame mx-auto" aria-hidden="true" />
+        <CameraScanner active={!validating} onDecode={handleDecode} />
         <p className="eyebrow mb-0">Point the reader at the ticket QR</p>
         <p className="text-secondary small mb-0">
           No camera on this device? Paste the credential below — the backend
