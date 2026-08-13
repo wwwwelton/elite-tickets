@@ -160,7 +160,7 @@
 - [X] T050 [P] Tighten accessibility labels, focus order, reduced-motion behavior, and contrast across `apps/web/components/` and `apps/web/app/`
 - [X] T051 [P] Align loading, empty, error, conflict, and success states across all flows in `apps/web/components/states/`
 - [X] T052 Run the validation scenarios from `specs/005-complete-ticketing-frontend/quickstart.md` against the implemented frontend
-- [ ] T053 Review and update frontend documentation references in `specs/005-complete-ticketing-frontend/quickstart.md` if any route behavior changed during implementation
+- [X] T053 Review and update frontend documentation references in `specs/005-complete-ticketing-frontend/quickstart.md` if any route behavior changed during implementation
 
 ---
 

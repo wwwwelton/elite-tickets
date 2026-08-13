@@ -54,7 +54,7 @@ Expected outcome: The organizer can manage owned events using only verified back
 ### 6. Gate validation
 
 1. Sign in as Gate Staff.
-2. Select a gate-eligible event.
+2. Open the Gate Scanner experience and select a gate-eligible event.
 3. Validate a ticket and verify each result state.
 4. Confirm manual entry remains available if camera access is unavailable.
 
@@ -65,4 +65,3 @@ Expected outcome: Gate validation clearly distinguishes valid, invalid, already-
 - Data model: [`data-model.md`](./data-model.md)
 - API surface: [`contracts/openapi.md`](./contracts/openapi.md)
 - Feature behavior: [`spec.md`](./spec.md)
-
