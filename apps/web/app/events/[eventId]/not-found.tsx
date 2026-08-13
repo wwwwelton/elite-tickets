@@ -7,11 +7,11 @@ export default function EventNotFound() {
     <AppShell backHref="/">
       <div className="container py-5">
         <EmptyState
-          title="Event unavailable"
-          description="This event is not published, was cancelled, or does not exist."
+          title="Evento indisponível"
+          description="Este evento não está publicado, foi cancelado ou não existe."
           action={
             <Link className="btn btn-primary" href="/">
-              Back to discovery
+              Voltar para a descoberta
             </Link>
           }
         />

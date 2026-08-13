@@ -83,17 +83,17 @@ async function toApiError(response: Response) {
 function describeStatus(status: number) {
   switch (status) {
     case 401:
-      return "Your session is no longer valid. Sign in again to continue.";
+      return "Sua sessão não é mais válida. Entre novamente para continuar.";
     case 403:
-      return "This action is not permitted for the current role.";
+      return "Esta ação não é permitida para o perfil atual.";
     case 404:
-      return "The requested resource was not found.";
+      return "O recurso solicitado não foi encontrado.";
     case 409:
-      return "This operation conflicts with the current state.";
+      return "Esta operação conflita com o estado atual.";
     case 422:
-      return "The supplied data is invalid.";
+      return "Os dados informados são inválidos.";
     default:
-      return "The operation could not be completed.";
+      return "A operação não pôde ser concluída.";
   }
 }
 
@@ -263,6 +263,7 @@ export type OrganizerEventApi = {
   sold_quantity: number;
   available_quantity: number;
   price: string;
+  is_owner: boolean;
 };
 
 export function fetchOrganizerEvents() {
@@ -326,9 +327,23 @@ export type CatalogPageApi = {
   has_more: boolean;
 };
 
-export function fetchCatalogEvents(keyword: string) {
-  const search = new URLSearchParams({ keyword });
-  return request<CatalogPageApi>(`/catalog/events?${search.toString()}`, {
+export function fetchCatalogEvents(params: {
+  keyword?: string;
+  countryCode?: string;
+  city?: string;
+} = {}) {
+  const search = new URLSearchParams();
+  if (params.keyword) {
+    search.set("keyword", params.keyword);
+  }
+  if (params.countryCode) {
+    search.set("countryCode", params.countryCode);
+  }
+  if (params.city) {
+    search.set("city", params.city);
+  }
+  const suffix = search.toString();
+  return request<CatalogPageApi>(`/catalog/events${suffix ? `?${suffix}` : ""}`, {
     auth: true,
   });
 }

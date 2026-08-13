@@ -24,7 +24,7 @@ export function EventSearch({
       }}
     >
       <label className="visually-hidden" htmlFor="event-search">
-        Search events
+        Buscar eventos
       </label>
       <input
         id="event-search"
@@ -32,12 +32,12 @@ export function EventSearch({
         type="search"
         name="query"
         autoFocus={autoFocus}
-        placeholder="Search events, movies, venues…"
+        placeholder="Buscar eventos, filmes, locais…"
         value={term}
         onChange={(event) => setTerm(event.target.value)}
       />
       <button className="btn btn-primary" type="submit">
-        Search
+        Buscar
       </button>
     </form>
   );

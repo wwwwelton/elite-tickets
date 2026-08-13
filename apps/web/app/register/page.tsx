@@ -9,9 +9,9 @@ import { roleHomePath, toSessionState, type SessionRole } from "@/lib/auth";
 import { useSession } from "@/lib/session";
 
 const roles: Array<{ value: SessionRole; label: string; hint: string }> = [
-  { value: "CUSTOMER", label: "Customer", hint: "Buy and manage tickets" },
-  { value: "ORGANIZER", label: "Organizer", hint: "Publish and manage events" },
-  { value: "GATE", label: "Gate staff", hint: "Validate tickets at the door" },
+  { value: "CUSTOMER", label: "Cliente", hint: "Comprar e gerenciar ingressos" },
+  { value: "ORGANIZER", label: "Organizador", hint: "Publicar e gerenciar eventos" },
+  { value: "GATE", label: "Portaria", hint: "Validar ingressos na entrada" },
 ];
 
 export default function RegisterPage() {
@@ -28,13 +28,13 @@ export default function RegisterPage() {
   function validate() {
     const errors: Record<string, string> = {};
     if (!displayName.trim()) {
-      errors.displayName = "Tell us the name shown on your tickets.";
+      errors.displayName = "Informe o nome que deve aparecer nos seus ingressos.";
     }
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
-      errors.email = "Enter a valid email address.";
+      errors.email = "Informe um e-mail válido.";
     }
     if (password.length < 8) {
-      errors.password = "Use at least 8 characters.";
+      errors.password = "Use pelo menos 8 caracteres.";
     }
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -66,10 +66,10 @@ export default function RegisterPage() {
     } catch (caught) {
       setError(
         caught instanceof ApiError && caught.status === 409
-          ? "That email is already registered. Sign in instead."
+          ? "Esse e-mail já está cadastrado. Entre com sua conta."
           : caught instanceof ApiError
             ? caught.message
-            : "The service is unavailable right now.",
+            : "O serviço está indisponível no momento.",
       );
       setPending(false);
     }
@@ -78,13 +78,13 @@ export default function RegisterPage() {
   return (
     <AppShell backHref="/login">
       <div className="container py-4" style={{ maxWidth: "34rem" }}>
-        <p className="eyebrow mb-1">Account</p>
-        <h1 className="display-5 text-cream mb-4">Create account</h1>
+        <p className="eyebrow mb-1">Conta</p>
+        <h1 className="display-5 text-cream mb-4">Criar conta</h1>
 
         <form className="d-grid gap-3" onSubmit={handleSubmit} noValidate>
           <div>
             <label className="form-label" htmlFor="register-name">
-              Display name
+              Nome exibido
             </label>
             <input
               id="register-name"
@@ -104,7 +104,7 @@ export default function RegisterPage() {
 
           <div>
             <label className="form-label" htmlFor="register-email">
-              Email
+              E-mail
             </label>
             <input
               id="register-email"
@@ -125,7 +125,7 @@ export default function RegisterPage() {
 
           <div>
             <label className="form-label" htmlFor="register-password">
-              Password
+              Senha
             </label>
             <input
               id="register-password"
@@ -142,12 +142,12 @@ export default function RegisterPage() {
                 {fieldErrors.password}
               </p>
             ) : (
-              <p className="text-secondary small mb-0 mt-1">Minimum 8 characters.</p>
+              <p className="text-secondary small mb-0 mt-1">Mínimo de 8 caracteres.</p>
             )}
           </div>
 
           <fieldset className="d-grid gap-2">
-            <legend className="form-label mb-0">Account type</legend>
+            <legend className="form-label mb-0">Tipo de conta</legend>
             {roles.map((option) => (
               <label
                 className={`card p-3 d-flex flex-row gap-3 align-items-center ${
@@ -178,13 +178,13 @@ export default function RegisterPage() {
           ) : null}
 
           <button className="btn btn-primary btn-lg" type="submit" disabled={pending}>
-            {pending ? "Creating account…" : "Create account"}
+            {pending ? "Criando conta…" : "Criar conta"}
           </button>
 
           <p className="mb-0">
-            Already registered?{" "}
+            Já possui cadastro?{" "}
             <Link className="text-cream" href="/login">
-              Sign in
+              Entrar
             </Link>
           </p>
         </form>

@@ -41,6 +41,7 @@ class OrganizerEvent(BaseModel):
     sold_quantity: int
     available_quantity: int
     price: Decimal
+    is_owner: bool
 
 
 async def create_event_from_catalog(
@@ -87,23 +88,29 @@ async def create_event_from_catalog(
     )
     session.add(event)
     await session.flush()
-    return _projection(event, event.movie_snapshot)
+    return _projection(event, event.movie_snapshot, viewer_id=organizer_id)
 
 
-async def list_owned_events(
+async def list_events(
     session: AsyncSession,
     *,
-    organizer_id: uuid.UUID,
+    viewer_id: uuid.UUID,
     at: datetime | None = None,
 ) -> list[OrganizerEvent]:
+    """List every event in the system, not only the caller's own.
+
+    Any organizer can browse the full catalog of events; `is_owner` tells the
+    caller which rows they are actually allowed to publish or cancel.
+    """
     await finalize_ended_events(session, at=at)
     rows = await session.execute(
         select(Event, MovieSnapshot)
         .join(MovieSnapshot)
-        .where(Event.organizer_id == organizer_id)
         .order_by(Event.starts_at, Event.id)
     )
-    return [_projection(event, snapshot) for event, snapshot in rows.all()]
+    return [
+        _projection(event, snapshot, viewer_id=viewer_id) for event, snapshot in rows.all()
+    ]
 
 
 async def get_owned_event(
@@ -123,7 +130,7 @@ async def get_owned_event(
         raise ResourceNotFoundError("event not found")
     if row.Event.organizer_id != organizer_id:
         raise PermissionDeniedError("event belongs to another organizer")
-    return _projection(*row)
+    return _projection(*row, viewer_id=organizer_id)
 
 
 async def publish_owned_event(
@@ -141,7 +148,7 @@ async def publish_owned_event(
     event.published_at = now
     event.updated_at = now
     await session.flush()
-    return _projection(event, await _snapshot_for(session, event.id))
+    return _projection(event, await _snapshot_for(session, event.id), viewer_id=organizer_id)
 
 
 async def cancel_owned_event(
@@ -192,7 +199,7 @@ async def cancel_owned_event(
         .values(status=TicketStatus.CANCELLED)
     )
     await session.flush()
-    return _projection(event, await _snapshot_for(session, event.id))
+    return _projection(event, await _snapshot_for(session, event.id), viewer_id=organizer_id)
 
 
 async def _owned_event_for_update(
@@ -256,7 +263,7 @@ def _stable_snapshot_id(external_id: str) -> int:
     return value % 1_000_000_000 + 1
 
 
-def _projection(event: Event, snapshot: MovieSnapshot) -> OrganizerEvent:
+def _projection(event: Event, snapshot: MovieSnapshot, *, viewer_id: uuid.UUID) -> OrganizerEvent:
     return OrganizerEvent(
         id=event.id,
         state=event.state,
@@ -270,6 +277,7 @@ def _projection(event: Event, snapshot: MovieSnapshot) -> OrganizerEvent:
         capacity=event.capacity,
         reserved_quantity=event.reserved_quantity,
         sold_quantity=event.sold_quantity,
+        is_owner=event.organizer_id == viewer_id,
         available_quantity=event.available_quantity,
         price=event.price,
     )

@@ -17,11 +17,11 @@ import { formatDate, formatMoney, formatTime } from "@/lib/format";
 export default function OrganizerEventsPage() {
   return (
     <StudioShell
-      eyebrow="Organizer studio"
-      title="Dashboard"
+      eyebrow="Estúdio do organizador"
+      title="Painel"
       action={
         <Link className="btn btn-primary" href="/organizer/events/new">
-          Create new event
+          Criar novo evento
         </Link>
       }
     >
@@ -43,7 +43,7 @@ function OrganizerEvents() {
     setEvents(null);
     fetchOrganizerEvents()
       .then(setEvents)
-      .catch(() => setError("Your events could not be loaded."));
+      .catch(() => setError("Os eventos não puderam ser carregados."));
   }, []);
 
   useEffect(load, [load]);
@@ -63,7 +63,7 @@ function OrganizerEvents() {
       setActionError(
         caught instanceof ApiError
           ? caught.message
-          : "The action could not be completed.",
+          : "A ação não pôde ser concluída.",
       );
     } finally {
       setBusyId(null);
@@ -75,17 +75,17 @@ function OrganizerEvents() {
   }
 
   if (!events) {
-    return <LoadingState label="Loading your events" />;
+    return <LoadingState label="Carregando eventos" />;
   }
 
   if (events.length === 0) {
     return (
       <EmptyState
-        title="No events yet"
-        description="Create an event from the external catalog to start selling."
+        title="Ainda não há eventos"
+        description="Nenhum organizador criou um evento ainda. Crie um a partir do catálogo externo para começar a vender."
         action={
           <Link className="btn btn-primary" href="/organizer/events/new">
-            Create new event
+            Criar novo evento
           </Link>
         }
       />
@@ -112,7 +112,12 @@ function OrganizerEvents() {
               )}
 
               <div className="card-body d-grid gap-2">
-                <span className="badge text-cream">{event.state}</span>
+                <div className="d-flex gap-2 flex-wrap">
+                  <span className="badge text-cream">{event.state}</span>
+                  {!event.is_owner ? (
+                    <span className="badge bg-secondary">Outro organizador</span>
+                  ) : null}
+                </div>
                 <h2 className="h4 text-cream mb-0">{event.title}</h2>
                 <p className="font-mono small text-secondary mb-0">
                   {formatDate(event.starts_at)} · {formatTime(event.starts_at)}
@@ -122,8 +127,8 @@ function OrganizerEvents() {
                 </p>
 
                 <dl className="row border-top pt-2 mb-0">
-                  <dt className="col-6 eyebrow">Sold</dt>
-                  <dd className="col-6 eyebrow text-end mb-0">Available</dd>
+                  <dt className="col-6 eyebrow">Vendidos</dt>
+                  <dd className="col-6 eyebrow text-end mb-0">Disponíveis</dd>
                   <dd className="col-6 h4 mb-0">{event.sold_quantity}</dd>
                   <dd className="col-6 h4 text-end mb-0">
                     {event.available_quantity}
@@ -132,24 +137,26 @@ function OrganizerEvents() {
 
                 <p className="font-mono mb-0">{formatMoney(event.price)}</p>
 
-                <div className="d-flex gap-2 flex-wrap">
-                  <button
-                    className="btn btn-outline-light btn-sm"
-                    type="button"
-                    disabled={busyId === event.id}
-                    onClick={() => runAction(event.id, publishOrganizerEvent)}
-                  >
-                    Publish
-                  </button>
-                  <button
-                    className="btn btn-outline-light btn-sm text-danger"
-                    type="button"
-                    disabled={busyId === event.id}
-                    onClick={() => runAction(event.id, cancelOrganizerEvent)}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                {event.is_owner ? (
+                  <div className="d-flex gap-2 flex-wrap">
+                    <button
+                      className="btn btn-outline-light btn-sm"
+                      type="button"
+                      disabled={busyId === event.id}
+                      onClick={() => runAction(event.id, publishOrganizerEvent)}
+                    >
+                      Publicar
+                    </button>
+                    <button
+                      className="btn btn-outline-light btn-sm text-danger"
+                      type="button"
+                      disabled={busyId === event.id}
+                      onClick={() => runAction(event.id, cancelOrganizerEvent)}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </article>
           </li>

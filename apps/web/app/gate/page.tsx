@@ -46,7 +46,7 @@ function GateScanner() {
         setEvents(list);
         setEventId((current) => current || list[0]?.id || "");
       })
-      .catch(() => setLoadError("Gate events could not be loaded."));
+      .catch(() => setLoadError("Os eventos da portaria não puderam ser carregados."));
   }, []);
 
   useEffect(load, [load]);
@@ -76,7 +76,7 @@ function GateScanner() {
         setError(
           caught instanceof ApiError
             ? caught.message
-            : "The validation request failed. Check the connection and retry.",
+            : "A validação falhou. Verifique a conexão e tente novamente.",
         );
       } finally {
         inFlight.current = false;
@@ -104,14 +104,14 @@ function GateScanner() {
   }
 
   if (!events) {
-    return <LoadingState label="Loading gate events" />;
+    return <LoadingState label="Carregando eventos da portaria" />;
   }
 
   if (events.length === 0) {
     return (
       <EmptyState
-        title="No events to validate"
-        description="There are no published events available for gate validation right now."
+        title="Nenhum evento para validar"
+        description="Não há eventos publicados disponíveis para validação no momento."
       />
     );
   }
@@ -128,7 +128,7 @@ function GateScanner() {
     <div className="d-grid gap-4">
       <section className="d-grid gap-2" aria-label="Active event">
         <label className="form-label mb-0" htmlFor="gate-event">
-          Active event gate
+          Evento ativo da portaria
         </label>
         <select
           id="gate-event"
@@ -145,30 +145,30 @@ function GateScanner() {
         {activeEvent ? (
           <p className="font-mono small text-secondary mb-0">
             {formatDate(activeEvent.starts_at)} · {formatTime(activeEvent.starts_at)} ·{" "}
-            {activeEvent.venue_name ?? "Venue"}
+            {activeEvent.venue_name ?? "Local"}
           </p>
         ) : null}
-        <p className="eyebrow mb-0">Checked this session: {scanned}</p>
+        <p className="eyebrow mb-0">Verificados nesta sessão: {scanned}</p>
       </section>
 
       <section className="bg-black border p-4 d-grid gap-3 justify-content-center text-center">
         <CameraScanner active={!validating} onDecode={handleDecode} />
-        <p className="eyebrow mb-0">Point the reader at the ticket QR</p>
+        <p className="eyebrow mb-0">Aponte o leitor para o QR do ingresso</p>
         <p className="text-secondary small mb-0">
-          No camera on this device? Paste the credential below — the backend
-          decides the outcome either way.
+          Sem câmera neste dispositivo? Cole a credencial abaixo - o backend
+          define o resultado de qualquer forma.
         </p>
       </section>
 
       <form className="d-grid gap-2" onSubmit={handleValidate}>
         <label className="form-label mb-0" htmlFor="gate-credential">
-          Manual credential entry
+          Entrada manual da credencial
         </label>
         <textarea
           id="gate-credential"
           className="form-control font-mono"
           rows={3}
-          placeholder="Paste the scanned credential"
+          placeholder="Cole a credencial escaneada"
           value={credential}
           onChange={(event) => setCredential(event.target.value)}
         />
@@ -184,8 +184,13 @@ function GateScanner() {
           type="submit"
           disabled={validating || !credential.trim()}
         >
-          {validating ? "Validating…" : "Validate ticket"}
+          {validating ? "Validando…" : "Validar ingresso"}
         </button>
+        {!validating && !credential.trim() ? (
+          <p className="text-secondary small mb-0">
+            Escaneie um QR ou cole uma credencial acima para habilitar a validação.
+          </p>
+        ) : null}
       </form>
     </div>
   );

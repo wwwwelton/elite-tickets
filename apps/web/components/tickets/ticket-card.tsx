@@ -28,7 +28,7 @@ export function TicketCard({
           </span>
         </div>
         <p className="font-mono small text-secondary mb-0">
-          {venueName ?? "Venue to confirm"}
+          {venueName ?? "Local a confirmar"}
         </p>
       </div>
 
@@ -38,15 +38,15 @@ export function TicketCard({
 
       <div className="p-3 d-flex justify-content-between gap-3">
         <span>
-          <span className="eyebrow d-block">Date</span>
+          <span className="eyebrow d-block">Data</span>
           <span className="font-mono">{formatDate(startsAt)}</span>
         </span>
         <span>
-          <span className="eyebrow d-block">Time</span>
+          <span className="eyebrow d-block">Hora</span>
           <span className="font-mono">{formatTime(startsAt)}</span>
         </span>
         <span className="text-end">
-          <span className="eyebrow d-block">Ticket</span>
+          <span className="eyebrow d-block">Ingresso</span>
           <span className="font-mono">{ticket.id.slice(0, 8)}</span>
         </span>
       </div>

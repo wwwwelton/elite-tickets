@@ -10,16 +10,16 @@ export function EventDetail({ event }: { event: PublicEventApi }) {
   return (
     <section className="d-grid gap-4" aria-label="Event details">
       <dl className="row row-cols-2 row-cols-md-4 g-3 mb-0">
-        <Fact label="Date" value={formatDate(event.starts_at)} />
-        <Fact label="Time" value={formatTime(event.starts_at)} />
-        <Fact label="Venue" value={event.venue_name ?? "To confirm"} />
-        <Fact label="Availability" value={availability.label} />
+        <Fact label="Data" value={formatDate(event.starts_at)} />
+        <Fact label="Hora" value={formatTime(event.starts_at)} />
+        <Fact label="Local" value={event.venue_name ?? "A confirmar"} />
+        <Fact label="Disponibilidade" value={availability.label} />
       </dl>
 
       {event.overview ? (
         <div className="d-grid gap-2">
           <h2 className="h4 text-cream border-start border-4 border-warning ps-3 mb-0">
-            Synopsis
+            Sinopse
           </h2>
           <p className="mb-0">{event.overview}</p>
         </div>
@@ -27,13 +27,13 @@ export function EventDetail({ event }: { event: PublicEventApi }) {
 
       <div className="d-flex flex-wrap gap-2">
         <span className="badge text-cream">
-          {seated ? "Assigned seating" : "Sectors"}
+          {seated ? "Assentos marcados" : "Setores"}
         </span>
-        <span className="badge text-secondary">Simulated payment</span>
+        <span className="badge text-secondary">Pagamento simulado</span>
         {availability.soldOut ? (
-          <span className="badge text-danger">Sold out</span>
+          <span className="badge text-danger">Esgotado</span>
         ) : availability.lowStock ? (
-          <span className="badge text-warning">Last tickets</span>
+          <span className="badge text-warning">Últimos ingressos</span>
         ) : null}
       </div>
     </section>

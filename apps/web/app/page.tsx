@@ -28,18 +28,18 @@ export default async function HomePage() {
         <EventSearch />
 
         {failed ? (
-          <ErrorState description="The event catalog is unavailable right now. Refresh the page to try again." />
+          <ErrorState description="O catálogo de eventos está indisponível no momento. Atualize a página para tentar novamente." />
         ) : events.length === 0 ? (
           <EmptyState
-            title="No published events yet"
-            description="As soon as an organizer publishes an event it shows up here, nearest date first."
+            title="Ainda não há eventos publicados"
+            description="Assim que um organizador publicar um evento, ele aparecerá aqui, com a data mais próxima primeiro."
           />
         ) : (
           <>
             <section className="d-grid gap-3">
               <div className="d-flex justify-content-between align-items-baseline border-bottom pb-2">
-                <h2 className="h4 text-cream mb-0">Now on sale</h2>
-                <span className="eyebrow mb-0">Nearest dates first</span>
+                <h2 className="h4 text-cream mb-0">À venda agora</h2>
+                <span className="eyebrow mb-0">Datas mais próximas primeiro</span>
               </div>
               <div className="rail pb-2">
                 {featured.map((event) => (
@@ -51,9 +51,9 @@ export default async function HomePage() {
             {rest.length > 0 ? (
               <section className="d-grid gap-3">
                 <div className="d-flex justify-content-between align-items-baseline border-bottom pb-2">
-                  <h2 className="h4 text-cream mb-0">All events</h2>
+                  <h2 className="h4 text-cream mb-0">Todos os eventos</h2>
                   <Link className="eyebrow text-cream mb-0" href="/search">
-                    View all
+                    Ver todos
                   </Link>
                 </div>
                 <EventList events={rest} />

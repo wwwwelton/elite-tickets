@@ -24,12 +24,14 @@ async def get_ticketmaster_client() -> AsyncIterator[TicketmasterClient]:
 
 @router.get("/events", response_model=CatalogPage)
 async def search_events(
-    keyword: Annotated[str, Query(min_length=1, max_length=200)],
     _: Annotated[User, Depends(require_roles(Role.ORGANIZER))],
     catalog: Annotated[CatalogProvider, Depends(get_ticketmaster_client)],
+    keyword: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
     page: Annotated[int, Query(ge=1)] = 1,
     size: Annotated[int, Query(ge=1, le=100)] = 20,
-    country_code: Annotated[str, Query(alias="countryCode", min_length=2, max_length=2)] = "BR",
+    country_code: Annotated[
+        str | None, Query(alias="countryCode", min_length=2, max_length=2)
+    ] = None,
     city: Annotated[str | None, Query(min_length=1, max_length=120)] = None,
 ) -> CatalogPage:
     service = CatalogService(catalog)

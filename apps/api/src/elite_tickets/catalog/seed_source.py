@@ -21,13 +21,13 @@ from elite_tickets.catalog.mapping import detail_from_ticketmaster
 from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.shared.config import get_settings
 
-SEED_COUNTRY_CODE = "BR"
-# The pool is read wide and then thinned per state. Ticketmaster returns Brazil
-# date-first, and São Paulo plus Rio are the bulk of any upcoming page, so a
-# narrow pool cannot represent the rest of the country.
+# The pool is read wide (worldwide, no country filter) and then thinned per
+# location. Any single country's upcoming listings tend to be dominated by a
+# couple of major cities, so a narrow pool cannot represent the rest of the
+# world.
 SEED_PAGE_SIZE = 100
 SEED_TIMEOUT_SECONDS = 10.0
-UNKNOWN_STATE = "?"
+UNKNOWN_LOCATION = "?"
 DEFAULT_TIMEZONE = "America/Sao_Paulo"
 DEFAULT_EVENT_DURATION = timedelta(hours=3)
 DEFAULT_START_HOUR = 20
@@ -53,7 +53,6 @@ async def fetch_seed_events(*, limit: int, now: datetime | None = None) -> list[
     api_key = settings.ticketmaster_api_key.get_secret_value()
     params: dict[str, str | int] = {
         "apikey": api_key,
-        "countryCode": SEED_COUNTRY_CODE,
         "size": SEED_PAGE_SIZE,
         "sort": "date,asc",
         "startDateTime": moment.strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -74,7 +73,7 @@ async def fetch_seed_events(*, limit: int, now: datetime | None = None) -> list[
             return []
 
         seen: set[str] = set()
-        by_state: dict[str, list[CatalogSeedEvent]] = {}
+        by_location: dict[str, list[CatalogSeedEvent]] = {}
         for raw in raw_events:
             if not isinstance(raw, dict):
                 continue
@@ -82,31 +81,31 @@ async def fetch_seed_events(*, limit: int, now: datetime | None = None) -> list[
             if candidate is None or candidate.detail.external_id in seen:
                 continue
             seen.add(candidate.detail.external_id)
-            by_state.setdefault(_state_code(raw), []).append(candidate)
+            by_location.setdefault(_location_code(raw), []).append(candidate)
 
         # The list payload often omits the street and city that the detail
         # payload carries, so prefer the detail when it is reachable. Only the
         # events that survive selection are worth a second request.
         return [
             await _detailed(client, candidate, api_key=api_key, after=moment)
-            for candidate in _spread_across_states(by_state, limit=limit)
+            for candidate in _spread_across_locations(by_location, limit=limit)
         ]
 
 
-def _spread_across_states(
-    by_state: dict[str, list[CatalogSeedEvent]],
+def _spread_across_locations(
+    by_location: dict[str, list[CatalogSeedEvent]],
     *,
     limit: int,
 ) -> list[CatalogSeedEvent]:
-    """Take one event per state before taking a second from any of them.
+    """Take one event per location before taking a second from any of them.
 
-    Upcoming Brazilian listings are dominated by São Paulo and Rio, so slicing
-    the date-sorted feed yields a demo catalog set almost entirely in São Paulo.
-    Round-robin gives every state that has an event a seat before the busy ones
-    get a second, while ordering states by their earliest event keeps the
-    soonest dates in front.
+    Upcoming listings are dominated by whichever handful of cities have the
+    most on sale, so slicing the date-sorted feed yields a demo catalog set
+    almost entirely from those. Round-robin gives every country/region that
+    has an event a seat before the busy ones get a second, while ordering
+    locations by their earliest event keeps the soonest dates in front.
     """
-    ordered = sorted(by_state.values(), key=lambda events: events[0].starts_at)
+    ordered = sorted(by_location.values(), key=lambda events: events[0].starts_at)
     selected: list[CatalogSeedEvent] = []
     for tier in zip_longest(*ordered):
         for candidate in tier:
@@ -118,9 +117,18 @@ def _spread_across_states(
     return selected
 
 
-def _state_code(raw: dict[str, Any]) -> str:
-    state = _mapping(_venue(raw).get("state"))
-    return _text(state.get("stateCode")) or _text(state.get("name")) or UNKNOWN_STATE
+def _location_code(raw: dict[str, Any]) -> str:
+    venue = _venue(raw)
+    country = _mapping(venue.get("country"))
+    state = _mapping(venue.get("state"))
+    country_code = _text(country.get("countryCode")) or _text(country.get("name"))
+    region = _text(state.get("stateCode")) or _text(state.get("name")) or _city_name(venue)
+    parts = [part for part in (country_code, region) if part]
+    return "-".join(parts) if parts else UNKNOWN_LOCATION
+
+
+def _city_name(venue: dict[str, Any]) -> str | None:
+    return _text(_mapping(venue.get("city")).get("name"))
 
 
 async def _detailed(
@@ -229,12 +237,14 @@ def _venue_address(venue: dict[str, Any], *, fallback: str) -> str:
     address = _mapping(venue.get("address"))
     city = _mapping(venue.get("city"))
     state = _mapping(venue.get("state"))
+    country = _mapping(venue.get("country"))
 
     parts = [
         _text(address.get("line1")),
         _text(city.get("name")),
         _text(state.get("stateCode")) or _text(state.get("name")),
         _text(venue.get("postalCode")),
+        _text(country.get("countryCode")) or _text(country.get("name")),
     ]
     joined = ", ".join(part for part in parts if part)
     return joined or fallback

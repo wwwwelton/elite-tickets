@@ -5,7 +5,7 @@ import { SessionProvider } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "Elite Tickets",
-  description: "Discover events, buy tickets, and validate entry.",
+  description: "Descubra eventos, compre ingressos e valide a entrada.",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-bs-theme="dark">
+    <html lang="pt-BR" data-bs-theme="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

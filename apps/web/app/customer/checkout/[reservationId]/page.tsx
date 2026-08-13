@@ -58,12 +58,12 @@ function CheckoutFlow() {
       const payment = await submitPayment(reservationId, token);
       setResult(payment);
     } catch (caught) {
-      setError(
-        caught instanceof ApiError && caught.status === 409
-          ? "This reservation is no longer payable — it expired or was already processed. Start a new order to continue."
+        setError(
+          caught instanceof ApiError && caught.status === 409
+          ? "Esta reserva não pode mais ser paga - ela expirou ou já foi processada. Inicie um novo pedido para continuar."
           : caught instanceof ApiError
             ? caught.message
-            : "The payment could not be submitted. Try again.",
+            : "O pagamento não pôde ser enviado. Tente novamente.",
       );
     } finally {
       setPending(false);
@@ -76,12 +76,12 @@ function CheckoutFlow() {
 
   if (!snapshot) {
     return (
-      <EmptyState
-        title="Order details are no longer in this browser"
-        description="Reservation summaries are kept for the current tab only. Pick your tickets again to restart the checkout."
+        <EmptyState
+        title="Os detalhes do pedido não estão mais neste navegador"
+        description="Os resumos de reserva ficam apenas na aba atual. Selecione os ingressos novamente para reiniciar o checkout."
         action={
           <Link className="btn btn-primary" href="/">
-            Back to discovery
+            Voltar para a descoberta
           </Link>
         }
       />
@@ -100,7 +100,7 @@ function CheckoutFlow() {
     <div className="d-grid gap-4">
       <header className="d-grid gap-1">
         <p className="eyebrow mb-0">Checkout</p>
-        <h1 className="display-5 text-cream mb-0">Review and pay</h1>
+        <h1 className="display-5 text-cream mb-0">Revisar e pagar</h1>
         <HoldCountdown
           expiresAt={snapshot.reservation.expires_at}
           onExpire={handleExpire}
@@ -108,15 +108,15 @@ function CheckoutFlow() {
       </header>
 
       <section className="card p-3 d-grid gap-2" aria-label="Customer information">
-        <h2 className="h5 text-cream mb-0">Customer</h2>
+        <h2 className="h5 text-cream mb-0">Cliente</h2>
         <dl className="row mb-0">
-          <dt className="col-5 fw-normal text-secondary">Name</dt>
+          <dt className="col-5 fw-normal text-secondary">Nome</dt>
           <dd className="col-7 font-mono mb-0">{session?.displayName}</dd>
-          <dt className="col-5 fw-normal text-secondary">Email</dt>
+          <dt className="col-5 fw-normal text-secondary">E-mail</dt>
           <dd className="col-7 font-mono mb-0">{session?.email}</dd>
         </dl>
         <p className="text-secondary small mb-0">
-          Tickets are issued to the signed-in account.
+          Os ingressos são emitidos para a conta autenticada.
         </p>
       </section>
 
@@ -128,10 +128,10 @@ function CheckoutFlow() {
 
       <section className="card p-3 d-grid gap-3" aria-label="Payment method">
         <div>
-          <h2 className="h5 text-cream mb-1">Payment</h2>
+          <h2 className="h5 text-cream mb-1">Pagamento</h2>
           <p className="text-secondary small mb-0">
-            Payment is simulated by the backend. Pick the outcome you want to
-            exercise.
+            O pagamento é simulado pelo backend. Escolha o resultado que você
+            deseja testar.
           </p>
         </div>
 
@@ -145,9 +145,9 @@ function CheckoutFlow() {
               onChange={() => setToken("tok_approved")}
             />
             <span>
-              <span className="d-block text-cream">Card ending 4242</span>
+              <span className="d-block text-cream">Cartão final 4242</span>
               <span className="d-block text-secondary small">
-                Simulated approval
+                Aprovação simulada
               </span>
             </span>
           </label>
@@ -161,9 +161,9 @@ function CheckoutFlow() {
               onChange={() => setToken("tok_declined")}
             />
             <span>
-              <span className="d-block text-cream">Card ending 0002</span>
+              <span className="d-block text-cream">Cartão final 0002</span>
               <span className="d-block text-secondary small">
-                Simulated decline
+                Recusa simulada
               </span>
             </span>
           </label>
@@ -177,7 +177,7 @@ function CheckoutFlow() {
 
         {expired ? (
           <div className="alert alert-warning mb-0" role="alert">
-            The reservation hold expired. Start a new order to buy these tickets.
+            O bloqueio da reserva expirou. Inicie um novo pedido para comprar estes ingressos.
           </div>
         ) : null}
 
@@ -188,12 +188,12 @@ function CheckoutFlow() {
           onClick={handlePayment}
         >
           {pending
-            ? "Submitting payment…"
+            ? "Enviando pagamento…"
             : `Pay ${formatMoney(snapshot.reservation.total_amount)}`}
         </button>
 
         <Link className="btn btn-outline-light" href={`/events/${snapshot.event.id}`}>
-          Back to event
+          Voltar ao evento
         </Link>
       </section>
     </div>
@@ -210,20 +210,20 @@ function DeclinedPanel({
   return (
     <div className="d-grid gap-4 text-center">
       <div>
-        <p className="eyebrow mb-1">Order {reservationId.slice(0, 8)}</p>
-        <h1 className="display-4 text-danger mb-1">Payment declined</h1>
+        <p className="eyebrow mb-1">Pedido {reservationId.slice(0, 8)}</p>
+        <h1 className="display-4 text-danger mb-1">Pagamento recusado</h1>
         <p className="text-secondary mb-0">
-          The backend closed this reservation, so it can no longer be paid. Your
-          seats were released — pick them again to retry with another method.
+          O backend encerrou esta reserva, então ela não pode mais ser paga. Seus
+          lugares foram liberados - escolha novamente para tentar outro método.
         </p>
       </div>
 
       <div className="d-grid gap-2">
         <Link className="btn btn-primary btn-lg" href={`/events/${eventId}/reserve`}>
-          Start a new order
+          Iniciar novo pedido
         </Link>
         <Link className="btn btn-outline-light" href={`/events/${eventId}`}>
-          Back to event
+          Voltar ao evento
         </Link>
       </div>
     </div>
@@ -234,10 +234,10 @@ function ApprovedPanel({ payment }: { payment: PaymentApi }) {
   return (
     <div className="d-grid gap-4 text-center">
       <div>
-        <p className="eyebrow mb-1">Order {payment.reservation.id.slice(0, 8)}</p>
-        <h1 className="display-4 text-cream mb-1">Payment approved</h1>
+        <p className="eyebrow mb-1">Pedido {payment.reservation.id.slice(0, 8)}</p>
+        <h1 className="display-4 text-cream mb-1">Pagamento aprovado</h1>
         <p className="text-secondary mb-0">
-          {payment.tickets.length} ticket(s) issued for{" "}
+          {payment.tickets.length} ingresso(s) emitido(s) para{" "}
           {formatMoney(payment.reservation.total_amount)}.
         </p>
       </div>
@@ -253,10 +253,10 @@ function ApprovedPanel({ payment }: { payment: PaymentApi }) {
 
       <div className="d-grid gap-2">
         <Link className="btn btn-primary btn-lg" href="/customer/tickets">
-          View my tickets
+          Ver meus ingressos
         </Link>
         <Link className="btn btn-outline-light" href="/">
-          Keep exploring
+          Continuar explorando
         </Link>
       </div>
     </div>

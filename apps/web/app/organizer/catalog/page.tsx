@@ -9,7 +9,7 @@ import { ApiError, fetchCatalogEvents, type CatalogEventApi } from "@/lib/api";
 
 export default function OrganizerCatalogPage() {
   return (
-    <StudioShell eyebrow="External catalog" title="Catalog">
+    <StudioShell eyebrow="Catálogo externo" title="Catálogo">
       <RequireRole role="ORGANIZER">
         <CatalogSearch />
       </RequireRole>
@@ -19,26 +19,35 @@ export default function OrganizerCatalogPage() {
 
 function CatalogSearch() {
   const [keyword, setKeyword] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [city, setCity] = useState("");
   const [items, setItems] = useState<CatalogEventApi[] | null>(null);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSearch(event: React.FormEvent) {
     event.preventDefault();
-    if (!keyword.trim()) {
+
+    const normalizedCountry = countryCode.trim();
+    if (normalizedCountry && normalizedCountry.length !== 2) {
+      setError("O país deve ser um código de 2 letras, como BR, US ou PT.");
       return;
     }
 
     setSearching(true);
     setError(null);
     try {
-      const page = await fetchCatalogEvents(keyword.trim());
+      const page = await fetchCatalogEvents({
+        keyword: keyword.trim() || undefined,
+        countryCode: normalizedCountry || undefined,
+        city: city.trim() || undefined,
+      });
       setItems(page.items);
     } catch (caught) {
       setError(
         caught instanceof ApiError
           ? caught.message
-          : "The catalog is unavailable right now.",
+          : "O catálogo está indisponível no momento.",
       );
     } finally {
       setSearching(false);
@@ -47,21 +56,53 @@ function CatalogSearch() {
 
   return (
     <div className="d-grid gap-3">
-      <form className="d-flex gap-2" onSubmit={handleSearch} role="search">
-        <label className="visually-hidden" htmlFor="catalog-search">
-          Search the catalog
-        </label>
-        <input
-          id="catalog-search"
-          className="form-control"
-          placeholder="Search movies, tours, and shows"
-          value={keyword}
-          onChange={(event) => setKeyword(event.target.value)}
-        />
-        <button className="btn btn-primary" type="submit" disabled={searching}>
-          {searching ? "Searching…" : "Search"}
-        </button>
+      <form className="row g-2 align-items-end" onSubmit={handleSearch} role="search">
+        <div className="col-12 col-md-5">
+          <label className="form-label" htmlFor="catalog-search">
+            Palavra-chave
+          </label>
+          <input
+            id="catalog-search"
+            className="form-control"
+            placeholder="Filmes, shows e eventos (opcional)"
+            value={keyword}
+            onChange={(event) => setKeyword(event.target.value)}
+          />
+        </div>
+        <div className="col-6 col-md-2">
+          <label className="form-label" htmlFor="catalog-country">
+            País
+          </label>
+          <input
+            id="catalog-country"
+            className="form-control"
+            placeholder="Qualquer"
+            maxLength={2}
+            value={countryCode}
+            onChange={(event) => setCountryCode(event.target.value.toUpperCase())}
+          />
+        </div>
+        <div className="col-6 col-md-3">
+          <label className="form-label" htmlFor="catalog-city">
+            Cidade
+          </label>
+          <input
+            id="catalog-city"
+            className="form-control"
+            placeholder="Qualquer"
+            value={city}
+            onChange={(event) => setCity(event.target.value)}
+          />
+        </div>
+        <div className="col-12 col-md-2">
+          <button className="btn btn-primary w-100" type="submit" disabled={searching}>
+            {searching ? "Buscando…" : "Buscar"}
+          </button>
+        </div>
       </form>
+      <p className="form-text text-secondary mt-0">
+        Deixe a palavra-chave e o país em branco para listar eventos de qualquer lugar do mundo.
+      </p>
 
       {error ? (
         <div className="alert alert-danger mb-0" role="alert">
@@ -71,8 +112,8 @@ function CatalogSearch() {
 
       {items && items.length === 0 ? (
         <EmptyState
-          title="No results"
-          description="Try another keyword to find a catalog title."
+          title="Nenhum resultado"
+          description="Tente outra palavra-chave, país ou cidade para encontrar um título no catálogo."
         />
       ) : null}
 
@@ -102,7 +143,7 @@ function CatalogSearch() {
                     className="btn btn-outline-light btn-sm"
                     href={`/organizer/events/new?external_id=${encodeURIComponent(item.external_id)}`}
                   >
-                    Use this title
+                    Usar este título
                   </Link>
                 </div>
               </article>

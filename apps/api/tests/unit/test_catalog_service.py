@@ -32,11 +32,11 @@ class RecordingProvider:
 
     async def search_events(
         self,
-        query: str,
+        query: str | None = None,
         *,
         page: int = 1,
         size: int = 20,
-        country_code: str = "BR",
+        country_code: str | None = None,
         city: str | None = None,
     ) -> CatalogPage:
         self.calls.append(
@@ -178,10 +178,35 @@ async def test_search_events_can_return_empty_results() -> None:
                 "query": "nothing",
                 "page": 1,
                 "size": 20,
-                "country_code": "BR",
+                "country_code": None,
                 "city": None,
             },
         )
     ]
     assert page.items == []
     assert page.total == 0
+
+
+@pytest.mark.asyncio
+async def test_search_events_can_browse_without_a_keyword() -> None:
+    provider = RecordingProvider(
+        result=CatalogPage(items=[], page=1, size=20, total=0, has_more=False),
+        calls=[],
+    )
+
+    service = CatalogService(provider)
+    page = await service.search_events()
+
+    assert provider.calls == [
+        (
+            "search_events",
+            {
+                "query": None,
+                "page": 1,
+                "size": 20,
+                "country_code": None,
+                "city": None,
+            },
+        )
+    ]
+    assert page.items == []

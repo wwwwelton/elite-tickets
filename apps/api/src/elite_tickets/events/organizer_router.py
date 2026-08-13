@@ -16,7 +16,7 @@ from elite_tickets.events.organizer_service import (
     OrganizerEvent,
     cancel_owned_event,
     create_event_from_catalog,
-    list_owned_events,
+    list_events,
     publish_owned_event,
 )
 
@@ -65,7 +65,7 @@ async def organizer_events(
     user: Annotated[User, Depends(require_roles(Role.ORGANIZER))],
     session: Annotated[AsyncSession, Depends(get_session)],
 ) -> list[OrganizerEvent]:
-    return await list_owned_events(session, organizer_id=user.id)
+    return await list_events(session, viewer_id=user.id)
 
 
 @router.post("/events/{eventId}/publish", response_model=OrganizerEvent)

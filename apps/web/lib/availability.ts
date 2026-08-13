@@ -18,7 +18,7 @@ export function availabilityOf(event: PublicEventApi): Availability {
       soldOut: false,
       lowStock: false,
       maxSelectable: MAX_TICKETS_PER_ORDER,
-      label: "On sale",
+      label: "À venda",
     };
   }
 
@@ -31,9 +31,9 @@ export function availabilityOf(event: PublicEventApi): Availability {
     maxSelectable: Math.min(MAX_TICKETS_PER_ORDER, remaining),
     label:
       remaining === 0
-        ? "Sold out"
+        ? "Esgotado"
         : capacity > 0
-          ? `${remaining} of ${capacity} available`
-          : `${remaining} available`,
+          ? `${remaining} de ${capacity} disponíveis`
+          : `${remaining} disponíveis`,
   };
 }

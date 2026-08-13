@@ -53,7 +53,7 @@ function ReserveFlow() {
     fetchPublicEvent(eventId)
       .then(setEvent)
       .catch(() =>
-        setLoadError("This event could not be loaded. It may no longer be on sale."),
+        setLoadError("Este evento não pôde ser carregado. Ele pode não estar mais à venda."),
       );
   }, [eventId]);
 
@@ -120,12 +120,12 @@ function ReserveFlow() {
       saveReservationSnapshot({ reservation, event, selection });
       router.push(`/customer/checkout/${reservation.id}`);
     } catch (caught) {
-      setSubmitError(
-        caught instanceof ApiError && caught.status === 409
-          ? "There are not enough tickets left for this quantity. Adjust your selection and try again."
+        setSubmitError(
+          caught instanceof ApiError && caught.status === 409
+          ? "Não há ingressos suficientes para essa quantidade. Ajuste sua seleção e tente novamente."
           : caught instanceof ApiError
             ? caught.message
-            : "The reservation could not be created. Try again.",
+            : "A reserva não pôde ser criada. Tente novamente.",
       );
       setSubmitting(false);
     }
@@ -136,7 +136,7 @@ function ReserveFlow() {
   }
 
   if (!event || !layout) {
-    return <LoadingState label="Loading the venue" />;
+    return <LoadingState label="Carregando o local" />;
   }
 
   return (
@@ -144,7 +144,7 @@ function ReserveFlow() {
       <header className="d-grid gap-1">
         <p className="eyebrow mb-0">
           {formatDate(event.starts_at)} · {formatTime(event.starts_at)} ·{" "}
-          {event.venue_name ?? "Venue to confirm"}
+          {event.venue_name ?? "Local a confirmar"}
         </p>
         <h1 className="display-5 text-cream mb-0">{event.title}</h1>
       </header>
@@ -153,12 +153,12 @@ function ReserveFlow() {
         <div className="col-12 col-lg-8">
           <div className="card p-3 p-lg-4">
             <h2 className="h5 text-cream mb-1">
-              {layout.mode === "seats" ? "Pick your seats" : "Pick your sectors"}
+              {layout.mode === "seats" ? "Escolha seus assentos" : "Escolha seus setores"}
             </h2>
             <p className="text-secondary small">
               {layout.mode === "seats"
-                ? "Choose where you want to sit. The seat map is a selection aid — the backend confirms the ticket quantity, and staff assign the final seats at the venue."
-                : "Choose how many tickets you want in each sector. Every sector uses the single price published by the organizer."}
+                ? "Escolha onde deseja sentar. O mapa de assentos é apenas um auxílio de seleção - o backend confirma a quantidade de ingressos e a equipe define os lugares finais no local."
+                : "Escolha quantos ingressos deseja em cada setor. Cada setor usa o preço único publicado pelo organizador."}
             </p>
 
             {layout.mode === "seats" ? (
@@ -182,11 +182,11 @@ function ReserveFlow() {
 
         <div className="col-12 col-lg-4">
           <div className="card p-3 d-grid gap-2">
-            <p className="eyebrow mb-0">Your order</p>
+            <p className="eyebrow mb-0">Seu pedido</p>
             <dl className="row mb-0">
-              <dt className="col-7 fw-normal text-secondary">Unit price</dt>
+              <dt className="col-7 fw-normal text-secondary">Preço unitário</dt>
               <dd className="col-5 text-end font-mono">{formatMoney(event.price)}</dd>
-              <dt className="col-7 fw-normal text-secondary">Tickets</dt>
+              <dt className="col-7 fw-normal text-secondary">Ingressos</dt>
               <dd className="col-5 text-end font-mono">{quantity}</dd>
             </dl>
 
@@ -203,7 +203,7 @@ function ReserveFlow() {
             </div>
 
             <p className="text-secondary small mb-0">
-              {availability.label} · up to {maxTickets} per order.
+              {availability.label} · até {maxTickets} por pedido.
             </p>
 
             {submitError ? (

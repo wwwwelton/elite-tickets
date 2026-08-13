@@ -8,11 +8,11 @@ from elite_tickets.catalog.schemas import CatalogEventDetail, CatalogPage
 class CatalogProvider(Protocol):
     async def search_events(
         self,
-        query: str,
+        query: str | None = None,
         *,
         page: int = 1,
         size: int = 20,
-        country_code: str = "BR",
+        country_code: str | None = None,
         city: str | None = None,
     ) -> CatalogPage:
         """Return normalized catalog search results."""

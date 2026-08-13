@@ -17,9 +17,9 @@ export type LoginResponse = {
 const STORAGE_KEY = "elite-tickets.session";
 
 export const ROLE_LABELS: Record<SessionRole, string> = {
-  CUSTOMER: "Customer",
-  ORGANIZER: "Organizer",
-  GATE: "Gate staff",
+  CUSTOMER: "Cliente",
+  ORGANIZER: "Organizador",
+  GATE: "Portaria",
 };
 
 export function roleHomePath(role: SessionRole) {

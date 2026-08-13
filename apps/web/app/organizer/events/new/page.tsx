@@ -17,7 +17,7 @@ import { formatMoney } from "@/lib/format";
 
 export default function NewOrganizerEventPage() {
   return (
-    <StudioShell eyebrow="New setup" title="Create event">
+    <StudioShell eyebrow="Nova configuração" title="Criar evento">
       <RequireRole role="ORGANIZER">
         <Suspense fallback={<LoadingState />}>
           <CreateEventWizard />
@@ -77,16 +77,16 @@ function CreateEventWizard() {
     setSearching(true);
     setSearchError(null);
     try {
-      const page = await fetchCatalogEvents(keyword.trim());
+      const page = await fetchCatalogEvents({ keyword: keyword.trim() });
       setResults(page.items);
       if (page.items.length === 0) {
-        setSearchError("No catalog titles matched that keyword.");
+        setSearchError("Nenhum título do catálogo correspondeu a essa palavra-chave.");
       }
     } catch (caught) {
       setSearchError(
         caught instanceof ApiError
           ? caught.message
-          : "The catalog search is unavailable right now.",
+          : "A busca no catálogo está indisponível no momento.",
       );
     } finally {
       setSearching(false);
@@ -101,7 +101,7 @@ function CreateEventWizard() {
 
   async function handleCreate(publishAfterCreate: boolean) {
     if (!selected || !date) {
-      setSubmitError("Select a catalog title and a show date first.");
+      setSubmitError("Selecione um título do catálogo e uma data de exibição primeiro.");
       return;
     }
 
@@ -129,7 +129,7 @@ function CreateEventWizard() {
       setSubmitError(
         caught instanceof ApiError
           ? caught.message
-          : "The event could not be created.",
+          : "O evento não pôde ser criado.",
       );
       setSubmitting(false);
     }
@@ -138,25 +138,25 @@ function CreateEventWizard() {
   return (
     <div className="row g-4">
       <div className="col-12 col-xl-8 d-grid gap-4">
-        <section className="card p-3 p-lg-4 d-grid gap-3" aria-label="Select a title">
+        <section className="card p-3 p-lg-4 d-grid gap-3" aria-label="Selecionar um título">
           <div>
-            <p className="eyebrow mb-1">1. Select title</p>
-            <h2 className="h4 text-cream mb-0">Search the external catalog</h2>
+            <p className="eyebrow mb-1">1. Selecionar título</p>
+            <h2 className="h4 text-cream mb-0">Buscar no catálogo externo</h2>
           </div>
 
           <form className="d-flex gap-2" onSubmit={handleSearch}>
             <label className="visually-hidden" htmlFor="catalog-keyword">
-              Catalog keyword
+              Palavra-chave do catálogo
             </label>
             <input
               id="catalog-keyword"
               className="form-control"
-              placeholder="Movie, tour, or show name"
+              placeholder="Nome do filme, show ou evento"
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
             />
             <button className="btn btn-primary" type="submit" disabled={searching}>
-              {searching ? "Searching…" : "Search"}
+              {searching ? "Buscando…" : "Buscar"}
             </button>
           </form>
 
@@ -204,16 +204,16 @@ function CreateEventWizard() {
           </ul>
         </section>
 
-        <section className="card p-3 p-lg-4 d-grid gap-3" aria-label="Logistics">
+        <section className="card p-3 p-lg-4 d-grid gap-3" aria-label="Logística">
           <div>
-            <p className="eyebrow mb-1">2. Logistics</p>
-            <h2 className="h4 text-cream mb-0">Schedule, venue, and pricing</h2>
+            <p className="eyebrow mb-1">2. Logística</p>
+            <h2 className="h4 text-cream mb-0">Agenda, local e preço</h2>
           </div>
 
           <div className="row g-3">
             <div className="col-12 col-md-6">
               <label className="form-label" htmlFor="event-date">
-                Show date
+                Data do show
               </label>
               <input
                 id="event-date"
@@ -225,7 +225,7 @@ function CreateEventWizard() {
             </div>
             <div className="col-6 col-md-3">
               <label className="form-label" htmlFor="event-start">
-                Start
+                Início
               </label>
               <input
                 id="event-start"
@@ -237,7 +237,7 @@ function CreateEventWizard() {
             </div>
             <div className="col-6 col-md-3">
               <label className="form-label" htmlFor="event-end">
-                End
+                Fim
               </label>
               <input
                 id="event-end"
@@ -249,7 +249,7 @@ function CreateEventWizard() {
             </div>
             <div className="col-12 col-md-6">
               <label className="form-label" htmlFor="event-venue">
-                Venue name
+                Nome do local
               </label>
               <input
                 id="event-venue"
@@ -260,7 +260,7 @@ function CreateEventWizard() {
             </div>
             <div className="col-12 col-md-6">
               <label className="form-label" htmlFor="event-address">
-                Venue address
+                Endereço do local
               </label>
               <input
                 id="event-address"
@@ -304,16 +304,16 @@ function CreateEventWizard() {
 
       <div className="col-12 col-xl-4">
         <aside className="card p-3 d-grid gap-3" aria-label="Live preview">
-          <p className="eyebrow mb-0">Live preview</p>
+          <p className="eyebrow mb-0">Prévia ao vivo</p>
 
           <div className="stub">
             <div className="p-3 d-grid gap-1">
               <span className="badge text-cream">Draft</span>
               <h3 className="h4 text-cream mb-0">
-                {selected?.title ?? "Select a title"}
+                {selected?.title ?? "Selecione um título"}
               </h3>
               <p className="font-mono small text-secondary mb-0">
-                {venueName || "Venue"}
+                {venueName || "Local"}
               </p>
             </div>
             <div className="perf d-flex align-items-center px-3">
@@ -321,15 +321,15 @@ function CreateEventWizard() {
             </div>
             <div className="p-3 d-flex justify-content-between">
               <span>
-                <span className="eyebrow d-block">Date</span>
+                <span className="eyebrow d-block">Data</span>
                 <span className="font-mono">{date || "—"}</span>
               </span>
               <span>
-                <span className="eyebrow d-block">Time</span>
+                <span className="eyebrow d-block">Hora</span>
                 <span className="font-mono">{startTime}</span>
               </span>
               <span className="text-end">
-                <span className="eyebrow d-block">Price</span>
+                <span className="eyebrow d-block">Preço</span>
                 <span className="font-mono">{formatMoney(price)}</span>
               </span>
             </div>
@@ -347,7 +347,7 @@ function CreateEventWizard() {
             disabled={submitting || !selected}
             onClick={() => handleCreate(true)}
           >
-            {submitting ? "Working…" : "Create and publish"}
+            {submitting ? "Processando…" : "Criar e publicar"}
           </button>
           <button
             className="btn btn-outline-light"
@@ -355,7 +355,7 @@ function CreateEventWizard() {
             disabled={submitting || !selected}
             onClick={() => handleCreate(false)}
           >
-            Save as draft
+            Salvar como rascunho
           </button>
         </aside>
       </div>

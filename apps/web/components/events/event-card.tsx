@@ -12,9 +12,9 @@ export function EventCard({
 }) {
   const availability = availabilityOf(event);
   const flag = availability.soldOut
-    ? "Sold out"
+    ? "Esgotado"
     : availability.lowStock
-      ? "Last tickets"
+      ? "Últimos ingressos"
       : badge;
 
   return (
@@ -42,7 +42,7 @@ export function EventCard({
         ) : null}
       </div>
       <div className="card-body d-grid gap-1">
-        <p className="eyebrow mb-0">{event.venue_name ?? "Venue to confirm"}</p>
+        <p className="eyebrow mb-0">{event.venue_name ?? "Local a confirmar"}</p>
         <h3 className="h5 text-cream mb-0">{event.title}</h3>
         <div className="d-flex justify-content-between align-items-baseline">
           <span className="font-mono small text-secondary">

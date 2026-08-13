@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ROLE_LABELS } from "@/lib/auth";
+import { ROLE_LABELS, roleHomePath } from "@/lib/auth";
 import { useSession } from "@/lib/session";
 
 export function TopBar({ backHref }: { backHref?: string }) {
@@ -17,12 +17,12 @@ export function TopBar({ backHref }: { backHref?: string }) {
             <Link
               className="btn btn-outline-light btn-sm"
               href={backHref}
-              aria-label="Go back"
+              aria-label="Voltar"
             >
               ←
             </Link>
           ) : null}
-          <Link className="brand" href="/">
+          <Link className="brand" href={session ? roleHomePath(session.role) : "/"}>
             <span className="brand__mark" aria-hidden="true">
               ET
             </span>
@@ -44,16 +44,16 @@ export function TopBar({ backHref }: { backHref?: string }) {
                   router.push("/");
                 }}
               >
-                Sign out
+                Sair
               </button>
             </>
           ) : (
             <>
               <Link className="btn btn-outline-light btn-sm" href="/login">
-                Sign in
+                Entrar
               </Link>
               <Link className="btn btn-primary btn-sm" href="/register">
-                Create account
+                Criar conta
               </Link>
             </>
           )}

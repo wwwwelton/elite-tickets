@@ -5,7 +5,7 @@ import { encodeQr } from "@/lib/qr";
 
 export function QrCode({
   value,
-  label = "Ticket QR credential",
+  label = "Credencial QR do ingresso",
 }: {
   value: string;
   label?: string;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-export function LoadingState({ label = "Loading" }: { label?: string }) {
+export function LoadingState({ label = "Carregando" }: { label?: string }) {
   return (
     <div className="d-flex align-items-center gap-3 py-4" role="status">
       <span className="spinner-border spinner-border-sm text-warning" aria-hidden="true" />
@@ -29,7 +29,7 @@ export function EmptyState({
 }
 
 export function ErrorState({
-  title = "Something went wrong",
+  title = "Algo deu errado",
   description,
   onRetry,
 }: {
@@ -43,7 +43,7 @@ export function ErrorState({
       <p className="mb-0">{description}</p>
       {onRetry ? (
         <button className="btn btn-outline-light btn-sm mt-3" type="button" onClick={onRetry}>
-          Try again
+          Tentar novamente
         </button>
       ) : null}
     </div>
@@ -51,8 +51,8 @@ export function ErrorState({
 }
 
 export function UnauthorizedState({
-  title = "Sign in to continue",
-  description = "This area requires an authenticated account with the correct role.",
+  title = "Entre para continuar",
+  description = "Esta área exige uma conta autenticada com o perfil correto.",
 }: {
   title?: string;
   description?: string;
@@ -63,10 +63,10 @@ export function UnauthorizedState({
       <p className="text-secondary">{description}</p>
       <div className="d-flex flex-wrap gap-2 justify-content-center">
         <Link className="btn btn-primary" href="/login">
-          Sign in
+          Entrar
         </Link>
         <Link className="btn btn-outline-light" href="/register">
-          Create account
+          Criar conta
         </Link>
       </div>
     </div>

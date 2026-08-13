@@ -15,7 +15,7 @@ export function RequireRole({
   const { session, ready } = useSession();
 
   if (!ready) {
-    return <LoadingState label="Checking your session" />;
+    return <LoadingState label="Verificando sua sessão" />;
   }
 
   if (!session) {
@@ -25,8 +25,8 @@ export function RequireRole({
   if (session.role !== role) {
     return (
       <UnauthorizedState
-        title="Wrong role for this area"
-        description={`This area is reserved for the ${role.toLowerCase()} role. The backend remains the authority on every action.`}
+        title="Perfil incorreto para esta área"
+        description={`Esta área é reservada para o perfil ${role.toLowerCase()}. O backend continua sendo a autoridade em cada ação.`}
       />
     );
   }

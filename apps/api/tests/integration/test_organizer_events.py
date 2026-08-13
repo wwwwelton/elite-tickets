@@ -23,7 +23,7 @@ from elite_tickets.events.organizer_service import (
     OrganizerEvent,
     cancel_owned_event,
     create_event_from_catalog,
-    list_owned_events,
+    list_events,
     publish_owned_event,
 )
 from elite_tickets.reservations.models import ReservationStatus
@@ -174,7 +174,17 @@ async def test_snapshot_is_saved_as_draft_and_owned_publication_is_enforced(sess
         await publish_owned_event(session, event_id=created.id, organizer_id=other.id, at=now)
     published = await publish_owned_event(session, event_id=created.id, organizer_id=organizer.id, at=now)
     assert published.state is EventState.PUBLISHED
-    assert (await list_owned_events(session, organizer_id=organizer.id, at=now))[0].title == "Immutable Event"
+
+    owner_view = await list_events(session, viewer_id=organizer.id, at=now)
+    owner_match = next(event for event in owner_view if event.id == created.id)
+    assert owner_match.title == "Immutable Event"
+    assert owner_match.is_owner is True
+
+    # Listing is global: any organizer sees every event, but only owns theirs.
+    other_view = await list_events(session, viewer_id=other.id, at=now)
+    other_match = next(event for event in other_view if event.id == created.id)
+    assert other_match.title == "Immutable Event"
+    assert other_match.is_owner is False
 
 
 async def test_owned_listing_temporally_finishes_ended_event(session: AsyncSession) -> None:
@@ -183,9 +193,10 @@ async def test_owned_listing_temporally_finishes_ended_event(session: AsyncSessi
     created, _ = await draft(session, organizer, now=now)
     await publish_owned_event(session, event_id=created.id, organizer_id=organizer.id, at=now)
 
-    listed = await list_owned_events(session, organizer_id=organizer.id, at=now + timedelta(days=2))
+    listed = await list_events(session, viewer_id=organizer.id, at=now + timedelta(days=2))
+    match = next(event for event in listed if event.id == created.id)
 
-    assert listed[0].state is EventState.FINISHED
+    assert match.state is EventState.FINISHED
 
 
 async def test_cancellation_atomically_releases_pending_and_cancels_ticket(session: AsyncSession) -> None:

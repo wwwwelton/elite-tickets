@@ -49,7 +49,7 @@ function TicketsList() {
           Object.fromEntries(resolved.filter((entry) => entry !== null)),
         );
       })
-      .catch(() => setError("Your tickets could not be loaded."));
+      .catch(() => setError("Seus ingressos não puderam ser carregados."));
   }, []);
 
   useEffect(load, [load]);
@@ -59,17 +59,17 @@ function TicketsList() {
   }
 
   if (!tickets) {
-    return <LoadingState label="Loading your tickets" />;
+    return <LoadingState label="Carregando seus ingressos" />;
   }
 
   if (tickets.length === 0) {
     return (
       <EmptyState
-        title="No tickets yet"
-        description="Once a payment is approved your tickets appear here, newest first."
+        title="Ainda não há ingressos"
+        description="Assim que um pagamento for aprovado, seus ingressos aparecerão aqui, do mais recente para o mais antigo."
         action={
           <Link className="btn btn-primary" href="/">
-            Find an event
+            Encontrar um evento
           </Link>
         }
       />
@@ -78,7 +78,7 @@ function TicketsList() {
 
   return (
     <div className="d-grid gap-3">
-      <h1 className="display-5 text-cream mb-0">My tickets</h1>
+      <h1 className="display-5 text-cream mb-0">Meus ingressos</h1>
       <ul className="list-unstyled row row-cols-1 row-cols-md-2 g-3 mb-0">
         {tickets.map((ticket) => {
           const event = events[ticket.event_id];
@@ -86,7 +86,7 @@ function TicketsList() {
             <li className="col" key={ticket.id}>
               <TicketCard
                 ticket={ticket}
-                eventTitle={event?.title ?? "Event"}
+                eventTitle={event?.title ?? "Evento"}
                 venueName={event?.venue_name}
                 startsAt={event?.starts_at}
               />

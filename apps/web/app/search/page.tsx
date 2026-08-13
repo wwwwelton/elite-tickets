@@ -26,24 +26,24 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     <AppShell>
       <div className="container py-4 d-grid gap-4">
         <div className="d-grid gap-2">
-          <p className="eyebrow mb-0">Search</p>
+          <p className="eyebrow mb-0">Busca</p>
           <h1 className="h2 text-cream mb-0">
-            {query ? `Results for “${query}”` : "Browse every published event"}
+            {query ? `Resultados para “${query}”` : "Navegue por todos os eventos publicados"}
           </h1>
         </div>
 
         <EventSearch initialValue={query} autoFocus />
 
         {failed ? (
-          <ErrorState description="The search could not be completed. Try again in a moment." />
+          <ErrorState description="A busca não pôde ser concluída. Tente novamente em instantes." />
         ) : events.length === 0 ? (
           <EmptyState
-            title="No matching events"
-            description="Try a different title, venue, or clear the search to see everything on sale."
+            title="Nenhum evento correspondente"
+            description="Tente outro título, local ou limpe a busca para ver tudo que está à venda."
           />
         ) : (
           <>
-            <p className="eyebrow mb-0">{events.length} result(s)</p>
+            <p className="eyebrow mb-0">{events.length} resultado(s)</p>
             <EventList events={events} />
           </>
         )}

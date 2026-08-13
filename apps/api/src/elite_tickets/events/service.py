@@ -79,10 +79,10 @@ def _escaped_search(value: str) -> str:
 def _unaccent(value: ColumnExpressionArgument[str] | str) -> Function[str]:
     """Fold diacritics so "sao paulo" matches "São Paulo".
 
-    ILIKE lowercases but keeps accents, and the catalog is mostly Brazilian
-    titles and venues that readers type unaccented. unaccent() leaves the LIKE
-    metacharacters and the backslash escape untouched, so it composes with
-    `_escaped_search` above.
+    ILIKE lowercases but keeps accents, and the catalog spans venues from any
+    country, many with accented titles and addresses that readers type
+    unaccented. unaccent() leaves the LIKE metacharacters and the backslash
+    escape untouched, so it composes with `_escaped_search` above.
     """
     return func.unaccent(value, type_=Text())
 
@@ -124,9 +124,10 @@ async def list_published_events(
             or_(
                 _unaccent(MovieSnapshot.title).ilike(pattern, escape="\\"),
                 _unaccent(Event.venue_name).ilike(pattern, escape="\\"),
-                # The catalog spans every state the feed reaches, and the city
-                # and state code live only in the address, so searching by
-                # place ("curitiba", "BA") needs this column too.
+                # The catalog spans every country and region the feed reaches,
+                # and the city, state/region, and country live only in the
+                # address, so searching by place ("curitiba", "BA", "Lisboa",
+                # "US") needs this column too.
                 _unaccent(Event.venue_address).ilike(pattern, escape="\\"),
             )
         )

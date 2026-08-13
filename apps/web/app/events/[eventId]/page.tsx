@@ -31,12 +31,12 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </div>
           <div className="col-12 col-lg-4">
             <div className="card p-3 sticky-lg-top" style={{ top: "6rem" }}>
-              <p className="eyebrow mb-1">Admission</p>
+              <p className="eyebrow mb-1">Ingresso</p>
               <p className="display-6 text-cream mb-1">
                 {formatMoney(event.price)}
               </p>
               <p className="text-secondary small">
-                Price per ticket, defined by the organizer.
+                Preço por ingresso, definido pelo organizador.
               </p>
               <PurchaseCta
                 eventId={event.id}

@@ -40,11 +40,11 @@ class StubCatalog:
 
     async def search_events(
         self,
-        query: str,
+        query: str | None = None,
         *,
         page: int = 1,
         size: int = 20,
-        country_code: str = "BR",
+        country_code: str | None = None,
         city: str | None = None,
     ) -> CatalogPage:
         self.calls.append(
@@ -159,6 +159,31 @@ async def test_search_and_detail_return_normalized_contracts() -> None:
             },
         ),
         ("event_details", {"external_id": "evt-1"}),
+    ]
+
+
+async def test_catalog_can_be_browsed_without_a_keyword_or_country_restriction() -> None:
+    stub = StubCatalog(
+        page=CatalogPage(items=[], page=1, size=20, total=0, has_more=False),
+        detail=None,
+    )
+    app = _catalog_app(stub)
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        response = await client.get("/api/v1/catalog/events")
+
+    assert response.status_code == 200
+    assert stub.calls == [
+        (
+            "search_events",
+            {
+                "query": None,
+                "page": 1,
+                "size": 20,
+                "country_code": None,
+                "city": None,
+            },
+        )
     ]
 
 

@@ -54,7 +54,7 @@ function TicketDetail() {
         setLoaded(true);
       })
       .catch(() => {
-        setError("This ticket could not be loaded.");
+        setError("Este ingresso não pôde ser carregado.");
         setLoaded(true);
       });
   }, [ticketId]);
@@ -68,7 +68,7 @@ function TicketDetail() {
       const share = await createTicketShare(ticketId);
       setShareUrl(share.share_url);
     } catch {
-      setShareError("The share link could not be created.");
+      setShareError("O link de compartilhamento não pôde ser criado.");
     } finally {
       setSharing(false);
     }
@@ -79,17 +79,17 @@ function TicketDetail() {
   }
 
   if (!loaded) {
-    return <LoadingState label="Loading ticket" />;
+    return <LoadingState label="Carregando ingresso" />;
   }
 
   if (!ticket) {
     return (
       <EmptyState
-        title="Ticket not found"
-        description="This ticket does not belong to the signed-in account."
+        title="Ingresso não encontrado"
+        description="Este ingresso não pertence à conta autenticada."
         action={
           <Link className="btn btn-primary" href="/customer/tickets">
-            Back to my tickets
+            Voltar aos meus ingressos
           </Link>
         }
       />
@@ -102,10 +102,10 @@ function TicketDetail() {
     <div className="d-grid gap-3">
       <section className={`stub ${active ? "stub--valid" : "stub--muted"}`}>
         <div className="p-4 d-grid gap-2 text-center">
-          <span className="badge text-cream mx-auto">Admit one</span>
-          <h1 className="h2 text-cream mb-0">{event?.title ?? "Event"}</h1>
+          <span className="badge text-cream mx-auto">Entrada única</span>
+          <h1 className="h2 text-cream mb-0">{event?.title ?? "Evento"}</h1>
           <p className="font-mono small text-secondary mb-0">
-            {event?.venue_name ?? "Venue to confirm"}
+            {event?.venue_name ?? "Local a confirmar"}
           </p>
         </div>
 
@@ -115,8 +115,8 @@ function TicketDetail() {
 
         <div className="p-4 d-grid gap-3 justify-content-center text-center">
           <dl className="row w-100 mb-0">
-            <dt className="col-6 eyebrow">Date</dt>
-            <dd className="col-6 eyebrow mb-0">Time</dd>
+            <dt className="col-6 eyebrow">Data</dt>
+            <dd className="col-6 eyebrow mb-0">Hora</dd>
             <dd className="col-6 font-mono mb-0">{formatDate(event?.starts_at)}</dd>
             <dd className="col-6 font-mono mb-0">{formatTime(event?.starts_at)}</dd>
           </dl>
@@ -126,7 +126,7 @@ function TicketDetail() {
           </div>
 
           <div>
-            <p className="eyebrow mb-1">Holder</p>
+            <p className="eyebrow mb-1">Titular</p>
             <p className="font-mono mb-0">{ticket.owner_name}</p>
           </div>
 
@@ -138,20 +138,20 @@ function TicketDetail() {
           </p>
           {ticket.used_at ? (
             <p className="font-mono small text-secondary mb-0">
-              Used at {formatDate(ticket.used_at)} {formatTime(ticket.used_at)}
+              Usado em {formatDate(ticket.used_at)} {formatTime(ticket.used_at)}
             </p>
           ) : null}
         </div>
       </section>
 
       <p className="text-secondary small mb-0">
-        The QR encodes a signed credential issued by the backend, not the ticket
-        id. Gate staff scan or paste it to validate entry.
+        O QR codifica uma credencial assinada emitida pelo backend, não o id do
+        ingresso. A portaria pode escanear ou colar para validar a entrada.
       </p>
 
       {shareUrl ? (
         <div className="alert alert-success" role="status">
-          <p className="mb-2">Share link ready:</p>
+          <p className="mb-2">Link de compartilhamento pronto:</p>
           <a className="credential d-block text-break" href={shareUrl}>
             {shareUrl}
           </a>
@@ -170,7 +170,7 @@ function TicketDetail() {
         onClick={handleShare}
         disabled={sharing}
       >
-        {sharing ? "Creating link…" : "Share this ticket"}
+        {sharing ? "Criando link…" : "Compartilhar este ingresso"}
       </button>
     </div>
   );

@@ -65,7 +65,7 @@ export function SeatMap({
             style={{ backgroundColor: "#282a2b" }}
             aria-hidden="true"
           />
-          Available
+          Disponível
         </span>
         <span>
           <span
@@ -73,7 +73,7 @@ export function SeatMap({
             style={{ backgroundColor: "var(--et-accent)", borderColor: "var(--et-accent)" }}
             aria-hidden="true"
           />
-          Selected
+          Selecionado
         </span>
       </div>
     </div>

@@ -17,7 +17,7 @@ export function EventHero({ event }: { event: PublicEventApi }) {
           </p>
           <h1 className="display-3 text-cream mb-1">{event.title}</h1>
           <p className="font-mono text-secondary mb-0">
-            {event.venue_name ?? "Venue to confirm"}
+            {event.venue_name ?? "Local a confirmar"}
           </p>
         </div>
       </div>

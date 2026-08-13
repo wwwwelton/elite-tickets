@@ -6,26 +6,26 @@ const CONTENT: Record<
   { title: string; note: string; tone: string; symbol: string }
 > = {
   VALID: {
-    title: "Valid",
-    note: "Entry approved",
+    title: "Válido",
+    note: "Entrada aprovada",
     tone: "text-success border-success",
     symbol: "✓",
   },
   INVALID: {
-    title: "Invalid",
-    note: "Credential not recognized",
+    title: "Inválido",
+    note: "Credencial não reconhecida",
     tone: "text-danger border-danger",
     symbol: "!",
   },
   ALREADY_USED: {
-    title: "Already used",
-    note: "This ticket was already admitted",
+    title: "Já utilizado",
+    note: "Este ingresso já foi admitido",
     tone: "text-warning border-warning",
     symbol: "!",
   },
   WRONG_EVENT: {
-    title: "Wrong event",
-    note: "This ticket belongs to another event",
+    title: "Evento incorreto",
+    note: "Este ingresso pertence a outro evento",
     tone: "text-danger border-danger",
     symbol: "×",
   },
@@ -52,10 +52,10 @@ export function GateStatus({
       <h2 className="gate-result__title mb-0">{content.title}</h2>
       <p className="eyebrow text-body mb-0">{content.note}</p>
       <p className="font-mono small text-secondary mb-0">
-        Checked at {formatTime(validation.attempted_at)}
+        Verificado às {formatTime(validation.attempted_at)}
       </p>
       <button className="btn btn-primary btn-lg" type="button" onClick={onDismiss}>
-        Scan next ticket
+        Escanear próximo ingresso
       </button>
     </section>
   );

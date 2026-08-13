@@ -18,11 +18,11 @@ export default async function SharedTicketPage({ params }: SharedTicketPageProps
     <main className="container py-5" style={{ maxWidth: "32rem" }}>
       {!ticket ? (
         <EmptyState
-          title="This link is not available"
-          description="The share link is invalid or is no longer active."
+          title="Este link não está disponível"
+          description="O link de compartilhamento é inválido ou não está mais ativo."
           action={
             <Link className="btn btn-primary" href="/">
-              Browse events
+              Navegar pelos eventos
             </Link>
           }
         />
@@ -30,7 +30,7 @@ export default async function SharedTicketPage({ params }: SharedTicketPageProps
         <div className="d-grid gap-3">
           <section className="stub" aria-label="Shared ticket">
             <div className="p-4 d-grid gap-2">
-              <span className="badge text-cream">Shared ticket</span>
+              <span className="badge text-cream">Ingresso compartilhado</span>
               <h1 className="h2 text-cream mb-0">{ticket.event_title}</h1>
             </div>
 
@@ -40,21 +40,21 @@ export default async function SharedTicketPage({ params }: SharedTicketPageProps
 
             <div className="p-4 d-grid gap-3 text-center">
               <div className="d-flex justify-content-center">
-                <QrCode value={ticket.qr_credential} label="Shared ticket QR credential" />
+                <QrCode value={ticket.qr_credential} label="Credencial QR do ingresso compartilhado" />
               </div>
               <p className="font-mono small text-secondary mb-0">
-                Issued {formatDate(ticket.issued_at)} {formatTime(ticket.issued_at)}
+                Emitido em {formatDate(ticket.issued_at)} {formatTime(ticket.issued_at)}
               </p>
               <p className="h5 mb-0">{ticket.status}</p>
             </div>
           </section>
 
           <p className="text-secondary small text-center mb-0">
-            Read-only view. No account details are shown here.
+            Visualização somente leitura. Nenhum detalhe da conta é exibido aqui.
           </p>
 
           <Link className="btn btn-primary btn-lg" href="/">
-            Get your own ticket
+            Obter seu próprio ingresso
           </Link>
         </div>
       )}

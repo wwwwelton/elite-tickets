@@ -4,9 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const items = [
-  { href: "/", label: "Explore", glyph: "◎" },
-  { href: "/search", label: "Search", glyph: "⌕" },
-  { href: "/customer/tickets", label: "My Tickets", glyph: "▤" },
+  { href: "/", label: "Explorar", glyph: "◎" },
+  { href: "/search", label: "Buscar", glyph: "⌕" },
+  { href: "/customer/tickets", label: "Meus ingressos", glyph: "▤" },
 ];
 
 export function BottomNav() {

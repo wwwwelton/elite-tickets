@@ -15,7 +15,7 @@ export function PurchaseCta({
   if (soldOut) {
     return (
       <button className="btn btn-outline-light btn-lg w-100" type="button" disabled>
-        Sold out
+        Esgotado
       </button>
     );
   }
@@ -23,7 +23,7 @@ export function PurchaseCta({
   if (!ready) {
     return (
       <button className="btn btn-primary btn-lg w-100" type="button" disabled>
-        Loading…
+        Carregando…
       </button>
     );
   }
@@ -35,10 +35,10 @@ export function PurchaseCta({
           className="btn btn-primary btn-lg"
           href={`/login?next=${encodeURIComponent(`/events/${eventId}/reserve`)}`}
         >
-          Sign in to buy
+          Entrar para comprar
         </Link>
         <Link className="btn btn-outline-light" href="/register">
-          Create a customer account
+          Criar conta de cliente
         </Link>
       </div>
     );
@@ -47,15 +47,15 @@ export function PurchaseCta({
   if (session.role !== "CUSTOMER") {
     return (
       <div className="alert alert-warning mb-0" role="status">
-        You are signed in as {session.role.toLowerCase()}. Only customer accounts
-        can buy tickets.
+        Você entrou como {session.role.toLowerCase()}. Apenas contas de cliente
+        podem comprar ingressos.
       </div>
     );
   }
 
   return (
     <Link className="btn btn-primary btn-lg w-100" href={`/events/${eventId}/reserve`}>
-      Choose tickets
+      Escolher ingressos
     </Link>
   );
 }

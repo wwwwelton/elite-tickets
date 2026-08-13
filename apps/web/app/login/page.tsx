@@ -36,10 +36,10 @@ function LoginForm() {
     } catch (caught) {
       setError(
         caught instanceof ApiError && caught.status === 401
-          ? "Email or password is incorrect."
+          ? "E-mail ou senha incorretos."
           : caught instanceof ApiError
             ? caught.message
-            : "The service is unavailable right now.",
+            : "O serviço está indisponível no momento.",
       );
       setPending(false);
     }
@@ -49,7 +49,7 @@ function LoginForm() {
     <form className="d-grid gap-3" onSubmit={handleSubmit} noValidate>
       <div>
         <label className="form-label" htmlFor="login-email">
-          Email
+          E-mail
         </label>
         <input
           id="login-email"
@@ -64,7 +64,7 @@ function LoginForm() {
 
       <div>
         <label className="form-label" htmlFor="login-password">
-          Password
+          Senha
         </label>
         <input
           id="login-password"
@@ -84,18 +84,18 @@ function LoginForm() {
       ) : null}
 
       <button className="btn btn-primary btn-lg" type="submit" disabled={pending}>
-        {pending ? "Signing in…" : "Sign in"}
+        {pending ? "Entrando…" : "Entrar"}
       </button>
 
       <p className="text-secondary small mb-0">
-        The backend returns the role, and it decides where you land: customer,
-        organizer, or gate.
+        O backend informa o perfil, e ele define para onde você será levado:
+        cliente, organizador ou portaria.
       </p>
 
       <p className="mb-0">
-        No account yet?{" "}
+        Ainda não tem conta?{" "}
         <Link className="text-cream" href="/register">
-          Create one
+          Criar conta
         </Link>
       </p>
     </form>
@@ -106,8 +106,8 @@ export default function LoginPage() {
   return (
     <AppShell backHref="/">
       <div className="container py-4" style={{ maxWidth: "32rem" }}>
-        <p className="eyebrow mb-1">Account</p>
-        <h1 className="display-5 text-cream mb-4">Sign in</h1>
+        <p className="eyebrow mb-1">Conta</p>
+        <h1 className="display-5 text-cream mb-4">Entrar</h1>
         <Suspense fallback={null}>
           <LoginForm />
         </Suspense>

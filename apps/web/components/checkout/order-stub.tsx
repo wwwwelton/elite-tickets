@@ -11,19 +11,17 @@ export function OrderStub({
   selection: string[];
 }) {
   return (
-    <section className="stub" aria-label="Order summary">
+    <section className="stub" aria-label="Resumo do pedido">
       <div className="p-3 p-lg-4 d-grid gap-2">
         <div className="d-flex justify-content-between align-items-start gap-2">
           <span className="badge text-cream">
-            {selection.length > 0 ? "Selected" : "General admission"}
+            {selection.length > 0 ? "Selecionado" : "Ingresso geral"}
           </span>
-          <span className="font-mono small text-secondary">
-            QTY: {reservation.quantity}
-          </span>
+          <span className="font-mono small text-secondary">QTD: {reservation.quantity}</span>
         </div>
         <h2 className="h3 text-cream mb-0">{event.title}</h2>
         <p className="font-mono small text-secondary mb-0">
-          {event.venue_name ?? "Venue to confirm"}
+          {event.venue_name ?? "Local a confirmar"}
         </p>
       </div>
 
@@ -33,8 +31,8 @@ export function OrderStub({
 
       <div className="p-3 p-lg-4 d-grid gap-3">
         <dl className="row mb-0">
-          <dt className="col-6 eyebrow">Date</dt>
-          <dd className="col-6 eyebrow text-end">Time</dd>
+          <dt className="col-6 eyebrow">Data</dt>
+          <dd className="col-6 eyebrow text-end">Hora</dd>
           <dd className="col-6 font-mono mb-0">{formatDate(event.starts_at)}</dd>
           <dd className="col-6 font-mono text-end mb-0">
             {formatTime(event.starts_at)}
@@ -51,7 +49,7 @@ export function OrderStub({
 
         <dl className="row mb-0">
           <dt className="col-8 fw-normal text-secondary">
-            Tickets (×{reservation.quantity})
+            Ingressos (×{reservation.quantity})
           </dt>
           <dd className="col-4 text-end font-mono">
             {formatMoney(reservation.total_amount)}

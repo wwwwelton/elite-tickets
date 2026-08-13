@@ -1,12 +1,12 @@
-const DATE_LOCALE = "en-US";
+const DATE_LOCALE = "pt-BR";
 
 export function formatDate(iso?: string | null) {
   if (!iso) {
-    return "Date to be announced";
+    return "Data a ser anunciada";
   }
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) {
-    return "Date to be announced";
+    return "Data a ser anunciada";
   }
   return date
     .toLocaleDateString(DATE_LOCALE, {
@@ -19,11 +19,11 @@ export function formatDate(iso?: string | null) {
 
 export function formatShortDate(iso?: string | null) {
   if (!iso) {
-    return "TBD";
+    return "A definir";
   }
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) {
-    return "TBD";
+    return "A definir";
   }
   return date
     .toLocaleDateString(DATE_LOCALE, { month: "short", day: "2-digit" })
@@ -59,7 +59,7 @@ export function formatMoney(amount?: string | number | null) {
   }
   return value.toLocaleString(DATE_LOCALE, {
     style: "currency",
-    currency: "USD",
+    currency: "BRL",
   });
 }
 

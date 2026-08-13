@@ -6,9 +6,9 @@ import type { ReactNode } from "react";
 import { useSession } from "@/lib/session";
 
 const links = [
-  { href: "/organizer/events", label: "Dashboard" },
-  { href: "/organizer/events/new", label: "Create event" },
-  { href: "/organizer/catalog", label: "Catalog" },
+  { href: "/organizer/events", label: "Painel" },
+  { href: "/organizer/events/new", label: "Criar evento" },
+  { href: "/organizer/catalog", label: "Catálogo" },
 ];
 
 export function StudioShell({
@@ -37,7 +37,7 @@ export function StudioShell({
             Studio
           </Link>
           <p className="eyebrow d-none d-lg-block">
-            {session?.displayName ?? "Organizer"}
+            {session?.displayName ?? "Organizador"}
           </p>
           <ul className="nav flex-lg-column gap-1 mb-4">
             {links.map((link) => (
@@ -60,7 +60,7 @@ export function StudioShell({
               router.push("/");
             }}
           >
-            Sign out
+            Sair
           </button>
         </aside>
 
