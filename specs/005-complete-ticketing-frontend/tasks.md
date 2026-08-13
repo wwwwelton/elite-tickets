@@ -13,7 +13,7 @@
 - [X] T001 Create the frontend application shell files under `apps/web/app/layout.tsx` and `apps/web/app/page.tsx` with the route structure described in `specs/005-complete-ticketing-frontend/plan.md`
 - [X] T002 Initialize shared frontend tooling and scripts in `apps/web/package.json` so local development, linting, and tests can run consistently
 - [X] T003 [P] Establish the shared design token and layout foundation in `apps/web/app/globals.css` and `apps/web/components/shell/site-shell.tsx`
-- [ ] T004 [P] Add the frontend API client and token/session helpers in `apps/web/lib/api.ts` and `apps/web/lib/auth.ts` for the verified backend contract surface in `specs/005-complete-ticketing-frontend/contracts/openapi.md`
+- [X] T004 [P] Add the frontend API client and token/session helpers in `apps/web/lib/api.ts` and `apps/web/lib/auth.ts` for the verified backend contract surface in `specs/005-complete-ticketing-frontend/contracts/openapi.md`
 
 ---
 
