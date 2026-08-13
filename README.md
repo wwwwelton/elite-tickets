@@ -24,14 +24,19 @@ QR devem ser diferentes e ter pelo menos 32 bytes; nunca versione o arquivo `.en
 ```bash
 cp .env.example .env
 docker compose up --build -d --wait
-docker compose run --rm api alembic upgrade head
-docker compose run --rm api python -m elite_tickets.seed_demo
 docker compose ps
 ```
 
-A migration também é executada automaticamente pelo serviço one-shot `migrate`.
-O comando explícito acima é seguro e documenta a revisão aplicada. O seed é
-idempotente e pode ser repetido sem duplicar contas ou eventos.
+Migration e seed rodam sozinhos, como serviços one-shot (`migrate` e `seed`) que
+a API espera concluir antes de subir — o catálogo já aparece populado no primeiro
+acesso. Para reaplicar qualquer um deles à mão:
+
+```bash
+docker compose run --rm api alembic upgrade head
+docker compose run --rm seed
+```
+
+O seed é idempotente e pode ser repetido sem duplicar contas ou eventos.
 
 Depois da inicialização:
 
@@ -70,9 +75,17 @@ demo:
 - **Fixture local** (`Clube da Luta — Sessão Elite`): sempre criada, sem rede.
   É a garantia de que o fluxo de compra funciona mesmo sem a Ticketmaster.
 - **Snapshots da Ticketmaster**: com `TICKETMASTER_API_KEY` válida, o seed busca
-  os próximos eventos publicados no Brasil e grava até seis deles com o mesmo
+  os próximos eventos publicados no Brasil e grava até doze deles com o mesmo
   formato de snapshot que o fluxo do organizador produz — título, pôster,
   categoria, local, endereço, cidade, data e fuso reais.
+
+A agenda brasileira da Ticketmaster é dominada por São Paulo e Rio, então pegar
+os primeiros por data deixaria o catálogo quase todo em São Paulo. A seleção é
+feita em rodízio por estado: cada UF com evento disponível entra antes que
+qualquer uma receba um segundo. Na prática o seed cobre uma dúzia de estados
+(SP, RJ, MG, PR, SC, RS, BA, PE, CE, PA, DF, RN), sempre priorizando as datas
+mais próximas dentro de cada UF. Aumentar `DEMO_CATALOG_EVENT_LIMIT` amplia
+primeiro a cobertura nacional e só depois adensa os estados maiores.
 
 Capacidade e preço não são publicados pelo catálogo: o seed usa
 `DEMO_CAPACITY`/`DEMO_PRICE` e só adota o preço do upstream quando ele existe em
