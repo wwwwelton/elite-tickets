@@ -24,8 +24,12 @@ describe("organizer and gate", () => {
   it("renders the gate entry shell", () => {
     render(React.createElement(GateHomePage));
 
-    expect(screen.getByRole("heading", { name: "Gate" })).toBeInTheDocument();
-    expect(screen.getByText(/validate tickets quickly/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Gate Scanner" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/high-contrast workflow/i),
+    ).toBeInTheDocument();
   });
 
   it("preserves all backend gate validation states", () => {
