@@ -45,15 +45,14 @@ async def fetch_seed_events(*, limit: int, now: datetime | None = None) -> list[
     """Fetch upcoming events for the seed. Raises on any transport failure."""
     moment = now or datetime.now(UTC)
     settings = get_settings()
-    params = {
-        "apikey": settings.ticketmaster_api_key.get_secret_value(),
+    api_key = settings.ticketmaster_api_key.get_secret_value()
+    params: dict[str, str | int] = {
+        "apikey": api_key,
         "countryCode": SEED_COUNTRY_CODE,
         "size": SEED_PAGE_SIZE,
         "sort": "date,asc",
         "startDateTime": moment.strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
-
-    api_key = params["apikey"]
 
     async with httpx.AsyncClient(
         base_url=settings.ticketmaster_base_url,
