@@ -145,6 +145,27 @@ assentos, os demais abrem setores com quantidade. Os dois modos são camada de
 apresentação — o que vai para a API é sempre `quantity`, e o limite por pedido
 vem do `available_quantity` real do evento.
 
+### Explorar vs. Buscar
+
+O menu inferior (`apps/web/components/shell/bottom-nav.tsx`) tem dois itens
+que podem parecer redundantes à primeira vista, mas atendem a intenções
+diferentes de quem está navegando o catálogo:
+
+- **Explorar** é um link estático para `/`, a home com o feed curado —
+  eventos em destaque e a lista completa, sem nenhum filtro aplicado. Existe
+  para quem quer navegar e descobrir o que está disponível.
+- **Buscar** existe para quem já sabe o que procura. Como item do menu, leva
+  para `/search`, a tela dedicada a percorrer todos os eventos publicados.
+  Como botão de formulário (presente tanto na home quanto em `/search`, via
+  `apps/web/components/events/event-search.tsx`), é a ação que efetivamente
+  filtra: ao ser enviado, o termo digitado vai para
+  `/search?query=<termo>`, que a API usa para retornar apenas os eventos
+  correspondentes.
+
+Resumindo: **Explorar** é o feed curado da home; **Buscar** é tanto a
+entrada para a tela de todos os eventos quanto a ação que efetivamente
+filtra eventos por um termo digitado.
+
 O QR é gerado no próprio frontend a partir da credencial assinada que a API
 emite (`apps/web/lib/qr.ts`), sem depender de serviço externo.
 
