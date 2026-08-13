@@ -5,11 +5,11 @@ import { StudioShell } from "@/components/shell/studio-shell";
 import { RequireRole } from "@/components/shell/require-role";
 import { OrganizerEventsList } from "@/components/organizer/events-list";
 
-export default function OrganizerEventsPage() {
+export default function OrganizerMineEventsPage() {
   return (
     <StudioShell
       eyebrow="Estúdio do organizador"
-      title="Painel"
+      title="Meus eventos"
       action={
         <Link className="btn btn-primary" href="/organizer/events/new">
           Criar novo evento
@@ -17,7 +17,7 @@ export default function OrganizerEventsPage() {
       }
     >
       <RequireRole role="ORGANIZER">
-        <OrganizerEventsList />
+        <OrganizerEventsList onlyMine />
       </RequireRole>
     </StudioShell>
   );

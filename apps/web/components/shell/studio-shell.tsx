@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
+import { roleHomePath } from "@/lib/auth";
 import { useSession } from "@/lib/session";
 
 const links = [
   { href: "/organizer/events", label: "Painel" },
+  { href: "/organizer/events/mine", label: "Meus eventos" },
   { href: "/organizer/events/new", label: "Criar evento" },
   { href: "/organizer/catalog", label: "Catálogo" },
 ];
@@ -30,7 +32,10 @@ export function StudioShell({
     <div className="container-fluid px-0">
       <div className="row g-0 min-vh-100">
         <aside className="col-12 col-lg-3 col-xl-2 bg-surface border-bottom border-end p-3 p-lg-4">
-          <Link className="brand mb-4 d-inline-flex" href="/">
+          <Link
+            className="brand mb-4 d-inline-flex"
+            href={session ? roleHomePath(session.role) : "/"}
+          >
             <span className="brand__mark" aria-hidden="true">
               ET
             </span>
