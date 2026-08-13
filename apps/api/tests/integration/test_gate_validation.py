@@ -13,6 +13,9 @@ os.environ.setdefault("QR_SECRET", "different-test-qr-secret-at-least-32-bytes")
 os.environ.setdefault("TMDB_API_KEY", "test-key")
 os.environ.setdefault("CORS_ORIGINS", "http://localhost:3000")
 
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import create_access_token
 from elite_tickets.db.base import utc_now, uuid7
@@ -28,8 +31,6 @@ from elite_tickets.tickets.validation_models import (
     TicketValidationResult,
 )
 from elite_tickets.tickets.validation_service import validate_ticket
-from sqlalchemy import func, select
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 
 pytestmark = pytest.mark.integration
 

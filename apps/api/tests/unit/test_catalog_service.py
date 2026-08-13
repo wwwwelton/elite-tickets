@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pytest
+
 from elite_tickets.catalog.errors import (
     CatalogAuthError,
     CatalogRateLimitError,

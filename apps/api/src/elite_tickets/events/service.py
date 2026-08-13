@@ -3,12 +3,13 @@ from datetime import datetime
 from decimal import Decimal
 from urllib.parse import urlsplit
 
-from elite_tickets.db.base import utc_now
-from elite_tickets.events.models import Event, EventState, MovieSnapshot
-from elite_tickets.shared.errors import DomainValidationError
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from elite_tickets.db.base import utc_now
+from elite_tickets.events.models import Event, EventState, MovieSnapshot
+from elite_tickets.shared.errors import DomainValidationError
 
 LEGACY_TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 DEFAULT_PAGE_SIZE = 20

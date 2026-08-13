@@ -5,6 +5,9 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.db.base import utc_now, uuid7
 from elite_tickets.events.models import Event, EventState
 from elite_tickets.reservations.models import Reservation, ReservationStatus
@@ -19,8 +22,6 @@ from elite_tickets.tickets.validation_models import (
     TicketValidation,
     TicketValidationResult,
 )
-from sqlalchemy import select, update
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @dataclass(frozen=True, slots=True)

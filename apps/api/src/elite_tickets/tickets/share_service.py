@@ -9,6 +9,9 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import ClassVar
 
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.auth.models import User
 from elite_tickets.db.base import utc_now
 from elite_tickets.events.models import Event, MovieSnapshot
@@ -21,8 +24,6 @@ from elite_tickets.shared.errors import (
 )
 from elite_tickets.tickets.models import Ticket, TicketStatus
 from elite_tickets.tickets.share_models import TicketShare
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 SHARE_ID_BYTES = 16
 SHARE_DOMAIN = b"elite-tickets:share:v1\x00"

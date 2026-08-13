@@ -6,6 +6,7 @@ import asyncio
 from typing import Any
 
 import httpx
+
 from elite_tickets.catalog.errors import (
     CatalogAuthError,
     CatalogRateLimitError,

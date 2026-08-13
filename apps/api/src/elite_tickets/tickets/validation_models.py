@@ -4,12 +4,13 @@ import uuid
 from datetime import datetime
 from enum import StrEnum
 
+from sqlalchemy import DateTime, ForeignKey, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from elite_tickets.auth.models import User
 from elite_tickets.db.base import Base, UUIDPrimaryKeyMixin, enum_type, utc_now
 from elite_tickets.events.models import Event
 from elite_tickets.tickets.models import Ticket
-from sqlalchemy import DateTime, ForeignKey, func
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class TicketValidationResult(StrEnum):

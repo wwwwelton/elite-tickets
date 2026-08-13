@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 from decimal import Decimal
 
 import pytest
+
 from elite_tickets.db.base import uuid7
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
 from elite_tickets.events.organizer_service import _projection as organizer_projection

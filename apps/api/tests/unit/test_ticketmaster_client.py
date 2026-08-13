@@ -5,6 +5,7 @@ from typing import Any
 
 import httpx
 import pytest
+
 from elite_tickets.catalog.errors import (
     CatalogAuthError,
     CatalogRateLimitError,

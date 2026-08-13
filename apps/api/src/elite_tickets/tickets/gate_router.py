@@ -2,15 +2,16 @@ import uuid
 from datetime import datetime
 from typing import Annotated
 
+from fastapi import APIRouter, Depends, Header, Path
+from pydantic import BaseModel, Field
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import require_roles
 from elite_tickets.db.session import get_session
 from elite_tickets.events.service import PublicEvent, list_published_events
 from elite_tickets.tickets.validation_models import TicketValidationResult
 from elite_tickets.tickets.validation_service import validate_ticket
-from fastapi import APIRouter, Depends, Header, Path
-from pydantic import BaseModel, Field
-from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/gate", tags=["Gate"])
 

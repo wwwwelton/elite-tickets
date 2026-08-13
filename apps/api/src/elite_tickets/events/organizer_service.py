@@ -5,6 +5,10 @@ from datetime import datetime
 from decimal import Decimal
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from elite_tickets.catalog.interfaces import CatalogProvider
 from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.db.base import utc_now
@@ -18,9 +22,6 @@ from elite_tickets.shared.errors import (
     ResourceNotFoundError,
 )
 from elite_tickets.tickets.models import Ticket, TicketStatus
-from pydantic import BaseModel, ConfigDict
-from sqlalchemy import select, update
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class OrganizerEvent(BaseModel):

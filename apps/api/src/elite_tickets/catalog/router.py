@@ -1,6 +1,8 @@
 from collections.abc import AsyncIterator
 from typing import Annotated
 
+from fastapi import APIRouter, Depends, Path, Query
+
 from elite_tickets.auth.models import Role, User
 from elite_tickets.auth.security import require_roles
 from elite_tickets.catalog.interfaces import CatalogProvider
@@ -10,7 +12,6 @@ from elite_tickets.catalog.ticketmaster_client import (
     TicketmasterClient,
     create_ticketmaster_http_client,
 )
-from fastapi import APIRouter, Depends, Path, Query
 
 router = APIRouter(prefix="/catalog", tags=["Catalog"])
 
