@@ -1,239 +1,160 @@
-import { SiteShell } from "@/components/shell/site-shell";
+"use client";
+
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { StudioShell } from "@/components/shell/studio-shell";
+import { RequireRole } from "@/components/shell/require-role";
+import { EmptyState, ErrorState, LoadingState } from "@/components/states/states";
 import {
+  ApiError,
   cancelOrganizerEvent,
-  createOrganizerEvent,
-  fetchCatalogEventDetail,
-  fetchCatalogEvents,
   fetchOrganizerEvents,
   publishOrganizerEvent,
+  type OrganizerEventApi,
 } from "@/lib/api";
-
-const organizerApiSurface = {
-  cancelOrganizerEvent,
-  createOrganizerEvent,
-  fetchCatalogEventDetail,
-  fetchCatalogEvents,
-  fetchOrganizerEvents,
-  publishOrganizerEvent,
-};
-
-const organizerEvents = [
-  {
-    id: "event-1",
-    status: "LIVE",
-    title: "Neon Nights Festival",
-    startsAt: "OCT 24 • 9:00 PM",
-    sold: "4,250",
-    available: "750",
-  },
-  {
-    id: "event-2",
-    status: "SOLD OUT",
-    title: "Underground Sessions",
-    startsAt: "NOV 02 • 11:00 PM",
-    sold: "1,500",
-    available: "0",
-  },
-  {
-    id: "event-3",
-    status: "DRAFT",
-    title: "Modern Art Expo",
-    startsAt: "TBD",
-    sold: "0",
-    available: "---",
-  },
-];
+import { formatDate, formatMoney, formatTime } from "@/lib/format";
 
 export default function OrganizerEventsPage() {
-  void organizerApiSurface;
+  return (
+    <StudioShell
+      eyebrow="Organizer studio"
+      title="Dashboard"
+      action={
+        <Link className="btn btn-primary" href="/organizer/events/new">
+          Create new event
+        </Link>
+      }
+    >
+      <RequireRole role="ORGANIZER">
+        <OrganizerEvents />
+      </RequireRole>
+    </StudioShell>
+  );
+}
+
+function OrganizerEvents() {
+  const [events, setEvents] = useState<OrganizerEventApi[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+
+  const load = useCallback(() => {
+    setError(null);
+    setEvents(null);
+    fetchOrganizerEvents()
+      .then(setEvents)
+      .catch(() => setError("Your events could not be loaded."));
+  }, []);
+
+  useEffect(load, [load]);
+
+  async function runAction(
+    eventId: string,
+    action: (id: string) => Promise<OrganizerEventApi>,
+  ) {
+    setBusyId(eventId);
+    setActionError(null);
+    try {
+      const updated = await action(eventId);
+      setEvents((current) =>
+        current?.map((event) => (event.id === updated.id ? updated : event)) ?? null,
+      );
+    } catch (caught) {
+      setActionError(
+        caught instanceof ApiError
+          ? caught.message
+          : "The action could not be completed.",
+      );
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  if (error) {
+    return <ErrorState description={error} onRetry={load} />;
+  }
+
+  if (!events) {
+    return <LoadingState label="Loading your events" />;
+  }
+
+  if (events.length === 0) {
+    return (
+      <EmptyState
+        title="No events yet"
+        description="Create an event from the external catalog to start selling."
+        action={
+          <Link className="btn btn-primary" href="/organizer/events/new">
+            Create new event
+          </Link>
+        }
+      />
+    );
+  }
 
   return (
-    <SiteShell
-      title="Dashboard"
-      subtitle="Active event overview."
-    >
-      <div
-        style={{
-          display: "grid",
-          gap: "24px",
-        }}
-      >
-        <div
-          style={{
-            alignItems: "center",
-            borderBottom: "1px solid rgba(78, 70, 51, 0.8)",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: "18px",
-            paddingBottom: "18px",
-          }}
-        >
-          <div>
-            <div
-              style={{
-                color: "var(--muted)",
-                fontSize: "12px",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-              }}
-            >
-              Organizer Studio
-            </div>
-            <p style={{ margin: "10px 0 0", maxWidth: "56ch" }}>
-              Manage live, sold out, and draft events from one desktop-first
-              overview.
-            </p>
-          </div>
-          <a
-            href="/organizer/events/new"
-            style={{
-              alignItems: "center",
-              background: "var(--accent)",
-              borderRadius: "0",
-              color: "#121414",
-              display: "inline-flex",
-              fontWeight: 700,
-              minHeight: "48px",
-              padding: "14px 22px",
-              textDecoration: "none",
-              textTransform: "uppercase",
-            }}
-          >
-            Create new event
-          </a>
+    <div className="d-grid gap-3">
+      {actionError ? (
+        <div className="alert alert-danger mb-0" role="alert">
+          {actionError}
         </div>
+      ) : null}
 
-        <section
-          aria-label="Organizer events overview"
-          style={{
-            display: "grid",
-            gap: "18px",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          }}
-        >
-          {organizerEvents.map((event) => (
-            <article
-              key={event.id}
-              style={{
-                background: "linear-gradient(180deg, #1A2337 0%, #161d2f 100%)",
-                border: "1px solid rgba(78, 70, 51, 0.8)",
-                display: "grid",
-                minHeight: "340px",
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  alignItems: "start",
-                  background:
-                    "linear-gradient(135deg, rgba(255, 235, 192, 0.16), rgba(18, 20, 20, 0.88))",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  minHeight: "180px",
-                  padding: "18px",
-                }}
-              >
-                <span
-                  style={{
-                    border: "1px solid currentColor",
-                    color: "var(--accent-strong)",
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    letterSpacing: "0.2em",
-                    padding: "4px 10px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {event.status}
-                </span>
-              </div>
-                <div style={{ display: "grid", gap: "14px", padding: "20px" }}>
-                  <h2 style={{ margin: 0, fontSize: "32px", lineHeight: 0.95 }}>
-                    {event.title}
-                  </h2>
-                  <p style={{ color: "var(--muted)", margin: 0 }}>{event.startsAt}</p>
-                <div
-                  style={{
-                    borderTop: "1px dashed rgba(255, 235, 192, 0.5)",
-                    display: "grid",
-                    gap: "12px",
-                    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                    paddingTop: "16px",
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        color: "var(--muted)",
-                        fontSize: "12px",
-                        letterSpacing: "0.18em",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      Sold
-                    </div>
-                    <div style={{ fontSize: "28px", marginTop: "6px" }}>
-                      {event.sold}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div
-                      style={{
-                        color: "var(--muted)",
-                        fontSize: "12px",
-                        letterSpacing: "0.18em",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      Available
-                    </div>
-                    <div style={{ fontSize: "28px", marginTop: "6px" }}>
-                      {event.available}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "12px",
-                    flexWrap: "wrap",
-                    padding: "0 20px 20px",
-                  }}
-                >
-                  <a
-                    href="/organizer/events/new"
-                    style={{
-                      border: "1px solid rgba(255, 235, 192, 0.7)",
-                      color: "var(--accent-strong)",
-                      fontWeight: 700,
-                      minHeight: "44px",
-                      padding: "10px 14px",
-                      textDecoration: "none",
-                      textTransform: "uppercase",
-                    }}
+      <ul className="list-unstyled row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 mb-0">
+        {events.map((event) => (
+          <li className="col" key={event.id}>
+            <article className="card h-100">
+              {event.poster_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="poster poster--wide" src={event.poster_url} alt="" />
+              ) : (
+                <div className="poster poster--wide" />
+              )}
+
+              <div className="card-body d-grid gap-2">
+                <span className="badge text-cream">{event.state}</span>
+                <h2 className="h4 text-cream mb-0">{event.title}</h2>
+                <p className="font-mono small text-secondary mb-0">
+                  {formatDate(event.starts_at)} · {formatTime(event.starts_at)}
+                </p>
+                <p className="font-mono small text-secondary mb-0">
+                  {event.venue_name}
+                </p>
+
+                <dl className="row border-top pt-2 mb-0">
+                  <dt className="col-6 eyebrow">Sold</dt>
+                  <dd className="col-6 eyebrow text-end mb-0">Available</dd>
+                  <dd className="col-6 h4 mb-0">{event.sold_quantity}</dd>
+                  <dd className="col-6 h4 text-end mb-0">
+                    {event.available_quantity}
+                  </dd>
+                </dl>
+
+                <p className="font-mono mb-0">{formatMoney(event.price)}</p>
+
+                <div className="d-flex gap-2 flex-wrap">
+                  <button
+                    className="btn btn-outline-light btn-sm"
+                    type="button"
+                    disabled={busyId === event.id}
+                    onClick={() => runAction(event.id, publishOrganizerEvent)}
                   >
                     Publish
-                  </a>
-                  <a
-                    href="/organizer/events/new"
-                    style={{
-                      border: "1px solid rgba(78, 70, 51, 0.8)",
-                      fontWeight: 700,
-                      minHeight: "44px",
-                      padding: "10px 14px",
-                      textDecoration: "none",
-                      textTransform: "uppercase",
-                    }}
+                  </button>
+                  <button
+                    className="btn btn-outline-light btn-sm text-danger"
+                    type="button"
+                    disabled={busyId === event.id}
+                    onClick={() => runAction(event.id, cancelOrganizerEvent)}
                   >
                     Cancel
-                  </a>
+                  </button>
                 </div>
               </div>
             </article>
-          ))}
-        </section>
-      </div>
-    </SiteShell>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

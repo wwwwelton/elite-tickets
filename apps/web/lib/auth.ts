@@ -2,8 +2,10 @@ export type SessionRole = "CUSTOMER" | "ORGANIZER" | "GATE";
 
 export type SessionState = {
   accessToken: string;
-  expiresIn: number;
+  expiresAt: number;
   role: SessionRole;
+  email: string;
+  displayName: string;
 };
 
 export type LoginResponse = {
@@ -14,61 +16,46 @@ export type LoginResponse = {
 
 const STORAGE_KEY = "elite-tickets.session";
 
-export function loadSession(): SessionState | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  const raw = window.localStorage.getItem(STORAGE_KEY);
-  if (!raw) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(raw) as SessionState;
-  } catch {
-    window.localStorage.removeItem(STORAGE_KEY);
-    return null;
-  }
-}
-
-export function saveSession(session: SessionState) {
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
-}
-
-export function clearSession() {
-  window.localStorage.removeItem(STORAGE_KEY);
-}
+export const ROLE_LABELS: Record<SessionRole, string> = {
+  CUSTOMER: "Customer",
+  ORGANIZER: "Organizer",
+  GATE: "Gate staff",
+};
 
 export function roleHomePath(role: SessionRole) {
   switch (role) {
     case "CUSTOMER":
       return "/customer";
     case "ORGANIZER":
-      return "/organizer";
+      return "/organizer/events";
     case "GATE":
       return "/gate";
   }
 }
 
-export function toSessionState(response: LoginResponse): SessionState {
+export function toSessionState(
+  response: LoginResponse,
+  identity: { email: string; displayName?: string },
+): SessionState {
   return {
     accessToken: response.access_token,
-    expiresIn: response.expires_in,
+    expiresAt: Date.now() + response.expires_in * 1000,
     role: response.role,
+    email: identity.email,
+    displayName: identity.displayName?.trim() || identity.email.split("@")[0],
   };
 }
 
-export function serializeSession(session: SessionState) {
-  return JSON.stringify(session);
+export function isExpired(session: SessionState) {
+  return session.expiresAt <= Date.now();
 }
 
-export function deserializeSession(raw: string): SessionState | null {
+function parseSession(raw: string): SessionState | null {
   try {
     const parsed = JSON.parse(raw) as SessionState;
     if (
       typeof parsed.accessToken !== "string" ||
-      typeof parsed.expiresIn !== "number" ||
+      typeof parsed.expiresAt !== "number" ||
       (parsed.role !== "CUSTOMER" &&
         parsed.role !== "ORGANIZER" &&
         parsed.role !== "GATE")
@@ -81,10 +68,29 @@ export function deserializeSession(raw: string): SessionState | null {
   }
 }
 
-export function getPostLoginRedirect(role: SessionRole) {
-  return roleHomePath(role);
+export function readStoredSession(): SessionState | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const raw = window.localStorage.getItem(STORAGE_KEY);
+  if (!raw) {
+    return null;
+  }
+
+  const session = parseSession(raw);
+  if (!session || isExpired(session)) {
+    window.localStorage.removeItem(STORAGE_KEY);
+    return null;
+  }
+
+  return session;
 }
 
-export function signOut() {
-  clearSession();
+export function writeStoredSession(session: SessionState) {
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+}
+
+export function clearStoredSession() {
+  window.localStorage.removeItem(STORAGE_KEY);
 }

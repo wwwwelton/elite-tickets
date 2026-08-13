@@ -1,43 +1,44 @@
-type EventSearchProps = {
-  value?: string;
-};
+"use client";
 
-export function EventSearch({ value = "" }: EventSearchProps) {
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+export function EventSearch({
+  initialValue = "",
+  autoFocus = false,
+}: {
+  initialValue?: string;
+  autoFocus?: boolean;
+}) {
+  const [term, setTerm] = useState(initialValue);
+  const router = useRouter();
+
   return (
-    <label
-      aria-label="Search public events"
-      style={{
-        alignItems: "center",
-        background: "var(--surface)",
-        border: "1px solid rgba(78, 70, 51, 0.8)",
-        borderRadius: "9999px",
-        display: "flex",
-        gap: "12px",
-        padding: "14px 18px",
+    <form
+      className="d-flex gap-2"
+      role="search"
+      onSubmit={(event) => {
+        event.preventDefault();
+        const trimmed = term.trim();
+        router.push(trimmed ? `/search?query=${encodeURIComponent(trimmed)}` : "/search");
       }}
     >
-      <span
-        style={{
-          color: "var(--muted)",
-          fontSize: "13px",
-          letterSpacing: "0.16em",
-          textTransform: "uppercase",
-        }}
-      >
-        Search
-      </span>
+      <label className="visually-hidden" htmlFor="event-search">
+        Search events
+      </label>
       <input
-        aria-label="Search events"
-        defaultValue={value}
-        placeholder="Search events, movies, or venues"
-        style={{
-          background: "transparent",
-          border: "none",
-          color: "var(--text)",
-          flex: 1,
-          minWidth: 0,
-        }}
+        id="event-search"
+        className="form-control"
+        type="search"
+        name="query"
+        autoFocus={autoFocus}
+        placeholder="Search events, movies, venues…"
+        value={term}
+        onChange={(event) => setTerm(event.target.value)}
       />
-    </label>
+      <button className="btn btn-primary" type="submit">
+        Search
+      </button>
+    </form>
   );
 }

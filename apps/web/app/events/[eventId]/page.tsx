@@ -1,92 +1,51 @@
+import { notFound } from "next/navigation";
+import { AppShell } from "@/components/shell/app-shell";
 import { EventDetail } from "@/components/events/event-detail";
-import { SiteShell } from "@/components/shell/site-shell";
+import { EventHero } from "@/components/events/event-hero";
+import { PurchaseCta } from "@/components/events/purchase-cta";
 import { fetchPublicEvent } from "@/lib/api";
-import { mapEventSummary } from "@/lib/mappers";
+import { availabilityOf } from "@/lib/availability";
+import { formatMoney } from "@/lib/format";
+
+export const dynamic = "force-dynamic";
 
 type EventDetailPageProps = {
-  params: Promise<{
-    eventId: string;
-  }>;
+  params: Promise<{ eventId: string }>;
 };
 
-export default async function EventDetailPage({
-  params,
-}: EventDetailPageProps) {
+export default async function EventDetailPage({ params }: EventDetailPageProps) {
   const { eventId } = await params;
-  const event = mapEventSummary(await fetchPublicEvent(eventId));
+
+  const event = await fetchPublicEvent(eventId).catch(() => null);
+  if (!event) {
+    notFound();
+  }
 
   return (
-    <SiteShell
-      title="Event detail"
-      subtitle="Open an event to review the verified public information."
-    >
-      <section
-        style={{
-          display: "grid",
-          gap: "20px",
-        }}
-      >
-        <EventDetail event={event} />
-        <div
-          style={{
-            alignItems: "center",
-            border: "1px solid rgba(78, 70, 51, 0.8)",
-            borderRadius: "var(--radius-md)",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "12px",
-            justifyContent: "space-between",
-            padding: "18px",
-          }}
-        >
-          <div>
-            <div
-              style={{
-                color: "var(--muted)",
-                fontSize: "12px",
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-              }}
-            >
-              Purchase entry
-            </div>
-            <p style={{ margin: "8px 0 0" }}>
-              Sign in or create a customer account to continue.
-            </p>
+    <AppShell backHref="/" bare>
+      <EventHero event={event} />
+      <div className="container py-4">
+        <div className="row g-4">
+          <div className="col-12 col-lg-8">
+            <EventDetail event={event} />
           </div>
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              flexWrap: "wrap",
-            }}
-          >
-            <a
-              href="/login"
-              style={{
-                background: "var(--accent)",
-                borderRadius: "9999px",
-                color: "#121414",
-                fontWeight: 700,
-                padding: "12px 18px",
-              }}
-            >
-              Login
-            </a>
-            <a
-              href="/register"
-              style={{
-                border: "1px solid rgba(78, 70, 51, 0.8)",
-                borderRadius: "9999px",
-                color: "var(--text)",
-                padding: "12px 18px",
-              }}
-            >
-              Create account
-            </a>
+          <div className="col-12 col-lg-4">
+            <div className="card p-3 sticky-lg-top" style={{ top: "6rem" }}>
+              <p className="eyebrow mb-1">Admission</p>
+              <p className="display-6 text-cream mb-1">
+                {formatMoney(event.price)}
+              </p>
+              <p className="text-secondary small">
+                Price per ticket, defined by the organizer.
+              </p>
+              <PurchaseCta
+                eventId={event.id}
+                soldOut={availabilityOf(event).soldOut}
+              />
+            </div>
           </div>
         </div>
-      </section>
-    </SiteShell>
+      </div>
+    </AppShell>
   );
 }

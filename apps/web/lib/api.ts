@@ -1,9 +1,16 @@
-export type ApiError = {
-  error?: {
-    code?: string;
-    message?: string;
-  };
-};
+import { readStoredSession } from "./auth";
+
+export class ApiError extends Error {
+  readonly status: number;
+  readonly code: string;
+
+  constructor(status: number, code: string, message: string) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+    this.code = code;
+  }
+}
 
 const PUBLIC_API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api/v1";
@@ -14,62 +21,152 @@ function getApiBase() {
   return typeof window === "undefined" ? SERVER_API_BASE : PUBLIC_API_BASE;
 }
 
-async function requestJson<T>(
-  path: string,
-  init?: RequestInit,
-): Promise<T> {
+type RequestOptions = {
+  method?: "GET" | "POST";
+  body?: unknown;
+  headers?: Record<string, string>;
+  auth?: boolean;
+};
+
+async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  const { method = "GET", body, headers = {}, auth = false } = options;
+  const requestHeaders: Record<string, string> = { ...headers };
+
+  if (body !== undefined) {
+    requestHeaders["Content-Type"] = "application/json";
+  }
+
+  if (auth) {
+    const session = readStoredSession();
+    if (session) {
+      requestHeaders.Authorization = `Bearer ${session.accessToken}`;
+    }
+  }
+
   const response = await fetch(`${getApiBase()}${path}`, {
-    ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers ?? {}),
-    },
+    method,
+    headers: requestHeaders,
+    body: body === undefined ? undefined : JSON.stringify(body),
+    cache: "no-store",
   });
 
   if (!response.ok) {
-    throw (await response.json()) as ApiError;
+    throw await toApiError(response);
+  }
+
+  if (response.status === 204) {
+    return undefined as T;
   }
 
   return (await response.json()) as T;
 }
 
-export function getJson<T>(path: string) {
-  return requestJson<T>(path, { method: "GET" });
+async function toApiError(response: Response) {
+  try {
+    const payload = (await response.json()) as {
+      error?: { code?: string; message?: string };
+      detail?: unknown;
+    };
+    const code = payload.error?.code ?? String(response.status);
+    const message =
+      payload.error?.message ?? describeStatus(response.status);
+    return new ApiError(response.status, code, message);
+  } catch {
+    return new ApiError(
+      response.status,
+      String(response.status),
+      describeStatus(response.status),
+    );
+  }
 }
 
-export function postJson<T>(path: string, body: unknown, headers?: HeadersInit) {
-  return requestJson<T>(path, {
+function describeStatus(status: number) {
+  switch (status) {
+    case 401:
+      return "Your session is no longer valid. Sign in again to continue.";
+    case 403:
+      return "This action is not permitted for the current role.";
+    case 404:
+      return "The requested resource was not found.";
+    case 409:
+      return "This operation conflicts with the current state.";
+    case 422:
+      return "The supplied data is invalid.";
+    default:
+      return "The operation could not be completed.";
+  }
+}
+
+/* Authentication */
+
+export type SessionRole = "CUSTOMER" | "ORGANIZER" | "GATE";
+
+export type TokenApi = {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  role: SessionRole;
+};
+
+export function login(email: string, password: string) {
+  return request<TokenApi>("/auth/token", {
     method: "POST",
-    headers,
-    body: JSON.stringify(body),
+    body: { email, password },
   });
 }
 
+export function register(payload: {
+  email: string;
+  password: string;
+  display_name: string;
+  role: SessionRole;
+}) {
+  return request<TokenApi>("/auth/register", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+/* Public events */
+
 export type PublicEventApi = {
   id: string;
+  state?: string;
   title: string;
+  poster_url?: string | null;
   starts_at?: string;
+  ends_at?: string;
   venue_name?: string;
+  capacity?: number;
+  sold_quantity?: number;
+  available_quantity?: number;
   price?: string;
-  poster_url?: string;
   overview?: string;
 };
 
 export type PublicEventPageApi = {
   items: PublicEventApi[];
   page: number;
-  size: number;
   total: number;
-  has_more: boolean;
 };
 
-export async function fetchPublicEvents() {
-  return getJson<PublicEventPageApi>("/events");
+export function fetchPublicEvents(params: { query?: string; page?: number } = {}) {
+  const search = new URLSearchParams();
+  if (params.query) {
+    search.set("query", params.query);
+  }
+  if (params.page && params.page > 1) {
+    search.set("page", String(params.page));
+  }
+  const suffix = search.toString();
+  return request<PublicEventPageApi>(`/events${suffix ? `?${suffix}` : ""}`);
 }
 
-export async function fetchPublicEvent(eventId: string) {
-  return getJson<PublicEventApi>(`/events/${eventId}`);
+export function fetchPublicEvent(eventId: string) {
+  return request<PublicEventApi>(`/events/${eventId}`);
 }
+
+/* Reservations and payment */
 
 export type ReservationApi = {
   id: string;
@@ -80,39 +177,6 @@ export type ReservationApi = {
   expires_at: string;
 };
 
-export type PaymentApi = {
-  reservation: ReservationApi;
-  decision: "APPROVED" | "DECLINED";
-  tickets: Array<{
-    id: string;
-    event_id: string;
-    owner_name: string;
-    status: string;
-    issued_at: string;
-    used_at?: string | null;
-    qr_credential: string;
-  }>;
-};
-
-export function createReservation(eventId: string, quantity: number) {
-  return postJson<ReservationApi>(`/events/${eventId}/reservations`, {
-    quantity,
-  });
-}
-
-export function submitPayment(
-  reservationId: string,
-  payment_token: "tok_approved" | "tok_declined",
-) {
-  return postJson<PaymentApi>(
-    `/reservations/${reservationId}/payment`,
-    { payment_token },
-    {
-      "Idempotency-Key": `${reservationId}:${payment_token}`,
-    },
-  );
-}
-
 export type TicketApi = {
   id: string;
   event_id: string;
@@ -122,6 +186,34 @@ export type TicketApi = {
   used_at?: string | null;
   qr_credential: string;
 };
+
+export type PaymentApi = {
+  reservation: ReservationApi;
+  decision: "APPROVED" | "DECLINED";
+  tickets: TicketApi[];
+};
+
+export function createReservation(eventId: string, quantity: number) {
+  return request<ReservationApi>(`/events/${eventId}/reservations`, {
+    method: "POST",
+    body: { quantity },
+    auth: true,
+  });
+}
+
+export function submitPayment(
+  reservationId: string,
+  paymentToken: "tok_approved" | "tok_declined",
+) {
+  return request<PaymentApi>(`/reservations/${reservationId}/payment`, {
+    method: "POST",
+    body: { payment_token: paymentToken },
+    headers: { "Idempotency-Key": `${reservationId}:${paymentToken}` },
+    auth: true,
+  });
+}
+
+/* Tickets and sharing */
 
 export type TicketShareApi = {
   share_url: string;
@@ -139,71 +231,22 @@ export type SharedTicketApi = {
 };
 
 export function fetchMyTickets() {
-  return getJson<TicketApi[]>("/me/tickets");
+  return request<TicketApi[]>("/me/tickets", { auth: true });
 }
 
 export function createTicketShare(ticketId: string) {
-  return postJson<TicketShareApi>(`/me/tickets/${ticketId}/share`, {});
+  return request<TicketShareApi>(`/me/tickets/${ticketId}/share`, {
+    method: "POST",
+    body: {},
+    auth: true,
+  });
 }
 
 export function fetchSharedTicket(shareToken: string) {
-  return getJson<SharedTicketApi>(`/shared/tickets/${shareToken}`);
+  return request<SharedTicketApi>(`/shared/tickets/${shareToken}`);
 }
 
-export type GateEventApi = {
-  id: string;
-  title: string;
-  starts_at?: string;
-  venue_name?: string;
-  price?: string;
-  poster_url?: string;
-  overview?: string;
-};
-
-export type GateValidationApi = {
-  result: "VALID" | "INVALID" | "ALREADY_USED" | "WRONG_EVENT";
-  attempted_at: string;
-};
-
-export function fetchGateEvents() {
-  return getJson<GateEventApi[]>("/gate/events");
-}
-
-export function validateGateTicket(
-  eventId: string,
-  credential: string,
-  idempotencyKey: string,
-) {
-  return postJson<GateValidationApi>(
-    `/gate/events/${eventId}/validate`,
-    { credential },
-    {
-      "Idempotency-Key": idempotencyKey,
-    },
-  );
-}
-
-export type CatalogEventApi = {
-  external_id: string;
-  title: string;
-  description?: string | null;
-  image_url?: string | null;
-  external_url?: string | null;
-  category?: string | null;
-  date?: string | null;
-  venue_name?: string | null;
-  city?: string | null;
-  country_code?: string | null;
-  source: "ticketmaster";
-};
-
-export type CatalogPageApi = {
-  items: CatalogEventApi[];
-  page: number;
-  size: number;
-  total: number;
-  has_more: boolean;
-};
+/* Organizer */
 
 export type OrganizerEventApi = {
   id: string;
@@ -222,17 +265,8 @@ export type OrganizerEventApi = {
   price: string;
 };
 
-export function fetchCatalogEvents(keyword: string) {
-  const query = new URLSearchParams({ keyword });
-  return getJson<CatalogPageApi>(`/catalog/events?${query.toString()}`);
-}
-
-export function fetchCatalogEventDetail(externalId: string) {
-  return getJson<CatalogEventApi>(`/catalog/events/${externalId}`);
-}
-
 export function fetchOrganizerEvents() {
-  return getJson<OrganizerEventApi[]>("/organizer/events");
+  return request<OrganizerEventApi[]>("/organizer/events", { auth: true });
 }
 
 export function createOrganizerEvent(payload: {
@@ -245,13 +279,88 @@ export function createOrganizerEvent(payload: {
   capacity: number;
   price: string;
 }) {
-  return postJson<OrganizerEventApi>("/events", payload);
+  return request<OrganizerEventApi>("/events", {
+    method: "POST",
+    body: payload,
+    auth: true,
+  });
 }
 
 export function publishOrganizerEvent(eventId: string) {
-  return postJson<OrganizerEventApi>(`/events/${eventId}/publish`, {});
+  return request<OrganizerEventApi>(`/events/${eventId}/publish`, {
+    method: "POST",
+    body: {},
+    auth: true,
+  });
 }
 
 export function cancelOrganizerEvent(eventId: string) {
-  return postJson<OrganizerEventApi>(`/events/${eventId}/cancel`, {});
+  return request<OrganizerEventApi>(`/events/${eventId}/cancel`, {
+    method: "POST",
+    body: {},
+    auth: true,
+  });
+}
+
+/* Catalog */
+
+export type CatalogEventApi = {
+  external_id: string;
+  title: string;
+  description?: string | null;
+  image_url?: string | null;
+  external_url?: string | null;
+  category?: string | null;
+  date?: string | null;
+  venue_name?: string | null;
+  city?: string | null;
+  country_code?: string | null;
+  source: string;
+};
+
+export type CatalogPageApi = {
+  items: CatalogEventApi[];
+  page: number;
+  size: number;
+  total: number;
+  has_more: boolean;
+};
+
+export function fetchCatalogEvents(keyword: string) {
+  const search = new URLSearchParams({ keyword });
+  return request<CatalogPageApi>(`/catalog/events?${search.toString()}`, {
+    auth: true,
+  });
+}
+
+export function fetchCatalogEventDetail(externalId: string) {
+  return request<CatalogEventApi>(`/catalog/events/${externalId}`, {
+    auth: true,
+  });
+}
+
+/* Gate */
+
+export type GateEventApi = PublicEventApi;
+
+export type GateValidationApi = {
+  result: "VALID" | "INVALID" | "ALREADY_USED" | "WRONG_EVENT";
+  attempted_at: string;
+};
+
+export function fetchGateEvents() {
+  return request<GateEventApi[]>("/gate/events", { auth: true });
+}
+
+export function validateGateTicket(
+  eventId: string,
+  credential: string,
+  idempotencyKey: string,
+) {
+  return request<GateValidationApi>(`/gate/events/${eventId}/validate`, {
+    method: "POST",
+    body: { credential },
+    headers: { "Idempotency-Key": idempotencyKey },
+    auth: true,
+  });
 }

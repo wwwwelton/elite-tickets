@@ -1,26 +1,99 @@
-import Link from "next/link";
-import { EmptyState } from "@/components/states/empty-state";
-import { SiteShell } from "@/components/shell/site-shell";
+"use client";
 
-export default function CustomerTicketsPage() {
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { AppShell } from "@/components/shell/app-shell";
+import { RequireRole } from "@/components/shell/require-role";
+import { TicketCard } from "@/components/tickets/ticket-card";
+import { EmptyState, ErrorState, LoadingState } from "@/components/states/states";
+import {
+  fetchMyTickets,
+  fetchPublicEvent,
+  type PublicEventApi,
+  type TicketApi,
+} from "@/lib/api";
+
+export default function MyTicketsPage() {
   return (
-    <SiteShell
-      title="My Tickets"
-      subtitle="Review active tickets, open a ticket detail, and share the pass with another device."
-    >
-      <div style={{ display: "grid", gap: "20px" }}>
-        <EmptyState
-          title="No tickets loaded yet"
-          description="The My Tickets experience is wired to the verified backend contract in the next task."
-        />
-        <div
-          aria-label="Customer ticket shortcuts"
-          style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}
-        >
-          <Link href="/customer">Back to customer home</Link>
-          <Link href="/events/event-1">Browse events</Link>
-        </div>
+    <AppShell>
+      <div className="container py-4">
+        <RequireRole role="CUSTOMER">
+          <TicketsList />
+        </RequireRole>
       </div>
-    </SiteShell>
+    </AppShell>
+  );
+}
+
+function TicketsList() {
+  const [tickets, setTickets] = useState<TicketApi[] | null>(null);
+  const [events, setEvents] = useState<Record<string, PublicEventApi>>({});
+  const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(() => {
+    setError(null);
+    setTickets(null);
+
+    fetchMyTickets()
+      .then(async (list) => {
+        setTickets(list);
+        const uniqueIds = [...new Set(list.map((ticket) => ticket.event_id))];
+        const resolved = await Promise.all(
+          uniqueIds.map((id) =>
+            fetchPublicEvent(id)
+              .then((event) => [id, event] as const)
+              .catch(() => null),
+          ),
+        );
+        setEvents(
+          Object.fromEntries(resolved.filter((entry) => entry !== null)),
+        );
+      })
+      .catch(() => setError("Your tickets could not be loaded."));
+  }, []);
+
+  useEffect(load, [load]);
+
+  if (error) {
+    return <ErrorState description={error} onRetry={load} />;
+  }
+
+  if (!tickets) {
+    return <LoadingState label="Loading your tickets" />;
+  }
+
+  if (tickets.length === 0) {
+    return (
+      <EmptyState
+        title="No tickets yet"
+        description="Once a payment is approved your tickets appear here, newest first."
+        action={
+          <Link className="btn btn-primary" href="/">
+            Find an event
+          </Link>
+        }
+      />
+    );
+  }
+
+  return (
+    <div className="d-grid gap-3">
+      <h1 className="display-5 text-cream mb-0">My tickets</h1>
+      <ul className="list-unstyled row row-cols-1 row-cols-md-2 g-3 mb-0">
+        {tickets.map((ticket) => {
+          const event = events[ticket.event_id];
+          return (
+            <li className="col" key={ticket.id}>
+              <TicketCard
+                ticket={ticket}
+                eventTitle={event?.title ?? "Event"}
+                venueName={event?.venue_name}
+                startsAt={event?.starts_at}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }

@@ -1,48 +1,52 @@
-type QrCodeProps = {
-  credential: string;
-  label?: string;
-};
+"use client";
 
-export function QrCode({ credential, label = "Secure QR credential" }: QrCodeProps) {
+import { useMemo } from "react";
+import { encodeQr } from "@/lib/qr";
+
+export function QrCode({
+  value,
+  label = "Ticket QR credential",
+}: {
+  value: string;
+  label?: string;
+}) {
+  const matrix = useMemo(() => encodeQr(value), [value]);
+
+  if (!matrix) {
+    return (
+      <div className="credential border p-3 bg-black" aria-label={label}>
+        {value}
+      </div>
+    );
+  }
+
+  const size = matrix.length;
+  const quiet = 4;
+  const span = size + quiet * 2;
+
   return (
-    <figure
+    <svg
+      className="qr"
+      viewBox={`0 0 ${span} ${span}`}
+      role="img"
       aria-label={label}
-      style={{
-        alignItems: "center",
-        background: "var(--surface-container-lowest)",
-        border: "1px solid rgba(78, 70, 51, 0.9)",
-        borderRadius: "18px",
-        display: "grid",
-        gap: "14px",
-        justifyItems: "center",
-        margin: 0,
-        padding: "22px",
-      }}
+      shapeRendering="crispEdges"
     >
-      <div
-        aria-hidden="true"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(255, 235, 192, 0.92), rgba(243, 192, 25, 0.7))",
-          borderRadius: "20px",
-          boxShadow: "inset 0 0 0 12px rgba(18, 20, 20, 0.9)",
-          height: "220px",
-          width: "220px",
-        }}
-      />
-      <figcaption style={{ display: "grid", gap: "4px", textAlign: "center" }}>
-        <span
-          style={{
-            color: "var(--muted)",
-            fontSize: "12px",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-          }}
-        >
-          Secure credential
-        </span>
-        <strong style={{ letterSpacing: "0.12em" }}>{credential}</strong>
-      </figcaption>
-    </figure>
+      <rect width={span} height={span} fill="#ffffff" />
+      {matrix.map((row, y) =>
+        row.map((dark, x) =>
+          dark ? (
+            <rect
+              key={`${x}-${y}`}
+              x={x + quiet}
+              y={y + quiet}
+              width={1}
+              height={1}
+              fill="#000000"
+            />
+          ) : null,
+        ),
+      )}
+    </svg>
   );
 }

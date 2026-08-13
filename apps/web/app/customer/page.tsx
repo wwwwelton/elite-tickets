@@ -1,12 +1,5 @@
-import { SiteShell } from "@/components/shell/site-shell";
+import { redirect } from "next/navigation";
 
 export default function CustomerHomePage() {
-  return (
-    <SiteShell
-      title="Customer"
-      subtitle="Browse events, manage your tickets, and complete checkout."
-    >
-      <section />
-    </SiteShell>
-  );
+  redirect("/customer/tickets");
 }

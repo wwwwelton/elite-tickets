@@ -1,12 +1,5 @@
-import { SiteShell } from "@/components/shell/site-shell";
+import { redirect } from "next/navigation";
 
 export default function OrganizerHomePage() {
-  return (
-    <SiteShell
-      title="Organizer"
-      subtitle="Create, publish, and manage events."
-    >
-      <section />
-    </SiteShell>
-  );
+  redirect("/organizer/events");
 }

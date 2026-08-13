@@ -1,45 +1,50 @@
-import type { EventSummary } from "@/lib/mappers";
+import type { PublicEventApi } from "@/lib/api";
+import { availabilityOf } from "@/lib/availability";
+import { formatDate, formatMoney, formatTime } from "@/lib/format";
+import { isSeatedVenue } from "@/lib/seating";
 
-type EventDetailProps = {
-  event: EventSummary;
-};
+export function EventDetail({ event }: { event: PublicEventApi }) {
+  const seated = isSeatedVenue(event);
+  const availability = availabilityOf(event);
 
-export function EventDetail({ event }: EventDetailProps) {
   return (
-    <section
-      aria-label="Event details"
-      style={{
-        display: "grid",
-        gap: "20px",
-      }}
-    >
-      <div
-        style={{
-          aspectRatio: "16 / 9",
-          background:
-            "linear-gradient(135deg, rgba(243,192,25,0.42), rgba(18,20,20,0.96))",
-          border: "1px solid rgba(78, 70, 51, 0.8)",
-          borderRadius: "var(--radius-lg)",
-        }}
-      />
-      <div>
-        <div
-          style={{
-            color: "var(--muted)",
-            fontSize: "13px",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-          }}
-        >
-          Event detail
+    <section className="d-grid gap-4" aria-label="Event details">
+      <dl className="row row-cols-2 row-cols-md-4 g-3 mb-0">
+        <Fact label="Date" value={formatDate(event.starts_at)} />
+        <Fact label="Time" value={formatTime(event.starts_at)} />
+        <Fact label="Venue" value={event.venue_name ?? "To confirm"} />
+        <Fact label="Availability" value={availability.label} />
+      </dl>
+
+      {event.overview ? (
+        <div className="d-grid gap-2">
+          <h2 className="h4 text-cream border-start border-4 border-warning ps-3 mb-0">
+            Synopsis
+          </h2>
+          <p className="mb-0">{event.overview}</p>
         </div>
-        <h2 style={{ margin: "10px 0 0", fontSize: "clamp(30px, 5vw, 56px)" }}>
-          {event.title}
-        </h2>
-        <p style={{ color: "var(--muted)", margin: "12px 0 0" }}>
-          {event.venueName ?? "Venue pending"} · {event.startsAt ?? "Date pending"}
-        </p>
+      ) : null}
+
+      <div className="d-flex flex-wrap gap-2">
+        <span className="badge text-cream">
+          {seated ? "Assigned seating" : "Sectors"}
+        </span>
+        <span className="badge text-secondary">Simulated payment</span>
+        {availability.soldOut ? (
+          <span className="badge text-danger">Sold out</span>
+        ) : availability.lowStock ? (
+          <span className="badge text-warning">Last tickets</span>
+        ) : null}
       </div>
     </section>
+  );
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="col">
+      <dt className="eyebrow mb-1">{label}</dt>
+      <dd className="font-mono mb-0">{value}</dd>
+    </div>
   );
 }

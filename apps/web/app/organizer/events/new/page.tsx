@@ -1,349 +1,364 @@
-import { SiteShell } from "@/components/shell/site-shell";
+"use client";
 
-export default function OrganizerNewEventPage() {
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { StudioShell } from "@/components/shell/studio-shell";
+import { RequireRole } from "@/components/shell/require-role";
+import { LoadingState } from "@/components/states/states";
+import {
+  ApiError,
+  createOrganizerEvent,
+  fetchCatalogEventDetail,
+  fetchCatalogEvents,
+  publishOrganizerEvent,
+  type CatalogEventApi,
+} from "@/lib/api";
+import { formatMoney } from "@/lib/format";
+
+export default function NewOrganizerEventPage() {
   return (
-    <SiteShell
-      title="Create Event"
-      subtitle="Select a catalog title, review the imported information, and configure venue, time, capacity, and price."
-    >
-      <div
-        style={{
-          display: "grid",
-          gap: "28px",
-          gridTemplateColumns: "minmax(0, 1.2fr) minmax(320px, 0.8fr)",
-        }}
-      >
-        <section style={{ display: "grid", gap: "24px" }}>
-          <article
-            aria-label="Select movie"
-            style={{
-              background: "var(--surface-container)",
-              border: "1px solid rgba(78, 70, 51, 0.8)",
-              display: "grid",
-              gap: "18px",
-              padding: "22px",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  color: "var(--muted)",
-                  fontSize: "12px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                }}
-              >
-                1. Select movie
-              </div>
-              <h2 style={{ margin: "8px 0 0", fontSize: "36px" }}>
-                Choose a catalog title
-              </h2>
-            </div>
-            <label style={{ display: "grid", gap: "10px" }}>
-              <span
-                style={{
-                  color: "var(--muted)",
-                  fontSize: "12px",
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                }}
-              >
-                Search title or ID
-              </span>
-              <input
-                defaultValue="Dune"
-                aria-label="Catalog title search"
-                style={{
-                  background: "transparent",
-                  border: "1px solid rgba(78, 70, 51, 0.8)",
-                  color: "var(--text)",
-                  minHeight: "48px",
-                  padding: "0 14px",
-                }}
-              />
-            </label>
-            <div
-              style={{
-                border: "1px solid rgba(78, 70, 51, 0.8)",
-                display: "grid",
-                gap: "14px",
-                gridTemplateColumns: "96px minmax(0, 1fr) auto",
-                padding: "16px",
-              }}
-            >
-              <div
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255, 235, 192, 0.22), rgba(18, 20, 20, 0.92))",
-                  minHeight: "128px",
-                }}
-              />
-              <div style={{ display: "grid", gap: "8px" }}>
-                <h3 style={{ margin: 0, fontSize: "28px" }}>Dune: Part Two</h3>
-                <p style={{ color: "var(--muted)", margin: 0 }}>
-                  ID: MV-84920 | 166 MIN
-                </p>
-                <span
-                  style={{
-                    color: "var(--accent-strong)",
-                    fontSize: "12px",
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Sci-Fi
-                </span>
-              </div>
-              <div
-                aria-hidden="true"
-                style={{
-                  alignSelf: "center",
-                  color: "var(--accent-strong)",
-                  fontSize: "20px",
-                  fontWeight: 700,
-                }}
-              >
-                Selected
-              </div>
-            </div>
-          </article>
+    <StudioShell eyebrow="New setup" title="Create event">
+      <RequireRole role="ORGANIZER">
+        <Suspense fallback={<LoadingState />}>
+          <CreateEventWizard />
+        </Suspense>
+      </RequireRole>
+    </StudioShell>
+  );
+}
 
-          <article
-            aria-label="Logistics"
-            style={{
-              background: "var(--surface-container)",
-              border: "1px solid rgba(78, 70, 51, 0.8)",
-              display: "grid",
-              gap: "18px",
-              padding: "22px",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  color: "var(--muted)",
-                  fontSize: "12px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                }}
-              >
-                2. Logistics
-              </div>
-              <h2 style={{ margin: "8px 0 0", fontSize: "36px" }}>
-                Schedule and pricing
-              </h2>
+const defaultTimezone =
+  typeof Intl !== "undefined"
+    ? Intl.DateTimeFormat().resolvedOptions().timeZone
+    : "UTC";
+
+function CreateEventWizard() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [keyword, setKeyword] = useState("");
+  const [results, setResults] = useState<CatalogEventApi[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState<string | null>(null);
+  const [selected, setSelected] = useState<CatalogEventApi | null>(null);
+
+  const [venueName, setVenueName] = useState("");
+  const [venueAddress, setVenueAddress] = useState("");
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("19:30");
+  const [endTime, setEndTime] = useState("22:00");
+  const [capacity, setCapacity] = useState("300");
+  const [price, setPrice] = useState("45.00");
+
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const presetExternalId = searchParams.get("external_id");
+
+  useEffect(() => {
+    if (!presetExternalId) {
+      return;
+    }
+    fetchCatalogEventDetail(presetExternalId)
+      .then((item) => {
+        setSelected(item);
+        setVenueName((current) => current || item.venue_name || "");
+        setDate((current) => current || item.date || "");
+      })
+      .catch(() => undefined);
+  }, [presetExternalId]);
+
+  async function handleSearch(event: React.FormEvent) {
+    event.preventDefault();
+    if (!keyword.trim()) {
+      return;
+    }
+
+    setSearching(true);
+    setSearchError(null);
+    try {
+      const page = await fetchCatalogEvents(keyword.trim());
+      setResults(page.items);
+      if (page.items.length === 0) {
+        setSearchError("No catalog titles matched that keyword.");
+      }
+    } catch (caught) {
+      setSearchError(
+        caught instanceof ApiError
+          ? caught.message
+          : "The catalog search is unavailable right now.",
+      );
+    } finally {
+      setSearching(false);
+    }
+  }
+
+  function selectItem(item: CatalogEventApi) {
+    setSelected(item);
+    setVenueName((current) => current || item.venue_name || "");
+    setDate((current) => current || item.date || "");
+  }
+
+  async function handleCreate(publishAfterCreate: boolean) {
+    if (!selected || !date) {
+      setSubmitError("Select a catalog title and a show date first.");
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const created = await createOrganizerEvent({
+        external_id: selected.external_id,
+        venue_name: venueName.trim(),
+        venue_address: venueAddress.trim(),
+        starts_at: new Date(`${date}T${startTime}`).toISOString(),
+        ends_at: new Date(`${date}T${endTime}`).toISOString(),
+        timezone: defaultTimezone,
+        capacity: Number(capacity),
+        price,
+      });
+
+      if (publishAfterCreate) {
+        await publishOrganizerEvent(created.id);
+      }
+
+      router.push("/organizer/events");
+    } catch (caught) {
+      setSubmitError(
+        caught instanceof ApiError
+          ? caught.message
+          : "The event could not be created.",
+      );
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="row g-4">
+      <div className="col-12 col-xl-8 d-grid gap-4">
+        <section className="card p-3 p-lg-4 d-grid gap-3" aria-label="Select a title">
+          <div>
+            <p className="eyebrow mb-1">1. Select title</p>
+            <h2 className="h4 text-cream mb-0">Search the external catalog</h2>
+          </div>
+
+          <form className="d-flex gap-2" onSubmit={handleSearch}>
+            <label className="visually-hidden" htmlFor="catalog-keyword">
+              Catalog keyword
+            </label>
+            <input
+              id="catalog-keyword"
+              className="form-control"
+              placeholder="Movie, tour, or show name"
+              value={keyword}
+              onChange={(event) => setKeyword(event.target.value)}
+            />
+            <button className="btn btn-primary" type="submit" disabled={searching}>
+              {searching ? "Searching…" : "Search"}
+            </button>
+          </form>
+
+          {searchError ? (
+            <div className="alert alert-warning mb-0" role="alert">
+              {searchError}
             </div>
-            <div
-              style={{
-                display: "grid",
-                gap: "16px",
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-              }}
-            >
-              <label style={{ display: "grid", gap: "10px" }}>
-                <span style={{ color: "var(--muted)", fontSize: "12px" }}>
-                  Show date
-                </span>
-                <input
-                  defaultValue="11/15/2026"
-                  aria-label="Show date"
-                  style={{
-                    background: "transparent",
-                    border: "1px solid rgba(78, 70, 51, 0.8)",
-                    color: "var(--text)",
-                    minHeight: "48px",
-                    padding: "0 14px",
-                  }}
-                />
-              </label>
-              <label style={{ display: "grid", gap: "10px" }}>
-                <span style={{ color: "var(--muted)", fontSize: "12px" }}>
-                  Show time
-                </span>
-                <input
-                  defaultValue="19:30"
-                  aria-label="Show time"
-                  style={{
-                    background: "transparent",
-                    border: "1px solid rgba(78, 70, 51, 0.8)",
-                    color: "var(--text)",
-                    minHeight: "48px",
-                    padding: "0 14px",
-                  }}
-                />
-              </label>
-              <label style={{ display: "grid", gap: "10px" }}>
-                <span style={{ color: "var(--muted)", fontSize: "12px" }}>
-                  Venue
-                </span>
-                <input
-                  defaultValue="TCL Chinese Theatre"
-                  aria-label="Venue"
-                  style={{
-                    background: "transparent",
-                    border: "1px solid rgba(78, 70, 51, 0.8)",
-                    color: "var(--text)",
-                    minHeight: "48px",
-                    padding: "0 14px",
-                  }}
-                />
-              </label>
-              <label style={{ display: "grid", gap: "10px" }}>
-                <span style={{ color: "var(--muted)", fontSize: "12px" }}>
-                  Capacity
-                </span>
-                <input
-                  defaultValue="932"
-                  aria-label="Capacity"
-                  style={{
-                    background: "transparent",
-                    border: "1px solid rgba(78, 70, 51, 0.8)",
-                    color: "var(--text)",
-                    minHeight: "48px",
-                    padding: "0 14px",
-                  }}
-                />
-              </label>
-              <label style={{ display: "grid", gap: "10px" }}>
-                <span style={{ color: "var(--muted)", fontSize: "12px" }}>
-                  Price
-                </span>
-                <input
-                  defaultValue="28.00"
-                  aria-label="Price"
-                  style={{
-                    background: "transparent",
-                    border: "1px solid rgba(78, 70, 51, 0.8)",
-                    color: "var(--text)",
-                    minHeight: "48px",
-                    padding: "0 14px",
-                  }}
-                />
-              </label>
-            </div>
-          </article>
+          ) : null}
+
+          <ul className="list-unstyled d-grid gap-2 mb-0">
+            {results.map((item) => {
+              const active = selected?.external_id === item.external_id;
+              return (
+                <li key={item.external_id}>
+                  <button
+                    className={`card w-100 text-start p-3 flex-row gap-3 align-items-center ${
+                      active ? "border-warning" : ""
+                    }`}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => selectItem(item)}
+                  >
+                    {item.image_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.image_url}
+                        alt=""
+                        style={{ width: "4rem", height: "5rem", objectFit: "cover" }}
+                      />
+                    ) : null}
+                    <span className="d-grid gap-1">
+                      <span className="h5 text-cream mb-0">{item.title}</span>
+                      <span className="font-mono small text-secondary">
+                        {item.external_id}
+                        {item.category ? ` · ${item.category}` : ""}
+                      </span>
+                      <span className="font-mono small text-secondary">
+                        {[item.venue_name, item.city].filter(Boolean).join(" · ")}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         </section>
 
-        <aside
-          aria-label="Live preview"
-          style={{
-            alignSelf: "start",
-            background: "var(--surface-container)",
-            border: "1px solid rgba(78, 70, 51, 0.8)",
-            display: "grid",
-            gap: "18px",
-            padding: "20px",
-          }}
-        >
+        <section className="card p-3 p-lg-4 d-grid gap-3" aria-label="Logistics">
           <div>
-            <div
-              style={{
-                color: "var(--muted)",
-                fontSize: "12px",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-              }}
-            >
-              Live preview
-            </div>
-            <h2 style={{ margin: "8px 0 0", fontSize: "28px" }}>Review card</h2>
+            <p className="eyebrow mb-1">2. Logistics</p>
+            <h2 className="h4 text-cream mb-0">Schedule, venue, and pricing</h2>
           </div>
-          <div
-            style={{
-              background: "linear-gradient(180deg, #1A2337 0%, #161d2f 100%)",
-              border: "1px solid rgba(78, 70, 51, 0.8)",
-              display: "grid",
-              gap: "18px",
-              padding: "20px",
-            }}
-          >
-            <div
-              style={{
-                border: "1px solid var(--accent-strong)",
-                color: "var(--accent-strong)",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.2em",
-                padding: "6px 10px",
-                width: "fit-content",
-                textTransform: "uppercase",
-              }}
-            >
-              IMAX 70MM
+
+          <div className="row g-3">
+            <div className="col-12 col-md-6">
+              <label className="form-label" htmlFor="event-date">
+                Show date
+              </label>
+              <input
+                id="event-date"
+                className="form-control"
+                type="date"
+                value={date}
+                onChange={(event) => setDate(event.target.value)}
+              />
             </div>
-            <h3 style={{ margin: 0, fontSize: "36px", lineHeight: 0.95 }}>
-              Dune: Part Two
-            </h3>
-            <p style={{ color: "var(--muted)", margin: 0 }}>
-              TCL Chinese Theatre
-            </p>
-            <div
-              style={{
-                borderTop: "1px dashed rgba(255, 235, 192, 0.5)",
-                display: "grid",
-                gap: "12px",
-                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                paddingTop: "16px",
-              }}
-            >
-              <div>
-                <div style={{ color: "var(--muted)", fontSize: "12px" }}>Date</div>
-                <div>Nov 15</div>
-              </div>
-              <div>
-                <div style={{ color: "var(--muted)", fontSize: "12px" }}>Time</div>
-                <div>19:30</div>
-              </div>
-              <div>
-                <div style={{ color: "var(--muted)", fontSize: "12px" }}>
-                  Section
-                </div>
-                <div>GA-1</div>
-              </div>
+            <div className="col-6 col-md-3">
+              <label className="form-label" htmlFor="event-start">
+                Start
+              </label>
+              <input
+                id="event-start"
+                className="form-control"
+                type="time"
+                value={startTime}
+                onChange={(event) => setStartTime(event.target.value)}
+              />
             </div>
-            <div
-              style={{
-                alignItems: "end",
-                display: "flex",
-                justifyContent: "space-between",
-                gap: "20px",
-              }}
-            >
-              <div>
-                <div style={{ color: "var(--muted)", fontSize: "12px" }}>
-                  Total
-                </div>
-                <div style={{ fontSize: "34px", fontWeight: 700 }}>$28.00</div>
-              </div>
-              <div
-                aria-hidden="true"
-                style={{
-                  border: "2px solid var(--accent-strong)",
-                  height: "72px",
-                  width: "72px",
-                }}
+            <div className="col-6 col-md-3">
+              <label className="form-label" htmlFor="event-end">
+                End
+              </label>
+              <input
+                id="event-end"
+                className="form-control"
+                type="time"
+                value={endTime}
+                onChange={(event) => setEndTime(event.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6">
+              <label className="form-label" htmlFor="event-venue">
+                Venue name
+              </label>
+              <input
+                id="event-venue"
+                className="form-control"
+                value={venueName}
+                onChange={(event) => setVenueName(event.target.value)}
+              />
+            </div>
+            <div className="col-12 col-md-6">
+              <label className="form-label" htmlFor="event-address">
+                Venue address
+              </label>
+              <input
+                id="event-address"
+                className="form-control"
+                value={venueAddress}
+                onChange={(event) => setVenueAddress(event.target.value)}
+              />
+            </div>
+            <div className="col-6">
+              <label className="form-label" htmlFor="event-capacity">
+                Capacity
+              </label>
+              <input
+                id="event-capacity"
+                className="form-control"
+                type="number"
+                min={1}
+                value={capacity}
+                onChange={(event) => setCapacity(event.target.value)}
+              />
+            </div>
+            <div className="col-6">
+              <label className="form-label" htmlFor="event-price">
+                Price
+              </label>
+              <input
+                id="event-price"
+                className="form-control"
+                inputMode="decimal"
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}
               />
             </div>
           </div>
-          <a
-            href="/organizer/events"
-            style={{
-              alignItems: "center",
-              background: "var(--accent)",
-              color: "#121414",
-              display: "inline-flex",
-              fontWeight: 700,
-              justifyContent: "center",
-              minHeight: "48px",
-              padding: "12px 16px",
-              textDecoration: "none",
-              textTransform: "uppercase",
-            }}
+
+          <p className="text-secondary small mb-0">
+            Timezone: <span className="font-mono">{defaultTimezone}</span>
+          </p>
+        </section>
+      </div>
+
+      <div className="col-12 col-xl-4">
+        <aside className="card p-3 d-grid gap-3" aria-label="Live preview">
+          <p className="eyebrow mb-0">Live preview</p>
+
+          <div className="stub">
+            <div className="p-3 d-grid gap-1">
+              <span className="badge text-cream">Draft</span>
+              <h3 className="h4 text-cream mb-0">
+                {selected?.title ?? "Select a title"}
+              </h3>
+              <p className="font-mono small text-secondary mb-0">
+                {venueName || "Venue"}
+              </p>
+            </div>
+            <div className="perf d-flex align-items-center px-3">
+              <span className="perf__line flex-grow-1" aria-hidden="true" />
+            </div>
+            <div className="p-3 d-flex justify-content-between">
+              <span>
+                <span className="eyebrow d-block">Date</span>
+                <span className="font-mono">{date || "—"}</span>
+              </span>
+              <span>
+                <span className="eyebrow d-block">Time</span>
+                <span className="font-mono">{startTime}</span>
+              </span>
+              <span className="text-end">
+                <span className="eyebrow d-block">Price</span>
+                <span className="font-mono">{formatMoney(price)}</span>
+              </span>
+            </div>
+          </div>
+
+          {submitError ? (
+            <div className="alert alert-danger mb-0" role="alert">
+              {submitError}
+            </div>
+          ) : null}
+
+          <button
+            className="btn btn-primary"
+            type="button"
+            disabled={submitting || !selected}
+            onClick={() => handleCreate(true)}
           >
-            Publish
-          </a>
+            {submitting ? "Working…" : "Create and publish"}
+          </button>
+          <button
+            className="btn btn-outline-light"
+            type="button"
+            disabled={submitting || !selected}
+            onClick={() => handleCreate(false)}
+          >
+            Save as draft
+          </button>
         </aside>
       </div>
-    </SiteShell>
+    </div>
   );
 }
