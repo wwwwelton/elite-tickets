@@ -129,11 +129,11 @@ export default function OrganizerEventsPage() {
                   {event.status}
                 </span>
               </div>
-              <div style={{ display: "grid", gap: "14px", padding: "20px" }}>
-                <h2 style={{ margin: 0, fontSize: "32px", lineHeight: 0.95 }}>
-                  {event.title}
-                </h2>
-                <p style={{ color: "var(--muted)", margin: 0 }}>{event.startsAt}</p>
+                <div style={{ display: "grid", gap: "14px", padding: "20px" }}>
+                  <h2 style={{ margin: 0, fontSize: "32px", lineHeight: 0.95 }}>
+                    {event.title}
+                  </h2>
+                  <p style={{ color: "var(--muted)", margin: 0 }}>{event.startsAt}</p>
                 <div
                   style={{
                     borderTop: "1px dashed rgba(255, 235, 192, 0.5)",
@@ -173,6 +173,42 @@ export default function OrganizerEventsPage() {
                       {event.available}
                     </div>
                   </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "12px",
+                    flexWrap: "wrap",
+                    padding: "0 20px 20px",
+                  }}
+                >
+                  <a
+                    href="/organizer/events/new"
+                    style={{
+                      border: "1px solid rgba(255, 235, 192, 0.7)",
+                      color: "var(--accent-strong)",
+                      fontWeight: 700,
+                      minHeight: "44px",
+                      padding: "10px 14px",
+                      textDecoration: "none",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Publish
+                  </a>
+                  <a
+                    href="/organizer/events/new"
+                    style={{
+                      border: "1px solid rgba(78, 70, 51, 0.8)",
+                      fontWeight: 700,
+                      minHeight: "44px",
+                      padding: "10px 14px",
+                      textDecoration: "none",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Cancel
+                  </a>
                 </div>
               </div>
             </article>
