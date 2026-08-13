@@ -41,6 +41,12 @@ Depois da inicialização:
 - saúde: <http://localhost:8000/health/live> e
   <http://localhost:8000/health/ready>
 
+O `docker compose up --build -d --wait` agora sobe também o frontend Next.js em
+`apps/web/` como o serviço `web`, exposto em `http://localhost:3000`. O frontend
+usa `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api/v1` por padrão e a API
+aceita `CORS_ORIGINS` para `http://localhost:3000` e `http://localhost:3001`
+during local development.
+
 ### Dados de demonstração
 
 Todas as contas abaixo são exclusivamente locais e usam a senha
