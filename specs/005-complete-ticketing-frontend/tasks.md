@@ -71,7 +71,7 @@
 
 ### Implementation for User Story 2
 
-- [ ] T021 [US2] Implement the shared login page with role-specific entry choices in `apps/web/app/login/page.tsx`
+- [X] T021 [US2] Implement the shared login page with role-specific entry choices in `apps/web/app/login/page.tsx`
 - [ ] T022 [US2] Implement the customer registration page or dependency state in `apps/web/app/register/page.tsx`
 - [ ] T023 [P] [US2] Implement post-login role redirects and logout handling in `apps/web/lib/auth.ts`
 - [ ] T024 [P] [US2] Add authenticated navigation and header actions for logout and role entry in `apps/web/components/navigation/site-nav.tsx`
