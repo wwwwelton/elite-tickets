@@ -23,7 +23,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Define the shared authenticated session model and role routing behavior in `apps/web/lib/auth.ts`
+- [X] T005 Define the shared authenticated session model and role routing behavior in `apps/web/lib/auth.ts`
 - [ ] T006 [P] Create the shared backend data mappers for events, reservations, tickets, shares, and gate validation results in `apps/web/lib/mappers.ts`
 - [ ] T007 [P] Add the public application routes and role entry points in `apps/web/app/login/page.tsx`, `apps/web/app/register/page.tsx`, `apps/web/app/shared/tickets/[shareToken]/page.tsx`, `apps/web/app/customer/page.tsx`, `apps/web/app/organizer/page.tsx`, and `apps/web/app/gate/page.tsx`
 - [ ] T008 Configure shared loading, empty, error, and unauthorized state components in `apps/web/components/states/` for reuse across all stories

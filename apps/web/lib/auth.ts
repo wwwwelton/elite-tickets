@@ -6,6 +6,12 @@ export type SessionState = {
   role: SessionRole;
 };
 
+export type LoginResponse = {
+  access_token: string;
+  expires_in: number;
+  role: SessionRole;
+};
+
 const STORAGE_KEY = "elite-tickets.session";
 
 export function loadSession(): SessionState | null {
@@ -42,5 +48,35 @@ export function roleHomePath(role: SessionRole) {
       return "/organizer";
     case "GATE":
       return "/gate";
+  }
+}
+
+export function toSessionState(response: LoginResponse): SessionState {
+  return {
+    accessToken: response.access_token,
+    expiresIn: response.expires_in,
+    role: response.role,
+  };
+}
+
+export function serializeSession(session: SessionState) {
+  return JSON.stringify(session);
+}
+
+export function deserializeSession(raw: string): SessionState | null {
+  try {
+    const parsed = JSON.parse(raw) as SessionState;
+    if (
+      typeof parsed.accessToken !== "string" ||
+      typeof parsed.expiresIn !== "number" ||
+      (parsed.role !== "CUSTOMER" &&
+        parsed.role !== "ORGANIZER" &&
+        parsed.role !== "GATE")
+    ) {
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
   }
 }
