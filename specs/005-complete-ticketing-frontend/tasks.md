@@ -41,7 +41,7 @@
 
 ### Tests for User Story 1
 
-- [ ] T010 [P] [US1] Add route-level tests for public discovery and event detail rendering in `apps/web/tests/public-events.test.tsx`
+- [X] T010 [P] [US1] Add route-level tests for public discovery and event detail rendering in `apps/web/tests/public-events.test.tsx`
 - [ ] T011 [US1] Add search and ordering coverage for the public event list in `apps/web/tests/public-events.test.tsx`
 
 ### Implementation for User Story 1
