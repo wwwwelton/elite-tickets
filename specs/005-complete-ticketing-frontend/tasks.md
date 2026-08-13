@@ -49,7 +49,7 @@
 - [X] T012 [US1] Implement the home page event discovery route in `apps/web/app/page.tsx`
 - [X] T013 [P] [US1] Implement the public event list UI in `apps/web/components/events/event-list.tsx`
 - [X] T014 [US1] Implement the public event search UI in `apps/web/components/events/event-search.tsx`
-- [ ] T015 [P] [US1] Implement the event card presentation component in `apps/web/components/events/event-card.tsx`
+- [X] T015 [P] [US1] Implement the event card presentation component in `apps/web/components/events/event-card.tsx`
 - [ ] T016 [US1] Implement the event detail presentation component in `apps/web/components/events/event-detail.tsx`
 - [ ] T017 [US1] Wire the public event page to the verified `GET /api/v1/events` and `GET /api/v1/events/{eventId}` contracts in `apps/web/lib/api.ts`
 - [ ] T018 [US1] Add the signed-out purchase entry behavior and prompt to log in or create an account in `apps/web/app/events/[eventId]/page.tsx`
