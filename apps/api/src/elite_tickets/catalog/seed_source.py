@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal, InvalidOperation
+from itertools import zip_longest
 from typing import Any
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -21,8 +22,12 @@ from elite_tickets.catalog.schemas import CatalogEventDetail
 from elite_tickets.shared.config import get_settings
 
 SEED_COUNTRY_CODE = "BR"
-SEED_PAGE_SIZE = 40
+# The pool is read wide and then thinned per state. Ticketmaster returns Brazil
+# date-first, and São Paulo plus Rio are the bulk of any upcoming page, so a
+# narrow pool cannot represent the rest of the country.
+SEED_PAGE_SIZE = 100
 SEED_TIMEOUT_SECONDS = 10.0
+UNKNOWN_STATE = "?"
 DEFAULT_TIMEZONE = "America/Sao_Paulo"
 DEFAULT_EVENT_DURATION = timedelta(hours=3)
 DEFAULT_START_HOUR = 20
@@ -69,28 +74,53 @@ async def fetch_seed_events(*, limit: int, now: datetime | None = None) -> list[
             return []
 
         seen: set[str] = set()
-        selected: list[CatalogSeedEvent] = []
+        by_state: dict[str, list[CatalogSeedEvent]] = {}
         for raw in raw_events:
-            if len(selected) >= limit:
-                break
             if not isinstance(raw, dict):
                 continue
             candidate = _to_seed_event(raw, after=moment)
             if candidate is None or candidate.detail.external_id in seen:
                 continue
             seen.add(candidate.detail.external_id)
-            # The list payload often omits the street and city that the detail
-            # payload carries, so prefer the detail when it is reachable.
-            selected.append(
-                await _detailed(
-                    client,
-                    candidate,
-                    api_key=api_key,
-                    after=moment,
-                )
-            )
+            by_state.setdefault(_state_code(raw), []).append(candidate)
 
+        # The list payload often omits the street and city that the detail
+        # payload carries, so prefer the detail when it is reachable. Only the
+        # events that survive selection are worth a second request.
+        return [
+            await _detailed(client, candidate, api_key=api_key, after=moment)
+            for candidate in _spread_across_states(by_state, limit=limit)
+        ]
+
+
+def _spread_across_states(
+    by_state: dict[str, list[CatalogSeedEvent]],
+    *,
+    limit: int,
+) -> list[CatalogSeedEvent]:
+    """Take one event per state before taking a second from any of them.
+
+    Upcoming Brazilian listings are dominated by São Paulo and Rio, so slicing
+    the date-sorted feed yields a demo catalog set almost entirely in São Paulo.
+    Round-robin gives every state that has an event a seat before the busy ones
+    get a second, while ordering states by their earliest event keeps the
+    soonest dates in front.
+    """
+    ordered = sorted(by_state.values(), key=lambda events: events[0].starts_at)
+    selected: list[CatalogSeedEvent] = []
+    for tier in zip_longest(*ordered):
+        for candidate in tier:
+            if candidate is None:
+                continue
+            if len(selected) >= limit:
+                return selected
+            selected.append(candidate)
     return selected
+
+
+def _state_code(raw: dict[str, Any]) -> str:
+    state = _mapping(_venue(raw).get("state"))
+    return _text(state.get("stateCode")) or _text(state.get("name")) or UNKNOWN_STATE
 
 
 async def _detailed(

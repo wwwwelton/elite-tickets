@@ -24,7 +24,10 @@ DEMO_TMDB_ID = 550
 # BRL price range.
 DEMO_CAPACITY = 120
 DEMO_PRICE = Decimal("35.00")
-DEMO_CATALOG_EVENT_LIMIT = 6
+# One per state for as many Brazilian states as the feed offers; the selection
+# is round-robin by state, so raising this widens national coverage first and
+# only then adds a second event to the busiest states.
+DEMO_CATALOG_EVENT_LIMIT = 12
 
 
 @dataclass(frozen=True)
