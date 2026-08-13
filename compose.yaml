@@ -53,11 +53,23 @@ services:
         condition: service_healthy
     restart: "no"
 
+  # Demo fixtures, so `docker compose up` lands on a browsable catalog instead of
+  # an empty one. Idempotent: events are matched on external id before insert, so
+  # re-running adds nothing. It also survives Ticketmaster being down or the API
+  # key being absent, falling back to the local purchase fixture alone.
+  seed:
+    <<: *api-service
+    command: ["python", "-m", "elite_tickets.seed_demo"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: "no"
+
   api:
     <<: *api-service
     command: ["uvicorn", "elite_tickets.main:app", "--host", "0.0.0.0", "--port", "8000"]
     depends_on:
-      migrate:
+      seed:
         condition: service_completed_successfully
     healthcheck:
       test:
