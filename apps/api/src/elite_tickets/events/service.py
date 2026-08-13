@@ -4,8 +4,9 @@ from decimal import Decimal
 from urllib.parse import urlsplit
 
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import func, or_, select, update
+from sqlalchemy import ColumnExpressionArgument, Text, func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.functions import Function
 
 from elite_tickets.db.base import utc_now
 from elite_tickets.events.models import Event, EventState, MovieSnapshot
@@ -75,6 +76,17 @@ def _escaped_search(value: str) -> str:
     return value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
 
 
+def _unaccent(value: ColumnExpressionArgument[str] | str) -> Function[str]:
+    """Fold diacritics so "sao paulo" matches "São Paulo".
+
+    ILIKE lowercases but keeps accents, and the catalog is mostly Brazilian
+    titles and venues that readers type unaccented. unaccent() leaves the LIKE
+    metacharacters and the backslash escape untouched, so it composes with
+    `_escaped_search` above.
+    """
+    return func.unaccent(value, type_=Text())
+
+
 async def finalize_ended_events(
     session: AsyncSession,
     *,
@@ -107,11 +119,15 @@ async def list_published_events(
     filters = [Event.state == EventState.PUBLISHED]
     normalized_query = query.strip() if query else ""
     if normalized_query:
-        pattern = f"%{_escaped_search(normalized_query)}%"
+        pattern = _unaccent(f"%{_escaped_search(normalized_query)}%")
         filters.append(
             or_(
-                MovieSnapshot.title.ilike(pattern, escape="\\"),
-                Event.venue_name.ilike(pattern, escape="\\"),
+                _unaccent(MovieSnapshot.title).ilike(pattern, escape="\\"),
+                _unaccent(Event.venue_name).ilike(pattern, escape="\\"),
+                # The catalog spans every state the feed reaches, and the city
+                # and state code live only in the address, so searching by
+                # place ("curitiba", "BA") needs this column too.
+                _unaccent(Event.venue_address).ilike(pattern, escape="\\"),
             )
         )
 
