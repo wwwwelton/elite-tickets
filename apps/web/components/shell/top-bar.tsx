@@ -33,9 +33,12 @@ export function TopBar({ backHref }: { backHref?: string }) {
         <div className="d-flex align-items-center gap-2">
           {!ready ? null : session ? (
             <>
-              <span className="badge text-cream d-none d-sm-inline-flex">
+              <Link
+                className="badge text-cream d-none d-sm-inline-flex"
+                href={roleHomePath(session.role)}
+              >
                 {ROLE_LABELS[session.role]}
-              </span>
+              </Link>
               <button
                 className="btn btn-outline-light btn-sm"
                 type="button"
