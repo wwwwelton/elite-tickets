@@ -144,7 +144,7 @@
 - [X] T043 [P] [US5] Implement the external catalog search and selection flow in `apps/web/app/organizer/catalog/page.tsx`
 - [X] T044 [P] [US5] Implement the organizer create and review flow in `apps/web/app/organizer/events/new/page.tsx`
 - [X] T045 [US5] Implement organizer publish and cancel actions in `apps/web/app/organizer/events/page.tsx`
-- [ ] T046 [US5] Implement the gate event selection and validation scanner experience in `apps/web/app/gate/page.tsx`
+- [X] T046 [US5] Implement the gate event selection and validation scanner experience in `apps/web/app/gate/page.tsx`
 - [ ] T047 [P] [US5] Implement the gate validation outcome states and manual fallback components in `apps/web/components/gate/gate-status.tsx` and `apps/web/components/gate/manual-entry.tsx`
 - [ ] T048 [US5] Wire organizer and gate pages to `GET /api/v1/organizer/events`, `GET /api/v1/catalog/events`, `GET /api/v1/catalog/events/{external_id}`, `POST /api/v1/events`, `POST /api/v1/events/{eventId}/publish`, `POST /api/v1/events/{eventId}/cancel`, `GET /api/v1/gate/events`, and `POST /api/v1/gate/events/{eventId}/validate` in `apps/web/lib/api.ts`
 
