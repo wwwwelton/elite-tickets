@@ -4,9 +4,10 @@ type SiteShellProps = {
   children: ReactNode;
   title?: string;
   subtitle?: string;
+  action?: ReactNode;
 };
 
-export function SiteShell({ children, title, subtitle }: SiteShellProps) {
+export function SiteShell({ children, title, subtitle, action }: SiteShellProps) {
   return (
     <div
       style={{
@@ -29,6 +30,7 @@ export function SiteShell({ children, title, subtitle }: SiteShellProps) {
             borderRadius: "var(--radius-lg)",
             boxShadow: "var(--shadow-soft)",
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "space-between",
             gap: "24px",
             marginBottom: "28px",
@@ -71,19 +73,21 @@ export function SiteShell({ children, title, subtitle }: SiteShellProps) {
               </p>
             ) : null}
           </div>
-          <div
-            style={{
-              border: "1px solid rgba(78, 70, 51, 0.8)",
-              borderRadius: "9999px",
-              color: "var(--muted)",
-              fontSize: "13px",
-              letterSpacing: "0.12em",
-              padding: "10px 14px",
-              textTransform: "uppercase",
-            }}
-          >
-            Responsive product shell
-          </div>
+          {action ?? (
+            <div
+              style={{
+                border: "1px solid rgba(78, 70, 51, 0.8)",
+                borderRadius: "9999px",
+                color: "var(--muted)",
+                fontSize: "13px",
+                letterSpacing: "0.12em",
+                padding: "10px 14px",
+                textTransform: "uppercase",
+              }}
+            >
+              Responsive product shell
+            </div>
+          )}
         </header>
         <main>{children}</main>
       </div>

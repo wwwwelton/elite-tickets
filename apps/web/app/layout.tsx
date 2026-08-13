@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div style={{ minHeight: "100dvh" }}>{children}</div>
+      </body>
     </html>
   );
 }
