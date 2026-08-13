@@ -55,3 +55,45 @@ export async function fetchPublicEvents() {
 export async function fetchPublicEvent(eventId: string) {
   return getJson<PublicEventApi>(`/events/${eventId}`);
 }
+
+export type ReservationApi = {
+  id: string;
+  event_id: string;
+  status: string;
+  quantity: number;
+  total_amount: string;
+  expires_at: string;
+};
+
+export type PaymentApi = {
+  reservation: ReservationApi;
+  decision: "APPROVED" | "DECLINED";
+  tickets: Array<{
+    id: string;
+    event_id: string;
+    owner_name: string;
+    status: string;
+    issued_at: string;
+    used_at?: string | null;
+    qr_credential: string;
+  }>;
+};
+
+export function createReservation(eventId: string, quantity: number) {
+  return postJson<ReservationApi>(`/events/${eventId}/reservations`, {
+    quantity,
+  });
+}
+
+export function submitPayment(
+  reservationId: string,
+  payment_token: "tok_approved" | "tok_declined",
+) {
+  return postJson<PaymentApi>(
+    `/reservations/${reservationId}/payment`,
+    { payment_token },
+    {
+      "Idempotency-Key": `${reservationId}:${payment_token}`,
+    },
+  );
+}

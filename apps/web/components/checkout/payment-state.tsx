@@ -1,5 +1,5 @@
 type PaymentStateProps = {
-  status: "approved" | "declined" | "pending";
+  status: "approved" | "declined" | "pending" | "conflict";
 };
 
 export function PaymentState({ status }: PaymentStateProps) {
@@ -8,6 +8,8 @@ export function PaymentState({ status }: PaymentStateProps) {
       ? "Payment approved"
       : status === "declined"
         ? "Payment declined"
+        : status === "conflict"
+          ? "Reservation conflict"
         : "Payment pending";
 
   return (
