@@ -1,16 +1,18 @@
 import { SiteShell } from "@/components/shell/site-shell";
 import { LoadingState } from "@/components/states/loading-state";
+import { EventList } from "@/components/events/event-list";
 
 const featuredEvents = [
   {
     id: "event-1",
     title: "Neon Horizon",
-    starts_at: "2026-09-10T20:00:00Z",
-    venue_name: "Grand Cinema",
+    startsAt: "2026-09-10T20:00:00Z",
+    venueName: "Grand Cinema",
   },
 ];
 
 export default function HomePage() {
+
   return (
     <SiteShell
       title="Discover events"
@@ -61,53 +63,7 @@ export default function HomePage() {
 
         <LoadingState label="Loading events" />
 
-        <div
-          style={{
-            display: "grid",
-            gap: "16px",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          }}
-        >
-          {featuredEvents.map((event) => (
-            <article
-              key={event.id}
-              style={{
-                background: "var(--surface)",
-                border: "1px solid rgba(78, 70, 51, 0.8)",
-                borderRadius: "var(--radius-md)",
-                overflow: "hidden",
-                minHeight: "260px",
-              }}
-            >
-              <div
-                style={{
-                  aspectRatio: "4 / 5",
-                  background:
-                    "linear-gradient(135deg, rgba(243,192,25,0.35), rgba(35,38,38,0.95))",
-                  borderBottom: "1px solid rgba(78, 70, 51, 0.8)",
-                }}
-              />
-              <div style={{ padding: "18px" }}>
-                <div
-                  style={{
-                    color: "var(--muted)",
-                    fontSize: "12px",
-                    letterSpacing: "0.16em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {event.venue_name}
-                </div>
-                <h3 style={{ margin: "8px 0 0", fontSize: "24px" }}>
-                  {event.title}
-                </h3>
-                <p style={{ color: "var(--muted)", margin: "10px 0 0" }}>
-                  {event.starts_at}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
+        <EventList events={featuredEvents} />
       </section>
     </SiteShell>
   );
