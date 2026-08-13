@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { describe, expect, it } from "vitest";
 import CustomerHomePage from "../app/customer/page";
+import TicketDetailPage from "../app/customer/tickets/[ticketId]/page";
 import SharedTicketPage from "../app/shared/tickets/[shareToken]/page";
 import { mapShareSummary, mapTicketSummary } from "../lib/mappers";
 
@@ -38,11 +39,46 @@ describe("tickets and sharing", () => {
     });
   });
 
+  it("keeps QR credentials available without inventing owner identity", () => {
+    const ticket = mapTicketSummary({
+      id: "ticket-2",
+      event_id: "event-2",
+      status: "ACTIVE",
+      qr_credential: "secure-qr-credential",
+    });
+
+    expect(ticket.qrCredential).toBe("secure-qr-credential");
+    expect(ticket).not.toHaveProperty("ownerName");
+  });
+
   it("maps share URLs for the public shared ticket experience", () => {
     const share = mapShareSummary({
       share_url: "https://example.com/shared/tickets/share-1",
     });
 
     expect(share.shareUrl).toBe("https://example.com/shared/tickets/share-1");
+  });
+
+  it("keeps the shared ticket page read-only and free of private account data", () => {
+    render(React.createElement(SharedTicketPage));
+
+    expect(screen.queryByText(/owner/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/email/i)).not.toBeInTheDocument();
+  });
+
+  it("renders the ticket detail page with a secure QR presentation area", async () => {
+    render(
+      React.createElement(TicketDetailPage, {
+        params: Promise.resolve({
+          ticketId: "ticket-42",
+        }),
+      }),
+    );
+
+    expect(
+      await screen.findByRole("heading", { name: /ticket detail/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/secure qr credential/i)).toBeInTheDocument();
+    expect(screen.getByText(/verified ticket/i)).toBeInTheDocument();
   });
 });
