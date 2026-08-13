@@ -10,10 +10,10 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create the frontend application shell under `apps/web/` with the route and component structure described in `specs/005-complete-ticketing-frontend/plan.md`
-- [ ] T002 Initialize shared frontend tooling and scripts for `apps/web/` so local development, linting, and tests can run consistently
-- [ ] T003 [P] Establish the shared design token and layout foundation in `apps/web/app/globals.css` and the base shell components in `apps/web/components/`
-- [ ] T004 [P] Add the frontend API client and token/session helpers in `apps/web/lib/` for the verified backend contract surface in `specs/005-complete-ticketing-frontend/contracts/openapi.md`
+- [ ] T001 Create the frontend application shell files under `apps/web/app/layout.tsx` and `apps/web/app/page.tsx` with the route structure described in `specs/005-complete-ticketing-frontend/plan.md`
+- [ ] T002 Initialize shared frontend tooling and scripts in `apps/web/package.json` so local development, linting, and tests can run consistently
+- [ ] T003 [P] Establish the shared design token and layout foundation in `apps/web/app/globals.css` and `apps/web/components/shell/site-shell.tsx`
+- [ ] T004 [P] Add the frontend API client and token/session helpers in `apps/web/lib/api.ts` and `apps/web/lib/auth.ts` for the verified backend contract surface in `specs/005-complete-ticketing-frontend/contracts/openapi.md`
 
 ---
 
@@ -24,10 +24,10 @@
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
 - [ ] T005 Define the shared authenticated session model and role routing behavior in `apps/web/lib/auth.ts`
-- [ ] T006 [P] Create the shared backend data mappers for events, reservations, tickets, shares, and gate validation results in `apps/web/lib/`
-- [ ] T007 [P] Add the public application routes and role entry points in `apps/web/app/` for home, login, register, shared ticket, customer, organizer, and gate destinations
-- [ ] T008 Configure shared loading, empty, error, and unauthorized state components in `apps/web/components/` for reuse across all stories
-- [ ] T009 Set up baseline frontend tests and fixtures under `apps/web/tests/` for API-mocking and route rendering
+- [ ] T006 [P] Create the shared backend data mappers for events, reservations, tickets, shares, and gate validation results in `apps/web/lib/mappers.ts`
+- [ ] T007 [P] Add the public application routes and role entry points in `apps/web/app/login/page.tsx`, `apps/web/app/register/page.tsx`, `apps/web/app/shared/tickets/[shareToken]/page.tsx`, `apps/web/app/customer/page.tsx`, `apps/web/app/organizer/page.tsx`, and `apps/web/app/gate/page.tsx`
+- [ ] T008 Configure shared loading, empty, error, and unauthorized state components in `apps/web/components/states/` for reuse across all stories
+- [ ] T009 Set up baseline frontend tests and fixtures in `apps/web/tests/setup.ts` and `apps/web/tests/fixtures/` for API-mocking and route rendering
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -42,15 +42,17 @@
 ### Tests for User Story 1
 
 - [ ] T010 [P] [US1] Add route-level tests for public discovery and event detail rendering in `apps/web/tests/public-events.test.tsx`
-- [ ] T011 [P] [US1] Add search and ordering coverage for the public event list in `apps/web/tests/public-events.test.tsx`
+- [ ] T011 [US1] Add search and ordering coverage for the public event list in `apps/web/tests/public-events.test.tsx`
 
 ### Implementation for User Story 1
 
 - [ ] T012 [US1] Implement the home page event discovery route in `apps/web/app/page.tsx`
-- [ ] T013 [P] [US1] Implement the public event list and search UI in `apps/web/components/events/`
-- [ ] T014 [P] [US1] Implement the event card and event detail presentation components in `apps/web/components/events/`
-- [ ] T015 [US1] Wire the public event page to the verified `GET /api/v1/events` and `GET /api/v1/events/{eventId}` contracts in `apps/web/lib/api.ts`
-- [ ] T016 [US1] Add the signed-out purchase entry behavior and prompt to log in or create an account in `apps/web/app/events/[eventId]/page.tsx`
+- [ ] T013 [P] [US1] Implement the public event list UI in `apps/web/components/events/event-list.tsx`
+- [ ] T014 [US1] Implement the public event search UI in `apps/web/components/events/event-search.tsx`
+- [ ] T015 [P] [US1] Implement the event card presentation component in `apps/web/components/events/event-card.tsx`
+- [ ] T016 [US1] Implement the event detail presentation component in `apps/web/components/events/event-detail.tsx`
+- [ ] T017 [US1] Wire the public event page to the verified `GET /api/v1/events` and `GET /api/v1/events/{eventId}` contracts in `apps/web/lib/api.ts`
+- [ ] T018 [US1] Add the signed-out purchase entry behavior and prompt to log in or create an account in `apps/web/app/events/[eventId]/page.tsx`
 
 **Checkpoint**: User Story 1 should now be fully functional and testable independently
 
@@ -64,16 +66,16 @@
 
 ### Tests for User Story 2
 
-- [ ] T017 [P] [US2] Add authentication and role-routing tests in `apps/web/tests/auth-routing.test.tsx`
-- [ ] T018 [P] [US2] Add customer registration dependency-state coverage in `apps/web/tests/auth-routing.test.tsx`
+- [ ] T019 [P] [US2] Add authentication and role-routing tests in `apps/web/tests/auth-routing.test.tsx`
+- [ ] T020 [US2] Add customer registration dependency-state coverage in `apps/web/tests/auth-routing.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T019 [US2] Implement the shared login page with role-specific entry choices in `apps/web/app/login/page.tsx`
-- [ ] T020 [US2] Implement the customer registration page or dependency state in `apps/web/app/register/page.tsx`
-- [ ] T021 [P] [US2] Implement post-login role redirects and logout handling in `apps/web/lib/auth.ts`
-- [ ] T022 [P] [US2] Add authenticated navigation and header actions for logout and role entry in `apps/web/components/navigation/`
-- [ ] T023 [US2] Implement unauthorized and wrong-role state handling for protected routes in `apps/web/app/`
+- [ ] T021 [US2] Implement the shared login page with role-specific entry choices in `apps/web/app/login/page.tsx`
+- [ ] T022 [US2] Implement the customer registration page or dependency state in `apps/web/app/register/page.tsx`
+- [ ] T023 [P] [US2] Implement post-login role redirects and logout handling in `apps/web/lib/auth.ts`
+- [ ] T024 [P] [US2] Add authenticated navigation and header actions for logout and role entry in `apps/web/components/navigation/site-nav.tsx`
+- [ ] T025 [US2] Implement unauthorized and wrong-role state handling for protected routes in `apps/web/app/(protected)/unauthorized/page.tsx`
 
 **Checkpoint**: User Story 2 should now be fully functional and testable independently
 
@@ -87,16 +89,16 @@
 
 ### Tests for User Story 3
 
-- [ ] T024 [P] [US3] Add reservation and checkout flow tests in `apps/web/tests/checkout-flow.test.tsx`
-- [ ] T025 [P] [US3] Add ticket-selection state coverage for quantity-based and supported allocation-mode rendering in `apps/web/tests/checkout-flow.test.tsx`
+- [ ] T026 [P] [US3] Add reservation and checkout flow tests in `apps/web/tests/checkout-flow.test.tsx`
+- [ ] T027 [US3] Add ticket-selection state coverage for quantity-based and supported allocation-mode rendering in `apps/web/tests/checkout-flow.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T026 [US3] Implement the ticket selection and reservation flow in `apps/web/app/events/[eventId]/reserve/page.tsx`
-- [ ] T027 [P] [US3] Implement the order review and simulated payment UI in `apps/web/app/customer/checkout/[reservationId]/page.tsx`
-- [ ] T028 [P] [US3] Implement the checkout and reservation state components in `apps/web/components/checkout/`
-- [ ] T029 [US3] Wire reservation creation and payment submission to `POST /api/v1/events/{eventId}/reservations` and `POST /api/v1/reservations/{reservationId}/payment` in `apps/web/lib/api.ts`
-- [ ] T030 [US3] Add approved, declined, conflict, and recovery handling for checkout outcomes in `apps/web/app/customer/checkout/[reservationId]/page.tsx`
+- [ ] T028 [US3] Implement the ticket selection and reservation flow in `apps/web/app/events/[eventId]/reserve/page.tsx`
+- [ ] T029 [P] [US3] Implement the order review and simulated payment UI in `apps/web/app/customer/checkout/[reservationId]/page.tsx`
+- [ ] T030 [P] [US3] Implement the checkout and reservation state components in `apps/web/components/checkout/checkout-summary.tsx` and `apps/web/components/checkout/payment-state.tsx`
+- [ ] T031 [US3] Wire reservation creation and payment submission to `POST /api/v1/events/{eventId}/reservations` and `POST /api/v1/reservations/{reservationId}/payment` in `apps/web/lib/api.ts`
+- [ ] T032 [US3] Add approved, declined, conflict, and recovery handling for checkout outcomes in `apps/web/app/customer/checkout/[reservationId]/page.tsx`
 
 **Checkpoint**: User Story 3 should now be fully functional and testable independently
 
@@ -110,16 +112,16 @@
 
 ### Tests for User Story 4
 
-- [ ] T031 [P] [US4] Add My Tickets, ticket detail, and share-link rendering tests in `apps/web/tests/tickets-and-sharing.test.tsx`
-- [ ] T032 [P] [US4] Add secure QR and read-only shared ticket state coverage in `apps/web/tests/tickets-and-sharing.test.tsx`
+- [ ] T033 [P] [US4] Add My Tickets, ticket detail, and share-link rendering tests in `apps/web/tests/tickets-and-sharing.test.tsx`
+- [ ] T034 [US4] Add secure QR and read-only shared ticket state coverage in `apps/web/tests/tickets-and-sharing.test.tsx`
 
 ### Implementation for User Story 4
 
-- [ ] T033 [US4] Implement the My Tickets route in `apps/web/app/customer/tickets/page.tsx`
-- [ ] T034 [P] [US4] Implement the ticket detail route and QR presentation in `apps/web/app/customer/tickets/[ticketId]/page.tsx`
-- [ ] T035 [P] [US4] Implement the shared ticket route in `apps/web/app/shared/tickets/[shareToken]/page.tsx`
-- [ ] T036 [US4] Implement ticket, share, and QR data rendering components in `apps/web/components/tickets/`
-- [ ] T037 [US4] Wire My Tickets, ticket share creation, and shared ticket retrieval to `GET /api/v1/me/tickets`, `POST /api/v1/me/tickets/{ticketId}/share`, and `GET /api/v1/shared/tickets/{shareToken}` in `apps/web/lib/api.ts`
+- [ ] T035 [US4] Implement the My Tickets route in `apps/web/app/customer/tickets/page.tsx`
+- [ ] T036 [P] [US4] Implement the ticket detail route and QR presentation in `apps/web/app/customer/tickets/[ticketId]/page.tsx`
+- [ ] T037 [P] [US4] Implement the shared ticket route in `apps/web/app/shared/tickets/[shareToken]/page.tsx`
+- [ ] T038 [US4] Implement ticket, share, and QR data rendering components in `apps/web/components/tickets/ticket-card.tsx`, `apps/web/components/tickets/ticket-detail.tsx`, `apps/web/components/tickets/share-link.tsx`, and `apps/web/components/tickets/qr-code.tsx`
+- [ ] T039 [US4] Wire My Tickets, ticket share creation, and shared ticket retrieval to `GET /api/v1/me/tickets`, `POST /api/v1/me/tickets/{ticketId}/share`, and `GET /api/v1/shared/tickets/{shareToken}` in `apps/web/lib/api.ts`
 
 **Checkpoint**: User Story 4 should now be fully functional and testable independently
 
@@ -133,18 +135,18 @@
 
 ### Tests for User Story 5
 
-- [ ] T038 [P] [US5] Add organizer events and gate validation tests in `apps/web/tests/organizer-and-gate.test.tsx`
-- [ ] T039 [P] [US5] Add catalog search, publish/cancel, and validation state coverage in `apps/web/tests/organizer-and-gate.test.tsx`
+- [ ] T040 [P] [US5] Add organizer events and gate validation tests in `apps/web/tests/organizer-and-gate.test.tsx`
+- [ ] T041 [US5] Add catalog search, publish/cancel, and validation state coverage in `apps/web/tests/organizer-and-gate.test.tsx`
 
 ### Implementation for User Story 5
 
-- [ ] T040 [US5] Implement the organizer events dashboard in `apps/web/app/organizer/events/page.tsx`
-- [ ] T041 [P] [US5] Implement the external catalog search and selection flow in `apps/web/app/organizer/catalog/page.tsx`
-- [ ] T042 [P] [US5] Implement the organizer create and review flow in `apps/web/app/organizer/events/new/page.tsx`
-- [ ] T043 [US5] Implement organizer publish and cancel actions in `apps/web/app/organizer/events/page.tsx`
-- [ ] T044 [US5] Implement the gate event selection and validation scanner experience in `apps/web/app/gate/page.tsx`
-- [ ] T045 [P] [US5] Implement the gate validation outcome states and manual fallback components in `apps/web/components/gate/`
-- [ ] T046 [US5] Wire organizer and gate pages to `GET /api/v1/organizer/events`, `GET /api/v1/catalog/events`, `GET /api/v1/catalog/events/{external_id}`, `POST /api/v1/events`, `POST /api/v1/events/{eventId}/publish`, `POST /api/v1/events/{eventId}/cancel`, `GET /api/v1/gate/events`, and `POST /api/v1/gate/events/{eventId}/validate` in `apps/web/lib/api.ts`
+- [ ] T042 [US5] Implement the organizer events dashboard in `apps/web/app/organizer/events/page.tsx`
+- [ ] T043 [P] [US5] Implement the external catalog search and selection flow in `apps/web/app/organizer/catalog/page.tsx`
+- [ ] T044 [P] [US5] Implement the organizer create and review flow in `apps/web/app/organizer/events/new/page.tsx`
+- [ ] T045 [US5] Implement organizer publish and cancel actions in `apps/web/app/organizer/events/page.tsx`
+- [ ] T046 [US5] Implement the gate event selection and validation scanner experience in `apps/web/app/gate/page.tsx`
+- [ ] T047 [P] [US5] Implement the gate validation outcome states and manual fallback components in `apps/web/components/gate/gate-status.tsx` and `apps/web/components/gate/manual-entry.tsx`
+- [ ] T048 [US5] Wire organizer and gate pages to `GET /api/v1/organizer/events`, `GET /api/v1/catalog/events`, `GET /api/v1/catalog/events/{external_id}`, `POST /api/v1/events`, `POST /api/v1/events/{eventId}/publish`, `POST /api/v1/events/{eventId}/cancel`, `GET /api/v1/gate/events`, and `POST /api/v1/gate/events/{eventId}/validate` in `apps/web/lib/api.ts`
 
 **Checkpoint**: User Story 5 should now be fully functional and testable independently
 
@@ -154,11 +156,11 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T047 [P] Reconcile shared navigation, shell, and responsive behavior across `apps/web/components/` and `apps/web/app/`
-- [ ] T048 [P] Tighten accessibility labels, focus order, reduced-motion behavior, and contrast across `apps/web/components/` and `apps/web/app/`
-- [ ] T049 [P] Align loading, empty, error, conflict, and success states across all flows in `apps/web/components/`
-- [ ] T050 Run the validation scenarios from `specs/005-complete-ticketing-frontend/quickstart.md` against the implemented frontend
-- [ ] T051 Review and update frontend documentation references in `specs/005-complete-ticketing-frontend/quickstart.md` if any route behavior changed during implementation
+- [ ] T049 [P] Reconcile shared navigation, shell, and responsive behavior across `apps/web/components/shell/site-shell.tsx` and `apps/web/app/layout.tsx`
+- [ ] T050 [P] Tighten accessibility labels, focus order, reduced-motion behavior, and contrast across `apps/web/components/` and `apps/web/app/`
+- [ ] T051 [P] Align loading, empty, error, conflict, and success states across all flows in `apps/web/components/states/`
+- [ ] T052 Run the validation scenarios from `specs/005-complete-ticketing-frontend/quickstart.md` against the implemented frontend
+- [ ] T053 Review and update frontend documentation references in `specs/005-complete-ticketing-frontend/quickstart.md` if any route behavior changed during implementation
 
 ---
 
