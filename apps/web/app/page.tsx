@@ -6,7 +6,7 @@ import { fetchPublicEvents } from "@/lib/api";
 import { mapEventSummary } from "@/lib/mappers";
 
 export default async function HomePage() {
-  const featuredEvents = (await fetchPublicEvents())
+  const featuredEvents = (await fetchPublicEvents()).items
     .map(mapEventSummary)
     .sort((left, right) =>
       (left.startsAt ?? "").localeCompare(right.startsAt ?? ""),

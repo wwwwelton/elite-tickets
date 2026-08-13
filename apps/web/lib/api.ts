@@ -5,13 +5,20 @@ export type ApiError = {
   };
 };
 
-const API_BASE = "/api/v1";
+const PUBLIC_API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api/v1";
+const SERVER_API_BASE =
+  process.env.API_INTERNAL_BASE_URL ?? "http://api:8000/api/v1";
+
+function getApiBase() {
+  return typeof window === "undefined" ? SERVER_API_BASE : PUBLIC_API_BASE;
+}
 
 async function requestJson<T>(
   path: string,
   init?: RequestInit,
 ): Promise<T> {
-  const response = await fetch(`${API_BASE}${path}`, {
+  const response = await fetch(`${getApiBase()}${path}`, {
     ...init,
     headers: {
       "Content-Type": "application/json",
@@ -48,8 +55,16 @@ export type PublicEventApi = {
   overview?: string;
 };
 
+export type PublicEventPageApi = {
+  items: PublicEventApi[];
+  page: number;
+  size: number;
+  total: number;
+  has_more: boolean;
+};
+
 export async function fetchPublicEvents() {
-  return getJson<PublicEventApi[]>("/events");
+  return getJson<PublicEventPageApi>("/events");
 }
 
 export async function fetchPublicEvent(eventId: string) {

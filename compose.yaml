@@ -22,6 +22,7 @@ x-web-service: &web-service
     context: ./apps/web
     dockerfile: Dockerfile
   environment:
+    API_INTERNAL_BASE_URL: ${API_INTERNAL_BASE_URL:-http://api:8000/api/v1}
     NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000/api/v1}
   restart: unless-stopped
 
